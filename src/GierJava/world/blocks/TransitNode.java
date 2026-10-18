@@ -13,6 +13,8 @@ import mindustry.entities.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Layer;
 import mindustry.input.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
@@ -88,6 +90,15 @@ public class TransitNode extends PowerBlock {
                 updateTargets();
                 updateConnections();
             }
+        }
+
+        @Override 
+        public void draw(){
+            super.draw();
+            Draw.z(Layer.buildBeam);
+            Draw.color(Color.white, 0.2);
+            Drawf.square(x, y, range * tilesize, team.color);
+            Draw.reset();
         }
 
         public void updateConnections(){
