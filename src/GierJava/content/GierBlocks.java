@@ -36,6 +36,7 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.content.Items;
 
 import static mindustry.type.ItemStack.with;
 
@@ -68,7 +69,7 @@ public class GierBlocks {
         coreFacility = new CoreBlock("core-outpost"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
             size = 4;
-            health = 4500f;
+            health = 4500;
             itemCapacity = 5000;
             customShadow = true;
         }};
