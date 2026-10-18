@@ -53,6 +53,11 @@ public class TransitNode extends PowerBlock {
         Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
     }
 
+    public boolean overlaps(@Nullable Tile src, @Nullable Tile other){
+        if(src == null || other == null) return true;
+        return Intersector.overlaps(Tmp.cr1.set(src.worldx() + offset, src.worldy() + offset, range * tilesize), Tmp.r1.setSize(size * tilesize).setCenter(other.worldx() + offset, other.worldy() + offset));
+    }
+
     @Override
     public void init(){
         super.init();
