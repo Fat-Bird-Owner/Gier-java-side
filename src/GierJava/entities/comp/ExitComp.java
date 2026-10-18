@@ -1,4 +1,4 @@
-package template.entities.comp;
+package GierJava.entities.comp;
 
 import ent.anno.Annotations.*;
 import mindustry.gen.*;

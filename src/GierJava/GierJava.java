@@ -1,8 +1,8 @@
-package template;
+package GierJava;
 
 import mindustry.mod.*;
-import template.content.*;
-import template.gen.*;
+import GierJava.content.*;
+import GierJava.gen.*;
 
 public class ModTemplate extends Mod{
     @Override
@@ -10,6 +10,6 @@ public class ModTemplate extends Mod{
         // Call this before loading any content!
         EntityRegistry.register();
 
-        ModUnitTypes.load();
+        //ModUnitTypes.load(); no need yet
     }
 }

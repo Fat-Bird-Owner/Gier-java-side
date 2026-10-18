@@ -1,9 +1,9 @@
-package template.content;
+package GierJava.content;
 
 import ent.anno.Annotations.*;
 import mindustry.gen.*;
 import mindustry.type.*;
-import template.gen.*;
+import GierJava.gen.*;
 
 public class ModUnitTypes{
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
