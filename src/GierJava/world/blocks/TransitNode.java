@@ -28,6 +28,10 @@ public class TransitNode extends PowerBlock {
     
     public Color baseColor = Color.valueOf("ffffffff");
 
+    public TransitNode(String name){
+    super(name);
+    }
+
     @Override
     public void setBars(){
         super.setBars();
@@ -62,7 +66,6 @@ public class TransitNode extends PowerBlock {
         public Seq<Building> targets = new Seq<>();
         public int lastChange = -2;
 
-        @Override 
         public void updateTargets(){
             targets.clear();
             indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, targets::add);
@@ -83,7 +86,7 @@ public class TransitNode extends PowerBlock {
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateTargets();
-                updateDirections();
+                updateConnections();
             }
         }
 
