@@ -48,8 +48,8 @@ public class GierUnitTypes {
             hitSize = 14f;
 
             setEnginesMirror(
-            new UnitEngine(0, -4f, 2f, -90f),
-            new UnitEngine(-4, -4f, 2f, 90f)
+            new UnitEngine(0, 4f, 2f, -90f),
+            new UnitEngine(4, 0f, 2f, 90f)
             );
 
         }};
