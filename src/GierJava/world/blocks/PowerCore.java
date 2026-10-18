@@ -28,14 +28,13 @@ import static mindustry.Vars.*;
 
 public class PowerCore extends CoreBlock {
 
-public static float powerProduction = 2f;
+    public float powerProduction = 2f;
 
     public PowerCore(String name){
         super(name);
         outputsPower = true;
         consumesPower = false;
         hasPower = true;
-        consumePowerBuffered(300f);
     }
 
     @Override 
@@ -53,7 +52,7 @@ public static float powerProduction = 2f;
             Core.bundle.format("bar.poweroutput",
             Strings.fixed(entity.getPowerProduction() * entity.timeScale(), 1)),
             () -> Pal.powerBar,
-            () -> entity.getPowerProduction() / powerProduction*60f));
+            () -> entity.getPowerProduction() / powerProduction * 60f));
         }
     }
 
