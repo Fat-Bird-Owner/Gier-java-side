@@ -19,6 +19,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
+import arc.struct.Seq;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
@@ -47,10 +48,12 @@ public class GierUnitTypes {
             engineSize = 0f;
             hitSize = 14f;
 
-            setEnginesMirror(
-            new UnitEngine(0, 4f, 2f, -90f),
-            new UnitEngine(4, 0f, 2f, 180f)
-            );
+            engines.addAll(Seq.with(
+            new UnitEngine(-4f, 0f, 2f, 0f),
+            new UnitEngine(4f, 0f, 2f, 180f),
+            new UnitEngine(0f, -4f, 2f, -90f),
+            new UnitEngine(0f, -4f, 2f, 90f)
+            ));
 
         }};
 
