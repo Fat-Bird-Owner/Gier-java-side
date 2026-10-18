@@ -51,6 +51,7 @@ public class GierBlocks {
 
     // power
     transitNode,
+    photonPanel,
     
     // Effect
     coreFacility;
@@ -64,6 +65,8 @@ public class GierBlocks {
             requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
             consumePower(0.08334f);
             consumeLiquid(Liquids.water, 0.08334f).boost();
+
+            databaseTag = "gier";
 
             liquidBoostIntensity = 2f;
             conductivePower = true;
@@ -82,12 +85,32 @@ public class GierBlocks {
             requirements(Category.power, with(Items.copper, 20));
             range = 11;
             baseColor = Pal.accent;
+
+            databaseTag = "gier";
+        }};
+
+        photonPanel = new SolarGenerator("photon-panel"){{
+            requirements(Category.power, with(Items.lead, 50, Items.copper, 100));
+            customShadow = true;
+            size = 2;
+
+            databaseTag = "gier";
+
+            powerProduction = 0.166667f;
+            alwaysUnlocked = true;
+            drawer = new DrawMulti(
+            new DrawDefault(),
+            new DrawGlowRegion()
+            );
         }};
 
         // Effect
 
         coreFacility = new PowerCore("core-facility"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
+
+            databaseTag = "gier";
+
             size = 4;
             health = 4500;
             powerProduction = 1f;
