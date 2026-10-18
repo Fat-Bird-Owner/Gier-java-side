@@ -49,7 +49,7 @@ public class GierUnitTypes {
 
             setEnginesMirror(
             new UnitEngine(0, 4f, 2f, -90f),
-            new UnitEngine(4, 0f, 2f, 90f)
+            new UnitEngine(4, 0f, 2f, 180f)
             );
 
         }};
