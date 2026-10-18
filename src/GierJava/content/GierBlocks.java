@@ -81,6 +81,7 @@ public class GierBlocks {
         transitNode = new TransitNode("transit-node"){{
             requirements(Category.power, with(Items.copper, 20));
             range = 10;
+            baseColor = Pal.accent;
         }};
 
         // Effect

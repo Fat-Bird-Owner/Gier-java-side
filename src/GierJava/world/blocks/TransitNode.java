@@ -49,6 +49,18 @@ public class TransitNode extends PowerBlock {
     }
 
     @Override
+    public void changePlacementPath(Seq<Point2> points, int rotation){
+        Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
+    }
+
+    @Override
+    public void init(){
+        super.init();
+        clipSize = Math.max(clipSize, range * tilesize);
+    }
+
+
+    @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
 
@@ -96,11 +108,9 @@ public class TransitNode extends PowerBlock {
         public void draw(){
             super.draw();
             Draw.z(22);
-            Draw.blend(Blending.disabled);
             Draw.color(team.color, 0.2f);
             Fill.square(x, y, (range * tilesize)/2f);
             Draw.reset();
-            Draw.blend();
         }
 
         public void updateConnections(){
