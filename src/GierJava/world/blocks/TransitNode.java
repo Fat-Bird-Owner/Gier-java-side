@@ -8,7 +8,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
-import mindustry.annotations.Annotations.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.game.*;
@@ -17,6 +16,7 @@ import mindustry.graphics.*;
 import mindustry.input.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
+import mindustry.world.blocks.power.*;
 
 import java.util.*;
 
