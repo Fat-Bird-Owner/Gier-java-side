@@ -12,7 +12,7 @@ import arc.graphics.Color;
 
 import static mindustry.type.ItemStack.with;
 
-public class GierBlock {
+public class GierBlocks {
     public static Block 
 
     // production
