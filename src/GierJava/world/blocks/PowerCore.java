@@ -52,7 +52,7 @@ public static float powerProduction = 2f;
             Core.bundle.format("bar.poweroutput",
             Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
             () -> Pal.powerBar,
-            () -> entity.productionEfficiency));
+            () -> entity.getPowerProduction() / powerProduction*60f));
         }
     }
 
