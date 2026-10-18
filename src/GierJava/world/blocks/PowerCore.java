@@ -60,7 +60,7 @@ public class PowerCore extends CoreBlock {
 
         @Override
         public float getPowerProduction(){
-            return enabled ? powerProduction * 60f : 0f;
+            return enabled ? powerProduction : 0f;
         }
 
     }
