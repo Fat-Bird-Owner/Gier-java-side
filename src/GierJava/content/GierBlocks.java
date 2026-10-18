@@ -58,6 +58,7 @@ public class GierBlocks {
             requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
             consumePower(0.08334f);
 
+            size = 2;
             customShadow = true;
             baseExplosiveness = 3f;
             drillTime = 200f;
@@ -66,7 +67,7 @@ public class GierBlocks {
 
         // Effect
 
-        coreFacility = new CoreBlock("core-outpost"){{
+        coreFacility = new CoreBlock("core-facility"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
             size = 4;
             health = 4500;
@@ -75,6 +76,7 @@ public class GierBlocks {
         }};
 
 
+        
 
     }
 }
