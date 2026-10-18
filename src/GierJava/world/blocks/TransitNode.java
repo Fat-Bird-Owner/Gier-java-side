@@ -76,7 +76,7 @@ public class TransitNode extends PowerBlock {
 
         Drawf.dashSquare(baseColor, x, y, range * tilesize);
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {
-            Drawf.square(t.x, t.y, t.block.size * tilesize, 0, team.color);
+            Drawf.square(t.x, t.y, t.block.size * tilesize, 0, t.color);
         });
     }
 
