@@ -1,5 +1,7 @@
 package GierJava.content;
 
+import GierJava.world.blocks.*;
+
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
@@ -57,6 +59,11 @@ public class GierBlocks {
         hydroDrill = new Drill("hydro-drill"){{
             requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
             consumePower(0.08334f);
+            consumeLiquid(Liquids.water).boost();
+
+            liquidBoostIntensity = 5f;
+            conductivePower = true;
+            outputsPower = true;
 
             size = 2;
             customShadow = true;
@@ -67,7 +74,7 @@ public class GierBlocks {
 
         // Effect
 
-        coreFacility = new CoreBlock("core-facility"){{
+        coreFacility = new GeneratorCore("core-facility"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
             size = 4;
             health = 4500;
@@ -76,7 +83,7 @@ public class GierBlocks {
         }};
 
 
-        
+
 
     }
 }
