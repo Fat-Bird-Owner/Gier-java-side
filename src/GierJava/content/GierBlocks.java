@@ -54,7 +54,8 @@ public class GierBlocks {
     photonPanel,
     
     // Effect
-    coreFacility;
+    coreFacility,
+    crate;
 
     public static void load(){
 
@@ -67,6 +68,7 @@ public class GierBlocks {
             consumeLiquid(Liquids.water, 0.08334f).boost();
 
             databaseTag = "gier";
+            squareSprite = false;
 
             liquidBoostIntensity = 2f;
             conductivePower = true;
@@ -111,6 +113,7 @@ public class GierBlocks {
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
 
             databaseTag = "gier";
+            squareSprite = false;
 
             size = 4;
             health = 4500;
@@ -120,7 +123,17 @@ public class GierBlocks {
             unitType = GierUnitTypes.restoration;
         }};
 
+        crate = new StorageBlock("crate"){{
+            requirements(Category.effect, with(Items.lead, 200, Items.graphite, 50));
+            size = 2;
 
+            databaseTag = "gier";
+            squareSprite = false;
+
+            baseExplosiveness = 2.5f;
+            explosivenessScale = 2.5f;
+            flammabilityScale = 1.5f;
+        }};
 
     }
 }
