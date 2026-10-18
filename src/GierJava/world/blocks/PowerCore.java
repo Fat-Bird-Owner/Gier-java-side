@@ -47,7 +47,7 @@ public static float powerProduction = 2f;
         super.setBars();
 
         if(hasPower && outputsPower){
-            addBar("power", (GeneratorBuild entity) -> new Bar(() ->
+            addBar("power", (GeneratorCoreBuild entity) -> new Bar(() ->
             Core.bundle.format("bar.poweroutput",
             Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
             () -> Pal.powerBar,
