@@ -35,7 +35,23 @@ public class GierUnitTypes {
             targetable = false;
             faceTarget = false;
             drawSoftShadow = false;
+
             isEnemy = false;
+            mineTier = 2;
+            mineSpeed = 10f;
+            mineBeamOffset = 0f;
+            buildSpeed = 1.5f;
+
+            itemCapacity = 40;
+
+            engineSize = 0f;
+            hitSize = 14f;
+
+            setEnginesMirror(
+            new UnitEngine(0, -4f, 2f, -90f),
+            new UnitEngine(-4, -4f, 2f, 90f)
+            );
+
         }};
 
 
