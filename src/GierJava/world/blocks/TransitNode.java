@@ -76,7 +76,7 @@ public class TransitNode extends PowerBlock {
 
         Drawf.dashSquare(baseColor, x, y, range * tilesize);
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {
-            Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
+            Drawf.square(t.x, t.y, t.block.size * tilesize, 0, team.color);
         });
     }
 
@@ -95,8 +95,9 @@ public class TransitNode extends PowerBlock {
             super.drawSelect();
 
             Drawf.dashSquare(baseColor, x, y, range * tilesize);
-            for(var target : targets){
-                Drawf.selected(target, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
+            for (Building build : targets){
+                if (build.power == null) continue;
+                Drawf.square(build.x, build.y, build.block.size * tilesize, 0, team.color);
             }
         }
 
@@ -107,17 +108,6 @@ public class TransitNode extends PowerBlock {
                 updateTargets();
                 updateConnections();
             }
-        }
-
-        @Override 
-        public void draw(){
-            super.draw();
-            Draw.z(22);
-            for (Building build : targets){
-                if (build.power == null) continue;
-                Drawf.square(build.x, build.y, build.block.size * tilesize + 4f, 0, team.color);
-            }
-        Draw.reset();
         }
 
         public void updateConnections(){
