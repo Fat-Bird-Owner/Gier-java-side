@@ -55,7 +55,7 @@ public class TransitNode extends PowerBlock {
 
     public boolean overlaps(@Nullable Tile src, @Nullable Tile other){
         if(src == null || other == null) return true;
-        return Intersector.overlaps(Tmp.cr1.set(src.worldx() + offset, src.worldy() + offset, range * tilesize), Tmp.r1.setSize(size * tilesize).setCenter(other.worldx() + offset, other.worldy() + offset));
+        return Intersector.overlaps(Tmp.cr1.set(src.worldx() + offset, src.worldy() + offset, range * tilesize/2), Tmp.r1.setSize(size * tilesize/2).setCenter(other.worldx() + offset, other.worldy() + offset));
     }
 
     @Override
@@ -113,9 +113,11 @@ public class TransitNode extends PowerBlock {
         public void draw(){
             super.draw();
             Draw.z(22);
-            Draw.color(team.color, 0.2f);
-            Fill.square(x, y, (range * tilesize)/2f);
-            Draw.reset();
+        for (Building build : targets){
+            if (build.power == null) continue;
+            Drawf.square(build.x, build.y, build.block.size * tilesize * 1.5f, 45, team.color);
+        }
+        Draw.reset();
         }
 
         public void updateConnections(){
