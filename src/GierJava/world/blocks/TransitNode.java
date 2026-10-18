@@ -113,10 +113,10 @@ public class TransitNode extends PowerBlock {
         public void draw(){
             super.draw();
             Draw.z(22);
-        for (Building build : targets){
-            if (build.power == null) continue;
-            Drawf.square(build.x, build.y, build.block.size * tilesize * 1.5f, 45, team.color);
-        }
+            for (Building build : targets){
+                if (build.power == null) continue;
+                Drawf.square(build.x, build.y, build.block.size * tilesize + 4f, 0, team.color);
+            }
         Draw.reset();
         }
 
