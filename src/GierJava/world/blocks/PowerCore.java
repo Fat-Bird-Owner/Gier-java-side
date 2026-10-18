@@ -50,7 +50,7 @@ public class PowerCore extends CoreBlock {
         if(hasPower && outputsPower){
             addBar("power", (PowerCoreBuild entity) -> new Bar(() ->
             Core.bundle.format("bar.poweroutput",
-            Strings.fixed(entity.getPowerProduction() * entity.timeScale(), 1)),
+            Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
             () -> Pal.powerBar,
             () -> entity.getPowerProduction() / powerProduction * 60f));
         }

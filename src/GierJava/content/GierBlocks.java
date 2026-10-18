@@ -62,7 +62,7 @@ public class GierBlocks {
             consumePower(0.08334f);
             consumeLiquid(Liquids.water, 0.08334f).boost();
 
-            liquidBoostIntensity = 5f;
+            liquidBoostIntensity = 2f;
             conductivePower = true;
             outputsPower = true;
 
@@ -79,6 +79,7 @@ public class GierBlocks {
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
             size = 4;
             health = 4500;
+            powerProduction = 1f;
             itemCapacity = 5000;
             customShadow = true;
         }};
