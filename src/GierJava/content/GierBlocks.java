@@ -1,6 +1,5 @@
 package GierJava.content;
 
-import GierMod.world.block.*;
 import mindustry.content.*;
 import mindustry.entities.effect.*;
 import mindustry.gen.Sounds;
