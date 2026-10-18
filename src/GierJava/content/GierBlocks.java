@@ -60,7 +60,7 @@ public class GierBlocks {
         hydroDrill = new Drill("hydro-drill"){{
             requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
             consumePower(0.08334f);
-            consumeLiquid(Liquids.water).boost();
+            consumeLiquid(Liquids.water, 0.08334f).boost();
 
             liquidBoostIntensity = 5f;
             conductivePower = true;
