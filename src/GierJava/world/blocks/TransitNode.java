@@ -96,8 +96,8 @@ public class TransitNode extends PowerBlock {
         public void draw(){
             super.draw();
             Draw.z(Layer.buildBeam);
-            Draw.color(Color.white, 0.2f);
-            Drawf.square(x, y, range * tilesize, team.color);
+            Draw.color(team.color, 0.2f);
+            Fill.square(x, y, range * tilesize);
             Draw.reset();
         }
 
