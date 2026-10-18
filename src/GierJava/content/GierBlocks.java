@@ -6,6 +6,7 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.Block;
+import mindustry.world.blocks.*;
 import mindustry.world.draw.*;
 import arc.graphics.Color;
 
