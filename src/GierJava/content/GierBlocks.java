@@ -74,7 +74,7 @@ public class GierBlocks {
 
         // Effect
 
-        coreFacility = new GeneratorCore("core-facility"){{
+        coreFacility = new PowerCore("core-facility"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
             size = 4;
             health = 4500;

@@ -26,11 +26,11 @@ import mindustry.world.content.Liquids;
 
 import static mindustry.Vars.*;
 
-public class GeneratorCore extends CoreBlock {
+public class PowerCore extends CoreBlock {
 
 public static float powerProduction = 2f;
 
-    public GeneratorCore(String name){
+    public PowerCore(String name){
         super(name);
         outputsPower = true;
         consumesPower = false;
@@ -57,7 +57,7 @@ public static float powerProduction = 2f;
         }
     }
 
-    public class GeneratorCoreBuild extends CoreBuild {
+    public class PowerCoreBuild extends CoreBuild {
 
         @Override
         public float getPowerProduction(){
