@@ -10,7 +10,7 @@ public class GierJava extends Mod{
         // Call this before loading any content!
         EntityRegistry.register();
 
-        //ModUnitTypes.load(); no need yet
+        GierUnitTypes.load();
         GierBlocks.load();
     }
 }

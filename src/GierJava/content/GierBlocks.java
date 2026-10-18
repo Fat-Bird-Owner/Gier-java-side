@@ -82,6 +82,7 @@ public class GierBlocks {
             powerProduction = 1f;
             itemCapacity = 5000;
             customShadow = true;
+            unitType = GierUnitTypes.restoration;
         }};
 
 
