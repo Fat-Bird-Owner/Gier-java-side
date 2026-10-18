@@ -48,6 +48,9 @@ public class GierBlocks {
 
     // production
     hydroDrill,
+
+    // power
+    transitNode,
     
     // Effect
     coreFacility;
@@ -71,6 +74,12 @@ public class GierBlocks {
             baseExplosiveness = 3f;
             drillTime = 200f;
             tier = 2;
+        }};
+
+        // Power
+
+        transitNode = new TransitNode("transit-node"){{
+            requirements(Category.effect, with(Items.copper, 20));
         }};
 
         // Effect
