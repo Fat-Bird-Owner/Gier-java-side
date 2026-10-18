@@ -63,7 +63,7 @@ public class GierPlanets {
             updateLighting = false;
         }};
 
-        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 12, 2f, gen -> {
+        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
@@ -72,6 +72,8 @@ public class GierPlanets {
         });
 
         gier.alwaysUnlocked = true;
+        gier.orbitSpacing = 2.5f;
+        gier.totalRadius += 3.6f;
     }
 
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen){
