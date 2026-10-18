@@ -18,7 +18,7 @@ import mindustry.content.Planets;
 import mindustry.content.Blocks;
 
 public class GierPlanets {
-    public static Planet gier, sun;
+    public static Planet erekir, gier, sun;
 
     public static void load(){
 
@@ -39,13 +39,39 @@ public class GierPlanets {
             );
         }};
 
-        gier = makeAsteroid("gier", sun, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 2f, gen -> {
+        erekir = new Planet("erekir", sun, 1f, 2){{
+            generator = new ErekirPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 6);
+            cloudMeshLoader = () -> new MultiMesh(
+                new HexSkyMesh(this, 2, 0.15f, 0.14f, 5, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                new HexSkyMesh(this, 3, 0.6f, 0.15f, 5, Color.valueOf("eea293").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
+            );
+            landCloudColor = Color.valueOf("ed6542");
+            atmosphereColor = Color.valueOf("f07218");
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.3f;
+            tidalLock = true;
+            orbitSpacing = 2.5f;
+            totalRadius += 3.6f;
+            lightSrcTo = 0.5f;
+            lightDstFrom = 0.2f;
+            clearSectorOnLose = true;
+            defaultCore = Blocks.coreBastion;
+            iconColor = Color.valueOf("ff9266");
+            enemyBuildSpeedMultiplier = 0.4f;
+            allowLaunchToNumbered = false;
+            updateLighting = false;
+        }};
+
+        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 2f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
             gen.iceChance = 0f;
             gen.berylChance = 0.1f;
         });
+
+        gier.alwaysUnlocked = true;
     }
 
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen){
