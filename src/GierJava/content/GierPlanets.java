@@ -21,7 +21,7 @@ public class GierPlanets {
     public static Planet gier;
 
     public static void load(){
-        gier = makeAsteroid("gier", null, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 11, 1f, gen -> {
+        gier = makeAsteroid("gier", null, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 2f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
