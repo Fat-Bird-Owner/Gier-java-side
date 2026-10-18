@@ -4,7 +4,7 @@
     "description": "Java import of gier: revitalized.",
     "version": "v1",
     "minGameVersion": "160",
-    "author": "You",
+    "author": "Fat Bird's Owner",
     "java": true,
     "main": "GierJava.GierJava"
 }
