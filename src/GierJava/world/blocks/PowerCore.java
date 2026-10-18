@@ -22,7 +22,7 @@ import mindustry.world.blocks.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.world.blocks.storage.*;
-import mindustry.world.content.Liquids;
+import mindustry.content.Liquids;
 
 import static mindustry.Vars.*;
 
