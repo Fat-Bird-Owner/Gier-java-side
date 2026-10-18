@@ -11,5 +11,6 @@ public class GierJava extends Mod{
         EntityRegistry.register();
 
         //ModUnitTypes.load(); no need yet
+        GierBlocks.load();
     }
 }
