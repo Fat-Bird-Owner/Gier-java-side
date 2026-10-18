@@ -100,8 +100,9 @@ public class GierBlocks {
             alwaysUnlocked = true;
             drawer = new DrawMulti(
             new DrawDefault(),
-            new DrawGlowRegion()
-            );
+            new DrawGlowRegion(){{
+                color = Color.valueOf("6f6f6f");
+            }});
         }};
 
         // Effect
