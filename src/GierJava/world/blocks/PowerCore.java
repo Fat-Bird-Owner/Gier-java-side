@@ -21,6 +21,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.world.blocks.storage.*;
 
 import static mindustry.Vars.*;
 
