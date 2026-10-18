@@ -18,10 +18,28 @@ import mindustry.content.Planets;
 import mindustry.content.Blocks;
 
 public class GierPlanets {
-    public static Planet gier;
+    public static Planet gier, sun;
 
     public static void load(){
-        gier = makeAsteroid("gier", null, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 2f, gen -> {
+
+        sun = new Planet("sun", null, 6f){{
+            bloom = true;
+            accessible = false;
+
+            meshLoader = () -> new SunMesh(
+                this, 5,
+                5, 0.3, 1.7, 1.2, 1,
+                1.1f,
+                Color.valueOf("ff7a38"),
+                Color.valueOf("ff9638"),
+                Color.valueOf("ffc64c"),
+                Color.valueOf("ffc64c"),
+                Color.valueOf("ffe371"),
+                Color.valueOf("f4ee8e")
+            );
+        }};
+
+        gier = makeAsteroid("gier", sun, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 2f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
