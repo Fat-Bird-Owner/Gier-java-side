@@ -79,7 +79,8 @@ public class GierBlocks {
         // Power
 
         transitNode = new TransitNode("transit-node"){{
-            requirements(Category.effect, with(Items.copper, 20));
+            requirements(Category.power, with(Items.copper, 20));
+            range = 10;
         }};
 
         // Effect

@@ -96,7 +96,7 @@ public class TransitNode extends PowerBlock {
                 PowerGraph newgraph = new PowerGraph();
                 newgraph.reflow(this);
 
-                if(next.power.graph != newgraph){
+                if(next.power && next.power.graph != newgraph){
                     PowerGraph og = new PowerGraph();
                     og.reflow(next);
                 }
