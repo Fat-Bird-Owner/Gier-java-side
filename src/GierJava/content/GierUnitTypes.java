@@ -51,7 +51,7 @@ public class GierUnitTypes {
             engines.addAll(Seq.with(
             new UnitEngine(-4f, 0f, 2f, 0f),
             new UnitEngine(4f, 0f, 2f, 180f),
-            new UnitEngine(0f, -4f, 2f, -90f),
+            new UnitEngine(0f, 4f, 2f, -90f),
             new UnitEngine(0f, -4f, 2f, 90f)
             ));
 
