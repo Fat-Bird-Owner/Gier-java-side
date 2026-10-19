@@ -19,7 +19,7 @@ import mindustry.content.Planets;
 import mindustry.content.Blocks;
 
 public class GierPlanets {
-    public static Planet erekir, gier, sun;
+    public static Planet erekir, gier, sun, innerAsteroidBelt;
 
     public static void load(){
 
@@ -39,9 +39,16 @@ public class GierPlanets {
                 Color.valueOf("ffc64c"),
                 Color.valueOf("ffe371"),
                 Color.valueOf("f4ee8e")
-            ),
-                AsteroidBelt.create(this, 222, 28f, 32f, 126)
+            )
             );
+        }};
+
+        innerAsteroidBelt = new planet("inner-belt", sun, 1f){{
+            meshLoader = () ->  new MultiMesh( AsteroidBelt.create(this, 222, 28f, 32f, 126) );
+            accessible = false;
+            orbitRadius = 0f;
+            drawOrbit = false;
+            orbitTime = 180f;
         }};
 
         erekir = new Planet("erekir", sun, 1f, 2){{
