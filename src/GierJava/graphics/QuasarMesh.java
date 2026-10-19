@@ -14,7 +14,7 @@ public static GenericMesh create(Planet planet, int seed){
     Color cyan = Color.valueOf("a8f5ff");
     Color whiteBlue = Color.valueOf("e4ffff");
 
-    float s = planet.radius;
+    float r = planet.radius;
 
     meshes.add(new SunMesh(
         planet, 4,
