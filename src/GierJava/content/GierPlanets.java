@@ -23,12 +23,12 @@ public class GierPlanets {
 
     public static void load(){
 
-        sun = new Planet("sun", null, 6f){{
+        sun = new Planet("sun", null, 1f){{
             bloom = true;
             accessible = false;
 
             meshLoader = () -> QuasarMesh.create(this, 14);
-            
+
         }};
 
         innerAsteroidBelt = new Planet("inner-belt", sun, 1f){{

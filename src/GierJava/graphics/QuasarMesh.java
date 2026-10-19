@@ -46,7 +46,7 @@ public static GenericMesh create(Planet planet, int seed){
             float y = side * (0.22f + t * 1.25f) * s;
 
             // Narrow near the core, broader farther out.
-            float radius = (0.025f + t * 0.005f) * s;
+            float radius = (0.025f + t * 0.075f) * s;
             float length = 0.12f * s;
 
             Color jetColor = t < 0.25f ? cyan : blue;
