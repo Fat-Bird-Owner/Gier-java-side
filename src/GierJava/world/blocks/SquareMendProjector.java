@@ -54,7 +54,7 @@ y *= tilesize;
 x += offset;
 y += offset;
 
-Drawf.dashSquare(extendedColor, x, y, range);
+Drawf.dashSquare(extendedColor, x, y, range + phaseRangeBoost);
 Drawf.dashSquare(baseColor, x, y, range);
 
 indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range ), b -> true, t -> {
