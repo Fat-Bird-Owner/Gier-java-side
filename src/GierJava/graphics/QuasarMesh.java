@@ -41,7 +41,7 @@ public static GenericMesh create(Planet planet, int seed){
         for(int i = 0; i < sections; i++){
             float t = (i + 0.5f) / sections;
 
-            float z = side * (0.22f + t * 1.25f);
+            float y = side * (0.22f + t * 1.25f);
 
             // Narrow near the core, broader farther out.
             float radius = 0.025f + t * 0.075f;
@@ -71,8 +71,8 @@ public static GenericMesh create(Planet planet, int seed){
                 new Mat3D().setToTranslation(
                     new Vec3(
                         rand.random(-0.015f, 0.015f),
-                        rand.random(-0.015f, 0.015f),
-                        z
+                        y,
+                        rand.random(-0.015f, 0.015f)
                     )
                 )
             ));
