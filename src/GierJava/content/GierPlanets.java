@@ -34,13 +34,16 @@ public class GierPlanets {
 
         }};
 
-        innerAsteroidBelt = new Planet("inner-belt", sun, 1f){{
-            meshLoader = () ->  AsteroidBelt.create(this, 222, 44f, 48f, 126);
+        innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f){{
+            meshLoader = () ->  new MultiMesh(
+            AsteroidBelt.create(this, 222, 50f, 68f, 126),
+            AsteroidBelt.create(this, 1052, 525f, 560f, 126)
+            );
             accessible = false;
             orbitRadius = 0f;
             drawOrbit = false;
-            orbitTime = 180f;
-            clipRadius = 50f;
+            orbitTime = 400f;
+            clipRadius = 100f;
         }};
 
         erekir = new Planet("erekir", sun, 1f, 2){{
@@ -55,13 +58,14 @@ public class GierPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
             tidalLock = true;
-            orbitSpacing = 2.5f;
-            totalRadius += 3.6f;
+            orbitSpacing = 25f;
+            totalRadius += 36f;
             lightSrcTo = 0.5f;
             lightDstFrom = 0.2f;
             clearSectorOnLose = true;
             defaultCore = Blocks.coreBastion;
             iconColor = Color.valueOf("ff9266");
+            accessible = false;
             enemyBuildSpeedMultiplier = 0.4f;
             allowLaunchToNumbered = false;
             updateLighting = false;
@@ -78,6 +82,7 @@ public class GierPlanets {
         gier.alwaysUnlocked = true;
         gier.orbitSpacing = 2.5f;
         gier.totalRadius += 3.6f;
+        gier.accessible = false;
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){

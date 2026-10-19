@@ -211,7 +211,7 @@ public class GierBlocks {
             drawer = new DrawMulti(
             new DrawDefault(),
             new DrawBlurSpin("-rotator", 4){{
-                blurThresh = 0f;
+                blurThresh = 1f;
             }},
             new DrawPulseShape(true){{
                 color = GierPal.metaglassLight;
