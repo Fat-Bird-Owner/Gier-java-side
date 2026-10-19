@@ -1,6 +1,7 @@
 package GierJava.world.modules;
 
 import mindustry.io.*;
+import mindustry.world.modules.*;
 
 public class HeatModule extends BlockModule{
     /** Heat emitted to neighbors. Only this value is saved. */
