@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import arc.math.Mathf; 
 import arc.math.Rand; 
 import arc.math.geom.Mat3D; 
-import arc.uti.Tmp; 
+import arc.util.Tmp; 
 import arc.struct.Seq;
 
 import mindustry.graphics.g3d.*; 
