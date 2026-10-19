@@ -34,7 +34,7 @@ public class GierPlanets {
 
         }};
 
-        innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f){{
+        innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f, 1f){{
             meshLoader = () ->  new MultiMesh(
             AsteroidBelt.create(this, 222, 50f, 68f, 126),
             AsteroidBelt.create(this, 1052, 525f, 560f, 126)
