@@ -150,8 +150,9 @@ public class GierBlocks {
             consumePower(0.5f);
             drawer = new DrawMulti(
             new DrawDefault(),
-            new DrawPulseShape(GierPal.metaglassLight);
-            );
+            new DrawPulseShape(true){{
+                color = GierPal.metaglassLight;
+            }});
 
             healPercent = 2.5f;
             phaseBoost = 2.5f;
