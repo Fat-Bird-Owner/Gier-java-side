@@ -1,6 +1,8 @@
 package GierJava.world.blocks;
 
 import arc.*;
+import GierJava.world.modules.*;
+import GierJava.world.consumers.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -276,7 +278,7 @@ public class AdvancedCrafter extends Block{
         }
     }
 
-    public class GenericCrafterBuild extends Building{
+    public class AdvancedCrafterBuild extends Building{
         public float dumpTimer;
         public float progress;
         public float totalProgress;
@@ -367,7 +369,6 @@ public class AdvancedCrafter extends Block{
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             }
 
-            //TODO may look bad, revert to edelta() if so
             totalProgress += warmup * Time.delta;
 
             if(progress >= 1f){
