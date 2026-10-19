@@ -51,6 +51,7 @@ public static GenericMesh create(Planet planet, int seed){
             );
 
             Mat3D transform = new Mat3D()
+                .rotate(Vec3.Z, 12f)
                 .scale(new Vec3(width, length, width))
                 .translate(0f, side * r * 1.05f, 0f);
 
