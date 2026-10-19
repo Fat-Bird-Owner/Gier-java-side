@@ -8,23 +8,25 @@ import mindustry.type.Planet;
 
 public class QuasarMesh{
 public static GenericMesh create(Planet planet, int seed){
-    Color deepBlue = Color.valueOf("164cff");
-    Color blue = Color.valueOf("478cff");
-    Color cyan = Color.valueOf("a8faff");
-    Color whiteBlue = Color.valueOf("eafcff");
 
-    float r = planet.radius;
+    Color deepBlue = Color.valueOf("126bff");
+    Color blue = Color.valueOf("36caff");
+    Color cyan = Color.valueOf("a8f5ff");
+    Color whiteBlue = Color.valueOf("e4ffff");
 
-    GenericMesh core = new SunMesh(
-        planet, 5,
-        5, 0.3, 1.7, 1.2, 0.25,
-        1.15f,
+    float s = planet.radius;
+
+    meshes.add(new SunMesh(
+        planet, 4,
+        5, 0.3, 1.7, 1.2, 1,
+        1.1f,
         deepBlue,
         blue,
         cyan,
+        cyan,
         whiteBlue,
         Color.white
-    );
+    ));
 
     GenericMesh[] parts = new GenericMesh[5];
     parts[0] = core;
@@ -33,8 +35,8 @@ public static GenericMesh create(Planet planet, int seed){
 
     for(int side : new int[]{-1, 1}){
         for(int layer = 0; layer < 2; layer++){
-            float width = layer == 0 ? 0.11f : 0.045f;
-            float length = layer == 0 ? 1.8f : 1.55f;
+            float width = layer == 0 ? 0.05f : 0.035f;
+            float length = layer == 0 ? 6.8f : 5.55f;
 
             Color c = layer == 0 ? blue : whiteBlue;
 

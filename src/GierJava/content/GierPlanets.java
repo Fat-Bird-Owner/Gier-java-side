@@ -27,16 +27,18 @@ public class GierPlanets {
             bloom = true;
             accessible = false;
 
+            clipRadius = 11f;
             meshLoader = () -> QuasarMesh.create(this, 14);
 
         }};
 
         innerAsteroidBelt = new Planet("inner-belt", sun, 1f){{
-            meshLoader = () ->  AsteroidBelt.create(this, 222, 28f, 32f, 126);
+            meshLoader = () ->  AsteroidBelt.create(this, 222, 44f, 48f, 126);
             accessible = false;
             orbitRadius = 0f;
             drawOrbit = false;
             orbitTime = 180f;
+            clipRadius = 50f;
         }};
 
         erekir = new Planet("erekir", sun, 1f, 2){{
