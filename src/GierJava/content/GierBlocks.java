@@ -62,7 +62,8 @@ public class GierBlocks {
     coreSatellite,
     coreFacility,
     crate,
-    restorator;
+    restorator,
+    mendPylon;
 
     public static void load(){
 
