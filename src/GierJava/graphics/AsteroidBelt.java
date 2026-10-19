@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import arc.math.Mathf; 
 import arc.math.Rand; 
 import arc.math.geom.Mat3D; 
-import arc.util.Tmp; 
+import arc.uti.Tmp; 
 import arc.struct.Seq;
 
 import mindustry.graphics.g3d.*; 
@@ -23,8 +23,8 @@ public static GenericMesh create(Planet planet, int count, float innerRadius, fl
         float distance = rand.random(innerRadius, outerRadius);
 
         float x = Mathf.cos(angle) * distance;
-        float y = Mathf.sin(angle) * distance;
-        float z = rand.random(-0.04f, 0.04f);
+        float y = rand.random(-0.04f, 0.04f);
+        float z = Mathf.cos(angle) * distance;
 
         float size = rand.random(0.02f, 0.055f);
 

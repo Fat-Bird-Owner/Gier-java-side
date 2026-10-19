@@ -40,7 +40,7 @@ public class GierPlanets {
                 Color.valueOf("ffe371"),
                 Color.valueOf("f4ee8e")
             ),
-                AsteroidBelt.create(this, 144, 14f, 16f, 126)
+                AsteroidBelt.create(this, 222, 28f, 32f, 126)
             );
         }};
 
