@@ -1,86 +1,61 @@
 package GierJava.graphics;
 
 import arc.graphics.Color; 
-import arc.math.Rand; 
 import arc.math.geom.Mat3D; 
-import arc.math.geom.Vec3; 
-import arc.struct.Seq;
-
+import arc.math.geom.Vec3;
 import mindustry.graphics.g3d.*; 
 import mindustry.type.Planet;
 
 public class QuasarMesh{
 public static GenericMesh create(Planet planet, int seed){
-    Seq<GenericMesh> meshes = new Seq<>();
-    Rand rand = new Rand(seed);
+    Color deepBlue = Color.valueOf("164cff");
+    Color blue = Color.valueOf("478cff");
+    Color cyan = Color.valueOf("a8faff");
+    Color whiteBlue = Color.valueOf("eafcff");
 
-    Color deepBlue = Color.valueOf("126bff");
-    Color blue = Color.valueOf("36caff");
-    Color cyan = Color.valueOf("a8f5ff");
-    Color whiteBlue = Color.valueOf("e4ffff");
+    float r = planet.radius;
 
-    float s = planet.radius;
-
-    // Bright, textured central core.
-    meshes.add(new SunMesh(
-        planet, 4,
-        5, 0.3, 1.7, 1.2, 1,
-        1.1f,
+    GenericMesh core = new SunMesh(
+        planet, 5,
+        5, 0.3, 1.7, 1.2, 0.25,
+        1.15f,
         deepBlue,
         blue,
         cyan,
-        cyan,
         whiteBlue,
         Color.white
-    ));
+    );
 
-    // Two opposite jets along the Z axis.
-    // Each jet is built from overlapping tapered-looking
-    // rocky sections, increasing in length away from the core.
-    int sections = 12;
+    GenericMesh[] parts = new GenericMesh[5];
+    parts[0] = core;
+
+    int index = 1;
 
     for(int side : new int[]{-1, 1}){
-        for(int i = 0; i < sections; i++){
-            float t = (i + 0.5f) / sections;
+        for(int layer = 0; layer < 2; layer++){
+            float width = layer == 0 ? 0.11f : 0.045f;
+            float length = layer == 0 ? 1.8f : 1.55f;
 
-            float y = side * (0.22f + t * 1.25f) * s;
+            Color c = layer == 0 ? blue : whiteBlue;
 
-            // Narrow near the core, broader farther out.
-            float radius = (0.025f + t * 0.075f) * s;
-            float length = 0.12f * s;
-
-            Color jetColor = t < 0.25f ? cyan : blue;
-
-            GenericMesh section = new NoiseMesh(
-                planet,
-                rand.nextInt(),
-                1,
-                radius,
-                2,
-                0.6f,
-                0.38f,
-                20f,
-                jetColor,
-                deepBlue,
-                3,
-                0.6f,
-                0.38f,
-                0.5f
+            GenericMesh jet = new SunMesh(
+                planet, 4,
+                3, 0.3, 1.7, 1.0, 0.0,
+                1f,
+                c,
+                c,
+                c,
+                c
             );
 
-            meshes.add(new MatMesh(
-                section,
-                new Mat3D().setToTranslation(
-                    new Vec3(
-                        rand.random(-0.015f, 0.015f),
-                        y,
-                        rand.random(-0.015f, 0.015f)
-                    )
-                )
-            ));
+            Mat3D transform = new Mat3D()
+                .scale(new Vec3(width, length, width))
+                .translate(0f, side * r * 1.05f, 0f);
+
+            parts[index++] = new MatMesh(jet, transform);
         }
     }
 
-    return new MultiMesh(meshes.toArray(GenericMesh.class));
+    return new MultiMesh(parts);
 }
 }
