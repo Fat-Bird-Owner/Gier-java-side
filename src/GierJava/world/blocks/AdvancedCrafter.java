@@ -78,7 +78,7 @@ public class AdvancedCrafter extends Block{
 
     public DrawBlock drawer = new DrawDefault();
 
-    public GenericCrafter(String name){
+    public AdvancedCrafter(String name){
         super(name);
         update = true;
         solid = true;
