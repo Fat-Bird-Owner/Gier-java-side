@@ -1,6 +1,6 @@
 package GierJava.content;
 
-import GierJava.type;
+import GierJava.type.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.math.*;
