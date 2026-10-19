@@ -37,7 +37,7 @@ public class GierPlanets {
         innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f, 1){{
             meshLoader = () ->  new MultiMesh(
             AsteroidBelt.create(this, 222, 50f, 68f, 126),
-            AsteroidBelt.create(this, 1052, 525f, 560f, 126)
+            AsteroidBelt.create(this, 440, 22f, 150f, 76)
             );
             accessible = false;
             orbitRadius = 0f;
@@ -82,7 +82,8 @@ public class GierPlanets {
         }, 1);
 
         gier.alwaysUnlocked = true;
-        gier.accessible = false;
+        gier.accessible = true;
+        gier.orbitSpacing = 0.25f;
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
