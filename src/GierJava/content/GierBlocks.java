@@ -143,7 +143,7 @@ public class GierBlocks {
             baseExplosiveness = 25f;
 
             databaseTag = "gier";
-            range = 10f;
+            range = 84f;
             reload = 60f;
 
             consumeItem(Items.graphite).boost();
@@ -157,7 +157,7 @@ public class GierBlocks {
             healPercent = 2.5f;
             phaseBoost = 2.5f;
             baseColor = phaseColor = GierPal.metaglassLight;
-            phaseRangeBoost = 5f;
+            phaseRangeBoost = 20f;
         }};
 
     }
