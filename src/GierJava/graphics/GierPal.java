@@ -2,7 +2,7 @@ package GierJava.graphics;
 
 import arc.graphics.*;
 
-public class Pal{
+public class GierPal{
     public static Color
     metaglassLight = Color.valueOf("ebeef5");
 
