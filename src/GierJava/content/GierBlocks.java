@@ -67,7 +67,7 @@ public class GierBlocks {
 
         // StackConveyor
         rail = new StackConveyor("rail"){{
-            requirements(Category.production, with(Items.copper, 1));
+            requirements(Category.distribution, with(Items.copper, 1));
 
             speed = 0.01667f;
             baseEfficiency = 1f;

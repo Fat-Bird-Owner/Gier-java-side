@@ -26,7 +26,9 @@ public class GierPlanets {
             bloom = true;
             accessible = false;
 
-            meshLoader = () -> new SunMesh(
+            meshLoader = () -> 
+            new MultiMesh(
+            new SunMesh(
                 this, 5,
                 5, 0.3, 1.7, 1.2, 1,
                 1.1f,
@@ -36,6 +38,8 @@ public class GierPlanets {
                 Color.valueOf("ffc64c"),
                 Color.valueOf("ffe371"),
                 Color.valueOf("f4ee8e")
+            ),
+            new AsteroidBelt(this, 144, 14f, 16f, 126)
             );
         }};
 
@@ -69,18 +73,17 @@ public class GierPlanets {
             gen.carbonChance = 0.6f;
             gen.iceChance = 0f;
             gen.berylChance = 0.1f;
-        });
+        }, 1);
 
         gier.alwaysUnlocked = true;
         gier.orbitSpacing = 2.5f;
         gier.totalRadius += 3.6f;
     }
-
-    private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen){
-        return new Planet(name, parent, 0.12f){{
+    
+    private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
+        return new Planet(name, parent, 0.12f, sectorSize){{
             hasAtmosphere = false;
             updateLighting = false;
-            sectors.add(new Sector(this, Ptile.empty));
             camRadius = 0.68f * scale;
             minZoom = 0.6f;
             drawOrbit = false;
