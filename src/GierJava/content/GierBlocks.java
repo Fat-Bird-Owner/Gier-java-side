@@ -59,13 +59,15 @@ public class GierBlocks {
     photonPanel,
     
     // Effect
+    coreSatellite,
     coreFacility,
     crate,
     restorator;
 
     public static void load(){
 
-        // StackConveyor
+        // Distribution
+
         rail = new StackConveyor("rail"){{
             requirements(Category.distribution, with(Items.copper, 1));
 
@@ -126,6 +128,21 @@ public class GierBlocks {
 
         // Effect
 
+        coreSatellite = new PowerCore("core-satellite"){{
+            requirements(Category.effect, with(Items.lead, 1000, Items.copper, 500));
+
+            databaseTag = "gier";
+            squareSprite = false;
+
+            size = 3;
+            health = 3000;
+            powerProduction = 1f;
+            itemCapacity = 2500;
+            customShadow = true;
+            unitType = GierUnitTypes.restoration;
+            
+        }};
+
         coreFacility = new PowerCore("core-facility"){{
             requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
 
@@ -134,10 +151,11 @@ public class GierBlocks {
 
             size = 4;
             health = 4500;
-            powerProduction = 1f;
+            powerProduction = 4f;
             itemCapacity = 5000;
             customShadow = true;
             unitType = GierUnitTypes.restoration;
+
         }};
 
         crate = new StorageBlock("crate"){{
@@ -154,6 +172,7 @@ public class GierBlocks {
 
         restorator = new SquareMendProjector("restorator"){{
             requirements(Category.effect, with(Items.lead, 200, Items.copper, 100));
+            customShadow = true;
             baseExplosiveness = 25f;
 
             databaseTag = "gier";
@@ -173,6 +192,35 @@ public class GierBlocks {
             phaseBoost = 2.5f;
             baseColor = phaseColor = GierPal.metaglassLight;
             phaseRangeBoost = 20f;
+        }};
+
+        mendPylon = new SquareMendProjector("mend-pylon"){{
+            requirements(Category.effect, with(Items.lead, 200, Items.copper, 200, Items.silicon, 100));
+            size = 2;
+
+            customShadow = true;
+            baseExplosiveness = 50f;
+
+            databaseTag = "gier";
+            range = 128f;
+            reload = 60f;
+
+            consumeItem(Items.silicon).boost();
+            consumePower(1.5f);
+            drawer = new DrawMulti(
+            new DrawDefault(),
+            new DrawBlurSpin("-rotator", 4){{
+                blurThresh = 0f;
+            }},
+            new DrawPulseShape(true){{
+                color = GierPal.metaglassLight;
+            }});
+
+            extendedColor = Pal.gray;
+            healPercent = 6f;
+            phaseBoost = 4f;
+            baseColor = phaseColor = GierPal.metaglassLight;
+            phaseRangeBoost = 80f;
         }};
 
     }
