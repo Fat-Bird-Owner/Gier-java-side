@@ -19,6 +19,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.unit.*;
 import mindustry.world.*;
+import mindustr.world.consumers.*;
 import mindustry.world.blocks.*;
 import mindustry.world.blocks.campaign.*;
 import mindustry.world.blocks.defense.*;
