@@ -44,6 +44,8 @@ public class GierPlanets {
             drawOrbit = false;
             orbitTime = 400f;
             clipRadius = 100f;
+            rotateTime = 60f;
+
         }};
 
         erekir = new Planet("erekir", sun, 1f, 2){{
@@ -80,8 +82,6 @@ public class GierPlanets {
         }, 1);
 
         gier.alwaysUnlocked = true;
-        gier.orbitSpacing = 2.5f;
-        gier.totalRadius += 3.6f;
         gier.accessible = false;
     }
     
