@@ -48,13 +48,16 @@ import static mindustry.type.ItemStack.with;
 public class GierBlocks {
     public static Block 
 
-    // distributon
+    // Distribution
     rail,
 
-    // production
+    // Production
     hydroDrill,
 
-    // power
+    // Crafting
+    sunderFurnace,
+
+    // Power
     transitNode,
     photonPanel,
     
@@ -99,6 +102,29 @@ public class GierBlocks {
             baseExplosiveness = 3f;
             drillTime = 200f;
             tier = 2;
+        }};
+
+        // Crafting
+
+        sunderFurnace = new GenericCrafter("sunder-furnace"){{
+            requirements(Category.crafting, with(Items.lead, 1000, Items.copper, 1000));
+            size = 4;
+
+            databaseTag = "gier";
+            baseExplosiveness = 200f;
+            craftTime = 5f * 60f;
+
+            itemCapacity = 100;
+            consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
+            outputItems = with(Items.silicon, 25, Items.metaglass, 25);
+
+            consumePower(5);
+            drawer = new DrawMulti(
+            new DrawRegion("-bottom"),
+            new DrawArcSmelt(),
+            new DrawDefault()
+            );
+
         }};
 
         // Power
