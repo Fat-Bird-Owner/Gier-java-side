@@ -27,20 +27,8 @@ public class GierPlanets {
             bloom = true;
             accessible = false;
 
-            meshLoader = () -> 
-            new MultiMesh(
-            new SunMesh(
-                this, 5,
-                5, 0.3, 1.7, 1.2, 1,
-                1.1f,
-                Color.valueOf("ff7a38"),
-                Color.valueOf("ff9638"),
-                Color.valueOf("ffc64c"),
-                Color.valueOf("ffc64c"),
-                Color.valueOf("ffe371"),
-                Color.valueOf("f4ee8e")
-            )
-            );
+            meshLoader = () -> QuasarMesh.create(this, 14);
+            
         }};
 
         innerAsteroidBelt = new Planet("inner-belt", sun, 1f){{
