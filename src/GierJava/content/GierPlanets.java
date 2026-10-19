@@ -43,7 +43,7 @@ public class GierPlanets {
             );
         }};
 
-        innerAsteroidBelt = new planet("inner-belt", sun, 1f){{
+        innerAsteroidBelt = new Planet("inner-belt", sun, 1f){{
             meshLoader = () ->  new MultiMesh( AsteroidBelt.create(this, 222, 28f, 32f, 126) );
             accessible = false;
             orbitRadius = 0f;
