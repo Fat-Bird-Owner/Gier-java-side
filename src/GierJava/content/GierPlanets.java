@@ -24,7 +24,7 @@ public class GierPlanets {
 
     public static void load(){
 
-        sun = new UnpausePlanet("sun", null, 1f){{
+        sun = new UnpausePlanet("sun", null, 1f, 1){{
             bloom = true;
             accessible = false;
 
