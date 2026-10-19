@@ -7,7 +7,7 @@ import arc.math.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.entities.*;
-import GierJava.graphics.Pal;
+import GierJava.graphics.GierPal;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
