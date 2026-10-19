@@ -38,7 +38,7 @@ public static GenericMesh create(Planet planet, int seed){
             float width = layer == 0 ? 0.05f : 0.035f;
             float length = layer == 0 ? 6.8f : 5.55f;
 
-            Color c = layer == 0 ? blue : whiteBlue;
+            Color c = layer == 0 ? cyan : whiteBlue;
 
             GenericMesh jet = new SunMesh(
                 planet, 4,

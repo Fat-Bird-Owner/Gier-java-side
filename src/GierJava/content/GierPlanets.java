@@ -1,5 +1,6 @@
 package GierJava.content;
 
+import GierJava.type;
 import arc.func.*;
 import arc.graphics.*;
 import arc.math.*;
@@ -23,7 +24,7 @@ public class GierPlanets {
 
     public static void load(){
 
-        sun = new Planet("sun", null, 1f){{
+        sun = new UnpausePlanet("sun", null, 1f){{
             bloom = true;
             accessible = false;
 
