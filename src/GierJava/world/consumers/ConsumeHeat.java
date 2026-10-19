@@ -1,4 +1,4 @@
-package mindustry.world.consumers;
+package GierJava.world.consumers;
 
 import arc.math.*;
 import mindustry.gen.*;
