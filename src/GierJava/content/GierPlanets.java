@@ -44,7 +44,7 @@ public class GierPlanets {
             drawOrbit = false;
             orbitTime = 400f;
             clipRadius = 100f;
-            rotateTime = 60f;
+            rotateTime = 6000f;
 
         }};
 
@@ -83,7 +83,7 @@ public class GierPlanets {
 
         gier.alwaysUnlocked = true;
         gier.accessible = true;
-        gier.orbitSpacing = 0.25f;
+        gier.orbitSpacing = 0.1f;
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
