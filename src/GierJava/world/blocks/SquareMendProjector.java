@@ -21,7 +21,9 @@ import static mindustry.Vars.*;
 
 public class SquareMendProjector extends MendProjector {
 
-public DrawBlock drawer = new DrawDefault();
+    public DrawBlock drawer = new DrawDefault();
+
+    public Color extendedColor = Color.valueOf("ffffff")
 
     public SquareMendProjector(String name){
         super(name);
@@ -52,7 +54,9 @@ y *= tilesize;
 x += offset;
 y += offset;
 
+Drawf.dashSquare(extendedColor, x, y, range);
 Drawf.dashSquare(baseColor, x, y, range);
+
 indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range ), b -> true, t -> {
 Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
 });

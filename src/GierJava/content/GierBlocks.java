@@ -154,6 +154,7 @@ public class GierBlocks {
                 color = GierPal.metaglassLight;
             }});
 
+            extendedColor = Pal.gray;
             healPercent = 2.5f;
             phaseBoost = 2.5f;
             baseColor = phaseColor = GierPal.metaglassLight;
