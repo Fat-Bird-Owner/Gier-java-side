@@ -16,7 +16,7 @@ public static GenericMesh create(Planet planet, int seed){
 
     float r = planet.radius;
 
-    meshes.add(new SunMesh(
+    GenericMesh core = new SunMesh(
         planet, 4,
         5, 0.3, 1.7, 1.2, 1,
         1.1f,
@@ -26,7 +26,7 @@ public static GenericMesh create(Planet planet, int seed){
         cyan,
         whiteBlue,
         Color.white
-    ));
+    );
 
     GenericMesh[] parts = new GenericMesh[5];
     parts[0] = core;
