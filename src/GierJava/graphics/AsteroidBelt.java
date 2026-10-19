@@ -23,7 +23,7 @@ public static GenericMesh create(Planet planet, int count, float innerRadius, fl
         float distance = rand.random(innerRadius, outerRadius);
 
         float x = Mathf.cos(angle) * distance;
-        float y = rand.random(-0.04f, 0.04f);
+        float y = rand.random(-0.08f, 0.08f);
         float z = Mathf.sin(angle) * distance;
 
         float size = rand.random(0.02f, 0.055f);
