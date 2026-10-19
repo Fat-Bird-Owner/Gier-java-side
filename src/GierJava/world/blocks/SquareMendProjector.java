@@ -23,7 +23,7 @@ public class SquareMendProjector extends MendProjector {
 
     public DrawBlock drawer = new DrawDefault();
 
-    public Color extendedColor = Color.valueOf("ffffff")
+    public Color extendedColor = Color.valueOf("ffffff");
 
     public SquareMendProjector(String name){
         super(name);
