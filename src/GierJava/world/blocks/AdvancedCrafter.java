@@ -1,0 +1,554 @@
+package GierJava.world.blocks;
+
+import arc.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.units.*;
+import mindustry.game.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.io.*;
+import mindustry.logic.*;
+import mindustry.mod.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.*;
+import mindustry.world.blocks.liquid.Conduit.*;
+import mindustry.world.draw.*;
+import mindustry.world.meta.*;
+
+import static mindustry.Vars.*;
+
+public class AdvancedCrafter extends Block{
+    /** Written to outputItems as a single-element array if outputItems is null. */
+    public @Nullable ItemStack outputItem;
+    /** Overwrites outputItem if not null. */
+    public @Nullable ItemStack[] outputItems;
+
+    /** Written to outputLiquids as a single-element array if outputLiquids is null. */
+    public @Nullable LiquidStack outputLiquid;
+    /** Overwrites outputLiquid if not null. */
+    public @Nullable LiquidStack[] outputLiquids;
+    /** Liquid output directions, specified in the same order as outputLiquids. Use -1 to dump in every direction. Rotations are relative to block. */
+    public int[] liquidOutputDirections = {-1};
+
+    /** if true, crafters with multiple liquid outputs will dump excess when there's still space for at least one liquid type */
+    public boolean dumpExtraLiquid = true;
+    public boolean ignoreLiquidFullness = false;
+
+    public float craftTime = 80;
+    public Effect craftEffect = Fx.none;
+    public Effect updateEffect = Fx.none;
+    public float updateEffectChance = 0.04f;
+    public float updateEffectSpread = 4f;
+    public float warmupSpeed = 0.019f;
+    /** Only used for legacy cultivator blocks. */
+    @NoPatch
+    public boolean legacyReadWarmup = false;
+
+    /** Floor attribute that boosts this crafter. Null disables all attribute behavior. */
+    public @Nullable Attribute attribute;
+    /** Base efficiency of the crafter. */
+    public float baseEfficiency = 1f;
+    /** Maximum efficiency/output boost from attributes. */
+    public float maxBoost = 1f;
+    /** Minimum efficiency required to place this block. */
+    public float minEfficiency = -1f;
+    /** Whether to show this bar in the UI. */
+    public boolean displayEfficiency = true, displayScaledOutput = true;
+    /** Whether liquid consumption scales with efficiency. */
+    public boolean scaleLiquidConsumption = false;
+    /** Scaled output (yield) multiplier, scales with attribute. <=0 to disable. */
+    public float outputScale = 0f;
+    /** Scaled efficiency (speed) multiplier, scales with attribute. <=0 to disable. */
+    public float boostScale = 1f;
+    /** If true, baseEfficiency is counted per tile that is not liquid instead of being a flat value. */
+    public boolean solidFloorOnly = false;
+    /** If false, the attribute multiplier only scales liquid output and not crafting progress. */
+    public boolean attributeScalesProgress = true;
+    /** If true, a bar showing the current liquid output rate replaces the efficiency bar. */
+    public boolean displayOutputRate = false;
+    /** If false, progress and warmup are not saved. Keeps the old save format for blocks that were not crafters before. */
+    public boolean saveProgress = true;
+
+    public DrawBlock drawer = new DrawDefault();
+
+    public GenericCrafter(String name){
+        super(name);
+        update = true;
+        solid = true;
+        ambientSound = Sounds.loopMachine;
+        sync = true;
+        ambientSoundVolume = 0.03f;
+        flags = EnumSet.of(BlockFlag.factory);
+        drawArrow = false;
+    }
+
+    @Override
+    public void setStats(Stats stats){
+        stats.timePeriod = craftTime;
+        super.setStats(stats);
+        if((hasItems && itemCapacity > 0) || outputItems != null){
+            stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
+        }
+
+        if(outputItems != null){
+            stats.add(Stat.output, StatValues.items(craftTime, outputItems));
+        }
+
+        if(outputLiquids != null){
+            stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
+        }
+
+        if(attribute != null){
+            Stat affinityStat = baseEfficiency <= 0.0001f ? Stat.tiles : Stat.affinities;
+            boolean startZero = !displayEfficiency || baseEfficiency <= 0.0001f;
+
+            if(outputScale > 0f){
+                stats.add(affinityStat, attribute, floating, boostScale * size * size, outputScale * size * size, Seq.with(outputItems), craftTime, startZero);
+            }else{
+                stats.add(affinityStat, attribute, floating, boostScale * size * size, startZero);
+            }
+        }
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        if(attribute == null) return;
+        if((!displayEfficiency || boostScale <= 0f) && (!displayScaledOutput || outputScale <= 0f)) return;
+
+        float sum = sumAttribute(attribute, x, y);
+        float base = baseEfficiency * (solidFloorOnly ? percentSolid(x, y) : 1f);
+
+        drawPlaceText(
+        (displayEfficiency && boostScale > 0f ?
+        Core.bundle.format("bar.efficiency", Math.round(Math.max(base + Math.min(maxBoost, boostScale * sum), 0f) * 100f))
+        : "") +
+        (displayScaledOutput && outputScale > 0f ?
+        "\n" + Core.bundle.format("bar.yield", (int)((1f + Math.min(maxBoost, outputScale * sum)) * 100f))
+        : ""), x, y, valid);
+    }
+
+    @Override
+    public boolean canPlaceOn(Tile tile, Team team, int rotation){
+        if(attribute == null) return super.canPlaceOn(tile, team, rotation);
+
+        float sum = solidFloorOnly ?
+            tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().isLiquid ? 0f : baseEfficiency + other.floor().attributes.get(attribute)) :
+            baseEfficiency + tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute));
+
+        return sum >= minEfficiency;
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        //set up liquid bars for liquid outputs
+        if(outputLiquids != null && outputLiquids.length > 0){
+            //no need for dynamic liquid bar
+            removeBar("liquid");
+
+            //then display output buffer
+            for(var stack : outputLiquids){
+                addLiquidBar(stack.liquid);
+            }
+        }
+
+        if(displayOutputRate){
+            addBar("efficiency", (GenericCrafterBuild entity) -> new Bar(
+                () -> Core.bundle.formatFloat("bar.pumpspeed", entity.lastOutput * 60f, 1),
+                () -> Pal.ammo,
+                () -> entity.warmup * entity.efficiency
+            ));
+        }else if(attribute != null && displayEfficiency && boostScale > 0f){
+            addBar("efficiency", (GenericCrafterBuild entity) -> new Bar(
+                () -> Core.bundle.format("bar.efficiency", (int)(entity.efficiencyMultiplier() * 100)),
+                () -> Pal.lightOrange,
+                entity::efficiencyMultiplier
+            ));
+        }
+
+        if(attribute != null && displayScaledOutput && outputScale > 0f){
+            addBar("yield", (GenericCrafterBuild entity) -> new Bar(
+                () -> Core.bundle.format("bar.yield", (int)(entity.outputMultiplier() * 100)),
+                () -> Pal.lightOrange,
+                entity::outputMultiplier
+            ));
+        }
+    }
+
+    @Override
+    public boolean rotatedOutput(int fromX, int fromY, Tile destination){
+        if(!(destination.build instanceof ConduitBuild)) return false;
+
+        Building crafter = state.world.build(fromX, fromY);
+        if(crafter == null) return false;
+        int relative = Mathf.mod(crafter.relativeTo(destination) - crafter.rotation, 4);
+        for(int dir : liquidOutputDirections){
+            if(dir == -1 || dir == relative) return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void load(){
+        super.load();
+
+        drawer.load(this);
+    }
+
+    @Override
+    public void init(){
+        if(outputItems == null && outputItem != null){
+            outputItems = new ItemStack[]{outputItem};
+        }
+
+        if(outputLiquids == null && outputLiquid != null){
+            outputLiquids = new LiquidStack[]{outputLiquid};
+        }
+        //write back to outputLiquid, as it helps with sensing
+        if(outputLiquid == null && outputLiquids != null && outputLiquids.length > 0){
+            outputLiquid = outputLiquids[0];
+        }
+        outputsLiquid = outputLiquids != null;
+
+        if(outputItems != null) hasItems = true;
+        if(outputLiquids != null) hasLiquids = true;
+
+        super.init();
+    }
+
+    @Override
+    public void afterPatch(){
+        super.afterPatch();
+
+        if(outputItems != null) hasItems = true;
+        outputsLiquid = outputLiquids != null;
+        if(outputLiquids != null) hasLiquids = true;
+    }
+
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        drawer.drawPlan(this, plan, list);
+    }
+
+    @Override
+    public TextureRegion[] icons(){
+        return drawer.finalIcons(this);
+    }
+
+    @Override
+    public boolean outputsItems(){
+        return outputItems != null;
+    }
+
+    @Override
+    public void getRegionsToOutline(Seq<TextureRegion> out){
+        drawer.getRegionsToOutline(this, out);
+    }
+
+    @Override
+    public void drawOverlay(float x, float y, int rotation){
+        if(outputLiquids != null){
+            for(int i = 0; i < outputLiquids.length; i++){
+                int dir = liquidOutputDirections.length > i ? liquidOutputDirections[i] : -1;
+
+                if(dir != -1){
+                    Draw.rect(
+                        outputLiquids[i].liquid.fullIcon,
+                        x + Geometry.d4x(dir + rotation) * (size * tilesize / 2f + 4),
+                        y + Geometry.d4y(dir + rotation) * (size * tilesize / 2f + 4),
+                        8f, 8f
+                    );
+                }
+            }
+        }
+    }
+
+    public class GenericCrafterBuild extends Building{
+        public float dumpTimer;
+        public float progress;
+        public float totalProgress;
+        public float warmup;
+        public float attrsum;
+        public float solidFraction = 1f;
+        public float lastOutput;
+        public @Nullable float[] outputAccumulator = outputItems != null && outputItems.length > 0 ? new float[outputItems.length] : null;
+
+        @Override
+        public void draw(){
+            drawer.draw(this);
+        }
+
+        @Override
+        public void drawLight(){
+            super.drawLight();
+            drawer.drawLight(this);
+        }
+
+        boolean missingHeat(){
+            return block.consHeat != null && !block.consHeat.optional && block.consHeat.requirement > 0f && heatModule.input <= 0f && !cheating();
+        }
+
+        @Override
+        public BlockStatus status(){
+            if(missingHeat() && enabled) return BlockStatus.noInput;
+            return super.status();
+        }
+
+        @Override
+        public boolean shouldConsume(){
+            if(missingHeat()) return false;
+
+            if(outputItems != null){
+                for(var output : outputItems){
+                    if(items.get(output.item) + scaleOutput(output.amount) > itemCapacity){
+                        return false;
+                    }
+                }
+            }
+
+            if(outputLiquids != null && !ignoreLiquidFullness){
+                boolean allFull = true;
+                for(var output : outputLiquids){
+                    if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){
+                        if(!dumpExtraLiquid){
+                            return false;
+                        }
+                    }else{
+                        //if there's still space left, it's not full for all liquids
+                        allFull = false;
+                    }
+                }
+
+                //if there is no space left for any liquid, it can't reproduce
+                if(allFull){
+                    return false;
+                }
+            }
+
+            return enabled;
+        }
+
+        @Override
+        public void updateTile(){
+            lastOutput = 0f;
+
+            if(efficiency > 0){
+
+                progress += getProgressIncrease(craftTime);
+                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
+
+                //continuously output based on efficiency
+                if(outputLiquids != null){
+                    float inc = getProgressIncrease(1f) * (attributeScalesProgress ? 1f : attributeScale());
+                    for(var output : outputLiquids){
+                        float added = Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid));
+                        handleLiquid(this, output.liquid, added);
+                        lastOutput += added / Time.delta;
+                    }
+                }
+
+                if(wasVisible && Mathf.chanceDelta(updateEffectChance)){
+                    updateEffect.at(x + Mathf.range(size * updateEffectSpread), y + Mathf.range(size * updateEffectSpread));
+                }
+            }else{
+                warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            }
+
+            //TODO may look bad, revert to edelta() if so
+            totalProgress += warmup * Time.delta;
+
+            if(progress >= 1f){
+                craft();
+            }
+
+            dumpOutputs();
+        }
+
+        @Override
+        public float getProgressIncrease(float baseTime){
+            return baseProgressIncrease(baseTime) * (attributeScalesProgress ? attributeScale() : 1f);
+        }
+
+        float baseProgressIncrease(float baseTime){
+            if(ignoreLiquidFullness){
+                return super.getProgressIncrease(baseTime);
+            }
+
+            //limit progress increase by maximum amount of liquid it can produce
+            float scaling = 1f, max = 1f;
+            if(outputLiquids != null){
+                max = 0f;
+                for(var s : outputLiquids){
+                    float value = (liquidCapacity - liquids.get(s.liquid)) / (scaleOutput(s.amount) * edelta());
+                    scaling = Math.min(scaling, value);
+                    max = Math.max(max, value);
+                }
+            }
+
+            //when dumping excess take the maximum value instead of the minimum.
+            return super.getProgressIncrease(baseTime) * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);
+        }
+
+        public float warmupTarget(){
+            return block.consHeat == null ? 1f : block.consHeat.fraction(this);
+        }
+
+        @Override
+        public float warmup(){
+            return warmup;
+        }
+
+        @Override
+        public float totalProgress(){
+            return totalProgress;
+        }
+
+        /** Allows scaling the crafter's output dynamically. */
+        public float scaleOutput(float amount){
+            return attribute != null && outputScale > 0f ? amount * outputMultiplier() : amount;
+        }
+
+        public float outputMultiplier(){
+            return baseEfficiency + Math.min(maxBoost, outputScale * attrsum) + attribute.env();
+        }
+
+        public float efficiencyMultiplier(){
+            return Math.max(baseEfficiency * solidFraction + Math.min(maxBoost, boostScale * attrsum) + attribute.env(), 0f);
+        }
+
+        public float attributeScale(){
+            return attribute == null ? 1f : efficiencyMultiplier();
+        }
+
+        @Override
+        public float efficiencyScale(){
+            return attribute != null && scaleLiquidConsumption ? efficiencyMultiplier() : super.efficiencyScale();
+        }
+
+        @Override
+        public void pickedUp(){
+            if(attribute != null){
+                attrsum = 0f;
+                warmup = 0f;
+            }
+        }
+
+        @Override
+        public void onProximityUpdate(){
+            super.onProximityUpdate();
+
+            if(attribute != null){
+                attrsum = sumAttribute(attribute, tile.x, tile.y);
+                solidFraction = solidFloorOnly ? percentSolid(tile.x, tile.y) : 1f;
+            }
+        }
+
+        public void craft(){
+            consume();
+
+            if(outputItems != null){
+                //instantiated here instead of created() because of outputItems runtime changes
+                if(outputAccumulator == null || outputAccumulator.length != outputItems.length){
+                    outputAccumulator = new float[outputItems.length];
+                }
+                for(int i = 0; i < outputItems.length; i++){
+                    ItemStack output = outputItems[i];
+
+                    outputAccumulator[i] += scaleOutput(output.amount);
+                    int floored = Mathf.floor(outputAccumulator[i]);
+                    outputAccumulator[i] -= floored;
+
+                    for(int j = 0; j < floored; j++){
+                        offload(output.item);
+                    }
+                }
+            }
+
+            if(wasVisible){
+                craftEffect.at(x, y);
+            }
+            progress %= 1f;
+        }
+
+        public void dumpOutputs(){
+            if(outputItems != null && (dumpTimer += timeScale * Time.delta) >= dumpTime){
+                for(ItemStack output : outputItems){
+                    int amount = Math.max(1, Mathf.round(scaleOutput(output.amount)));
+                    for(int i = 0; i < amount; i++){
+                        if(!dump(output.item)) break;
+                    }
+                }
+                dumpTimer %= dumpTime;
+            }
+
+            if(outputLiquids != null){
+                for(int i = 0; i < outputLiquids.length; i++){
+                    int dir = liquidOutputDirections.length > i ? liquidOutputDirections[i] : -1;
+
+                    dumpLiquid(outputLiquids[i].liquid, 2f, dir);
+                }
+            }
+        }
+
+        @Override
+        public double sense(LogicProp sensor){
+            if(sensor == LogicProp.progress) return progress();
+            //attempt to prevent wild total liquid fluctuation, at least for crafters
+            if(sensor == LogicProp.totalLiquids && outputLiquid != null) return liquids.get(outputLiquid.liquid);
+            return super.sense(sensor);
+        }
+
+        @Override
+        public float progress(){
+            return Mathf.clamp(progress);
+        }
+
+        @Override
+        public int getMaximumAccepted(Item item){
+            return itemCapacity;
+        }
+
+        @Override
+        public boolean shouldAmbientSound(){
+            return efficiency > 0;
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            if(!saveProgress) return;
+            write.f(progress);
+            write.f(warmup);
+            if(legacyReadWarmup) write.f(0f);
+        }
+
+        @Override
+        public byte version(){
+            return (byte)(block.heatOutput > 0f ? 1 : 0);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(saveProgress){
+                progress = read.f();
+                warmup = read.f();
+                if(legacyReadWarmup) read.f();
+            }
+
+            //heat emitters saved their output here before version 1
+            if(revision < 1 && block.heatOutput > 0f) heatModule.output = read.f();
+        }
+    }
+}
