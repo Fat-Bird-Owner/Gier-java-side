@@ -123,6 +123,7 @@ Fx.healBlockFull.at(other.x, other.y, other.block.size, baseColor, other.block);
 
 @Override 
 public void drawSelect(){
+Drawf.dashSquare(extendedColor, x, y, range + phaseRangeBoost);
 Drawf.dashSquare(baseColor, x, y, range + phaseHeat * phaseRangeBoost);
 indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range + phaseHeat * phaseRangeBoost), b -> true, t -> {
 Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));

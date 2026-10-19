@@ -48,6 +48,9 @@ import static mindustry.type.ItemStack.with;
 public class GierBlocks {
     public static Block 
 
+    // distributon
+    rail,
+
     // production
     hydroDrill,
 
@@ -62,6 +65,17 @@ public class GierBlocks {
 
     public static void load(){
 
+        // StackConveyor
+        rail = new StackConveyor("rail"){{
+            requirements(Category.production, with(Items.copper, 1));
+
+            speed = 0.01667f;
+            baseEfficiency = 1f;
+
+            databaseTag = "gier";
+            alwaysUnlocked = true;
+
+        }};
 
         // Production
 
