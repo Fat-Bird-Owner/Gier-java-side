@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import arc.util.io.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -24,6 +25,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
+// v9 genericCrafter plus a few addons
 public class AdvancedCrafter extends Block{
     /** Written to outputItems as a single-element array if outputItems is null. */
     public @Nullable ItemStack outputItem;
@@ -502,10 +504,10 @@ public class AdvancedCrafter extends Block{
         }
 
         @Override
-        public double sense(LogicProp sensor){
-            if(sensor == LogicProp.progress) return progress();
+        public double sense(LAccess  sensor){
+            if(sensor == LAccess.progress) return progress();
             //attempt to prevent wild total liquid fluctuation, at least for crafters
-            if(sensor == LogicProp.totalLiquids && outputLiquid != null) return liquids.get(outputLiquid.liquid);
+            if(sensor == LAccess.totalLiquids && outputLiquid != null) return liquids.get(outputLiquid.liquid);
             return super.sense(sensor);
         }
 
