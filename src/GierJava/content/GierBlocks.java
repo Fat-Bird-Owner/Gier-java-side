@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.struct.*;
 import mindustry.*;
 import mindustry.entities.*;
+import GierJava.graphics.Pal;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -56,7 +57,8 @@ public class GierBlocks {
     
     // Effect
     coreFacility,
-    crate;
+    crate,
+    restorator;
 
     public static void load(){
 
@@ -134,6 +136,27 @@ public class GierBlocks {
             baseExplosiveness = 2.5f;
             explosivenessScale = 2.5f;
             flammabilityScale = 1.5f;
+        }};
+
+        restorator = new SquareMendProjector("restorator"){{
+            requirements(Category.effect, with(Items.lead, 200, Items.copper, 100));
+            baseExplosiveness = 25f;
+
+            databaseTag = "gier";
+            range = 10f;
+            reload = 60f;
+
+            consumeItem(Items.graphite).boost();
+            consumePower(0.5f);
+            drawer = new DrawMulti(
+            new DrawDefault(),
+            new DrawPulseShape(GierPal.metaglassLight);
+            );
+
+            healPercent = 2.5f;
+            phaseBoost = 2.5f;
+            baseColor = phaseColor = GierPal.metaglassLight;
+            phaseRangeBoost = 5f;
         }};
 
     }
