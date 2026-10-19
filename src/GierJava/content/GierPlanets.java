@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import GierJava.graphics.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.graphics.g3d.*;
