@@ -24,7 +24,7 @@ public class GierJava extends Mod{
 
     @Override 
     public  void init(){
-        EventTypes.on(ClientLoadEvent, () -> {
+        Events.on(ClientLoadEvent, () -> {
             Reflect.set(GierResearchDialog.class, Vars.ui, "research", GierResearchDialog);
         });
     }
