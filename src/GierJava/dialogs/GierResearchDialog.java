@@ -7,7 +7,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Mathf; 
 import arc.util.Time; 
 import mindustry.graphics.Pal; 
-import mindustry.ui.Scl; 
+import arc.scene.ui.layout.Scl; 
 import mindustry.ui.dialogs.ResearchDialog;
 
 public class GierResearchDialog extends ResearchDialog{
