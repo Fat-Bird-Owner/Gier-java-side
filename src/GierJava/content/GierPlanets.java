@@ -87,13 +87,13 @@ public class GierPlanets {
             totalRadius += 50f;
         }};
 
-        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 0.36f, gen -> {
+        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
             gen.iceChance = 0f;
             gen.berylChance = 0.1f;
-        }, 2);
+        }, 1);
 
         gier.alwaysUnlocked = true;
         gier.accessible = true;
@@ -101,7 +101,7 @@ public class GierPlanets {
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
-        return new Planet(name, parent, 1f, sectorSize){{
+        return new Planet(name, parent, 0.12f, sectorSize){{
             hasAtmosphere = false;
             updateLighting = false;
             camRadius = 0.68f * scale;
@@ -127,14 +127,10 @@ public class GierPlanets {
                 ));
 
                 for(int j = 0; j < pieces; j++){
-                    Vec3 position = Tmp.v31.setToRandomDirection(rand)
-                                    .cpy()
-                                    .setLength(rand.random(0.44f, 1.4f) * scale);
-                    sectors.get(j).tile.v = position;
                     meshes.add(new MatMesh(
                         new NoiseMesh(this, seed + j + 1, 1, 0.022f + rand.random(0.039f) * scale, 2, 0.6f, 0.38f, 20f,
                         color, tinted, 3, 0.6f, 0.38f, tintThresh),
-                        new Mat3D().setToTranslation(position))
+                        new Mat3D().setToTranslation(Tmp.v31.setToRandomDirection(rand).setLength(rand.random(0.44f, 1.4f) * scale)))
                     );
                 }
 
