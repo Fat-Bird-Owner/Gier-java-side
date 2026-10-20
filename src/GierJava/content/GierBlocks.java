@@ -77,7 +77,8 @@ public class GierBlocks {
 
         rail = new StackConveyor("rail"){{
             requirements(Category.distribution, with(Items.copper, 1));
-
+            researchCostMultiplier = 0.05f;
+            
             speed = 0.01667f;
             baseEfficiency = 1f;
 
@@ -92,6 +93,7 @@ public class GierBlocks {
             requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
             consumePower(0.08334f);
             consumeLiquid(Liquids.water, 0.08334f).boost();
+            researchCostMultiplier = 0.05f;
 
             databaseTag = "gier";
             squareSprite = false;
@@ -112,6 +114,7 @@ public class GierBlocks {
         sunderFurnace = new GenericCrafter("sunder-furnace"){{
             requirements(Category.crafting, with(Items.lead, 1000, Items.copper, 1000));
             size = 4;
+            researchCostMultiplier = 0.1f;
 
             databaseTag = "gier";
             baseExplosiveness = 200f;
@@ -136,6 +139,7 @@ public class GierBlocks {
             requirements(Category.defense, with(Items.copper, 50, Items.lead, 25));
             health = 500;
             sides = 4;
+            researchCostMultiplier = 0.05f;
 
             consumePower(0.05f);
             databaseTag = "gier";
@@ -154,6 +158,7 @@ public class GierBlocks {
             range = 11;
             baseColor = Pal.accent;
 
+            researchCostMultiplier = 0.05f;
             databaseTag = "gier";
         }};
 
@@ -163,6 +168,7 @@ public class GierBlocks {
             size = 2;
 
             databaseTag = "gier";
+            researchCostMultiplier = 0.05f;
 
             powerProduction = 0.166667f;
             alwaysUnlocked = true;
@@ -180,6 +186,7 @@ public class GierBlocks {
 
             databaseTag = "gier";
             squareSprite = false;
+            researchCostMultiplier = 0.05f;
 
             size = 3;
             health = 3000;
@@ -195,6 +202,7 @@ public class GierBlocks {
 
             databaseTag = "gier";
             squareSprite = false;
+            researchCostMultiplier = 0.01f;
 
             size = 4;
             health = 4500;
@@ -211,6 +219,7 @@ public class GierBlocks {
 
             databaseTag = "gier";
             squareSprite = false;
+            researchCostMultiplier = 0.05f;
 
             baseExplosiveness = 2.5f;
             explosivenessScale = 2.5f;
@@ -221,6 +230,7 @@ public class GierBlocks {
             requirements(Category.effect, with(Items.lead, 200, Items.copper, 100));
             customShadow = true;
             baseExplosiveness = 25f;
+            researchCostMultiplier = 0.05f;
 
             databaseTag = "gier";
             range = 84f;
@@ -247,6 +257,7 @@ public class GierBlocks {
 
             customShadow = true;
             baseExplosiveness = 50f;
+            researchCostMultiplier = 0.25f;
 
             databaseTag = "gier";
             range = 128f;
