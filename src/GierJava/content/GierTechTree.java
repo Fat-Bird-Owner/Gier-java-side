@@ -11,7 +11,7 @@ import static mindustry.content.TechTree.*;
 public class GierTechTree {
 
     public static void load(){
-        Planets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
+        GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
 
             node(hydroDrill, () -> {
                 node(rail, () -> {});
