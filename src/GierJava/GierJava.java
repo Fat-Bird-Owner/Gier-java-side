@@ -5,6 +5,8 @@ import GierJava.content.*;
 import GierJava.dialogs.*;
 import GierJava.gen.*;
 import mindustry.game.EventType;
+import mindustry.Vars;
+import arc.util.Reflect;
 
 public class GierJava extends Mod{
     @Override
@@ -18,4 +20,12 @@ public class GierJava extends Mod{
         GierTechTree.load();
 
     }
+
+    @Override 
+    public  void init(){
+        EventTypes.on(ClientLoadEvent, () -> {
+            Reflect.set(GierResearchDialog.class, Vars.ui, "research", GierResearchDialog);
+        });
+    }
+
 }
