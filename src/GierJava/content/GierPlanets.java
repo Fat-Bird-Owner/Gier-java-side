@@ -87,7 +87,7 @@ public class GierPlanets {
             totalRadius += 50f;
         }};
 
-        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
+        gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 0.36f, gen -> {
             gen.min = 25;
             gen.max = 35;
             gen.carbonChance = 0.6f;
@@ -127,12 +127,14 @@ public class GierPlanets {
                 ));
 
                 for(int j = 0; j < pieces; j++){
-                    Vec3 position = Tmp.v31.setToRandomDirection(rand);
+                    Vec3 position = Tmp.v31.setToRandomDirection(rand)
+                                    .cpy()
+                                    .setLength(rand.random(0.44f, 1.4f) * scale);
                     sectors.get(j).tile.v = position;
                     meshes.add(new MatMesh(
                         new NoiseMesh(this, seed + j + 1, 1, 0.022f + rand.random(0.039f) * scale, 2, 0.6f, 0.38f, 20f,
                         color, tinted, 3, 0.6f, 0.38f, tintThresh),
-                        new Mat3D().setToTranslation(position.setLength(rand.random(0.44f, 1.4f) * scale)))
+                        new Mat3D().setToTranslation(position))
                     );
                 }
 
