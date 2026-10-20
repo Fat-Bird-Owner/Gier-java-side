@@ -2,7 +2,9 @@ package GierJava;
 
 import mindustry.mod.*;
 import GierJava.content.*;
+import GierJava.dialogs.*;
 import GierJava.gen.*;
+import mindustry.game.EventType;
 
 public class GierJava extends Mod{
     @Override
@@ -16,4 +18,24 @@ public class GierJava extends Mod{
         GierTechTree.load();
 
     }
+
+    @Override
+
+    public void init(){
+
+        researchDialog = new GierResearchDialog();
+
+        Vars.ui.hudGroup.fill(table -> {
+            table.button("Research", Icon.tree, () -> {
+                showResearch();
+            }).size(50f).tooltip("Open research tree");
+        });
+    }
+
+    public static void showResearch(){
+        if(researchDialog != null){
+            researchDialog.show();
+        }
+    }
+
 }
