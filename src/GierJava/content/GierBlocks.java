@@ -78,7 +78,7 @@ public class GierBlocks {
         rail = new StackConveyor("rail"){{
             requirements(Category.distribution, with(Items.copper, 1));
             researchCostMultiplier = 0.05f;
-            
+
             speed = 0.01667f;
             baseEfficiency = 1f;
 
@@ -194,6 +194,8 @@ public class GierBlocks {
             itemCapacity = 2500;
             customShadow = true;
             unitType = GierUnitTypes.restoration;
+
+            alwaysUnlocked = true;
             
         }};
 
