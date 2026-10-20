@@ -79,6 +79,7 @@ public class GierBlocks {
             requirements(Category.distribution, with(Items.copper, 1));
             researchCostMultiplier = 0.05f;
 
+            envEnabled = -1;
             speed = 0.01667f;
             baseEfficiency = 1f;
 
@@ -95,6 +96,7 @@ public class GierBlocks {
             consumeLiquid(Liquids.water, 0.08334f).boost();
             researchCostMultiplier = 0.05f;
 
+            envEnabled = -1;
             databaseTag = "gier";
             squareSprite = false;
 
@@ -124,6 +126,7 @@ public class GierBlocks {
             consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
             outputItems = with(Items.silicon, 25, Items.metaglass, 25);
 
+            envEnabled = -1;
             consumePower(5);
             drawer = new DrawMulti(
             new DrawRegion("-bottom"),
@@ -158,6 +161,7 @@ public class GierBlocks {
             range = 11;
             baseColor = Pal.accent;
 
+            envEnabled = -1;
             researchCostMultiplier = 0.05f;
             databaseTag = "gier";
         }};
@@ -167,6 +171,7 @@ public class GierBlocks {
             customShadow = true;
             size = 2;
 
+            envEnabled = -1;
             databaseTag = "gier";
             researchCostMultiplier = 0.05f;
 

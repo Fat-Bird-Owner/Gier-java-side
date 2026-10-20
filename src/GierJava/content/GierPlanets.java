@@ -30,7 +30,7 @@ public class GierPlanets {
 
             clipRadius = 11f;
             meshLoader = () -> QuasarMesh.create(this, 14);
-            realRotateTime = 0.15f;
+            realRotateTime = 0.5f;
 
         }};
 

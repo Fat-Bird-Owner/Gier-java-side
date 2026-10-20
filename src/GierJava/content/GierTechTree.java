@@ -19,6 +19,8 @@ public class GierTechTree {
                 node(crate, () -> {});
             });
 
+            node(coreFacility, () -> {});
+
             node(transitNode, () -> {
                 node(photonPanel, () -> {});
                 node(copperFort, () -> {});
