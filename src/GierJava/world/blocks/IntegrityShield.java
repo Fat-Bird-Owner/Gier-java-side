@@ -39,7 +39,7 @@ public class IntegrityShield extends ForceProjector  {
 
         @Override 
         public void updateTile(){
-            super.updateLighting();
+            super.updateTile();
             health = buildup;
         }
 

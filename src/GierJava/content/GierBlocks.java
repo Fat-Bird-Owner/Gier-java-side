@@ -134,7 +134,7 @@ public class GierBlocks {
 
         copperFort = new IntegrityShield("copper-fort"){{
             requirements(Category.power, with(Items.copper, 50, Items.lead, 25));
-            health = 500f;
+            health = 500;
 
             databaseTag = "gier";
             customShadow = true;
