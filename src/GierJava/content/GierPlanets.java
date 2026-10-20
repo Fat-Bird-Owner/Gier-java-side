@@ -34,14 +34,14 @@ public class GierPlanets {
 
         }};
 
-        innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f, 1){{
+        innerAsteroidBelt = new Planet("inner-belt", sun, 1f, 1){{
             meshLoader = () -> AsteroidBelt.create(this, 666, 22f, 150f, 76);
             accessible = false;
             orbitRadius = 0.3f;
             drawOrbit = false;
             orbitTime = 400f;
-            clipRadius = 100f;
-            realRotateTime = 3600f;
+            clipRadius = 150f;
+            tidalLock = true;
             hasAtmosphere = false;
         }};
 
