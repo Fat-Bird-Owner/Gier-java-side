@@ -20,7 +20,7 @@ import mindustry.content.Planets;
 import mindustry.content.Blocks;
 
 public class GierPlanets {
-    public static Planet erekir, gier, sun, serpulo, innerAsteroidBelt;
+    public static Planet erekir, gier, sun, serpulo, kela, innerAsteroidBelt;
 
     public static void load(){
 
@@ -73,6 +73,7 @@ public class GierPlanets {
         serpulo = new Planet("serpulo", sun, 1f, 3){{
             loadPlanetData = true;
             generator = new SerpuloPlanetGenerator();
+            accessible = false;
             meshLoader = () -> new HexMesh(this, 6);
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 11, 0.15f, 0.13f, 6, new Color().set(Pal.spore).mul(0.9f).a(0.75f), 2, 0.45f, 0.9f, 0.38f),
@@ -87,6 +88,26 @@ public class GierPlanets {
             totalRadius += 50f;
         }};
 
+        kela = new Planet("kela", sun, 0.85f, 2){{
+            generator = new TantrosPlanetGenerator();
+            cloudMeshLoader = () -> new MultiMesh(
+                new HexSkyMesh(this, 2, 1.01f, 0.15f, 5, Color.valueOf("a7a9c4"), 2, 0.6f, 0.9f, 0.25f),
+                new HexSkyMesh(this, 1, 1.01f, 0.1f, 5, Color.valueOf("767aa6bd"), 2, 0.45f, 1f, 0.45f),
+                new HexSkyMesh(this, 1, 2.3f, 0.01f, 5, Color.valueOf("a7a9c477"), 3, 0.3f, 1f, 0.1f)
+            );
+            meshLoader = () -> new HexMesh(this, 5);
+            accessible = false;
+            visible = false;
+            atmosphereColor = Color.valueOf("1d214ec3");
+            iconColor = Color.valueOf("596ab8ff");
+            startSector = 24;
+            atmosphereRadIn = -0.01f;
+            atmosphereRadOut = 0.3f;
+            orbitRadius = 120f;
+            orbitSpacing = 12f;
+            defaultEnv = Env.underwater | Env.terrestrial;
+        }};
+
         gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
             gen.min = 25;
             gen.max = 35;
@@ -98,6 +119,7 @@ public class GierPlanets {
         gier.alwaysUnlocked = true;
         gier.accessible = true;
         gier.orbitSpacing = 0.1f;
+        gier.radius = 3f;
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
