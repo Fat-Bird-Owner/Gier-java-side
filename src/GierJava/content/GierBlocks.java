@@ -57,6 +57,9 @@ public class GierBlocks {
     // Crafting
     sunderFurnace,
 
+    // Defense
+    copperFort,
+
     // Power
     transitNode,
     photonPanel,
@@ -125,6 +128,21 @@ public class GierBlocks {
             new DrawDefault()
             );
 
+        }};
+
+        // Defense
+
+        copperFort = new IntegrityShield("copper-fort"){{
+            requirements(Category.power, with(Items.copper, 50, Items.lead, 25));
+            health = 500f;
+
+            databaseTag = "gier";
+            customShadow = true;
+            radius = 56f;
+
+            shieldRotation = 45f;
+            cooldownNormal = 0.1f;
+            shieldHealth = 500f;
         }};
 
         // Power
