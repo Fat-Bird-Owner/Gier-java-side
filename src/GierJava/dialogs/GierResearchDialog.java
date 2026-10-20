@@ -1,4 +1,4 @@
-package GierJava.dialogs;
+package src.GierJava.dialogs;
 
 import arc.graphics.Color; 
 import arc.graphics.g2d.Draw; 
@@ -25,7 +25,6 @@ public class View extends ResearchDialog.View{
 
     @Override
     public void drawChildren(){
-        clamp();
 
         float ox = panX + width / 2f;
         float oy = panY + height / 2f;
@@ -46,6 +45,8 @@ public class View extends ResearchDialog.View{
                 float midY = (y1 + y2) / 2f;
 
                 boolean locked =
+                    !node.node.content.unlockedHost() ||
+                    ! child.node.content.unlockedHost() ||
                     locked(node.node) || locked(child.node);
 
                 Color color = locked ? Pal.gray : Pal.accent;
