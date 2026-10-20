@@ -13,6 +13,7 @@ public class GierJava extends Mod{
         GierPlanets.load();
         GierUnitTypes.load();
         GierBlocks.load();
+        GierTechTree.load();
 
     }
 }

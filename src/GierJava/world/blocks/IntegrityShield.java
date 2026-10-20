@@ -40,7 +40,7 @@ public class IntegrityShield extends ForceProjector  {
         @Override 
         public void updateTile(){
             super.updateTile();
-            
+            warmup = 1f;
         }
 
     }
