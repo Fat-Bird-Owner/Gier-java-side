@@ -20,7 +20,7 @@ import mindustry.content.Planets;
 import mindustry.content.Blocks;
 
 public class GierPlanets {
-    public static Planet erekir, gier, sun, innerAsteroidBelt;
+    public static Planet erekir, gier, sun, serpulo, innerAsteroidBelt;
 
     public static void load(){
 
@@ -30,7 +30,7 @@ public class GierPlanets {
 
             clipRadius = 11f;
             meshLoader = () -> QuasarMesh.create(this, 14);
-            rotateTime = 0.15f;
+            realRotateTime = 0.15f;
 
         }};
 
@@ -44,7 +44,7 @@ public class GierPlanets {
             drawOrbit = false;
             orbitTime = 400f;
             clipRadius = 100f;
-            rotateTime = 6000f;
+            realRotateTime = 3600f;
 
         }};
 
@@ -71,6 +71,25 @@ public class GierPlanets {
             enemyBuildSpeedMultiplier = 0.4f;
             allowLaunchToNumbered = false;
             updateLighting = false;
+        }};
+
+        serpulo = new Planet("serpulo", sun, 1f, 3){{
+            loadPlanetData = true;
+            generator = new SerpuloPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 6);
+            cloudMeshLoader = () -> new MultiMesh(
+                new HexSkyMesh(this, 11, 0.15f, 0.13f, 6, new Color().set(Pal.spore).mul(0.9f).a(0.75f), 2, 0.45f, 0.9f, 0.38f),
+                new HexSkyMesh(this, 1, 0.6f, 0.16f, 6, Color.white.cpy().lerp(Pal.spore, 0.55f).a(0.75f), 2, 0.45f, 1f, 0.41f)
+            );
+            iconColor = Color.valueOf("7d4dff");
+            atmosphereColor = Color.valueOf("3c1b8f");
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.3f;
+            alwaysUnlocked = true;
+            allowSelfSectorLaunch = true;
+            landCloudColor = Pal.spore.cpy().a(0.5f);
+            orbitSpacing = 35f;
+            totalRadius += 50f;
         }};
 
         gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
