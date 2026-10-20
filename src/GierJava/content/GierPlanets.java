@@ -35,10 +35,7 @@ public class GierPlanets {
         }};
 
         innerAsteroidBelt = new UnpausePlanet("inner-belt", sun, 1f, 1){{
-            meshLoader = () ->  new MultiMesh(
-            AsteroidBelt.create(this, 222, 50f, 68f, 126),
-            AsteroidBelt.create(this, 440, 22f, 150f, 76)
-            );
+            meshLoader = () -> AsteroidBelt.create(this, 666, 22f, 150f, 76);
             accessible = false;
             orbitRadius = 0f;
             drawOrbit = false;
@@ -85,8 +82,6 @@ public class GierPlanets {
             atmosphereColor = Color.valueOf("3c1b8f");
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
-            alwaysUnlocked = true;
-            allowSelfSectorLaunch = true;
             landCloudColor = Pal.spore.cpy().a(0.5f);
             orbitSpacing = 35f;
             totalRadius += 50f;
