@@ -40,7 +40,8 @@ public class IntegrityShield extends ForceProjector  {
         @Override 
         public void updateTile(){
             super.updateTile();
-            health = buildup;
+            health = this.block.health * (1f - buildup);
+            if (health <= 0f) kill();
         }
 
     }
