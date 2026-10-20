@@ -97,7 +97,7 @@ public class GierPlanets {
             );
             meshLoader = () -> new HexMesh(this, 5);
             accessible = false;
-            visible = false;
+            visible = true;
             atmosphereColor = Color.valueOf("1d214ec3");
             iconColor = Color.valueOf("596ab8ff");
             startSector = 24;
@@ -119,7 +119,6 @@ public class GierPlanets {
         gier.alwaysUnlocked = true;
         gier.accessible = true;
         gier.orbitSpacing = 0.1f;
-        gier.radius = 3f;
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
