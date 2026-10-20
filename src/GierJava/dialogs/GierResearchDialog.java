@@ -12,7 +12,7 @@ import arc.math.Mathf;
 import arc.math.geom.Rect;
 import arc.math.geom.Vec2;
 import arc.scene.Element;
-import Gier.content.*;
+import GierJava.content.*;
 import arc.scene.Group;
 import arc.scene.event.InputListener;
 import arc.scene.event.Touchable;
