@@ -23,6 +23,7 @@ public class GierTechTree {
 
             node(transitNode, () -> {
                 node(photonPanel, () -> {});
+                node(tension, () -> {});
                 node(copperFort, () -> {});
             });
 
