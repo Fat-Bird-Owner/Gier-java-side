@@ -116,6 +116,8 @@ public class GierBlocks {
             shake = 0.65f;
             shootEffect = Fx.none;
 
+            boostItem = Items.graphite;
+
             requirements(Category.turret, with(
                 Items.lead, 250,
                 Items.copper, 250
