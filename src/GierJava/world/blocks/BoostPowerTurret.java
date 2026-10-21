@@ -5,6 +5,7 @@ import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.content.*;
 import mindustry.type.Item;
 import arc.util.Time;
+import mindustry.world.meta.*;
 
 import static mindustry.type.ItemStack.with;
 

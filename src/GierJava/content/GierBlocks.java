@@ -100,7 +100,6 @@ public class GierBlocks {
             shootSound = Sounds.shootScathe;
 
             coolant = consumeCoolant(0.33334f);
-            coolant.allowGas = false;
             shootWarmupSpeed = 0.05f;
             minWarmup = 0.9f;
             consumePower(1f);
