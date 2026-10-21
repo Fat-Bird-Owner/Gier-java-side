@@ -3,7 +3,7 @@ package GierJava.content;
 import GierJava.world.blocks.*;
 
 import mindustry.content.Fx;
-import mindustry.content.Sounds;
+import mindustry.gen.Sounds;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;

@@ -4,7 +4,7 @@ import mindustry.content.Items;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.content.*;
 import mindustry.type.Item;
-import arc.util.time;
+import arc.util.Time;
 
 import static mindustry.type.ItemStack.with;
 
@@ -12,7 +12,7 @@ public class BoostPowerTurret extends PowerTurret {
 
     public Item boostItem = null;
 
-    public Int boostItemAmount = 1;
+    public int boostItemAmount = 1;
 
     public float boostItemUseTime = 180f;
 
@@ -20,7 +20,7 @@ public class BoostPowerTurret extends PowerTurret {
 
     public float rangeMultiplier = 1f;
 
-    public BoostPowerTurret(string Name){
+    public BoostPowerTurret(String Name){
         super(name);
         boostItem = Items.copper;
     }
