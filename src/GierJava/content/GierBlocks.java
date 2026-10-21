@@ -48,6 +48,9 @@ import static mindustry.type.ItemStack.with;
 public class GierBlocks {
     public static Block 
 
+    // Environement
+    gierCopperOre,
+    
     // Distribution
     rail,
 
@@ -73,6 +76,13 @@ public class GierBlocks {
 
     public static void load(){
 
+        // Environment
+
+        gierCopperOre = new OreBlock("gier-copper-ore"){{
+            variants = 4;
+            itemDrop = Items.copper;
+        }};
+        
         // Distribution
 
         rail = new StackConveyor("rail"){{
