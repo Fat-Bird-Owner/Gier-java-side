@@ -23,7 +23,6 @@ public class BoostPowerTurret extends PowerTurret {
 
     public BoostPowerTurret(String name){
         super(name);
-        consumeItem(boostItem, boostItemAmount).boost();
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BoostPowerTurret extends PowerTurret {
             stats.remove(Stat.booster);
             stats.add(Stat.booster, StatValues.itemBoosters(
                 "{0}" + StatUnit.timesSpeed.localized(),
-                stats.timePeriod, boostMultiplier * 100f, rangeMultiplier * 100f,
+                stats.timePeriod, boostMultiplier, rangeMultiplier,
                 with(boostItem, boostItemAmount))
             );
     }
