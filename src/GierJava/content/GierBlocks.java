@@ -2,6 +2,8 @@ package GierJava.content;
 
 import GierJava.world.blocks.*;
 
+import mindustry.content.Fx;
+import mindustry.content.Sounds;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
@@ -51,6 +53,10 @@ public class GierBlocks {
     // Environement
     gierCopperOre,
     
+    // Turret
+
+    tension,
+
     // Distribution
     rail,
 
@@ -83,6 +89,179 @@ public class GierBlocks {
             itemDrop = Items.copper;
         }};
         
+        // Turret
+
+        tension = new BoostPowerTurret("tension"){{
+
+            size = 4;
+            outlineRadius = 0;
+            range = 320f;
+            health = 2500;
+            envEnabled = -1;
+            shootSound = Sounds.shootScathe;
+
+            coolant = consumeCoolant(0.33334f);
+            coolant.allowGas = false;
+            shootWarmupSpeed = 0.05f;
+            minWarmup = 0.9f;
+            consumePower(1f);
+
+            databaseTag = "gier";
+            researchCostMultiplier = 0.05f;
+            rotateSpeed = 0f;
+            recoil = 0f;
+            shootY = 0f;
+            hasShadow = false;
+            customShadow = true;
+            category = Category.turret;
+            reload = 95f;
+            shake = 0.65f;
+            shootEffect = Fx.none;
+
+            requirements(Category.turret, with(
+                Items.lead, 250,
+                Items.copper, 250
+            ));
+
+            buildTime = 300f;
+            rotate = false;
+            shootCone = 180f;
+            inaccuracy = 0f;
+            shootType = new BulletType(){{
+                speed = 30f;
+                lifetime = 10f;
+                damage = 0f;
+                collides = false;
+                instantDisappear = true;
+                despawnHit = true;
+                fragBullets = 4;
+                fragSpread = 90f;
+                fragRandomSpread = 0f;
+                fragVelocityMin = 1f;
+                fragVelocityMax = 1f;
+                hitEffect = new MultiEffect(
+                    new ParticleEffect(){{
+                        lifetime = 32f;
+                        colorFrom = Color.valueOf("ff8545c2");
+                        colorTo = Color.valueOf("7c3f3f00");
+                        region = "circle-shadow";
+                        particles = 132;
+                        heightTo = 0.5f;
+                        cone = 360f;
+                        sizeFrom = 3f;
+                        sizeTo = 7f;
+                        cap = false;
+                        layer = 109f;
+                        length = 44f;
+                    }},
+                    new ParticleEffect(){{
+                        colorFrom = Color.valueOf("ff8545c2");
+                        colorTo = Color.valueOf("e23000ff");
+                        lifetime = 66f;
+                        cone = 360f;
+                        sizeFrom = 2.4f;
+                        sizeTo = 0f;
+                        cap = false;
+                        layer = 64f;
+                        length = 64f;
+                        particles = 35;
+                        interp = arc.math.Interp.sineOut;
+                    }}
+                );
+
+                fragBullet = new MissileBulletType(1f, 65f){{
+                    trailEffect = Fx.none;
+                    trailChance = 0.25f;
+                    trailWidth = 2f;
+                    width = 10f;
+                    height = 17f;
+                    lifetime = 120f;
+                    homingPower = 0.1f;
+                    homingDelay = 20f;
+                    homingRange = 300f;
+                    impact = true;
+                    knockback = 15f;
+                    trailLength = 12;
+                    trailChance = 0f;
+                    trailInterval = 0.2f;
+                    trailRotation = true;
+
+                    trailEffect = new MultiEffect(
+                        new ParticleEffect(){{
+                            colorFrom = Color.valueOf("ff8545c2");
+                            colorTo = Color.valueOf("7c3f3f33");
+                            region = "circle-shadow";
+                            particles = 2;
+                            heightTo = 0.5f;
+                            lifetime = 22f;
+                            cone = 45f;
+                            sizeFrom = 3f;
+                            sizeTo = 7f;
+                            cap = false;
+
+                            layer = 109f;
+
+                        }},
+
+                        new ParticleEffect(){{
+                            colorFrom = Color.valueOf("ff8545c2");
+                            colorTo = Color.valueOf("e23100ff");
+                            particles = 2;
+                            heightTo = 0.5f;
+                            lifetime = 33f;
+                            cone = 22.5f;
+                            sizeFrom = 1.7f;
+                            sizeTo = 0f;
+                            cap = false;
+                            layer = 64f;
+                            length = 44f;
+                        }}
+                    );
+
+                    damage = 65f;
+                    splashDamage = 20f;
+                    splashDamageRadius = 40f;
+                    scaledSplashDamage = true;
+                    frontColor = Color.valueOf("7d4c27");
+                    accel = 0.045f;
+                    hitEffect = new MultiEffect(
+
+                        new ParticleEffect(){{
+                            lifetime = 44f;
+                            colorFrom = Color.valueOf("ff854588");
+                            colorTo = Color.valueOf("ff854500");
+                            region = "circle-shadow";
+                            particles = 1;
+                            sizeFrom = 13f;
+                            sizeTo = 65f;
+                            cap = false;
+                            length = 0f;
+                            interp = arc.math.Interp.sineOut;
+                        }},
+                        new WrapEffect(Fx.titanExplosionFrag, Color.valueOf("ff8545ff"))
+                    );
+
+                    hitSound = Sounds.unitExplode3;
+                    despawnHit = true;
+                    hitShake = 6.5f;
+
+                }};
+
+            }};
+
+            elevation = 0f;
+            drawer = new DrawTurret(){{
+                basePrefix = "-lid";
+                parts.add(new RegionPart("-lid"){{
+                    growX = -0.25f;
+                    growY = -0.25f;
+                    color = Color.white;
+                    colorTo = Color.valueOf("8f8f8f7f");
+                }});
+                }};
+                }};
+            }}
+
         // Distribution
 
         rail = new StackConveyor("rail"){{
