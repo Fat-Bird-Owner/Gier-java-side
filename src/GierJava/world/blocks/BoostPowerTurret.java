@@ -23,7 +23,7 @@ public class BoostPowerTurret extends PowerTurret {
 
     public BoostPowerTurret(String name){
         super(name);
-        boostItem = Items.copper;
+        consumeItem(boostItem, boostItemAmount).boost();
     }
 
     @Override
