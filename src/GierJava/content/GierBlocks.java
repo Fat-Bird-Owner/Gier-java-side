@@ -54,7 +54,6 @@ public class GierBlocks {
     gierCopperOre,
     
     // Turret
-
     tension,
 
     // Distribution
@@ -259,8 +258,7 @@ public class GierBlocks {
                     colorTo = Color.valueOf("8f8f8f7f");
                 }});
                 }};
-                }};
-            }}
+            }};
 
         // Distribution
 
