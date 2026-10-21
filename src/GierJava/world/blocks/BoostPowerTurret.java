@@ -21,7 +21,7 @@ public class BoostPowerTurret extends PowerTurret {
 
     public float rangeMultiplier = 1f;
 
-    public BoostPowerTurret(String Name){
+    public BoostPowerTurret(String name){
         super(name);
         boostItem = Items.copper;
     }
