@@ -328,13 +328,6 @@ public class GierBlocks {
             );
 
         }};
-
-        electricCapacitor = new Battery("electric-capacitor"){{
-            requirements(Category.power, with(Items.lead, 50, Items.copper, 75));
-            consumePowerBuffered(500f);
-            envEnabled = -1;
-            baseExplosiveness = 25f;
-        }};
         
         // Defense
 
@@ -392,7 +385,7 @@ public class GierBlocks {
             databaseTag = "gier";
             researchCostMultiplier = 0.05f;
 
-            consumeItem(Item.graphite);
+            consumeItem(Items.graphite);
             powerProduction = 1.5f;
 
             drawer = new DrawMulti(
@@ -400,6 +393,13 @@ public class GierBlocks {
             new DrawGlowRegion("-glow")
             );
             
+        }};
+
+        electricCapacitor = new Battery("electric-capacitor"){{
+            requirements(Category.power, with(Items.lead, 50, Items.copper, 75));
+            consumePowerBuffered(500f);
+            envEnabled = -1;
+            baseExplosiveness = 25f;
         }};
         
         // Effect
