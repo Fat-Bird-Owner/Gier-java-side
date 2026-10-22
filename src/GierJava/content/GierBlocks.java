@@ -390,13 +390,19 @@ public class GierBlocks {
 
             drawer = new DrawMulti(
             new DrawDefault(),
-            new DrawGlowRegion("-glow")
-            );
+            new DrawGlowRegion("-glow"){{
+                color = Color.valueOf("ff8545ff");
+            }});
             
         }};
 
         electricCapacitor = new Battery("electric-capacitor"){{
             requirements(Category.power, with(Items.lead, 50, Items.copper, 75));
+            drawer = new DrawMulti(
+                new DrawDefault(),
+                new DrawPower("-power")
+            );
+
             consumePowerBuffered(500f);
             envEnabled = -1;
             baseExplosiveness = 25f;
