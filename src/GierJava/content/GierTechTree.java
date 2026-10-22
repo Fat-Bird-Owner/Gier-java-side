@@ -22,7 +22,10 @@ public class GierTechTree {
             node(coreFacility, () -> {});
 
             node(transitNode, () -> {
-                node(photonPanel, () -> {});
+                node(photonPanel, () -> {
+                    node(electricCapacitor, () -> {});
+                    node(ignitionGenerator, () -> {});
+                });
                 node(tension, () -> {});
                 node(copperFort, () -> {});
             });
