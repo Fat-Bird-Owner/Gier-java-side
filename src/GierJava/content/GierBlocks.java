@@ -58,6 +58,7 @@ public class GierBlocks {
 
     // Distribution
     rail,
+    railOverhead,
 
     // Production
     hydroDrill,
@@ -277,6 +278,15 @@ public class GierBlocks {
             databaseTag = "gier";
             alwaysUnlocked = true;
 
+        }};
+
+        railOverhead = new OmniDirectionalBridge("rail-overhead"){{
+            requirements(Category.distribution, with(Items.lead, 20, Items.silicon, 20));
+            researchCostMultiplier = 0.15f;
+
+            envEnabled = -1;
+            databaseTag = "gier";
+            alwaysUnlocked = true;
         }};
 
         // Production
