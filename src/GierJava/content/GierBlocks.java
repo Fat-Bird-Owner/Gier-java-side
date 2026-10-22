@@ -71,6 +71,8 @@ public class GierBlocks {
     // Power
     transitNode,
     photonPanel,
+    ignitionGenerator,
+    electricCapacitor,
     
     // Effect
     coreSatellite,
@@ -315,6 +317,8 @@ public class GierBlocks {
             consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
             outputItems = with(Items.silicon, 25, Items.metaglass, 25);
 
+            baseExplosiveness = 50f;
+            
             envEnabled = -1;
             consumePower(5);
             drawer = new DrawMulti(
@@ -325,6 +329,13 @@ public class GierBlocks {
 
         }};
 
+        electricCapacitor = new Battery("electric-capacitor"){{
+            requirements(Category.power, with(Items.lead, 50, Items.copper, 75));
+            consumePowerBuffered(500f);
+            envEnabled = -1;
+            baseExplosiveness = 25f;
+        }};
+        
         // Defense
 
         copperFort = new IntegrityShield("copper-fort"){{
@@ -373,6 +384,24 @@ public class GierBlocks {
             }});
         }};
 
+        ignitionGenerator = new ConsumeGenerator("ignition-generator"){{
+            requirements(Category.power, with(Items.lead, 250, Items.copper, 200));
+            size = 2;
+
+            envEnabled = -1;
+            databaseTag = "gier";
+            researchCostMultiplier = 0.05f;
+
+            consumeItem(Item.graphite);
+            powerProduction = 1.5f;
+
+            drawer = new DrawMulti(
+            new DrawDefault(),
+            new DrawGlowRegion("-glow")
+            );
+            
+        }};
+        
         // Effect
 
         coreSatellite = new PowerCore("core-satellite"){{
