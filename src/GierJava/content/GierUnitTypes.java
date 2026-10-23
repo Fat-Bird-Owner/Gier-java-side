@@ -191,16 +191,16 @@ public class GierUnitTypes {
 
 
             carrier = new UnitType("carrier"){{
-                speed: 3.5f;
-                health: 110f;
+                speed = 3.5f;
+                health = 110f;
 
-                flying: true;
-                outlineColor: Color.valueOf("Cf2f3f");
-                accel: 0.13f;
-                drag: 0.02f;
-                faceTarget: false;
-                drawSoftShadow: false;
-                isEnemy: false;
+                flying = true;
+                outlineColor = Color.valueOf("Cf2f3f");
+                accel = 0.13f;
+                drag = 0.02f;
+                faceTarget = false;
+                drawSoftShadow = false;
+                isEnemy = false;
 
                 itemCapacity = 250;
                 targetPriority = 2f;
