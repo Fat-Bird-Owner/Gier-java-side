@@ -306,6 +306,8 @@ public class GierBlocks {
 
             itemCapacity = 300;
             envEnabled = -1;
+            polyRadius = 5.5f;
+            
             consumePower(0.5f);
         }};
 
@@ -319,7 +321,6 @@ public class GierBlocks {
 
             itemCapacity = 200;
             envEnabled = -1;
-            polyRadius = 5.5f;
         }};
 
         // Production
