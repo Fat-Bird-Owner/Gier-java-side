@@ -2,6 +2,7 @@ package GierJava.content;
 
 import GierJava.world.blocks.*;
 import GierJava.content.GierItems;
+import GierJava.content.GierUnitTypes;
 
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
@@ -60,6 +61,8 @@ public class GierBlocks {
     // Distribution
     rail,
     overheadBelt,
+    droneFacility,
+    facilityDropzone,
 
     // Production
     hydroDrill,
@@ -293,6 +296,30 @@ public class GierBlocks {
             envEnabled = -1;
             databaseTag = "gier";
             alwaysUnlocked = true;
+        }};
+
+        droneFacility = new UnitCargoLoader("drone-facility"){{
+            requirements(Category.distribution, with(Items.lead, 150, Items.copper, 100));
+            unitType = GierUnitTypes.carrier;
+            customShadow = true;
+            databaseTag = "gier";
+
+            itemCapacity = 300;
+            envEnabled = -1;
+            polyRadius = 5.5f;
+        }};
+
+        facilityDropzone = new UnitCargoUnloadPoint("facility-dropzone"){{
+            requirements(Category.distribution, with(Items.lead, 200, Items.copper, 150));
+            customShadow = true;
+            dumpTime = 2.5f;
+            staleTimeDuration = 1f;
+
+            databaseTag = "gier";
+
+            itemCapacity = 200;
+            envEnabled = -1;
+            polyRadius = 5.5f;
         }};
 
         // Production

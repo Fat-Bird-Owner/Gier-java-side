@@ -23,10 +23,20 @@ import arc.struct.Seq;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
+import mindustry.ai.types.*;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
-    public static @EntityDef(value = {Unitc.class}, genIO = false) UnitType restoration, spark;
+    public static @EntityDef(value = {Unitc.class}, genIO = false) UnitType 
+    
+    // Core units
+    restoration,
+    
+    // Exogen units
+    spark,
+    
+    // Internals
+    carrier;
 
     public static void load(){
         restoration = new UnitType("restoration"){{
@@ -179,6 +189,27 @@ public class GierUnitTypes {
 
             }};
 
+
+            carrier = new UnitType("carrier"){{
+                speed: 3.5f;
+                health: 110f;
+
+                flying: true;
+                outlineColor: Color.valueOf("Cf2f3f");
+                accel: 0.13f;
+                drag: 0.02f;
+                faceTarget: false;
+                drawSoftShadow: false;
+                isEnemy: false;
+
+                itemCapacity = 250;
+                targetPriority = 2f;
+                rotateSpeed = 4.5f;
+
+                controller = u -> new CargoAI();
+                playerControllable = false;
+                logicControllable = false;
+            }};
 
         EntityRegistry.registerUnits();
     }
