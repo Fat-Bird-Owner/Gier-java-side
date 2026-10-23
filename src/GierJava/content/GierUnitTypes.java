@@ -33,10 +33,10 @@ public class GierUnitTypes {
     restoration,
     
     // Exogen units
-    spark,
+    spark;
     
     // Internals
-    carrier;
+    public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class}, genIO = false) UnitType carrier;
 
     public static void load(){
         restoration = new UnitType("restoration"){{
