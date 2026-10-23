@@ -331,7 +331,7 @@ public class GierBlocks {
 
             itemCapacity = 100;
             consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
-            outputItems = with(Items.silicon, 25, GierItems.metaglass, 25);
+            outputItems = with(Items.silicon, 25, GierItems.metaglassChunk, 25);
 
             baseExplosiveness = 50f;
             
