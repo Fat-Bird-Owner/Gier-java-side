@@ -1,7 +1,7 @@
 package GierJava.content;
 
 import GierJava.world.blocks.*;
-import Gier.content.GierItems;
+import GierJava.content.GierItems;
 
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
