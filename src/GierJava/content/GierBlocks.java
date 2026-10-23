@@ -71,6 +71,7 @@ public class GierBlocks {
 
     // Power
     transitNode,
+    powerGrid,
     photonPanel,
     ignitionGenerator,
     electricCapacitor,
@@ -364,7 +365,7 @@ public class GierBlocks {
 
         transitNode = new TransitNode("transit-node"){{
             requirements(Category.power, with(Items.copper, 20));
-            range = 11;
+            range = 6;
             baseColor = Pal.accent;
 
             envEnabled = -1;
@@ -372,6 +373,18 @@ public class GierBlocks {
             databaseTag = "gier";
         }};
 
+        powerGrid = new TransitNode("power-grid"){{
+            requirements(Category.power, with(Items.silicon, 10, Items.surgeAlloy, 5));
+            range = 11;
+            baseColor = Pal.accent;
+
+            consumePowerBuffered(100f);
+            
+            envEnabled = -1;
+            researchCostMultiplier = 0.05f;
+            databaseTag = "gier";
+        }};
+        
         photonPanel = new SolarGenerator("photon-panel"){{
             requirements(Category.power, with(Items.lead, 50, Items.copper, 100));
             customShadow = true;
