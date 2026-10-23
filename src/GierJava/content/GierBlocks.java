@@ -306,15 +306,13 @@ public class GierBlocks {
 
             itemCapacity = 300;
             envEnabled = -1;
-            polyRadius = 5.5f;
-
             consumePower(0.5f);
         }};
 
         facilityDropzone = new UnitCargoUnloadPoint("facility-dropzone"){{
             requirements(Category.distribution, with(Items.lead, 200, Items.copper, 150));
             customShadow = true;
-            dumpTime = 1f;
+            dumpTime = 1;
             staleTimeDuration = 1f;
 
             databaseTag = "gier";
