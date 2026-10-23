@@ -1,6 +1,7 @@
 package GierJava.content;
 
 import GierJava.world.blocks.*;
+import Gier.content.GierItems;
 
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
@@ -65,6 +66,7 @@ public class GierBlocks {
 
     // Crafting
     sunderFurnace,
+    industrialTrimmer,
 
     // Defense
     copperFort,
@@ -329,7 +331,7 @@ public class GierBlocks {
 
             itemCapacity = 100;
             consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
-            outputItems = with(Items.silicon, 25, Items.metaglass, 25);
+            outputItems = with(Items.silicon, 25, GierItems.metaglass, 25);
 
             baseExplosiveness = 50f;
             
@@ -343,6 +345,43 @@ public class GierBlocks {
 
         }};
         
+        industrialTrimmer = new GenericCrafter("industrial-trimmer"){{
+            requirements(Category.crafting, with(Items.lead, 250, Items.copper, 250));
+            size = 3;
+            researchCostMultiplier = 0.1f;
+
+            databaseTag = "gier";
+            baseExplosiveness = 150f;
+            craftTime = 100f;
+
+            itemCapacity = 40;
+            consumeItems(with(GierItems.metaglassChunk, 20));
+            outputItems = with(Items.metaglass, 20);
+
+            envEnabled = -1;
+            consumePower(5);
+            drawer = new DrawMulti(
+            new DrawRegion("-bottom"),
+            new DrawPistons() {{
+                suffix = "-piston-0";
+                sides = 1;
+                sinMag = 20f;
+                sinScl = 6;
+                lenOffset = -18f;
+            }},
+            new DrawPistons() {{
+                suffix = "-piston-0";
+                angleOffset = 90f;
+                sinOffset = 60f;
+                sides = 1;
+                sinMag = 20f;
+                sinScl = 6;
+                lenOffset = -18f;
+            }},
+            new DrawDefault()
+            );
+        }};
+
         // Defense
 
         copperFort = new IntegrityShield("copper-fort"){{

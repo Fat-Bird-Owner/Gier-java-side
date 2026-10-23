@@ -12,6 +12,7 @@ public class GierJava extends Mod{
         EntityRegistry.register();
 
         GierPlanets.load();
+        GierItems.load();
         GierUnitTypes.load();
         GierBlocks.load();
         GierTechTree.load();

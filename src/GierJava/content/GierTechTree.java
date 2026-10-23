@@ -14,14 +14,22 @@ public class GierTechTree {
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
 
             node(hydroDrill, () -> {
-                node(rail, () -> {});
-                node(sunderFurnace, () -> {});
+                node(rail, () -> {
+                    node(overheadBelt, () -> {});
+                });
+
+                node(sunderFurnace, () -> {
+                    node(industrialTrimmer, () -> {});
+                });
+
                 node(crate, () -> {});
             });
 
             node(coreFacility, () -> {});
 
             node(transitNode, () -> {
+                node(powerGrid, () -> {});
+
                 node(photonPanel, () -> {
                     node(electricCapacitor, () -> {});
                     node(ignitionGenerator, () -> {});
