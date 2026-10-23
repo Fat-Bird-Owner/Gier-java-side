@@ -181,7 +181,7 @@ public class GierUnitTypes {
 
                 trailLength = 20;
                 trailWidth = 0.5f;
-                trailColor = Color.valueOf("ffd37fff");
+                trailColor = Color.valueOf("2f2f3f");
                 layer = 92f;
                 lightOpacity = 0f;
             }};
@@ -195,7 +195,7 @@ public class GierUnitTypes {
                 health = 110f;
 
                 flying = true;
-                outlineColor = Color.valueOf("Cf2f3f");
+                outlineRadius = 0;
                 accel = 0.13f;
                 drag = 0.02f;
                 faceTarget = false;
@@ -205,6 +205,13 @@ public class GierUnitTypes {
                 itemCapacity = 250;
                 targetPriority = 2f;
                 rotateSpeed = 4.5f;
+
+                engines.addAll(Seq.with(
+                    new UnitEngine(-6.5f, 0f, 2f, 0f),
+                    new UnitEngine(6.5f, 0f, 2f, 180f),
+                    new UnitEngine(0f, 6.5f, 2f, -90f),
+                    new UnitEngine(0f, -6.5f, 2f, 90f)
+                ));
 
                 controller = u -> new CargoAI();
                 playerControllable = false;

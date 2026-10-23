@@ -300,6 +300,8 @@ public class GierBlocks {
 
         droneFacility = new UnitCargoLoader("drone-facility"){{
             requirements(Category.distribution, with(Items.lead, 150, Items.copper, 100));
+            size = 2;
+            
             unitType = GierUnitTypes.carrier;
             customShadow = true;
             databaseTag = "gier";
@@ -307,12 +309,14 @@ public class GierBlocks {
             itemCapacity = 300;
             envEnabled = -1;
             polyRadius = 5.5f;
-            
+
             consumePower(0.5f);
         }};
 
         facilityDropzone = new UnitCargoUnloadPoint("facility-dropzone"){{
             requirements(Category.distribution, with(Items.lead, 200, Items.copper, 150));
+            size = 2;
+
             customShadow = true;
             dumpTime = 1;
             staleTimeDuration = 1f;
