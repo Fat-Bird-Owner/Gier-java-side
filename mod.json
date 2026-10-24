@@ -5,6 +5,7 @@
     "version": "v1",
     "minGameVersion": "160",
     "author": "Fat Bird's Owner",
+    "repo": "Fat-Bird-Owner/Gier-java-side",
     "java": true,
     "main": "GierJava.GierJava"
 }
