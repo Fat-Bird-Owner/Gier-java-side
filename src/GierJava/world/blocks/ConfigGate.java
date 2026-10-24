@@ -70,12 +70,6 @@ public TextureRegion[] icons(){
     return new TextureRegion[]{region, topRegion};
 }
 
-@Override
-public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-    Draw.rect(region, plan.drawx(), plan.drawy());
-    Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90f);
-}
-
 public class ConfigGateBuild extends Building{
     public int dumpIndex;
     public int inputDir = -1;
