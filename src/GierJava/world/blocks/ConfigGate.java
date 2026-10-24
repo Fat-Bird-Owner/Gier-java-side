@@ -32,7 +32,6 @@ public ConfigGate(String name){
     itemCapacity = 1;
     update = true;
     solid = false;
-    rotate = true;
     conveyorPlacement = true;
     unloadable = false;
     noUpdateDisabled = true;
@@ -111,7 +110,11 @@ public class ConfigGateBuild extends Building{
     @Override
     public void draw(){
         Draw.rect(region, x, y);
-        Draw.rect(mode == underflow ? topRegionInverted : topRegion, x, y, rotdeg());
+
+        if (mode != router) {
+            Draw.rect(mode == underflow ? topRegionInverted : topRegion, x, y, rotdeg());
+        }
+
         Draw.reset();
     }
 
