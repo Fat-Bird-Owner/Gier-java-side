@@ -61,6 +61,7 @@ public class GierBlocks {
     // Distribution
     rail,
     overheadBelt,
+    railOverflow,
     droneFacility,
     facilityDropzone,
 
@@ -284,6 +285,12 @@ public class GierBlocks {
             databaseTag = "gier";
             alwaysUnlocked = true;
 
+        }};
+
+        railOverflow = new ConfigGate("rail-overflow"){{
+            requirements(Category.distribution, with(Items.lead, 20, Items.copper, 10));
+            databaseTag = "gier";
+            researchCostMultiplier = 0.15f;
         }};
 
         overheadBelt = new OmniDirectionalBridge("overhead-belt"){{
