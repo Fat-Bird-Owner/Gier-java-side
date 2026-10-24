@@ -56,7 +56,7 @@ public class GierBlocks {
     gierCopperOre,
     gierGraphiteOre,
     ferricBed,
-    ferricRock,
+    ferricPillar,
     
     // Turret
     tension,
@@ -110,7 +110,7 @@ public class GierBlocks {
             variants = 4;
         }};
 
-        ferricRock = new Wall("ferric-rock"){{
+        ferricPillar = new Wall("ferric-pillar"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             health = 1000; 
             requirements(Category.defense, with(Items.sand, 200, Items.graphite,50));
