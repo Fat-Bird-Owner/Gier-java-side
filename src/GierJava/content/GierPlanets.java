@@ -96,7 +96,7 @@ public class GierPlanets {
                 new HexSkyMesh(this, 1, 2.3f, 0.01f, 5, Color.valueOf("a7a9c477"), 3, 0.3f, 1f, 0.1f)
             );
             meshLoader = () -> new HexMesh(this, 5);
-            accessible = false;
+            accessible = true;
             visible = true;
             atmosphereColor = Color.valueOf("1d214ec3");
             iconColor = Color.valueOf("596ab8ff");

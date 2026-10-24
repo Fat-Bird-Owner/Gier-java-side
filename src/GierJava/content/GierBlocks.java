@@ -54,6 +54,7 @@ public class GierBlocks {
 
     // Environement
     gierCopperOre,
+    ferricBed,
     
     // Turret
     tension,
@@ -97,6 +98,10 @@ public class GierBlocks {
             variants = 4;
             itemDrop = Items.copper;
         }};
+
+        ferricBed = new Floor("ferric-bed"){{
+            variants = 4;
+        }}
         
         // Turret
 
