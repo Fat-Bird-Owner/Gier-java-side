@@ -37,6 +37,12 @@ public class BoostPowerTurret extends PowerTurret {
             );
     }
 
+    @Override 
+    public void load(){
+        super.load();
+        consumeItem(boostItem, boostItemAmount).optional(true, true);
+    }
+
     public class BoostPowerTurretBuild extends PowerTurretBuild {
 
         public float boostTimer = 0f;

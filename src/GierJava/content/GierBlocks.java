@@ -145,7 +145,6 @@ public class GierBlocks {
             shootEffect = Fx.none;
 
             boostItem = Items.graphite;
-            consumeItem(boostItem, boostItemAmount).optional(true, true);
 
             requirements(Category.turret, with(
                 Items.lead, 250,
