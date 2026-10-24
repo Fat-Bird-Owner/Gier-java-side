@@ -54,6 +54,7 @@ public class GierBlocks {
 
     // Environement
     gierCopperOre,
+    gierGraphiteOre,
     ferricBed,
     
     // Turret
@@ -99,8 +100,19 @@ public class GierBlocks {
             itemDrop = Items.copper;
         }};
 
+        gierGraphiteOre = new OreBlock("gier-graphite-ore"){{
+            variants = 4;
+            itemDrop = Items.graphite;
+        }};
+
         ferricBed = new Floor("ferric-bed"){{
             variants = 4;
+        }};
+
+        ferricRock = new Wall("ferric-rock"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            health = 1000; 
+            requirements(Category.defense, with(Items.sand, 200, Items.graphite,50));
         }};
         
         // Turret
