@@ -21,6 +21,7 @@ public TextureRegion topRegionInverted;
 public Sound toggleSound = Sounds.click; 
 public final int timerToggle = timers++;
 
+public static final int maxGateChain = 3;
 public static final int underflow = 2;
 public static final int router = 0;
 public static final int overflow = 1;
@@ -66,7 +67,7 @@ public void setStats(){
 
 @Override
 public TextureRegion[] icons(){
-    return new TextureRegion[]{region, topRegion};
+    return new TextureRegion[]{region};
 }
 
 public class ConfigGateBuild extends Building{
@@ -75,6 +76,19 @@ public class ConfigGateBuild extends Building{
     public int mode = router;
     public float progress;
     public @Nullable Item current;
+
+    private boolean isFlowGate(Building build){ 
+        return build != null && build.block instanceof ConfigGateBuild; 
+    }
+
+    private int countGateChain(int dir){ int count = 1; Building next = nearby(dir);
+        while(isFlowGate(next)){
+            count++;
+            next = next.nearby(dir);
+        }
+
+        return count;
+    }
 
     @Override
     public void write(Writes write){
@@ -144,6 +158,15 @@ public class ConfigGateBuild extends Building{
     public boolean acceptItem(Building source, Item item){
         if(source == null || source.team != team) return false;
         if(current != null || items.total() >= itemCapacity) return false;
+
+        int dir = tile.relativeTo(source.tile);
+        if(dir == -1) return false;
+
+        int outputDir = Mathf.mod(dir + 2, 4);
+        if(mode != router && countGateChain(outputDir) >= maxGateChain){
+            return false;
+        }
+
         return tile.relativeTo(source.tile) != -1;
     }
 

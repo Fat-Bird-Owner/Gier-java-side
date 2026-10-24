@@ -291,6 +291,7 @@ public class GierBlocks {
             requirements(Category.distribution, with(Items.lead, 20, Items.copper, 10));
             databaseTag = "gier";
             researchCostMultiplier = 0.15f;
+            baseExplosiveness = 10f;
         }};
 
         overheadBelt = new OmniDirectionalBridge("overhead-belt"){{
@@ -299,6 +300,7 @@ public class GierBlocks {
             range = 5;
 
             customShadow = true;
+            baseExplosiveness = 40f;
 
             envEnabled = -1;
             databaseTag = "gier";
@@ -308,7 +310,8 @@ public class GierBlocks {
         droneFacility = new UnitCargoLoader("drone-facility"){{
             requirements(Category.distribution, with(Items.lead, 150, Items.copper, 100));
             size = 2;
-            
+            baseExplosiveness = 20f;
+
             unitType = GierUnitTypes.carrier;
             customShadow = true;
             databaseTag = "gier";
@@ -323,6 +326,7 @@ public class GierBlocks {
         facilityDropzone = new UnitCargoUnloadPoint("facility-dropzone"){{
             requirements(Category.distribution, with(Items.lead, 200, Items.copper, 150));
             size = 2;
+            baseExplosiveness = 15f;
 
             customShadow = true;
             dumpTime = 1;
@@ -372,7 +376,7 @@ public class GierBlocks {
             consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
             outputItems = with(Items.silicon, 25, GierItems.metaglassChunk, 25);
 
-            baseExplosiveness = 50f;
+            baseExplosiveness = 250f;
             
             envEnabled = -1;
             consumePower(5);
@@ -434,6 +438,7 @@ public class GierBlocks {
             customShadow = true;
             radius = 56f;
 
+            baseExplosiveness = 50f;
             shieldRotation = 45f;
             cooldownNormal = 0.1f;
             shieldHealth = 500f;
@@ -456,6 +461,7 @@ public class GierBlocks {
             range = 11;
             baseColor = Pal.accent;
 
+            baseExplosiveness = 25f;
             consumePowerBuffered(100f);
             
             envEnabled = -1;
