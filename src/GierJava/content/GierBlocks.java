@@ -56,6 +56,7 @@ public class GierBlocks {
     gierCopperOre,
     gierGraphiteOre,
     ferricBed,
+    ferricRock,
     
     // Turret
     tension,
