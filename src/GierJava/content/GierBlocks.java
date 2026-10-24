@@ -101,7 +101,7 @@ public class GierBlocks {
 
         ferricBed = new Floor("ferric-bed"){{
             variants = 4;
-        }}
+        }};
         
         // Turret
 
