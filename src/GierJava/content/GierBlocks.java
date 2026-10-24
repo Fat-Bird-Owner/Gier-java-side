@@ -478,6 +478,8 @@ public class GierBlocks {
             databaseTag = "gier";
             researchCostMultiplier = 0.05f;
 
+            baseExplosiveness = 10f;
+
             powerProduction = 0.166667f;
             alwaysUnlocked = true;
             drawer = new DrawMulti(
@@ -495,6 +497,7 @@ public class GierBlocks {
             databaseTag = "gier";
             researchCostMultiplier = 0.05f;
 
+            baseExplosiveness = 20f;
             consumeItem(Items.graphite);
             powerProduction = 1.5f;
 
