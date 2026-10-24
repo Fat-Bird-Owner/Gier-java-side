@@ -78,7 +78,7 @@ public class ConfigGateBuild extends Building{
     public @Nullable Item current;
 
     private boolean isFlowGate(Building build){ 
-        return build != null && build.block instanceof ConfigGateBuild; 
+        return build != null && build instanceof ConfigGateBuild; 
     }
 
     private int countGateChain(int dir){ int count = 1; Building next = nearby(dir);
