@@ -107,7 +107,6 @@ public class GierPlanets {
             orbitRadius = 120f;
             orbitSpacing = 12f;
             defaultEnv = Env.underwater | Env.terrestrial;
-            techTree = gier.techTree;
         }};
 
         gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
