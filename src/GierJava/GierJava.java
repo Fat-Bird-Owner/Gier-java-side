@@ -10,6 +10,7 @@ import arc.Events;
 
 import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
+import arc.func.Cons;
 
 import static mindustry.Vars.*;
 
@@ -27,7 +28,7 @@ public class GierJava extends Mod{
 
     }
 
-    public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<t> replacer){
+    public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<T> replacer){
         replacer.get((T) target);
     }
 
