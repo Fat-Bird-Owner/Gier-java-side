@@ -55,7 +55,9 @@ public class GierBlocks {
     // Environement
     gierCopperOre,
     gierGraphiteOre,
+    denseStone,
     ferricBed,
+    smoothBasalt,
     ferricPillar,
     
     // Turret
@@ -102,14 +104,22 @@ public class GierBlocks {
         }};
 
         gierGraphiteOre = new OreBlock("gier-graphite-ore"){{
-            variants = 4;
+            variants = 3;
             itemDrop = Items.graphite;
         }};
 
+        denseStone = new Floor("dense-ston"){{
+            variants = 3;
+        }};
+        
+        smoothBasalt = new Floor("smooth-basalt"){{
+            variants = 3;
+        }};
+        
         ferricBed = new Floor("ferric-bed"){{
             variants = 4;
         }};
-
+        
         ferricPillar = new Wall("ferric-pillar"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             health = 1000; 
