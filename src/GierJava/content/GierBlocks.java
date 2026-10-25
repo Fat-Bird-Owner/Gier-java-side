@@ -135,7 +135,11 @@ public class GierBlocks {
 
         massiveStoneBoulder = new TallBlock("massive-stone-boulder"){{
             rotationRand = 75f;
-            shadowAlpha = 1f;
+            shadowAlpha = 0.6f;
+            shadowOffset = -1.5f;
+            fillsTile = false;
+            layer = 81f;
+            shadowLayer = 71f;
         }};
         
         // Turret
