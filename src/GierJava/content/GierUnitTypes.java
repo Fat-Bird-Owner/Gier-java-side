@@ -40,7 +40,7 @@ public class GierUnitTypes {
     public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class}, genIO = false) UnitType carrier;
 
     // Test
-    public static @EntityDef(value = {Unitc.class, Segmentc.class, Legsc.class}, genIO = false) UnitType worship;
+    public static @EntityDef(value = {Unitc.class, Segmentc.class}, genIO = false) UnitType worship;
     
     public static void load(){
         restoration = new UnitType("restoration"){{
