@@ -38,9 +38,6 @@ public class GierUnitTypes {
     
     // Internals
     public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class}, genIO = false) UnitType carrier;
-
-    // Test
-    public static @EntityDef(value = {Unitc.class, Segmentc.class, Legsc.class}, genIO = false) UnitType worship, worshipSegment;
     
     public static void load(){
         restoration = new UnitType("restoration"){{
@@ -225,27 +222,6 @@ public class GierUnitTypes {
                 controller = u -> new CargoAI();
                 playerControllable = false;
                 logicControllable = false;
-            }};
-
-            worship = new UnitType("worship"){{
-                speed = 4f;
-                hitSize = 5f;
-                rotateSpeed = 3f;
-                legStraightness = 0.4f;
-                legCount = 6;
-                legLength = 8f;
-                lockLegBase = true;
-                segmentUnits = 10;
-                segmentUnit = worshipSegment;
-            }};
-
-            worship = new UnitType("worship-segment"){{
-                speed = 4f;
-                hitSize = 5f;
-                rotateSpeed = 3f;
-                legStraightness = 0.4f;
-                legCount = 6;
-                legLength = 8f;
             }};
 
         EntityRegistry.registerUnits();

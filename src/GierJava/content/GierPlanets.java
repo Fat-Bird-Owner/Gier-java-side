@@ -47,7 +47,7 @@ public class GierPlanets {
 
         erekir = new Planet("erekir", sun, 1f, 2){{
             generator = new ErekirPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 6);
+            meshLoader = () -> new HexMesh(this, 4);
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 2, 0.15f, 0.14f, 6, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
                 new HexSkyMesh(this, 3, 0.6f, 0.15f, 6, Color.valueOf("eea293").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
@@ -56,6 +56,7 @@ public class GierPlanets {
             atmosphereColor = Color.valueOf("f07218");
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
+            hasAtmosphere = false;
             tidalLock = true;
             orbitSpacing = 25f;
             totalRadius += 36f;
@@ -74,7 +75,7 @@ public class GierPlanets {
             loadPlanetData = true;
             generator = new SerpuloPlanetGenerator();
             accessible = false;
-            meshLoader = () -> new HexMesh(this, 6);
+            meshLoader = () -> new HexMesh(this, 4);
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 11, 0.15f, 0.13f, 6, new Color().set(Pal.spore).mul(0.9f).a(0.75f), 2, 0.45f, 0.9f, 0.38f),
                 new HexSkyMesh(this, 1, 0.6f, 0.16f, 6, Color.white.cpy().lerp(Pal.spore, 0.55f).a(0.75f), 2, 0.45f, 1f, 0.41f)
@@ -91,9 +92,9 @@ public class GierPlanets {
         kela = new Planet("kela", sun, 0.85f, 2){{
             generator = new TantrosPlanetGenerator();
             cloudMeshLoader = () -> new MultiMesh(
-                new HexSkyMesh(this, 2, 1.01f, 0.15f, 5, Color.valueOf("a7a9c4"), 2, 0.6f, 0.9f, 0.25f),
-                new HexSkyMesh(this, 1, 1.01f, 0.1f, 5, Color.valueOf("767aa6bd"), 2, 0.45f, 1f, 0.45f),
-                new HexSkyMesh(this, 1, 2.3f, 0.01f, 5, Color.valueOf("a7a9c477"), 3, 0.3f, 1f, 0.1f)
+                new HexSkyMesh(this, 2, 1.01f, 0.15f, 6, Color.valueOf("a7a9c4"), 2, 0.6f, 0.9f, 0.25f),
+                new HexSkyMesh(this, 1, 1.01f, 0.1f, 6, Color.valueOf("767aa6bd"), 2, 0.45f, 1f, 0.45f),
+                new HexSkyMesh(this, 1, 2.3f, 0.01f, 6, Color.valueOf("a7a9c477"), 3, 0.3f, 1f, 0.1f)
             );
             meshLoader = () -> new HexMesh(this, 5);
             accessible = true;
@@ -106,6 +107,7 @@ public class GierPlanets {
             orbitRadius = 120f;
             orbitSpacing = 12f;
             defaultEnv = Env.underwater | Env.terrestrial;
+            techTree = gier.techTree;
         }};
 
         gier = makeAsteroid("gier", erekir, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 24, 3f, gen -> {
