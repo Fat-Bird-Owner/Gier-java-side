@@ -236,7 +236,7 @@ public class GierUnitTypes {
                 legLength = 8f;
                 lockLegBase = true;
                 segmentUnits = 10;
-                segmentUnit = UnitTypes.merui;
+                segmentUnit = UnitTypes.mace;
             }};
 
         EntityRegistry.registerUnits();
