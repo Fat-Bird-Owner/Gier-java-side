@@ -60,7 +60,8 @@ public class GierBlocks {
     smoothBasalt,
     ferricPillar,
     balloonTree,
-    
+    largeBalloonTree,
+
     // Turret
     tension,
 
@@ -127,8 +128,10 @@ public class GierBlocks {
             requirements(Category.defense, with(Items.sand, 200, Items.graphite,50));
         }};
 
-        balloonTree = new TreeBlock("balloon-tree");
+        balloonTree = new TallBlock("balloon-tree");
         
+        largeBalloonTree = new TallBlock("large-balloon-tree");
+
         // Turret
 
         tension = new BoostPowerTurret("tension"){{
