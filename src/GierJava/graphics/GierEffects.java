@@ -9,7 +9,7 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
-import mindustry.entities.effect.ParticleEffect;
+import mindustry.entities.effect.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;

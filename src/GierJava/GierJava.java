@@ -27,7 +27,7 @@ public class GierJava extends Mod{
     @Override 
     public void init(){
         Events.on(EventType.clientLoadEvent.class, () -> {
-            Vars.content.block("basalt-vent").effect = GierEffects.ventSmoke;
+            content.block("basalt-vent").effect = GierEffects.ventSmoke;
         });
     }
 

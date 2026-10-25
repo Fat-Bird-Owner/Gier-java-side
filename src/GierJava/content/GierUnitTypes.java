@@ -60,7 +60,7 @@ public class GierUnitTypes {
 
             engineSize = 0f;
             hitSize = 14f;
-            EnvEnabled = -1;
+            envEnabled = -1;
 
             engines.addAll(Seq.with(
             new UnitEngine(-4f, 0f, 2f, 0f),
@@ -78,7 +78,7 @@ public class GierUnitTypes {
         accel = 0.04f;
         drag = 0.02f;
 
-        EnvEnabled = -1;
+        envEnabled = -1;
 
         hitSize = 7f;
         omniMovement = false;
@@ -197,7 +197,7 @@ public class GierUnitTypes {
                 speed = 3.5f;
                 health = 110f;
 
-                EnvEnabled = -1;
+                envEnabled = -1;
 
                 flying = true;
                 outlineRadius = 0;
