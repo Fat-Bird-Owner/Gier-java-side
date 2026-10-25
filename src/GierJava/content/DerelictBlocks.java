@@ -54,8 +54,9 @@ public class DerelictBlocks {
 
     public static void load(){
 
-        derelictScrapWall = new Wall("derelict-scrap-wall"){{
+        derelictScrapWall = new Wall("dense-scrap-wall"){{
             requirements(Category.defense, with(Items.scrap, 25));
+            health = 500;
             buildTime = 360;
         }};
 
