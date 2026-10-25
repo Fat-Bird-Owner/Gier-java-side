@@ -7,6 +7,8 @@ import GierJava.content.*;
 import GierJava.gen.*;
 import mindustry.game.EventType;
 import arc.Events;
+
+import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
 
 import static mindustry.Vars.*;
@@ -25,10 +27,14 @@ public class GierJava extends Mod{
 
     }
 
+    public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<t> replacer){
+        replacer.get((T) target);
+    }
+
     @Override 
     public void init(){
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            Blocks.basaltVent.effect = GierEffects.ventSmoke;
+            replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
         });
     }
 
