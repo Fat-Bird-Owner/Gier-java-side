@@ -7,7 +7,7 @@ import GierJava.content.*;
 import GierJava.gen.*;
 import mindustry.game.EventType;
 import arc.Events;
-import mindustry.content.Blocks.*;
+import mindustry.content.Blocks;
 
 import static mindustry.Vars.*;
 
@@ -27,7 +27,7 @@ public class GierJava extends Mod{
 
     @Override 
     public void init(){
-        Events.on(EventType.ClientLoadEvent.class, () -> {
+        Events.on(EventType.ClientLoadEvent.class, e -> {
             Blocks.basaltVent.effect = GierEffects.ventSmoke;
         });
     }
