@@ -28,8 +28,8 @@ public class GierEffects {
     public static final Effect 
     
     ventSmoke = new ParticleEffect(){{
-        colorFrom = Color.valueOf("60606000");
-        colorTo = Color.valueOf("363636c2");
+        colorFrom = Color.valueOf("363636c2");
+        colorTo = Color.valueOf("60606000");
         cone = 10f;
         length = 180f;
         lifetime = 260f;

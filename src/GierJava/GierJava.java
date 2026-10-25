@@ -37,6 +37,7 @@ public class GierJava extends Mod{
     public void init(){
         Events.on(EventType.ClientLoadEvent.class, e -> {
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
+            replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
         });
     }
 
