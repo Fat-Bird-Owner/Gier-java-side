@@ -61,6 +61,7 @@ public class GierBlocks {
     ferricPillar,
     balloonTree,
     largeBalloonTree,
+    massiveStoneBoulder,
 
     // Turret
     tension,
@@ -132,6 +133,11 @@ public class GierBlocks {
         
         largeBalloonTree = new TallBlock("large-balloon-tree");
 
+        massiveStoneBoulder = new TallBlock("massive-stone-boulder"){{
+            rotationRand = 75f;
+            shadowAlpha = 1f;
+        }};
+        
         // Turret
 
         tension = new BoostPowerTurret("tension"){{
