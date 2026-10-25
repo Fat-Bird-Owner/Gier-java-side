@@ -8,7 +8,7 @@ import GierJava.gen.*;
 import mindustry.game.EventType;
 import arc.Events;
 
-import static mindustry.Vars;
+import static mindustry.Vars.*;
 
 public class GierJava extends Mod{
     @Override

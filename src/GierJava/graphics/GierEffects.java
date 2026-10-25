@@ -1,4 +1,4 @@
-package mindustry.content;
+package GierJava.graphics;
 
 import arc.*;
 import arc.graphics.*;
@@ -9,7 +9,7 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
-import mindustry.entities.effects.*;
+import mindustry.entities.effects.ParticleEffect;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
