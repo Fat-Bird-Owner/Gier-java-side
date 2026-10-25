@@ -239,7 +239,7 @@ public class GierUnitTypes {
                 segmentUnit = worshipSegment;
             }};
 
-            worship = new UnitType("worship"){{
+            worship = new UnitType("worship-segment"){{
                 speed = 4f;
                 hitSize = 5f;
                 rotateSpeed = 3f;
