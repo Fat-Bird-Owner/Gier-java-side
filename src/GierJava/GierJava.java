@@ -1,9 +1,14 @@
 package GierJava;
 
+import GierJava.graphics.GierEffects;
 import mindustry.mod.*;
 import arc.Events;
 import GierJava.content.*;
 import GierJava.gen.*;
+import mindustry.game.EventType;
+import arc.Events;
+
+import static mindustry.Vars;
 
 public class GierJava extends Mod{
     @Override
@@ -18,4 +23,12 @@ public class GierJava extends Mod{
         GierTechTree.load();
 
     }
+
+    @Override 
+    public void init(){
+        Events.on(EventType.clientLoadEvent.class, () -> {
+            Vars.content.block("basalt-vent").effect = GierEffects.ventSmoke;
+        });
+    }
+
 }
