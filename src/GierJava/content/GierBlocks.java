@@ -108,7 +108,7 @@ public class GierBlocks {
             itemDrop = Items.graphite;
         }};
 
-        denseStone = new Floor("dense-ston"){{
+        denseStone = new Floor("dense-stone"){{
             variants = 3;
         }};
         
