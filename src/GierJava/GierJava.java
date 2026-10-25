@@ -25,6 +25,7 @@ public class GierJava extends Mod{
         GierItems.load();
         GierUnitTypes.load();
         GierBlocks.load();
+        DerelictBlocks.load();
         GierTechTree.load();
 
     }
@@ -39,6 +40,10 @@ public class GierJava extends Mod{
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             GierPlanets.kela.techTree = GierPlanets.gier.techTree;
+            GierPlanets.gier.techTree.each(n -> {
+                n.content.shownPlanets.add(GierPlanets.kela);
+            });
+
         });
     }
 
