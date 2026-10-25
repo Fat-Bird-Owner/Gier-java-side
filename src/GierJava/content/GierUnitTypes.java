@@ -24,6 +24,7 @@ import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.ai.types.*;
+import mindustry.content.UnitTypes;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
@@ -38,6 +39,9 @@ public class GierUnitTypes {
     // Internals
     public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class}, genIO = false) UnitType carrier;
 
+    // Test
+    public static @EntityDef(value = {Unitc.class, Segmentc.class, Legsc.class}, genIO = false) UnitType worship;
+    
     public static void load(){
         restoration = new UnitType("restoration"){{
             speed = 3.5f;
@@ -221,6 +225,18 @@ public class GierUnitTypes {
                 controller = u -> new CargoAI();
                 playerControllable = false;
                 logicControllable = false;
+            }};
+
+            worship = new UnitType("worship"){{
+                speed = 4f;
+                hitSize = 5f;
+                rotateSpeed = 3f;
+                legStraightness = 0.4f;
+                legCount = 6;
+                legLength = 8f;
+                lockLegBase = true;
+                segmentUnits = 10;
+                segmentUnit = UnitTypes.merui;
             }};
 
         EntityRegistry.registerUnits();
