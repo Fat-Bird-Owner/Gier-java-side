@@ -129,11 +129,13 @@ public class MultiCrafterBuild extends Building{
             final int index = i;
 
             final Button button = new Button();
-            button.add(new Image(Core.atlas.find(recipes[i].icon))).size(120f, 50f);
+            button.add(new Image(Core.atlas.find(recipes[i].icon)))
 
             button.clicked(() -> {
                 configure(index);
             });
+
+            table.add(button).size(120f, 50f);
 
         }
     }
