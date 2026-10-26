@@ -440,9 +440,9 @@ public class GierBlocks {
             databaseTag = "gier";
             baseExplosiveness = 150f;
             itemCapacity = 40;
-            
+
             recipes = new MultiCrafter.Recipe[]{
-                new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(Items.metaglass, 20), 100f, "item-lead"),
+                new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(Items.metaglass, 20), 100f, "item-metaglass"),
             };
 
             envEnabled = -1;

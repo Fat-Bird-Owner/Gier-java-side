@@ -52,7 +52,7 @@ public class MultiCrafter extends Block{
                 for(int i = 0; i < recipes.length; i++){
 
                     final int index = i;
-                table.table(Styles.black3, cont -> {
+                table.table(Styles.grayt, cont -> {
 
                     Recipe recipe = recipes[index];
 
@@ -63,7 +63,7 @@ public class MultiCrafter extends Block{
                     cont.row();
 
                     for(ItemStack stack : recipe.input){
-                        cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                        cont.image(stack.item.uiIcon).size(24f);
                         cont.add(" " + stack.amount + "x " + stack.item.localizedName).left();
                         cont.row();
                     }
@@ -72,7 +72,7 @@ public class MultiCrafter extends Block{
                         cont.row();
 
                             for(ItemStack stack : recipe.output){
-                                    cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                                    cont.image(stack.item.uiIcon).size(24f);
                                     cont.add(" " + stack.amount + "x " + stack.item.localizedName);
                                     cont.row();
                             }
@@ -125,8 +125,9 @@ public class MultiCrafterBuild extends Building{
     @Override
     public void updateTile(){
         Recipe r = recipe();
-        if(!canCraft(r)) return;
+        dumpOutputs(r);
 
+        if(!canCraft(r)) return;
         progress += edelta();
 
         if(progress >= r.craftTime){
@@ -141,7 +142,6 @@ public class MultiCrafterBuild extends Building{
             progress = 0f;
         }
 
-        dumpOutputs(r);
     }
 
     public void dumpOutputs(Recipe r){
@@ -166,7 +166,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public int getMaximumAccepted(Item item){
-            return itemCapacity;
+        return itemCapacity;
     }
 
     @Override
