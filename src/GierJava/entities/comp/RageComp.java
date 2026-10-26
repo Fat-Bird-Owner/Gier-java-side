@@ -3,6 +3,7 @@ package GierJava.entities.comp;
 import ent.anno.Annotations.*;
 import mindustry.gen.*;
 import mindustry.content.StatusEffects;
+import mindustry.entities.comp.*;
 
 import static arc.Core.*;
 
@@ -13,8 +14,8 @@ abstract class RageComp implements Healthc{
     @Override
     public void update(){
         super.update();
-    if (!enraged && isValid() && this.health <= this.maxHealth / 2f){
-        this.apply(StatusEffects.boss);
+    if (!enraged && isValid() && health <= maxHealth / 2f){
+        apply(StatusEffects.boss);
         enraged = true;
     }}
 

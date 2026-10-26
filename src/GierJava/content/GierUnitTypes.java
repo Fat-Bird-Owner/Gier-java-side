@@ -300,11 +300,13 @@ public class GierUnitTypes {
                     x = -4f;
             }});
 
+            /*
             abilities.add(new MoveLightningAbility(){{
                     heatRegion = "gier-java-ash-full";
                     chance = 0f;
                     color = Color.valueOf("ffffff77");
             }});
+            */
 
             abilities.add(new ShieldRegenFieldAbility(30f, 300f, 180f, 0f));
 
@@ -313,7 +315,7 @@ public class GierUnitTypes {
                     shootStatus = StatusEffects.slow;
                     shootStatusDuration = 70f;
                     chargeSound = Sounds.chargeVela;
-                    shootSound = Sounds.ashArtilleryShoot;
+                    //shootSound = Sounds.ashArtilleryShoot;
                     shoot.firstShotDelay = 90f;
 
                     parts.add(new ShapePart(){{
@@ -362,7 +364,7 @@ public class GierUnitTypes {
                         new WrapEffect(Fx.scatheExplosionSmall, Color.valueOf("ffaa5f")),
                         new WrapEffect(Fx.titanExplosion, Color.valueOf("ffaa5f77"))
                     );
-                        hitSound = Sounds.ashArtilleryHit;
+                        //hitSound = Sounds.ashArtilleryHit;
                     }};
             }});
 
