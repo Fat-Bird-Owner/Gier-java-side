@@ -131,7 +131,7 @@ public class MultiCrafterBuild extends Building{
             final Button button = new Button();
             button.add(new Image(Core.atlas.find(recipes[i].icon))).size(120f, 50f);
 
-            button.clicked(b -> {
+            button.clicked(() -> {
                 configure(index);
             });
 
