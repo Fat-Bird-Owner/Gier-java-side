@@ -14,6 +14,7 @@ import arc.scene.ui.layout.Table;
 import arc.scene.ui.*;
 import mindustry.gen.Unit;
 import mindustry.ui.Styles;
+import mindustry.world.draw.*;
 
 public class MultiCrafter extends Block{
 
@@ -96,6 +97,11 @@ public MultiCrafter(String name){
 public class MultiCrafterBuild extends Building{
     public int recipeIndex = defaultRecipe;
     public float progress;
+
+    @Override 
+    public void draw(){
+        drawer.draw(this);
+    }
 
     public Recipe recipe(){
         if(recipes == null || recipes.length == 0) return null;
