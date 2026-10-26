@@ -191,7 +191,7 @@ public class GierUnitTypes {
 
                 trailLength = 20;
                 trailWidth = 0.5f;
-                trailColor = Color.valueOf("2f2f3f");
+                trailColor = Color.valueOf("FFD280FF");
                 layer = 92f;
                 lightOpacity = 0f;
             }};
@@ -203,7 +203,7 @@ public class GierUnitTypes {
             flying = true;
             speed = 2.5f;
             accel = 0.025f;
-            health = 475f;
+            health = 500f;
             drag = 0.015f;
             hitSize = 12f;
             createWreck = true;
@@ -268,7 +268,7 @@ public class GierUnitTypes {
             hitSize = 12.5f;
             omniMovement = false;
             rotateSpeed = 3.5f;
-            health = 750f;
+            health = 1250f;
             engineOffset = 6f;
             engineSize = 0f;
             drawSoftShadow = false;
