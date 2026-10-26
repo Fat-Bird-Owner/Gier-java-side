@@ -442,8 +442,9 @@ public class GierBlocks {
             craftTime = 100f;
 
             itemCapacity = 40;
-            consumeItems(with(GierItems.metaglassChunk, 20));
-            outputItems = with(Items.metaglass, 20);
+            recipes = new MultiCrafter.Recipe[]{
+                new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(Items.metaglass, 20), 100f, "item-lead"),
+            };
 
             envEnabled = -1;
             consumePower(5);
@@ -467,17 +468,6 @@ public class GierBlocks {
             }},
             new DrawDefault()
             );
-        }};
-
-        multiCraft = new MultiCrafter("multi-craft"){{
-            requirements(Category.defense, with(Items.copper, 250, Items.lead, 500));
-            size = 4;
-
-            recipes = new MultiCrafter.Recipe[]{
-                new MultiCrafter.Recipe(with(Items.copper, 5), with(Items.lead, 5), 180f, "item-lead"),
-                new MultiCrafter.Recipe(with(Items.sand, 5, Items.lead, 5), with(Items.metaglass, 5), 180f, "item-metaglass")
-            };
-
         }};
 
         // Defense

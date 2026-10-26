@@ -17,6 +17,8 @@ import mindustry.ui.Styles;
 
 public class MultiCrafter extends Block{
 
+    public DrawBlock drawer = new DrawDefault();
+
     public static class Recipe{
         public ItemStack[] input;
         public ItemStack[] output;
@@ -33,6 +35,12 @@ public class MultiCrafter extends Block{
     public Recipe[] recipes;
     public int defaultRecipe = 0;
 
+    @Override 
+    public void load(){
+        super.load();
+        drawer.load();
+    }
+
     @Override
         public void setStats(){
             super.setStats();
@@ -43,7 +51,7 @@ public class MultiCrafter extends Block{
                 for(int i = 0; i < recipes.length; i++){
 
                     final int index = i;
-                table.table(Styles.black6, cont -> {
+                table.table(Styles.black3, cont -> {
 
                     Recipe recipe = recipes[index];
 
@@ -69,7 +77,7 @@ public class MultiCrafter extends Block{
                             }
 
                         cont.add("[lightgray]Craft time:[] " + recipe.craftTime / 60f + " seconds").left();
-                }).pad(6f);
+                }).pad(6f).row();
             }
 
         });
@@ -169,6 +177,11 @@ public class MultiCrafterBuild extends Building{
             });
 
         }
+    }
+
+    @Override
+    public float warmup(){
+        return canCraft(recipe[recipeIndex]) ? 1f : 0f;
     }
 
     @Override
