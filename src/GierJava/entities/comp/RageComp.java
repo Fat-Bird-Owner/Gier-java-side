@@ -13,8 +13,8 @@ abstract class RageComp implements Healthc{
     @Override
     public void update(){
         super.update();
-    if (!enraged && isValid() && health <= maxHealth / 2f){
-        apply(StatusEffects.boss);
+    if (!enraged && isValid() && this.health <= this.maxHealth / 2f){
+        this.apply(StatusEffects.boss);
         enraged = true;
     }}
 

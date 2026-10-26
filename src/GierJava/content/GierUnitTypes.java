@@ -25,6 +25,9 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.ai.types.*;
 import mindustry.content.UnitTypes;
+import mindustry.gen.Sounds;
+import mindustry.entities.abilities.*;
+import mindustry.entities.pattern.*;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
