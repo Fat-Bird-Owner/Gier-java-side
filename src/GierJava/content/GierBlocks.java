@@ -79,6 +79,7 @@ public class GierBlocks {
     // Crafting
     sunderFurnace,
     industrialTrimmer,
+    multiCraft,
 
     // Defense
     copperFort,
@@ -466,6 +467,16 @@ public class GierBlocks {
             }},
             new DrawDefault()
             );
+        }};
+
+        multiCraft = new MultiCrafter("multi-craft"){{
+            requirements(Category.defense, with(Items.copper, 250, Items.lead, 500));
+            size = 4;
+
+            recipes = new MultiCrafter.Recipe[]{
+                new MultiCrafter.Recipe(with(Items.copper, 5), with(Items.lead, 5), 180f, "item-lead")
+            };
+
         }};
 
         // Defense
