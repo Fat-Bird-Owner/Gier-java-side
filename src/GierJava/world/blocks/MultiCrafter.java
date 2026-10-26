@@ -133,7 +133,7 @@ public class MultiCrafterBuild extends Building{
 
             button.clicked(b -> {
                 configure(index);
-            })
+            });
 
         }
     }
