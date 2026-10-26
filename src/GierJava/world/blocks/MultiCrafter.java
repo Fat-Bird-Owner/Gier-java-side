@@ -11,6 +11,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.Block;
 import arc.Core;
 import arc.scene.ui.layout.Table;
+import arc.scene.ui.Image;
 import mindustry.gen.Unit;
 
 public class MultiCrafter extends Block{
@@ -126,7 +127,8 @@ public class MultiCrafterBuild extends Building{
     public void buildConfiguration(Table table){
         for(int i = 0; i < recipes.length; i++){
             final int index = i;
-            table.button(Core.atlas.find(recipes[i].icon), () -> {
+
+            table.button(new Image(ore.atlas.find(recipes[i].icon)), () -> {
                 configure(index);
             }).size(120f, 50f);
         }
