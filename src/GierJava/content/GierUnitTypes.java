@@ -228,7 +228,7 @@ public class GierUnitTypes {
                     shootCone = 15f;
                     reload = 10f;
                     inaccuracy = 20f;
-                    mineShootVelocity = 0.5f;
+                    minShootVelocity = 0.5f;
 
                     bullet = new ArtilleryBulletType(2f, 0f){{
                             spin = 12f;
