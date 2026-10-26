@@ -62,6 +62,7 @@ public class DerelictBlocks {
 
         derelictScrapWallLarge = new Wall("large-dense-scrap-wall"){{
             requirements(Category.defense, with(Items.scrap, 100));
+            size = 2;
             health = 2000;
             buildTime = 360*4;
         }};
