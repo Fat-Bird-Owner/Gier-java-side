@@ -35,7 +35,7 @@ public class GierUnitTypes {
     
     // Exogen units
     spark,
-    drive,
+    drive;
     
     public static @EntityDef(value = {Unitc.class, Ragec.class}, genIO = false) UnitType ash;
     
