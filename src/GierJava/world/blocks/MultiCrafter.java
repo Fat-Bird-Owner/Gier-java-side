@@ -1,4 +1,4 @@
-package example;
+package GierJava.world.blocks;
 
 import arc.util.io.Reads; 
 import arc.util.io.Writes; 
@@ -8,19 +8,20 @@ import mindustry.type.Item;
 import mindustry.type.ItemStack; 
 import mindustry.content.Items; 
 import mindustry.world.meta.BuildVisibility; 
-import mindustry.world.meta.Category; 
 import mindustry.world.Block;
 import arc.Core;
+import arc.scene.ui.layout.Table;
+import mindustry.gen.Unit;
 
 public class MultiCrafter extends Block{
 
     public static class Recipe{
         public ItemStack[] input;
         public ItemStack[] output;
-        public string icon = "null";
+        public String icon = "null";
         public float craftTime = 60f;
 
-    public Recipe(ItemStack[] input, ItemStack[] output, float craftTime, string icon){
+    public Recipe(ItemStack[] input, ItemStack[] output, float craftTime, String icon){
         this.input = input;
         this.output = output;
         this.craftTime = craftTime;
