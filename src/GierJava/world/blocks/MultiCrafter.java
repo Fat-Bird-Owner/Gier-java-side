@@ -194,6 +194,11 @@ public class MultiCrafterBuild extends Building{
     }
 
     @Override
+    public float totalProgress(){
+        return progress / recipe().craftTime;
+    }
+
+    @Override
     public void configured(Unit unit, Object value){
         if(value instanceof Integer){
             recipeIndex = (int)value;
