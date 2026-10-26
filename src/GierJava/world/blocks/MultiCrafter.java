@@ -52,7 +52,7 @@ public class MultiCrafter extends Block{
                 for(int i = 0; i < recipes.length; i++){
 
                     final int index = i;
-                table.table(Styles.grayt, cont -> {
+                table.table(Styles.black3, cont -> {
 
                     Recipe recipe = recipes[index];
 
