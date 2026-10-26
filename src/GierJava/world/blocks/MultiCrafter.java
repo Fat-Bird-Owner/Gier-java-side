@@ -13,6 +13,7 @@ import arc.Core;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.*;
 import mindustry.gen.Unit;
+import mindustry.ui.Styles;
 
 public class MultiCrafter extends Block{
 
