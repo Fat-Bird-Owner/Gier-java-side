@@ -126,7 +126,9 @@ public class MultiCrafterBuild extends Building{
     public void buildConfiguration(Table table){
         for(int i = 0; i < recipes.length; i++){
             final int index = i;
-            table.button(Core.atlas.find(recipes[i].icon)).size(120f, 50f);
+            table.button(Core.atlas.find(recipes[i].icon), () -> {
+                configure(index);
+            }).size(120f, 50f);
         }
     }
 
