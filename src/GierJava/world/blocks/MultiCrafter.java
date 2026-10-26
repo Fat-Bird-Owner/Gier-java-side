@@ -40,34 +40,36 @@ public class MultiCrafter extends Block{
                 if(recipes == null) return;
 
                 for(int i = 0; i < recipes.length; i++){
+                table.table(Styles.black6, cont -> {
+
                     Recipe recipe = recipes[i];
 
-                    table.row();
-                    table.add("[accent]Recipe " + (i + 1) + "[]").left();
-                    table.row();
+                    cont.add("[accent]Recipe " + (i + 1) + "[]").left();
+                    cont.row();
 
-                    table.add("[lightgray]Input:[]").left();
-                    table.row();
+                    cont.add("[lightgray]Input:[]").left();
+                    cont.row();
 
                     for(ItemStack stack : recipe.input){
-                        table.image(stack.item.uiIcon).size(24f);
-                        table.add(" " + stack.amount + "x " + stack.item.localizedName).left();
-                        table.row();
+                        cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                        cont.add(" " + stack.amount + "x " + stack.item.localizedName).left();
+                        cont.row();
                     }
 
-                        table.add("[lightgray]Output:[]").left();
-                        table.row();
+                        cont.add("[lightgray]Output:[]").left();
+                        cont.row();
 
                             for(ItemStack stack : recipe.output){
-                                    table.image(stack.item.uiIcon).size(24f);
-                                    table.add(" " + stack.amount + "x " + stack.item.localizedName).left();
-                                    table.row();
+                                    cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                                    cont.add(" " + stack.amount + "x " + stack.item.localizedName);
+                                    cont.row();
                             }
 
-                        table.add("[lightgray]Craft time:[] " + recipe.craftTime / 60f + " seconds").left();
-                        table.row();
-                }
-            });
+                        cont.add("[lightgray]Craft time:[] " + recipe.craftTime / 60f + " seconds").left();
+                }).pad(6f);
+            }
+
+        });
     }
 
 public MultiCrafter(String name){

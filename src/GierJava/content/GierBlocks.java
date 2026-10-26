@@ -474,7 +474,8 @@ public class GierBlocks {
             size = 4;
 
             recipes = new MultiCrafter.Recipe[]{
-                new MultiCrafter.Recipe(with(Items.copper, 5), with(Items.lead, 5), 180f, "item-lead")
+                new MultiCrafter.Recipe(with(Items.copper, 5), with(Items.lead, 5), 180f, "item-lead"),
+                new MultiCrafter.Recipe(with(Items.sand, 5, Items.lead, 5), with(Items.metaglass, 5), 180f, "item-metaglass")
             };
 
         }};
