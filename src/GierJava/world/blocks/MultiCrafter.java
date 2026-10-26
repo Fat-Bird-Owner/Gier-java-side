@@ -121,6 +121,33 @@ public class MultiCrafterBuild extends Building{
 
             progress = 0f;
         }
+
+        dumpOutputs(r);
+    }
+
+    public void dumpOutputs(Recipe r){
+        for (ItemStack stack : r.output){
+            dump(stack.item);
+        }
+    }
+
+    @Override
+    public boolean acceptItem(Building source, Item item){
+            Recipe r = recipe();
+            if(r == null) return false;
+
+            for(ItemStack stack : r.input){
+                    if(stack.item == item && items.get(item) < itemCapacity){
+                            return true;
+                    }
+            }
+
+            return false;
+    }
+
+    @Override
+    public int getMaximumAccepted(Item item){
+            return itemCapacity;
     }
 
     @Override
