@@ -7,11 +7,11 @@ import mindustry.gen.Building;
 import mindustry.type.Item; 
 import mindustry.type.ItemStack; 
 import mindustry.content.Items; 
-import mindustry.world.meta.BuildVisibility; 
+import mindustry.world.meta.*; 
 import mindustry.world.Block;
 import arc.Core;
 import arc.scene.ui.layout.Table;
-import arc.scene.ui.Image;
+import arc.scene.ui.*;
 import mindustry.gen.Unit;
 
 public class MultiCrafter extends Block{
@@ -128,9 +128,13 @@ public class MultiCrafterBuild extends Building{
         for(int i = 0; i < recipes.length; i++){
             final int index = i;
 
-            table.button(new Image(ore.atlas.find(recipes[i].icon)), () -> {
+            final Button button = new Button();
+            button.add(new Image(Core.atlas.find(recipes[i].icon))).size(120f, 50f);
+
+            button.clicked(b -> {
                 configure(index);
-            }).size(120f, 50f);
+            })
+
         }
     }
 
