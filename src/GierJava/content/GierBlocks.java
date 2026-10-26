@@ -432,7 +432,7 @@ public class GierBlocks {
 
         }};
         
-        industrialTrimmer = new GenericCrafter("industrial-trimmer"){{
+        industrialTrimmer = new MultiCrafter("industrial-trimmer"){{
             requirements(Category.crafting, with(Items.lead, 250, Items.copper, 250));
             size = 3;
             researchCostMultiplier = 0.1f;

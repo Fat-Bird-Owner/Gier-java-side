@@ -39,7 +39,7 @@ public class MultiCrafter extends Block{
     @Override 
     public void load(){
         super.load();
-        drawer.load();
+        drawer.load(this);
     }
 
     @Override
@@ -187,7 +187,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float warmup(){
-        return canCraft(recipe[recipeIndex]) ? 1f : 0f;
+        return canCraft(recipe()) ? 1f : 0f;
     }
 
     @Override
