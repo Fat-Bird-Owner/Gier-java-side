@@ -15,6 +15,7 @@ import arc.scene.ui.*;
 import mindustry.gen.Unit;
 import mindustry.ui.Styles;
 import mindustry.world.draw.*;
+import arc.math.Mathf;
 
 public class MultiCrafter extends Block{
 
@@ -52,7 +53,7 @@ public class MultiCrafter extends Block{
                 for(int i = 0; i < recipes.length; i++){
 
                     final int index = i;
-                table.table(Styles.black3, cont -> {
+                table.table(Styles.grayPanel, cont -> {
 
                     Recipe recipe = recipes[index];
 
@@ -97,6 +98,7 @@ public MultiCrafter(String name){
 public class MultiCrafterBuild extends Building{
     public int recipeIndex = defaultRecipe;
     public float progress;
+    public float warmup;
 
     @Override 
     public void draw(){
@@ -129,6 +131,7 @@ public class MultiCrafterBuild extends Building{
 
         if(!canCraft(r)) return;
         progress += edelta();
+        warmup = Mathf.approachDelta(warmup, canCraft(recipe()) ? 1f : 0f, 0.02f);
 
         if(progress >= r.craftTime){
             for(ItemStack stack : r.input){
@@ -187,7 +190,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float warmup(){
-        return canCraft(recipe()) ? 1f : 0f;
+        return warmup;
     }
 
     @Override
