@@ -41,11 +41,13 @@ public class MultiCrafter extends Block{
                 if(recipes == null) return;
 
                 for(int i = 0; i < recipes.length; i++){
+
+                    final int index = i;
                 table.table(Styles.black6, cont -> {
 
-                    Recipe recipe = recipes[i];
+                    Recipe recipe = recipes[index];
 
-                    cont.add("[accent]Recipe " + (i + 1) + "[]").left();
+                    cont.add("[accent]Recipe " + (index + 1) + "[]").left();
                     cont.row();
 
                     cont.add("[lightgray]Input:[]").left();
