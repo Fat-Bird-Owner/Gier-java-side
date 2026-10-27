@@ -3,10 +3,12 @@ package GierJava.content;
 import mindustry.type.weather.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
+import mindustry.type.Weather;
 import arc.graphics.*;
 
 public class GierWeather {
-    public static Weather fragStorm;
+    public static Weather 
+    fragStorm;
 
     public static void load(){
         new ParticleWeather("frag-storm"){{
