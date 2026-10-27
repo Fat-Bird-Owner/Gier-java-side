@@ -56,14 +56,14 @@ public class MultiCrafter extends Block{
 
                             for(ItemStack stack : recipe.input){
                                 cont.image(stack.item.uiIcon).size(24f).pad(6f);
-                                cont.add(" " + stack.amount + "[grey](" + String(stack.amount/recipe.craftTime) + "sec)[]" + stack.item.localizedName).row();
+                                cont.add(" " + stack.amount + "[grey](" + stack.amount/recipe.craftTime + "sec)[]" + stack.item.localizedName).row();
                             }
 
                             cont.add("@multiCrafter.output").left().row();
 
                             for(ItemStack stack : recipe.output){
                                 cont.image(stack.item.uiIcon).size(24f).pad(6f);
-                                cont.add(" " + stack.amount + "[grey](" + String(stack.amount/recipe.craftTime) + "sec)[]" + stack.item.localizedName).row();
+                                cont.add(" " + stack.amount + "[grey](" + stack.amount/recipe.craftTime + "sec)[]" + stack.item.localizedName).row();
                             }
 
                             cont.add(Core.bundle.format("multiCrafter.craftTime", recipe.craftTime / 60f)).left();
