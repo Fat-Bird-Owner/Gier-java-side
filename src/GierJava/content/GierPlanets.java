@@ -90,7 +90,7 @@ public class GierPlanets {
         }};
 
         kela = new Planet("kela", sun, 0.85f, 2){{
-            generator = new TantrosPlanetGenerator();
+            generator = new KelaPlanetGenerator();
             cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 2, 1.01f, 0.15f, 6, Color.valueOf("a7a9c4"), 2, 0.6f, 0.9f, 0.25f),
                 new HexSkyMesh(this, 1, 1.01f, 0.1f, 6, Color.valueOf("767aa6bd"), 2, 0.45f, 1f, 0.45f),
