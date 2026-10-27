@@ -16,7 +16,7 @@ import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
-import GierJava.GierPlanets;
+import GierJava.content.GierPlanets;
 import mindustry.maps.planet.*;
 
 import static mindustry.Vars.*;
