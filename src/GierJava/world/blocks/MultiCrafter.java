@@ -1,20 +1,15 @@
 package GierJava.world.blocks;
 
-import arc.util.io.Reads; 
-import arc.util.io.Writes; 
-import mindustry.world.Block; 
-import mindustry.gen.Building; 
-import mindustry.type.Item; 
-import mindustry.type.ItemStack; 
-import mindustry.content.Items; 
-import mindustry.world.meta.*; 
-import mindustry.world.Block;
+import arc.util.io.*;
+import mindustry.ui.Styles;
+import mindustry.world.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.world.draw.*;
+import mindustry.world.meta.*;
 import arc.Core;
 import arc.scene.ui.layout.Table;
 import arc.scene.ui.*;
-import mindustry.gen.Unit;
-import mindustry.ui.Styles;
-import mindustry.world.draw.*;
 import arc.math.Mathf;
 import arc.util.Time;
 
@@ -92,9 +87,8 @@ public class MultiCrafterBuild extends Building{
     public int recipeIndex = defaultRecipe;
     public float progress;
     public float warmup;
-    public float totalProgress;
 
-    @Override 
+    @Override
     public void draw(){
         drawer.draw(this);
     }
@@ -104,17 +98,22 @@ public class MultiCrafterBuild extends Building{
         return recipes[Math.max(0, Math.min(recipeIndex, recipes.length - 1))];
     }
 
-    public boolean canCraft(Recipe r){
-        if(r == null) return false;
-
-        for(ItemStack stack : r.input){
-            if(items.get(stack.item) < stack.amount) return false;
-        }
-
+    @Override
+    public boolean shouldConsume() {
+        Recipe r = recipe();
         for(ItemStack stack : r.output){
             if(items.get(stack.item) + stack.amount > itemCapacity) return false;
         }
+        return true;
+    }
 
+    @Override
+    public boolean productionValid() {
+        Recipe r = recipe();
+        if(r == null) return false;
+        for(ItemStack stack : r.input){
+            if(items.get(stack.item) < stack.amount) return false;
+        }
         return true;
     }
 
@@ -122,29 +121,28 @@ public class MultiCrafterBuild extends Building{
     public void updateTile(){
         Recipe r = recipe();
         dumpOutputs(r);
+        boolean canCraft = shouldConsume() && productionValid();
+        warmup = Mathf.approachDelta(warmup, canCraft ? 1f : 0f, 0.02f);
 
-        if(!canCraft(r)) return;
-        progress += edelta();
-        warmup = Mathf.approachDelta(warmup, canCraft(recipe()) ? 1f : 0f, 0.02f);
+        if(canCraft){
+            progress += edelta();
 
-        totalProgress += warmup * Time.delta;
+            if(progress >= r.craftTime){
+                for(ItemStack stack : r.input){
+                    items.remove(stack.item, stack.amount);
+                }
 
-        if(progress >= r.craftTime){
-            for(ItemStack stack : r.input){
-                items.remove(stack.item, stack.amount);
+                for(ItemStack stack : r.output){
+                    items.add(stack.item, stack.amount);
+                }
+
+                progress = 0f;
             }
-
-            for(ItemStack stack : r.output){
-                items.add(stack.item, stack.amount);
-            }
-
-            progress = 0f;
         }
-
     }
 
     public void dumpOutputs(Recipe r){
-        for (ItemStack stack : r.output){
+        for(ItemStack stack : r.output){
             dump(stack.item);
         }
     }
@@ -173,15 +171,11 @@ public class MultiCrafterBuild extends Building{
         for(int i = 0; i < recipes.length; i++){
             final int index = i;
 
-            final Button button = new Button();
-            button.add(new Image(Core.atlas.find(recipes[i].icon)));
+            final ImageButton button = new ImageButton(Core.atlas.find(recipes[i].icon), Styles.grayTogglei){{
+                update(() -> setChecked(recipeIndex == index));
+                clicked(() -> configure(index));
+            }};
             table.add(button).size(50f);
-
-            button.clicked(() -> {
-                configure(index);
-                deselect();
-            });
-
         }
     }
 
@@ -192,7 +186,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float totalProgress(){
-        return totalProgress;
+        return warmup * Time.delta;
     }
 
     @Override
