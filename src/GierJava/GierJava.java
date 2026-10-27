@@ -26,8 +26,8 @@ public class GierJava extends Mod{
         GierUnitTypes.load();
         GierBlocks.load();
         DerelictBlocks.load();
+        GierWeather.load();
         GierTechTree.load();
-
     }
 
     public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<T> replacer){
