@@ -16,6 +16,7 @@ import mindustry.gen.Unit;
 import mindustry.ui.Styles;
 import mindustry.world.draw.*;
 import arc.math.Mathf;
+import arc.util.Time;
 
 public class MultiCrafter extends Block{
 
@@ -195,7 +196,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float totalProgress(){
-        return progress / recipe().craftTime;
+        return warmup * Time.delta;;
     }
 
     @Override
