@@ -21,7 +21,11 @@ import mindustry.maps.planet.*;
 
 import static mindustry.Vars.*;
 
+// Ripped straight out of serpulo planet gen
 public class KelaPlanetGenerator extends TantrosPlanetGenerator {
+
+    static double metalDstScl = 0.25;
+    Vec3 basePos = new Vec3(0.9341721, 0.0, 0.3568221);
 
     @Override
     public boolean isEmissive(){
