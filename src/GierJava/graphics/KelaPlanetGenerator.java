@@ -17,12 +17,12 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import GierJava.GierPlanets;
-import mindustry.maps.planets.*;
+import mindustry.maps.planet.*;
 
 import static mindustry.Vars.*;
 
 public class KelaPlanetGenerator extends TantrosPlanetGenerator {
-    
+
     @Override
     public boolean isEmissive(){
         return true;
