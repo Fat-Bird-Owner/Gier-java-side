@@ -28,15 +28,6 @@ jobs:
           chmod +x gradlew
           ./gradlew deploy
 
-      - name: Create or update current-build release
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: current-build
-          name: current-build
-          target_commitish: ${{ github.sha }}
-          files: build/libs/*.jar
-          make_latest: true
-
       - name: Read artifact name
         id: artifact
         shell: bash
