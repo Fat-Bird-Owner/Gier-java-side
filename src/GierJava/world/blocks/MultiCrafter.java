@@ -196,7 +196,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float totalProgress(){
-        return warmup * Time.delta;;
+        return warmup * Time.delta;
     }
 
     @Override
