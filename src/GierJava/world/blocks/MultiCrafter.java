@@ -47,43 +47,35 @@ public class MultiCrafter extends Block{
     @Override
         public void setStats(){
             super.setStats();
+            if(recipes != null){
+                stats.add(Stat.output, table -> {
+                    table.row();
+                    for(int i = 0; i < recipes.length; i++){
+                        final int index = i;
+                        table.table(Styles.grayPanel, cont -> {
 
-            stats.add(Stat.output, table -> {
-                if(recipes == null) return;
+                            Recipe recipe = recipes[index];
 
-                for(int i = 0; i < recipes.length; i++){
+                            cont.add(Core.bundle.format("multiCrafter.recipe", index+1)).left().row();
+                            cont.add("@multiCrafter.input").left().row();
 
-                    final int index = i;
-                table.table(Styles.grayPanel, cont -> {
-
-                    Recipe recipe = recipes[index];
-
-                    cont.add("[accent]Recipe " + (index + 1) + "[]").left();
-                    cont.row();
-
-                    cont.add("[lightgray]Input:[]").left();
-                    cont.row();
-
-                    for(ItemStack stack : recipe.input){
-                        cont.image(stack.item.uiIcon).size(24f);
-                        cont.add(" " + stack.amount + "x " + stack.item.localizedName).left();
-                        cont.row();
-                    }
-
-                        cont.add("[lightgray]Output:[]").left();
-                        cont.row();
-
-                            for(ItemStack stack : recipe.output){
-                                    cont.image(stack.item.uiIcon).size(24f);
-                                    cont.add(" " + stack.amount + "x " + stack.item.localizedName);
-                                    cont.row();
+                            for(ItemStack stack : recipe.input){
+                                cont.image(stack.item.uiIcon).size(24f);
+                                cont.add(" " + stack.amount + "x " + stack.item.localizedName).left().row();
                             }
 
-                        cont.add("[lightgray]Craft time:[] " + recipe.craftTime / 60f + " seconds").left();
-                }).pad(6f).row();
-            }
+                            cont.add("@multiCrafter.output").left().row();
 
-        });
+                            for(ItemStack stack : recipe.output){
+                                cont.image(stack.item.uiIcon).size(24f);
+                                cont.add(" " + stack.amount + "x " + stack.item.localizedName).row();
+                            }
+
+                            cont.add(Core.bundle.format("multiCrafter.craftTime", recipe.craftTime / 60f)).left();
+                        }).growX().pad(6f).row();
+                    }
+                });
+            }
     }
 
 public MultiCrafter(String name){
