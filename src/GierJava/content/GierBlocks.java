@@ -443,6 +443,7 @@ public class GierBlocks {
 
             recipes = new MultiCrafter.Recipe[]{
                 new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(Items.metaglass, 20), 100f, "item-metaglass"),
+                new MultiCrafter.Recipe(with(Items.scrap, 20), with(Items.lead, 10, Items.copper, 10, Items.graphite, 5), 100f, "item-scrap")
             };
 
             envEnabled = -1;
