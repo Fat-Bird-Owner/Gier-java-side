@@ -92,6 +92,7 @@ public class MultiCrafterBuild extends Building{
     public int recipeIndex = defaultRecipe;
     public float progress;
     public float warmup;
+    public float totalProgress;
 
     @Override 
     public void draw(){
@@ -125,6 +126,8 @@ public class MultiCrafterBuild extends Building{
         if(!canCraft(r)) return;
         progress += edelta();
         warmup = Mathf.approachDelta(warmup, canCraft(recipe()) ? 1f : 0f, 0.02f);
+
+        totalProgress += warmup * Time.delta;
 
         if(progress >= r.craftTime){
             for(ItemStack stack : r.input){
@@ -176,6 +179,7 @@ public class MultiCrafterBuild extends Building{
 
             button.clicked(() -> {
                 configure(index);
+                deselect();
             });
 
         }
@@ -188,7 +192,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float totalProgress(){
-        return warmup * Time.delta;
+        return totalProgress;
     }
 
     @Override
