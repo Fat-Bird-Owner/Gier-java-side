@@ -12,6 +12,13 @@ public UnpausePlanet(String name, Planet parent, float radius, int sectorSize){
     super(name, parent, radius, sectorSize);
 }
 
+public Vec3 getLightNormal(){
+    return Tmp.v31.set(position)
+        .add(0f, 1000f, 0f)
+        .sub(position)
+        .nor();
+}
+
 @Override
 public float getRotation(){
     if(tidalLock){
