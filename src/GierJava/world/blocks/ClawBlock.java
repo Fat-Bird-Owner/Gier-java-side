@@ -51,7 +51,7 @@ public class ClawBlock extends Block {
         super.setBars();
 
         addBar("progress", entity -> new Bar(
-            "progress", 
+            "Progress", 
             Pal.items, 
             entity::progress
         ));
@@ -208,7 +208,7 @@ public class ClawBlock extends Block {
         if(out != null && out.build != null){
             Building output = out.build;
 
-            if(output.block.acceptsPayload){
+            if(output.block.acceptsPayload && output.block.acceptPayload(this, payload)){
                 output.handlePayload(this, payload);
                 payload = null;
                 resetClaw();
@@ -257,14 +257,12 @@ public class ClawBlock extends Block {
         @Override
         public void draw(){
             super.draw();
-
-            float length = range * clawProgress;
             if(state == 1 || state == 2){
                 Draw.color(team.color);
                 Draw.rect(
                     region,
-                    x + ((x - target.x) * length),
-                    y + ((y - target.y) * length),
+                    x + ((target.x - x) * clawProgress),
+                    y + ((target.y - y) * clawProgress),
                     rotation * 90f
                 );
                 Draw.color();
