@@ -65,16 +65,16 @@ public class KelaPlanetGenerator extends TantrosPlanetGenerator {
             dst*metalDstScl + Simplex.noise3d(seed, 3, 0.4, 9f, position.x, position.y + 370f, position.z)*0.06f < 0.045){
 
         out.set(blueLight)
-        .mul(0.4)
+        .mul(0.2f)
         .mul(0.7f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
-        .lerp(Team.get(5).color, 0.2f);
+        .lerp(Team.get(5).color, 0.4f);
 
         }else if(captureDst*metalDstScl + Simplex.noise3d(seed, 3, 0.4, 9f, position.x, position.y + 600f, position.z)*0.07f < 0.05 * lightScl){
             
         out.set(blueLight)
-        .mul(0.4)
+        .mul(0.2f)
         .mul(0.7f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
-        .lerp(Team.sharded.color, 0.2f);
+        .lerp(Team.sharded.color, 0.4f);
 
         }
     }
