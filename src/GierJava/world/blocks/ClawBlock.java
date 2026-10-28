@@ -42,6 +42,7 @@ public class ClawBlock extends Block {
         update = true;
         solid = true;
         rotate = true;
+        swapDiagonalPlacement = true;
         group = BlockGroup.payloads;
 
     }
@@ -209,16 +210,9 @@ public class ClawBlock extends Block {
         if(out != null && out.build != null){
             Building output = out.build;
 
-            if(output.block.acceptsPayload || output.block instanceof PayloadBlock){
+            if(output.block.acceptsPayload || output.block instanceof PayloadBlock || output.block instanceof PayloadConveyor){
                 if (!output.acceptPayload(this, payload)) return;
                 output.handlePayload(this, payload);
-                payload = null;
-                resetClaw();
-            }
-        }else if(out != null && out.block().isAir()){
-            // No payload block behind it, so place the building in the world.
-            if(payload instanceof BuildPayload bp){
-                bp.place(out, rotation);
                 payload = null;
                 resetClaw();
             }
@@ -234,11 +228,15 @@ public class ClawBlock extends Block {
                 return;
             }
 
+            if (targetTile.build != target) {
+
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
 
             targetTile.setBlock(target.block, target.team);
             targetTile.build.kill();
+
+            }
 
             targetX = target.x;
             targetY = target.y;
@@ -280,7 +278,7 @@ public float progress(){
         case 1 -> clawProgress;
         case 2 -> target == null || target.block.buildTime <= 0f
             ? 0f
-            : Mathf.clamp(workProgress / target.block.buildTime);
+            : Mathf.clamp(workProgress / getBuildTime(target.block));
         case 3, 4 -> payloadProgress;
         default -> 0f;
     };
