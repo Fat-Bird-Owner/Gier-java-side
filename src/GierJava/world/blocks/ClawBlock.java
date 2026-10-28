@@ -17,6 +17,9 @@ import mindustry.world.meta.BlockGroup;
 import arc.graphics.g2d.Lines;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
+import arc.scene.ui.layout.Table;
+import mindustry.ui.Bar;
+import mindustry.graphics.Pal;
 
 import static mindustry.Vars.*;
 
@@ -159,31 +162,41 @@ public class ClawBlock extends Block {
                     }
                 }
 
-                case 4 -> {
-                    payloadProgress = Mathf.approachDelta(
-                        payloadProgress, 1f, payloadSpeed
-                    );
+    case 4 -> {
+    payloadProgress = Mathf.approachDelta(
+        payloadProgress, 1f, payloadSpeed
+    );
 
-                    if(payload != null){
-                        payload.set(
-                            Mathf.lerp(x, backX(), payloadProgress),
-                            Mathf.lerp(y, backY(), payloadProgress),
-                            rotation * 90f
-                        );
-                    }
+    if(payload != null){
+        payload.set(
+            Mathf.lerp(x, backX(), payloadProgress),
+            Mathf.lerp(y, backY(), payloadProgress),
+            rotation * 90f
+        );
+    }
 
-                    if(payloadProgress >= 1f){
-                        Tile out = world.tileWorld(backX(), backY());
+    if(payloadProgress >= 1f && payload != null){
+        Tile out = world.tileWorld(backX(), backY());
 
-                        if(out != null && out.build == null && out.block().isAir()){
-                            if(payload instanceof BuildPayload bp){
-                                bp.place(out, rotation);
-                                payload = null;
-                                resetClaw();
-                            }
-                        }
-                    }
-                }
+        if(out != null && out.build != null){
+            Building output = out.build;
+
+            // Try to transfer the payload to the building behind.
+            if(output.block.acceptsPayload){
+                output.handlePayload(this, payload);
+                payload = null;
+                resetClaw();
+            }
+        }else if(out != null && out.block().isAir()){
+            // No payload block behind it, so place the building in the world.
+            if(payload instanceof BuildPayload bp){
+                bp.place(out, rotation);
+                payload = null;
+                resetClaw();
+            }
+        }
+    }
+}
             }
         }
 
@@ -234,34 +247,46 @@ public class ClawBlock extends Block {
             }
         }
 
+public float progress(){
+    return switch(state){
+        case 1 -> clawProgress;
+        case 2 -> target == null || target.block.buildTime <= 0f
+            ? 0f
+            : Mathf.clamp(workProgress / target.block.buildTime);
+        case 3, 4 -> payloadProgress;
+        default -> 0f;
+    };
+}
+
+public String progressText(){
+    return switch(state){
+        case 1 -> "Extending claw";
+        case 2 -> "Picking up building";
+        case 3 -> "Retracting payload";
+        case 4 -> "Outputting payload";
+        default -> "Searching";
+    };
+}
+
 @Override
 public void drawSelect(){
     super.drawSelect();
 
-    float startX = frontX();
-    float startY = frontY();
+    float width = 80f;
+    float height = 8f;
+    float barX = x - width / 2f;
+    float barY = y + size * tilesize / 2f + 10f;
 
-    float endX = startX + dirX() * range * tilesize;
-    float endY = startY + dirY() * range * tilesize;
+    Draw.color(Pal.darkestGray);
+    Fill.rect(barX + width / 2f, barY + height / 2f, width, height);
 
     Draw.color(Pal.accent);
-    Lines.stroke(2f);
-    Lines.line(startX, startY, endX, endY);
-
-    Building found = findPreviewTarget();
-
-    if(found != null){
-        Draw.color(Pal.accent);
-
-        Drawf.square(
-            found.x,
-            found.y,
-            found.block.size * tilesize / 2f + 3f,
-            0f
-        );
-
-        Lines.line(startX, startY, found.x, found.y);
-    }
+    Fill.rect(
+        barX + width * progress() / 2f,
+        barY + height / 2f,
+        width * progress(),
+        height
+    );
 
     Draw.reset();
 }
