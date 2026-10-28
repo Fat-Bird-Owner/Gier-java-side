@@ -193,7 +193,7 @@ public class ClawBlock extends Block {
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
 
-            targetTile.build.kil();
+            targetTile.build.kill();
             targetX = target.x;
             targetY = target.y;
 
