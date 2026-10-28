@@ -4,7 +4,7 @@
     "description": "Java import of gier: revitalized. Plays different",
     "version": "v1",
     "minGameVersion": "160",
-    "author": "Fat Bird's Owner [accent]Contributors:[] lu69159 [lightgrey](Space)[]",
+    "author": "Fat Bird's Owner [accent[]]Contributors:[[]] lu69159 [lightgrey[]](Space)[[]]",
     "repo": "Fat-Bird-Owner/Gier-java-side",
     "java": true,
     "main": "GierJava.GierJava"
