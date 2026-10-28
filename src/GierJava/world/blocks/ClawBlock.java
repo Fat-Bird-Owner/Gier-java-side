@@ -45,8 +45,21 @@ public class ClawBlock extends Block {
 
     }
 
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("Progress", entity -> new Bar(() ->
+        Core.bundle.format("bar.powerlines", entity.power.links.size, maxNodes),
+            () -> Pal.items,
+            () -> (float)entity.progress();
+        ));
+    }
+
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid)
 
         float endX = x + Geometry.d4(rotation).x * range * tilesize;
         float endY = y + Geometry.d4(rotation).y * range * tilesize;
@@ -221,7 +234,7 @@ public class ClawBlock extends Block {
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
 
-            targetTile.setBlock(target.block);
+            targetTile.setBlock(target.block, target.team);
             targetTile.build.kill();
 
             targetX = target.x;
@@ -244,12 +257,12 @@ public class ClawBlock extends Block {
         public void draw(){
             super.draw();
 
-            float length = range * tilesize * clawProgress;
+            float length = range * clawProgress;
             if(state == 1 || state == 2){
                 Draw.color(team.color);
                 Draw.rect(
                     region,
-                    x + ((x - target.x ) * length),
+                    x + ((x - target.x) * length),
                     y + ((y - target.y) * length),
                     rotation * 90f
                 );
