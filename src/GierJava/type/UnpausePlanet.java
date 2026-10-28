@@ -16,7 +16,7 @@ public UnpausePlanet(String name, Planet parent, float radius, int sectorSize){
 
 public Vec3 getLightNormal(){
     return Tmp.v31.set(position)
-        .add(0f, 0f, 1000f)
+        .add(100f, 0f, 0f)
         .sub(position)
         .nor();
 }
