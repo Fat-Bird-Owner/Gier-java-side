@@ -6,6 +6,7 @@ import mindustry.type.*;
 
 import static GierJava.content.GierBlocks.*;
 import static GierJava.content.GierPlanets.*;
+import static GierJava.content.GierSectorPreset.*;
 import static mindustry.content.TechTree.*;
 
 public class GierTechTree {
@@ -45,6 +46,8 @@ public class GierTechTree {
             node(restorator, () -> {
                 node(mendPylon, () -> {});
             });
+
+            node(Chasm, () -> {});
 
         });
     }
