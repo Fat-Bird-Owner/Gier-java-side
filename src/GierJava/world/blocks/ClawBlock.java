@@ -74,6 +74,10 @@ public class ClawBlock extends Block {
         Draw.reset();
     }
 
+    public float getBuildTime(Block block){
+        return block.buildTime * multiplier;
+    }
+
     public class ClawBuild extends Building{
 
         // 0 = search, 1 = extending, 2 = working,
@@ -167,7 +171,7 @@ public class ClawBlock extends Block {
 
                     // Wait for the target block's build time.
                     workProgress += edelta();
-                    if(workProgress >= target.block.buildTime){
+                    if(workProgress >= getBuildTime(target.block)){
                         grabTarget();
                     }
                 }
@@ -228,7 +232,7 @@ public class ClawBlock extends Block {
                 return;
             }
 
-            if (targetTile.build != target) {
+            if (target && target.isValid()) {
 
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
@@ -276,7 +280,7 @@ public class ClawBlock extends Block {
 public float progress(){
     return switch(state){
         case 1 -> clawProgress;
-        case 2 -> target == null || target.block.buildTime <= 0f
+        case 2 -> target == null || getBuildTime(target.block) <= 0f
             ? 0f
             : Mathf.clamp(workProgress / getBuildTime(target.block));
         case 3, 4 -> payloadProgress;
