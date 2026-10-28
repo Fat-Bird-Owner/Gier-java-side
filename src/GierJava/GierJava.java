@@ -40,6 +40,9 @@ public class GierJava extends Mod{
         Events.on(EventType.ClientLoadEvent.class, e -> {
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
+
+            GierPlanets.gier.radius = 2f;
+
             GierPlanets.kela.techTree = GierPlanets.gier.techTree;
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
