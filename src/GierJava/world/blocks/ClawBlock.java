@@ -50,16 +50,16 @@ public class ClawBlock extends Block {
     public void setBars(){
         super.setBars();
 
-        addBar("Progress", entity -> new Bar(() ->
-        Core.bundle.format("bar.powerlines", entity.power.links.size, maxNodes),
+        addBar("progress", entity -> new Bar(() ->
+        "progress",
             () -> Pal.items,
-            () -> (float)entity.progress();
+            () -> entity.progress();
         ));
     }
 
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
-        super.drawPlace(x, y, rotation, valid)
+        super.drawPlace(x, y, rotation, valid);
 
         float endX = x + Geometry.d4(rotation).x * range * tilesize;
         float endY = y + Geometry.d4(rotation).y * range * tilesize;
