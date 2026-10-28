@@ -18,6 +18,10 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import GierJava.content.GierPlanets;
 import mindustry.maps.planet.*;
+import arc.math.Rand;
+import mindustry.maps.generators.*;
+import mindustry.core.GameState;
+import mindustry.game.Waves;
 
 import static mindustry.Vars.*;
 
@@ -36,47 +40,17 @@ public class KelaPlanetGenerator extends TantrosPlanetGenerator {
 
 private static final float enemyBaseChance = 0.35f;
 private static final int minimumEmptySectors = 3;
+BaseGenerator basegen = new BaseGenerator();
 
-public void generateEnemyBases(){
-    var planet = GierPlanets.kela;
-    var sectors = planet.sectors;
+    @Override
+    public void postGenerate(Tiles tiles){
+        if(sector.hasEnemyBase()){
+            basegen.postGenerate();
 
-    Rand rand = new Rand(planet.sectorSeed == -1
-        ? planet.id
-        : planet.sectorSeed);
-
-    int eligible = 0;
-
-    for(Sector sector : sectors){
-        if(sector.preset != null) continue;
-
-        if(sector.id == planet.startSector) continue;
-        eligible++;
-    }
-
-    int target = Math.max(0,
-        Math.min(eligible - minimumEmptySectors,
-            Math.round(eligible * enemyBaseChance)));
-
-    Seq<Sector> candidates = new Seq<>();
-
-    for(Sector sector : sectors){
-        if(sector.preset != null) continue;
-        if(sector.id == planet.startSector) continue;
-
-        candidates.add(sector);
-    }
-
-    candidates.shuffle(rand);
-
-    for(int i = 0; i < candidates.size; i++){
-        Sector sector = candidates.get(i);
-        if(sector.hasBase() || sector.hasEnemyBase()) continue;
-
-        sector.generateEnemyBase = i < target;
-    }
-}
-
+            if(spawner.countGroundSpawns() == 0){
+                state.rules.spawns = Waves.generate(sector.threat, new Rand(sector.id), state.rules.attackMode, true, false);
+            }
+        }}
 
     @Override
     public void getEmissiveColor(Vec3 position, Color out){
