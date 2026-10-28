@@ -25,6 +25,8 @@ import static mindustry.Vars.*;
 public class KelaPlanetGenerator extends TantrosPlanetGenerator {
 
     static double metalDstScl = 0.15;
+    static final Color blueLight = Color.valueOf("4169E1");
+
     Vec3 basePos = new Vec3(0.9341721, 0.0, 0.3568221);
 
     @Override
@@ -62,12 +64,15 @@ public class KelaPlanetGenerator extends TantrosPlanetGenerator {
             dst*metalDstScl + Simplex.noise3d(seed + 1, 3, 0.4, 5.5f, position.x, position.y + 200f, position.z)*0.08f + ((basePos.dst(position) + 0.00f) % freq < freq/2f ? 1f : 0f) * 0.07f < 0.08f/* || dst <= 0.0001f*/ :
             dst*metalDstScl + Simplex.noise3d(seed, 3, 0.4, 9f, position.x, position.y + 370f, position.z)*0.06f < 0.045){
 
-            out.set(Team.get(5).color)
-                .mul(0.8f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
-                .lerp(Team.sharded.color, 0.2f*Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 999f, position.z));
+        out.set(blueLight)
+        .mul(0.7f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
+        .lerp(Team.get(5).color, 0.2f);
+
         }else if(captureDst*metalDstScl + Simplex.noise3d(seed, 3, 0.4, 9f, position.x, position.y + 600f, position.z)*0.07f < 0.05 * lightScl){
-            out.set(Team.sharded.color).mul(0.7f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
-                .lerp(Team.get(5).color, 0.3f*Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 999f, position.z));
+            
+        out.set(blueLight)
+        .mul(0.7f + Simplex.noise3d(seed, 1, 1, 9f, position.x, position.y + 99f, position.z) * 0.4f)
+        .lerp(Team.sharded.color, 0.2f);
 
         }
     }
