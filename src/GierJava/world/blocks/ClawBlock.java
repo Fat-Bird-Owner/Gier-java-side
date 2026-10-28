@@ -208,7 +208,8 @@ public class ClawBlock extends Block {
         if(out != null && out.build != null){
             Building output = out.build;
 
-            if(output.block.acceptsPayload && out.build.acceptsPayload(this, payload)){
+            if(output.block.acceptsPayload){
+                if (!output.acceptsPayload(this, payload)) return;
                 output.handlePayload(this, payload);
                 payload = null;
                 resetClaw();
