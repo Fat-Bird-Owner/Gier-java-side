@@ -57,6 +57,7 @@ public class ClawBlock extends Block {
         );
     }
 
+    
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
