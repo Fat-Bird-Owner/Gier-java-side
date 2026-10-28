@@ -107,7 +107,7 @@ public class ClawBlock extends Block {
                 Building build = other.build;
 
                 if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
-                if(!build.block.canPickup) continue;
+                if(!build.block.canPickup || build.block.size > maxSize) continue;
 
                 target = build;
                 targetX = build.x;
