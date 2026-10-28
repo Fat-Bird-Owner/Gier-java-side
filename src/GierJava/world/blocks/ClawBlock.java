@@ -33,6 +33,7 @@ public class ClawBlock extends Block {
     public float clawSpeed = 0.08f;
     public float payloadSpeed = 0.06f;
     public float multiplier = 1f;
+    public int maxSize = 3;
 
     public ClawBlock(String name){
         super(name);
@@ -44,18 +45,18 @@ public class ClawBlock extends Block {
 
     }
 
-@Override
-public void drawPlace(int x, int y, int rotation, boolean valid){
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
 
-    float endX = x + Geometry.d4(rotation).x * range * tilesize;
-    float endY = y + Geometry.d4(rotation).y * range * tilesize;
+        float endX = x + Geometry.d4(rotation).x * range * tilesize;
+        float endY = y + Geometry.d4(rotation).y * range * tilesize;
 
-    Draw.color(Pal.accent);
-    Lines.stroke(2f);
-    Lines.line(x, y, endX, endY);
+        Draw.color(Pal.accent);
+        Lines.stroke(2f);
+        Lines.line(x, y, endX, endY);
 
-    Draw.reset();
-}
+        Draw.reset();
+    }
 
     public class ClawBuild extends Building{
 
@@ -193,7 +194,6 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         if(out != null && out.build != null){
             Building output = out.build;
 
-            // Try to transfer the payload to the building behind.
             if(output.block.acceptsPayload){
                 output.handlePayload(this, payload);
                 payload = null;
@@ -247,8 +247,8 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
                 Draw.color(team.color);
                 Draw.rect(
                     region,
-                    x + dirX() * length / 2f,
-                    y + dirY() * length / 2f,
+                    x + (target.x - x) * length,
+                    y + (target.y - y) * length,
                     rotation * 90f
                 );
                 Draw.color();
