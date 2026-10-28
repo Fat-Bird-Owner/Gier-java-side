@@ -99,6 +99,7 @@ public class GierPlanets {
             meshLoader = () -> new HexMesh(this, 5);
             accessible = true;
             visible = true;
+            allowLaunchToNumbered = false;
             atmosphereColor = Color.valueOf("1d214ec3");
             iconColor = Color.valueOf("596ab8ff");
             startSector = 24;
