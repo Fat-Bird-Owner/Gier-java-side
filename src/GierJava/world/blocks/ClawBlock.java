@@ -53,8 +53,8 @@ public class ClawBlock extends Block {
         addBar("progress", entity -> new Bar(() ->
         "progress",
             () -> Pal.items,
-            () -> entity.progress();
-        ));
+            () -> entity.progress());
+        );
     }
 
     @Override
