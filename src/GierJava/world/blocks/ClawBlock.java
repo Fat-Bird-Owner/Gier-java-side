@@ -50,14 +50,14 @@ public class ClawBlock extends Block {
     public void setBars(){
         super.setBars();
 
-        addBar("progress", entity -> new Bar(() ->
-        "progress",
-            () -> Pal.items,
-            () -> entity.progress());
-        );
+        addBar("progress", entity -> new Bar(
+            "progress", 
+            Pal.items, 
+            entity::progress
+        ));
     }
 
-    
+
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
