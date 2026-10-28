@@ -21,6 +21,7 @@ import arc.scene.ui.layout.Table;
 import mindustry.ui.Bar;
 import mindustry.graphics.Pal;
 import mindustry.content.Blocks;
+import mindustry.world.blocks.payloads.*;
 import arc.graphics.g2d.Fill;
 
 import mindustry.world.blocks.ConstructBlock;
@@ -208,7 +209,7 @@ public class ClawBlock extends Block {
         if(out != null && out.build != null){
             Building output = out.build;
 
-            if(output.block.acceptsPayload){
+            if(output.block.acceptsPayload || output.block instanceof PayloadBlock){
                 if (!output.acceptPayload(this, payload)) return;
                 output.handlePayload(this, payload);
                 payload = null;
