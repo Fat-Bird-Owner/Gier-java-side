@@ -14,6 +14,9 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.meta.BlockGroup;
+import arc.graphics.g2d.Lines;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Pal;
 
 import static mindustry.Vars.*;
 
@@ -71,7 +74,7 @@ public class ClawBlock extends Block {
         public float backY(){
             return y - dirY() * (size * tilesize / 2f + tilesize);
         }
-
+     
         public void findTarget(){
             target = null;
 
@@ -231,6 +234,55 @@ public class ClawBlock extends Block {
             }
         }
 
+@Override
+public void drawSelect(){
+    super.drawSelect();
+
+    float startX = frontX();
+    float startY = frontY();
+
+    float endX = startX + dirX() * range * tilesize;
+    float endY = startY + dirY() * range * tilesize;
+
+    Draw.color(Pal.accent);
+    Lines.stroke(2f);
+    Lines.line(startX, startY, endX, endY);
+
+    Building found = findPreviewTarget();
+
+    if(found != null){
+        Draw.color(Pal.accent);
+
+        Drawf.square(
+            found.x,
+            found.y,
+            found.block.size * tilesize / 2f + 3f,
+            0f
+        );
+
+        Lines.line(startX, startY, found.x, found.y);
+    }
+
+    Draw.reset();
+}
+
+    public Building findPreviewTarget(){
+    for(int i = size / 2 + 1; i <= range; i++){
+        Tile other = tile.nearby(dirX() * i, dirY() * i);
+
+        if(other == null) break;
+        Building build = other.build;
+
+        if(build == null || build == this) continue;
+        if(build.team != team) continue;
+        if(!build.block.canPickup) continue;
+
+        return build;
+        }
+
+        return null;
+        }
+        
         @Override
         public void write(Writes write){
             super.write(write);
