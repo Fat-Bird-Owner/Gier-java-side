@@ -221,7 +221,9 @@ public class ClawBlock extends Block {
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
 
-            targetTile.setBlock(Blocks.air);
+            targetTile.setBlock(target.block);
+            targetTile.build.kill();
+
             targetX = target.x;
             targetY = target.y;
 
@@ -247,8 +249,8 @@ public class ClawBlock extends Block {
                 Draw.color(team.color);
                 Draw.rect(
                     region,
-                    x + (target.x - x) * length,
-                    y + (target.y - y) * length,
+                    x + ((x - target.x ) * length),
+                    y + ((y - target.y) * length),
                     rotation * 90f
                 );
                 Draw.color();
@@ -309,9 +311,8 @@ public void drawSelect(){
         if(other == null) break;
         Building build = other.build;
 
-        if(build == null || build == this) continue;
-        if(build.team != team) continue;
-        if(!build.block.canPickup) continue;
+        if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
+        if(!build.block.canPickup || build.block.size > maxSize) continue;
 
         return build;
         }
