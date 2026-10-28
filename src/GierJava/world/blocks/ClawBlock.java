@@ -227,7 +227,7 @@ public class ClawBlock extends Block {
         }
 
         public void grabTarget(){
-            if(target == null || target.tile == null){
+            if(target == null || target.tile == null || !target.isValid()){
                 resetClaw();
                 return;
             }
