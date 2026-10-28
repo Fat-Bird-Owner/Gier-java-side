@@ -232,7 +232,7 @@ public class ClawBlock extends Block {
                 return;
             }
 
-            if (target && target.isValid()) {
+            if (target.isValid()) {
 
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
