@@ -27,6 +27,7 @@ public class GierJava extends Mod{
         GierBlocks.load();
         DerelictBlocks.load();
         GierWeather.load();
+        GierSectorPreset.load();
         GierTechTree.load();
     }
 
