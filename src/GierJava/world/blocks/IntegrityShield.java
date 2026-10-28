@@ -27,6 +27,8 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
+
+// Placeholder class for custom gimmicks
 public class IntegrityShield extends ForceProjector  {
 
     public IntegrityShield(String name){

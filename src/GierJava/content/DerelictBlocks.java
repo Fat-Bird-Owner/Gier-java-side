@@ -50,7 +50,7 @@ import mindustry.content.Liquids;
 import static mindustry.type.ItemStack.with;
 
 public class DerelictBlocks {
-    public static Block derelictScrapWall, derelictScrapWallLarge;
+    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock;
 
     public static void load(){
 
@@ -67,5 +67,10 @@ public class DerelictBlocks {
             buildTime = 360*4;
         }};
 
+        clawBlock = new ClawBlock("claw-block"){{
+            requirements(Category.defense, with(Items.scrap, 250));
+            range = 10;
+        }};
+        
     }
 }

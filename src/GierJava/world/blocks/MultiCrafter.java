@@ -55,18 +55,18 @@ public class MultiCrafter extends Block{
                             cont.add("@multiCrafter.input").left().row();
 
                             for(ItemStack stack : recipe.input){
-                                cont.image(stack.item.uiIcon).size(24f);
-                                cont.add(" " + stack.amount + "x " + stack.item.localizedName).left().row();
+                                cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                                cont.add(" " + stack.amount + " [lightgrey](" + stack.amount/(recipe.craftTime/60f) + "/sec)[] " + stack.item.localizedName).row();
                             }
 
                             cont.add("@multiCrafter.output").left().row();
 
                             for(ItemStack stack : recipe.output){
-                                cont.image(stack.item.uiIcon).size(24f);
-                                cont.add(" " + stack.amount + "x " + stack.item.localizedName).row();
+                                cont.image(stack.item.uiIcon).size(24f).pad(6f);
+                                cont.add(" " + stack.amount + " [lightgrey](" + stack.amount/(recipe.craftTime/60f) + "/sec)[] " + stack.item.localizedName).row();
                             }
 
-                            cont.add(Core.bundle.format("multiCrafter.craftTime", recipe.craftTime / 60f)).left();
+                            cont.add(Core.bundle.format("multiCrafter.craftTime", recipe.craftTime / 60f)).left().row();
                         }).growX().pad(6f).row();
                     }
                 });
@@ -87,6 +87,7 @@ public class MultiCrafterBuild extends Building{
     public int recipeIndex = defaultRecipe;
     public float progress;
     public float warmup;
+    public float totalProgress;
 
     @Override
     public void draw(){
@@ -126,6 +127,7 @@ public class MultiCrafterBuild extends Building{
 
         if(canCraft){
             progress += edelta();
+            totalProgress += warmup * Time.delta;
 
             if(progress >= r.craftTime){
                 for(ItemStack stack : r.input){
@@ -186,7 +188,7 @@ public class MultiCrafterBuild extends Building{
 
     @Override
     public float totalProgress(){
-        return warmup * Time.delta;
+        return totalProgress;
     }
 
     @Override
