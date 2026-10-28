@@ -20,6 +20,7 @@ import mindustry.graphics.Pal;
 import arc.scene.ui.layout.Table;
 import mindustry.ui.Bar;
 import mindustry.graphics.Pal;
+import arc.graphics.g2d.Fill;
 
 import static mindustry.Vars.*;
 
