@@ -105,7 +105,7 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
                 if(other == null) break;
                 Building build = other.build;
 
-                if(build == null || build == this || build.team != team || build instanceOf ConstructBuild) continue;
+                if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
                 if(!build.block.canPickup) continue;
 
                 target = build;
