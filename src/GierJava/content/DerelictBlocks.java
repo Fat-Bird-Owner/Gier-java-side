@@ -67,7 +67,7 @@ public class DerelictBlocks {
             buildTime = 360*4;
         }};
 
-        clawBlock = new ClawBlock("claw-block){{
+        clawBlock = new ClawBlock("claw-block"){{
             requirements(Category.defense, with(Items.scrap, 250));
             range = 10;
         }};
