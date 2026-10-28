@@ -34,6 +34,50 @@ public class KelaPlanetGenerator extends TantrosPlanetGenerator {
         return true;
     }
 
+private static final float enemyBaseChance = 0.35f;
+private static final int minimumEmptySectors = 3;
+
+public void generateEnemyBases(){
+    var planet = GierPlanets.kela;
+    var sectors = planet.sectors;
+
+    Rand rand = new Rand(planet.sectorSeed == -1
+        ? planet.id
+        : planet.sectorSeed);
+
+    int eligible = 0;
+
+    for(Sector sector : sectors){
+        if(sector.preset != null) continue;
+
+        if(sector.id == planet.startSector) continue;
+        eligible++;
+    }
+
+    int target = Math.max(0,
+        Math.min(eligible - minimumEmptySectors,
+            Math.round(eligible * enemyBaseChance)));
+
+    Seq<Sector> candidates = new Seq<>();
+
+    for(Sector sector : sectors){
+        if(sector.preset != null) continue;
+        if(sector.id == planet.startSector) continue;
+
+        candidates.add(sector);
+    }
+
+    candidates.shuffle(rand);
+
+    for(int i = 0; i < candidates.size; i++){
+        Sector sector = candidates.get(i);
+        if(sector.hasBase() || sector.hasEnemyBase()) continue;
+
+        sector.generateEnemyBase = i < target;
+    }
+}
+
+
     @Override
     public void getEmissiveColor(Vec3 position, Color out){
         float dst = 999f, captureDst = 999f, lightScl = 0f;
