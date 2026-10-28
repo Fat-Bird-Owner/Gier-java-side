@@ -16,12 +16,12 @@ public class GierTechTree {
     public static void load(){
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
 
-            node(Items.lead, () -> {
-                node(Items.copper, () -> {});
-                node(Items.graphite, () -> {
-                    node(Items.silicon, () -> {});
-                    node(GierItems.metaglassChunk, () -> {
-                        node(Items.metaglass, () -> {});
+            node(lead, () -> {
+                node(copper, () -> {});
+                node(graphite, () -> {
+                    node(silicon, () -> {});
+                    node(metaglassChunk, () -> {
+                        node(metaglass, () -> {});
                     });
                 });
             });
