@@ -49,17 +49,12 @@ public class ClawBlock extends Block {
 
     public float upperArmLength = 16f;
     public float forearmLength = 16f;
-    public float armWidth = 5f;
     public float jointSize = 4f;
     public float armBend = 1f;
     public float armEaseSpeed = 0.08f;
 
-	public float throwSpeed = 4f;
-	public float throwRange = 6f;
-	public float throwHeight = 30f;
-	public float throwDuration = 45f;
 	public float idleSway = 2f;
-	public float idleSpeed = 2f;
+	public float idleSpeed = 0.01f;
 	
 public ClawBlock(String name){
     super(name);
@@ -158,20 +153,12 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         public float clawProgress;
         public float workProgress;
         public float payloadProgress;
-        public float armEase;
-
         public float targetX, targetY;
 		public float drawEndX, drawEndY;
 		public boolean armPoseInitialized;
 
 		public boolean throwPayload;
-		public boolean throwing;
-
 		public float throwProgress;
-		public float throwStartX, throwStartY;
-		public float throwEndX, throwEndY;
-		public float throwRotation;
-
 		public PayloadProjectileType throwBullet = new PayloadProjectileType();
 
 		public float throwLaunchSpeed = 1f;
