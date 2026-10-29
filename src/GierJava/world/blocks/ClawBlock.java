@@ -61,18 +61,20 @@ public class ClawBlock extends Block {
 	public float idleSway = 2f;
 	public float idleSpeed = 2f;
 	
-    public ClawBlock(String name){
-        super(name);
+public ClawBlock(String name){
+    super(name);
 
-        update = true;
-        solid = true;
-        rotate = true;
-        group = BlockGroup.payloads;
-		
-	config(Integer.class, (ClawBuild build, Integer value) -> {
-    	build.throwPayload = value == 1;
-		});
-    }
+    update = true;
+    solid = true;
+    rotate = true;
+    configurable = true;
+    saveConfig = true;
+    group = BlockGroup.payloads;
+
+    config(Integer.class, (ClawBuild build, Integer value) -> {
+        build.throwPayload = value == 1;
+    });
+}
 
     @Override
     public void load(){
@@ -550,6 +552,11 @@ public float progress(){
 }
 
 @Override
+public Integer config(){
+    return throwPayload ? 1 : 0;
+}
+		
+@Override
 public void drawSelect(){
     super.drawSelect();
 
@@ -605,6 +612,7 @@ public void drawSelect(){
             write.f(workProgress);
             write.f(payloadProgress);
             Payload.write(payload, write);
+			write.bool(throwPayload);
         }
 
         @Override
@@ -615,6 +623,7 @@ public void drawSelect(){
             workProgress = read.f();
             payloadProgress = read.f();
             payload = Payload.read(read);
+			throwPayload = read.bool();
         }
     }
 }
