@@ -35,7 +35,8 @@ public class ClawBlock extends Block {
     public float payloadSpeed = 0.06f;
     public float multiplier = 1f;
     public int maxSize = 3;
-
+    public float clawLayer = 55f;
+    
     public ClawBlock(String name){
         super(name);
 
@@ -317,7 +318,7 @@ private void drawArm(
     elbowX += perpX * bend;
     elbowY += perpY * bend;
 
-    Draw.z(layer + 0.1f);
+    Draw.z(clawLayer);
 
     Draw.color(Pal.darkerMetal);
     Lines.stroke(5f);
