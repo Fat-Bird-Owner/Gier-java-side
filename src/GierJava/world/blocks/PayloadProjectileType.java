@@ -49,14 +49,7 @@ public class PayloadProjectileType extends BulletType{
     }
 
     @Override
-    public void hitTile(
-        Bullet bullet,
-        Building build,
-        float x,
-        float y,
-        float initialHealth,
-        boolean direct
-    ){
+    public void hitTile(Bullet bullet, Building build, float x, float y, float initialHealth, boolean direct){
         if(bullet.data instanceof BuildPayload payload
             && build instanceof PayloadBlock.PayloadBlockBuild<?> payloadBuild
             && bullet.owner instanceof Building source
@@ -94,4 +87,18 @@ public class PayloadProjectileType extends BulletType{
             payload.destroyed();
         }
     }
+
+@Override
+public void update(Bullet bullet){
+    super.update(bullet);
+
+    if(bullet.data instanceof BuildPayload payload && !bullet.isAdded()){
+        return;
+    }
+
+    if(bullet.data instanceof BuildPayload payload){
+        payload.set(bullet.x, bullet.y, bullet.rotation());
+    }
+}
+    
 }
