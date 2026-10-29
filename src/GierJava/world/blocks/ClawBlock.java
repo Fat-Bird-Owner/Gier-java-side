@@ -43,10 +43,12 @@ public class ClawBlock extends Block {
     public TextureRegion jointRegion;
     public TextureRegion clawRegion;
 
-    public float armSegmentLength = 4f;
-    public float armWidth = 2.5f;
-    public float jointSize = 3f;
-    public float armBend = 6f;
+    public float upperArmLength = 16f;
+    public float forearmLength = 16f;
+    public float armWidth = 5f;
+    public float jointSize = 4f;
+    public float armBend = 1f;
+    public float armEaseSpeed = 0.08f;
     
     public ClawBlock(String name){
         super(name);
@@ -110,6 +112,7 @@ public class ClawBlock extends Block {
         public float clawProgress;
         public float workProgress;
         public float payloadProgress;
+        public float armEase;
 
         public float targetX, targetY;
 
@@ -278,7 +281,6 @@ public class ClawBlock extends Block {
             payloadProgress = 0f;
         }
 
-
 @Override
 public void draw(){
     super.draw();
@@ -288,24 +290,29 @@ public void draw(){
 
     float endX = baseX;
     float endY = baseY;
-    float animation = 0f;
+    float targetEase = 0f;
 
     if(state == 1 || state == 2){
-        animation = state == 1 ? clawProgress : 1f;
-        endX = Mathf.lerp(baseX, targetX, animation);
-        endY = Mathf.lerp(baseY, targetY, animation);
+        targetEase = 1f;
+        endX = targetX;
+        endY = targetY;
     }else if(state == 3 && payload != null){
-        animation = 1f - payloadProgress;
+        targetEase = 1f - payloadProgress;
         endX = Mathf.lerp(targetX, x, payloadProgress);
         endY = Mathf.lerp(targetY, y, payloadProgress);
     }else if(state == 4 && payload != null){
-        animation = 1f;
+        targetEase = 1f;
         endX = Mathf.lerp(x, backX(), payloadProgress);
         endY = Mathf.lerp(y, backY(), payloadProgress);
     }
 
+    armEase = Mathf.lerpDelta(armEase, targetEase, armEaseSpeed);
+
     if(state >= 1 && state <= 4){
-        drawArm(baseX, baseY, endX, endY, animation);
+        float easedX = Mathf.lerp(baseX, endX, armEase);
+        float easedY = Mathf.lerp(baseY, endY, armEase);
+
+        drawArm(baseX, baseY, easedX, easedY);
     }
 
     if(payload != null){
@@ -315,77 +322,70 @@ public void draw(){
     Draw.reset();
 }
 
-private void drawArm(float baseX, float baseY, float endX, float endY, float animation){
+private void drawArm(float baseX, float baseY, float endX, float endY){
     float dx = endX - baseX;
     float dy = endY - baseY;
     float distance = Mathf.sqrt(dx * dx + dy * dy);
 
-    if(distance < 0.1f) return;
+    float upper = upperArmLength;
+    float forearm = forearmLength;
 
-    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
-    float perpX = -Mathf.sin(angle * Mathf.degRad);
-    float perpY = Mathf.cos(angle * Mathf.degRad);
+    if(distance < 0.001f) return;
 
-    float bend = Mathf.sin(animation * 3.1415926f) * armBend;
+    float maxReach = upper + forearm - 0.001f;
+    float minReach = Math.abs(upper - forearm) + 0.001f;
+    float reach = Mathf.clamp(distance, minReach, maxReach);
 
-    float elbowX = (baseX + endX) * 0.5f + perpX * bend;
-    float elbowY = (baseY + endY) * 0.5f + perpY * bend;
+    float dirX = dx / distance;
+    float dirY = dy / distance;
 
-    Draw.z(clawLayer);
-    Draw.color(team.color);
+    float along = (
+        upper * upper - forearm * forearm + reach * reach
+    ) / (2f * reach);
 
-    drawArmSegment(baseX, baseY, elbowX, elbowY);
-    drawArmSegment(elbowX, elbowY, endX, endY);
-
-    Draw.rect(
-        jointRegion,
-        baseX, baseY,
-        jointSize * 2f, jointSize * 2f
+    float height = Mathf.sqrt(
+        Math.max(0f, upper * upper - along * along)
     );
 
-    Draw.rect(
-        jointRegion,
-        elbowX, elbowY,
-        jointSize * 1.6f, jointSize * 1.6f
-    );
+    float side = armBend >= 0f ? 1f : -1f;
 
-    float clawAngle = Mathf.atan2(
+    float elbowX = baseX + dirX * along - dirY * height * side;
+    float elbowY = baseY + dirY * along + dirX * height * side;
+
+    float upperAngle = Mathf.atan2(
+        elbowY - baseY,
+        elbowX - baseX
+    ) * Mathf.radDeg;
+
+    float forearmAngle = Mathf.atan2(
         endY - elbowY,
         endX - elbowX
     ) * Mathf.radDeg;
 
-    Draw.rect(clawRegion, endX, endY, clawAngle);
+    Draw.z(clawLayer);
+    Draw.color(team.color);
+
+    Draw.rect(
+        armRegion,
+        (baseX + elbowX) / 2f,
+        (baseY + elbowY) / 2f,
+        upperAngle
+    );
+
+    Draw.rect(
+        armRegion,
+        (elbowX + endX) / 2f,
+        (elbowY + endY) / 2f,
+        forearmAngle
+    );
+
+    Draw.rect(jointRegion, baseX, baseY, jointSize * 2f, jointSize * 2f);
+    Draw.rect(jointRegion, elbowX, elbowY, jointSize * 2f, jointSize * 2f);
+    Draw.rect(clawRegion, endX, endY, forearmAngle);
 
     Draw.reset();
 }
 
-private void drawArmSegment(float startX, float startY, float endX, float endY){
-    float dx = endX - startX;
-    float dy = endY - startY;
-    float length = Mathf.sqrt(dx * dx + dy * dy);
-
-    if(length < 0.1f) return;
-
-    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
-
-    float spacing = armSegmentLength * 0.75f;
-    int count = Math.max(1, Mathf.ceil(length / spacing));
-
-    for(int i = 0; i <= count; i++){
-        float t = Math.min(i * spacing / length, 1f);
-
-        float px = Mathf.lerp(startX, endX, t);
-        float py = Mathf.lerp(startY, endY, t);
-
-        Draw.rect(
-            armRegion,
-            px, py,
-            armSegmentLength,
-            armWidth,
-            angle
-        );
-    }
-}
 
         
 public float progress(){
