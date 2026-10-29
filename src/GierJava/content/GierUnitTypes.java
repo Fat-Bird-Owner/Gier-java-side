@@ -40,7 +40,7 @@ public class GierUnitTypes {
     spark,
     drive;
     
-    public static @EntityDef(value = {Unitc.class, Ragec.class}, genIO = false) UnitType ash;
+    public static @EntityDef(value = {Unitc.class}, genIO = false) UnitType ash;
     
     // Internals
     public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class}, genIO = false) UnitType carrier;
