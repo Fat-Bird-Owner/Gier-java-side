@@ -46,12 +46,15 @@ public class ClawBlock extends Block {
     public float forearmLength = 16f;
     public float jointSize = 4f;
     public float armBend = 1f;
-	public float idleSway = 2.5f;
-	public float idleSpeed = 2.5f;
+	public float idleSway = 1f;
+	public float idleSpeed = 0.05f;
 
 	public float recoilStrength = 12f;
 	public float recoilRecovery = 0.04f;
 
+	public float chargeTime = 95f;
+	public float chargePullback = 14f;
+	public float chargeShake = 1.5f;
 	public float armEaseSpeed = 0.12f;
 	private PayloadProjectileType throwBullet = new PayloadProjectileType();
 	
@@ -161,6 +164,7 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
 		public float throwLaunchSpeed = 1f;
 		public float throwDamageMultiplier = 1f;
 		public float throwRecoil;
+		public float chargeProgress;
 		
         public int dirX(){
             return Geometry.d4(rotation).x;
@@ -296,14 +300,15 @@ case 3 -> {
     }
 
     if(payloadProgress >= 1f){
-        payloadProgress = 0f;
+    payloadProgress = 0f;
 
-        if(throwPayload && payload instanceof BuildPayload){
-            launchPayload();
-        }else{
-            state = 4;
-        }
+    if(throwPayload && payload instanceof BuildPayload){
+        chargeProgress = 0f;
+        state = 5;
+    }else{
+        state = 4;
     }
+	}
 }
 
     case 4 -> {
@@ -342,7 +347,25 @@ if(payloadProgress >= 1f && payload != null){
     }
 }
 		
-}}}
+}
+case 5 -> {
+    if(payload == null || !(payload instanceof BuildPayload)){
+        resetClaw();
+        return;
+    }
+
+    chargeProgress = Mathf.approachDelta(
+        chargeProgress,
+        1f,
+        1f / Math.max(1f, chargeTime)
+    );
+
+    if(chargeProgress >= 1f){
+        throwRecoil = 1f;
+        launchPayload();
+    }
+}			
+}}
 
         public void grabTarget(){
             if(target == null || target.tile == null || !target.isValid()){
@@ -412,7 +435,20 @@ public void draw(){
                 desiredY = Mathf.lerp(y, backY(), payloadProgress);
             }
         }
-    }
+	case 5 -> {
+    float charge = Mathf.clamp(chargeProgress);
+    float pullback = charge * chargePullback;
+    float shake = Mathf.sin(Time.time * 35f)
+        * chargeShake
+        * charge
+        * charge;
+
+    	desiredX -= dirX() * pullback;
+    	desiredY -= dirY() * pullback;
+
+    	desiredX += -dirY() * shake;
+    	desiredY += dirX() * shake;
+	}}
 
     if(!armPoseInitialized){
         drawEndX = desiredX;
@@ -519,11 +555,9 @@ private void drawLimb(float fromX, float fromY, float toX, float toY){
         
 public float progress(){
     return switch(state){
-        case 1 -> clawProgress;
         case 2 -> target == null || getBuildTime(target.block) <= 0f
             ? 0f
             : Mathf.clamp(workProgress / getBuildTime(target.block));
-        case 3, 4 -> payloadProgress;
         default -> 0f;
     };
 }
