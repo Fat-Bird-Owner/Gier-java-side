@@ -235,7 +235,7 @@ public void launchPayload(){
         spawnX,
         spawnY,
         angle,
-        (throwBullet.damage * payload.build.block.size) * throwDamageMultiplier,
+        (throwBullet.damage * (payload.build.size()/8f)) * throwDamageMultiplier,
         throwLaunchSpeed,
         1f,
         buildPayload
