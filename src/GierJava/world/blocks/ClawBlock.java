@@ -258,25 +258,112 @@ public class ClawBlock extends Block {
             payloadProgress = 0f;
         }
 
-        @Override
-        public void draw(){
-            super.draw();
-            if(state == 1 || state == 2){
-                Draw.color(team.color);
-                Draw.rect(
-                    region,
-                    x + ((target.x - x) * clawProgress),
-                    y + ((target.y - y) * clawProgress),
-                    rotation * 90f
-                );
-                Draw.color();
-            }
+@Override
+public void draw(){
+    super.draw();
 
-            if(payload != null){
-                payload.draw();
-            }
-        }
+    float angle = rotation * 90f;
 
+    float baseX = frontX();
+    float baseY = frontY();
+
+    float endX = baseX;
+    float endY = baseY;
+
+    if(state == 1 || state == 2){
+        float t = state == 2 ? 1f : clawProgress;
+
+        endX = Mathf.lerp(baseX, targetX, t);
+        endY = Mathf.lerp(baseY, targetY, t);
+    }else if(state == 3 && payload != null){
+        endX = Mathf.lerp(targetX, x, payloadProgress);
+        endY = Mathf.lerp(targetY, y, payloadProgress);
+    }else if(state == 4 && payload != null){
+        endX = Mathf.lerp(x, backX(), payloadProgress);
+        endY = Mathf.lerp(y, backY(), payloadProgress);
+    }
+
+    if(state >= 1 && state <= 4){
+        drawArm(baseX, baseY, endX, endY, angle);
+    }
+
+    if(payload != null){
+        payload.draw();
+    }
+
+    Draw.reset();
+}
+
+private void drawArm(
+    float baseX, float baseY,
+    float endX, float endY,
+    float baseAngle
+){
+    float dx = endX - baseX;
+    float dy = endY - baseY;
+    float distance = Mathf.sqrt(dx * dx + dy * dy);
+
+    if(distance < 1f) return;
+
+    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
+
+    float elbowX = Mathf.lerp(baseX, endX, 0.5f);
+    float elbowY = Mathf.lerp(baseY, endY, 0.5f);
+
+    float bend = Mathf.sin(clawProgress * Mathf.PI) * 8f;
+    float perpX = -Mathf.sin(angle * Mathf.degRad);
+    float perpY = Mathf.cos(angle * Mathf.degRad);
+
+    elbowX += perpX * bend;
+    elbowY += perpY * bend;
+
+    Draw.z(layer + 0.1f);
+
+    Draw.color(Pal.darkerMetal);
+    Lines.stroke(5f);
+    Lines.line(baseX, baseY, elbowX, elbowY);
+    Lines.line(elbowX, elbowY, endX, endY);
+
+    Draw.color(Pal.gray);
+    Lines.stroke(2f);
+    Lines.line(baseX, baseY, elbowX, elbowY);
+    Lines.line(elbowX, elbowY, endX, endY);
+
+    Draw.color(Pal.darkMetal);
+    Fill.circle(baseX, baseY, 5f);
+
+    Draw.color(Pal.accent);
+    Fill.circle(baseX, baseY, 2.5f);
+
+    Draw.color(Pal.darkMetal);
+    Fill.circle(elbowX, elbowY, 4f);
+
+    Draw.color(Pal.accent);
+    Fill.circle(elbowX, elbowY, 2f);
+
+    float clawAngle = angle;
+    float clawLength = 5f;
+    float spread = 25f;
+
+    float leftAngle = (clawAngle + 180f - spread) * Mathf.degRad;
+    float rightAngle = (clawAngle + 180f + spread) * Mathf.degRad;
+
+    float leftX = endX + Mathf.cos(leftAngle) * clawLength;
+    float leftY = endY + Mathf.sin(leftAngle) * clawLength;
+
+    float rightX = endX + Mathf.cos(rightAngle) * clawLength;
+    float rightY = endY + Mathf.sin(rightAngle) * clawLength;
+
+    Draw.color(Pal.darkMetal);
+    Lines.stroke(3f);
+    Lines.line(endX, endY, leftX, leftY);
+    Lines.line(endX, endY, rightX, rightY);
+
+    Draw.color(Pal.accent);
+    Fill.circle(endX, endY, 2.5f);
+
+    Draw.reset();
+}
 public float progress(){
     return switch(state){
         case 1 -> clawProgress;
