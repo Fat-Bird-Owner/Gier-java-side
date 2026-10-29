@@ -1,6 +1,7 @@
 
 package GierJava.world.blocks;
 
+import arc.util.Time;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.math.geom.Geometry;
@@ -52,7 +53,14 @@ public class ClawBlock extends Block {
     public float jointSize = 4f;
     public float armBend = 1f;
     public float armEaseSpeed = 0.08f;
-    
+
+	public float throwSpeed = 4f;
+	public float throwRange = 6f;
+	public float throwHeight = 30f;
+	public float throwDuration = 45f;
+	public float idleSway = 2f;
+	public float idleSpeed = 2f;
+	
     public ClawBlock(String name){
         super(name);
 
@@ -60,7 +68,14 @@ public class ClawBlock extends Block {
         solid = true;
         rotate = true;
         group = BlockGroup.payloads;
+		
+	config(Integer.class, (ClawBuild build, Integer value) -> {
+    	build.throwPayload = value == 1;
+		});
 
+	config(Integer.class, (ClawBuild build) -> {
+    	return build.throwPayload ? 1 : 0;
+		});
     }
 
     @Override
@@ -150,8 +165,15 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         public float targetX, targetY;
 		public float drawEndX, drawEndY;
 		public boolean armPoseInitialized;
-		public float armEaseSpeed = 0.12f;
-        
+
+		public boolean throwPayload;
+		public boolean throwing;
+
+		public float throwProgress;
+		public float throwStartX, throwStartY;
+		public float throwEndX, throwEndY;
+		public float throwRotation;
+
         public int dirX(){
             return Geometry.d4(rotation).x;
         }
@@ -175,7 +197,15 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         public float backY(){
             return y - dirY() * (size * tilesize / 2f + tilesize);
         }
-     
+
+		@Override
+		public void buildConfiguration(Table table){
+   			 table.button(
+        		throwPayload ? "Throw: ON" : "Throw: OFF",
+        		() -> configure(throwPayload ? 0 : 1)
+   			 ).size(160f, 40f);
+		}
+		
         public void findTarget(){
             target = null;
 
@@ -197,6 +227,56 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
             }
         }
 
+public void launchPayload(){
+    if(payload == null) return;
+
+    throwing = true;
+    throwProgress = 0f;
+
+    throwStartX = x;
+    throwStartY = y;
+
+    throwEndX = x + dirX() * throwRange * tilesize;
+    throwEndY = y + dirY() * throwRange * tilesize;
+
+    throwRotation = rotation * 90f;
+    state = 5;
+}
+
+public void updateThrownPayload(){
+    if(!throwing || payload == null) return;
+
+    throwProgress = Mathf.approachDelta(
+        throwProgress,
+        1f,
+        1f / throwDuration
+    );
+
+    float t = Mathf.clamp(throwProgress);
+    float eased = Mathf.pow(t, 0.8f);
+
+    float px = Mathf.lerp(throwStartX, throwEndX, eased);
+    float py = Mathf.lerp(throwStartY, throwEndY, eased);
+
+    payload.set(px, py, throwRotation);
+
+    if(throwProgress >= 1f){
+        Tile landing = world.tileWorld(throwEndX, throwEndY);
+
+        if(landing != null && landing.build == null && payload instanceof BuildPayload buildPayload){
+            buildPayload.place(landing, rotation);
+            payload = null;
+            throwing = false;
+            resetClaw();
+        }else{
+            throwing = false;
+            throwProgress = 0f;
+            state = 4;
+            payloadProgress = 0f;
+        }
+    }
+}
+		
         @Override
         public void updateTile(){
             switch(state){
@@ -248,10 +328,14 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
                         );
                     }
 
-                    if(payloadProgress >= 1f){
-                        state = 4;
-                        payloadProgress = 0f;
-                    }
+			if(payloadProgress >= 1f){
+    			payloadProgress = 0f;
+
+    			if(throwPayload && payload instanceof BuildPayload){
+        			launchPayload();
+   				 }else{
+       				 state = 4;
+    				}}
                 }
 
     case 4 -> {
@@ -282,7 +366,8 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         }
     }
 }
-            }
+				case 5 -> updateThrownPayload();		
+        	}
         }
 
         public void grabTarget(){
@@ -324,14 +409,16 @@ public void draw(){
     float baseX = frontX();
     float baseY = frontY();
 
-    float dirAngle = rotation * 90f;
-    float idleDistance = Math.max(
-        1f,
-        Math.min(upperArmLength + forearmLength - 1f, 8f)
-    );
+	float sway = Mathf.sin(Time.time * idleSpeed) * idleSway;
+	float dirAngle = rotation * 90f;
 
-    float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance;
-    float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance;
+	float idleDistance = Math.min(
+    	upperArmLength + forearmLength - 1f,
+    	8f
+	);
+
+	float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance - Mathf.sinDeg(dirAngle) * sway;
+	float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance + Mathf.cosDeg(dirAngle) * sway;
 
     switch(state){
         case 1, 2 -> {
@@ -417,19 +504,8 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
     Draw.z(clawLayer);
     Draw.color(team.color);
 
-    Draw.rect(
-        armRegion,
-        (baseX + elbowX) / 2f,
-        (baseY + elbowY) / 2f,
-        upperAngle
-    );
-
-    Draw.rect(
-        armRegion,
-        (elbowX + endX) / 2f,
-        (elbowY + endY) / 2f,
-        forearmAngle
-    );
+	drawLimb(baseX, baseY, elbowX, elbowY);
+	drawLimb(elbowX, elbowY, endX, endY);
 
     Draw.rect(
         jointRegion,
@@ -452,7 +528,19 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
     Draw.reset();
 }
 
+private void drawLimb(float fromX, float fromY, float toX, float toY){
+    float dx = toX - fromX;
+    float dy = toY - fromY;
 
+    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
+
+    Draw.rect(
+        armRegion,
+        (fromX + toX) / 2f,
+        (fromY + toY) / 2f,
+        angle
+    );
+}
         
 public float progress(){
     return switch(state){
