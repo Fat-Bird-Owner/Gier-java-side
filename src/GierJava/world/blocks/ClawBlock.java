@@ -20,16 +20,11 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
 import arc.scene.ui.layout.Table;
 import mindustry.ui.Bar;
-import mindustry.graphics.Pal;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.payloads.*;
 import arc.graphics.g2d.Fill;
 import arc.Core;
-import arc.graphics.g2d.TextureRegion;
 import mindustry.Vars;
-import mindustry.gen.Building;
-import mindustry.world.Tile;
-
 import mindustry.world.blocks.ConstructBlock;
 
 import static mindustry.Vars.*;
@@ -51,10 +46,14 @@ public class ClawBlock extends Block {
     public float forearmLength = 16f;
     public float jointSize = 4f;
     public float armBend = 1f;
-    public float armEaseSpeed = 0.08f;
+	public float idleSway = 2.5f;
+	public float idleSpeed = 2.5f;
 
-	public float idleSway = 2f;
-	public float idleSpeed = 0.01f;
+	public float recoilStrength = 12f;
+	public float recoilRecovery = 0.04f;
+
+	public float armEaseSpeed = 0.12f;
+	private PayloadProjectileType throwBullet = new PayloadProjectileType();
 	
 public ClawBlock(String name){
     super(name);
@@ -159,8 +158,6 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
 
 		public boolean throwPayload;
 		public float throwProgress;
-		public PayloadProjectileType throwBullet = new PayloadProjectileType();
-
 		public float throwLaunchSpeed = 1f;
 		public float throwDamageMultiplier = 1f;
 		public float throwRecoil;
@@ -385,8 +382,6 @@ public void draw(){
 
     float baseX = frontX();
     float baseY = frontY();
-
-	float sway = Mathf.sin(Time.time * idleSpeed) * idleSway;
 	float dirAngle = rotation * 90f;
 
 	float idleDistance = Math.min(
@@ -394,9 +389,11 @@ public void draw(){
     	8f
 	);
 
-	float recoilOffset = throwRecoil * 5f;
-	float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance - dirX() * recoilOffset;
-	float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance - dirY() * recoilOffset;
+	float sway = Mathf.sin(Time.time * idleSpeed) * idleSway;
+
+	float recoilOffset = throwRecoil * recoilStrength;
+	float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance - Mathf.sinDeg(dirAngle) * sway - dirX() * recoilOffset;
+	float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance + Mathf.cosDeg(dirAngle) * sway - dirY() * recoilOffset;
 
     switch(state){
         case 1, 2 -> {
