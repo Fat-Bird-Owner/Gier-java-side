@@ -148,7 +148,10 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         public float armEase;
 
         public float targetX, targetY;
-
+		public float drawEndX, drawEndY;
+		public boolean armPoseInitialized;
+		public float armEaseSpeed = 0.12f;
+        
         public int dirX(){
             return Geometry.d4(rotation).x;
         }
@@ -321,33 +324,48 @@ public void draw(){
     float baseX = frontX();
     float baseY = frontY();
 
-    float endX = baseX;
-    float endY = baseY;
+    float dirAngle = rotation * 90f;
+    float idleDistance = Math.max(
+        1f,
+        Math.min(upperArmLength + forearmLength - 1f, 8f)
+    );
 
-    if(state == 1 || state == 2){
-        endX = targetX;
-        endY = targetY;
-    }else if(state == 3 && payload != null){
-        endX = Mathf.lerp(targetX, x, payloadProgress);
-        endY = Mathf.lerp(targetY, y, payloadProgress);
-    }else if(state == 4 && payload != null){
-        endX = Mathf.lerp(x, backX(), payloadProgress);
-        endY = Mathf.lerp(y, backY(), payloadProgress);
-    }else{
-        float idleDistance = upperArmLength * 0.65f;
-        float angle = rotation * 90f;
+    float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance;
+    float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance;
 
-        endX = baseX + Mathf.cosDeg(angle) * idleDistance;
-        endY = baseY + Mathf.sinDeg(angle) * idleDistance;
+    switch(state){
+        case 1, 2 -> {
+            desiredX = targetX;
+            desiredY = targetY;
+        }
+        case 3 -> {
+            if(payload != null){
+                desiredX = Mathf.lerp(targetX, x, payloadProgress);
+                desiredY = Mathf.lerp(targetY, y, payloadProgress);
+            }
+        }
+        case 4 -> {
+            if(payload != null){
+                desiredX = Mathf.lerp(x, backX(), payloadProgress);
+                desiredY = Mathf.lerp(y, backY(), payloadProgress);
+            }
+        }
     }
 
-    float targetEase = state == 0 ? 0f : 1f;
-    armEase = Mathf.lerpDelta(armEase, targetEase, armEaseSpeed);
+    if(!armPoseInitialized){
+        drawEndX = desiredX;
+        drawEndY = desiredY;
+        armPoseInitialized = true;
+    }else{
+        drawEndX = Mathf.lerpDelta(
+            drawEndX, desiredX, armEaseSpeed
+        );
+        drawEndY = Mathf.lerpDelta(
+            drawEndY, desiredY, armEaseSpeed
+        );
+    }
 
-    float easedX = Mathf.lerp(baseX, endX, armEase);
-    float easedY = Mathf.lerp(baseY, endY, armEase);
-
-    drawArm(baseX, baseY, easedX, easedY);
+    drawArm(baseX, baseY, drawEndX, drawEndY);
 
     if(payload != null){
         payload.draw();
@@ -366,8 +384,8 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
 
     if(distance < 0.001f) return;
 
-    float maxReach = upper + forearm - 0.001f;
-    float minReach = Math.abs(upper - forearm) + 0.001f;
+    float maxReach = upper + forearm - 0.01f;
+    float minReach = Math.abs(upper - forearm) + 0.01f;
     float reach = Mathf.clamp(distance, minReach, maxReach);
 
     float dirX = dx / distance;
@@ -413,9 +431,23 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
         forearmAngle
     );
 
-    Draw.rect(jointRegion, baseX, baseY, jointSize * 2f, jointSize * 2f);
-    Draw.rect(jointRegion, elbowX, elbowY, jointSize * 2f, jointSize * 2f);
-    Draw.rect(clawRegion, endX, endY, forearmAngle);
+    Draw.rect(
+        jointRegion,
+        baseX, baseY,
+        jointSize * 2f, jointSize * 2f
+    );
+
+    Draw.rect(
+        jointRegion,
+        elbowX, elbowY,
+        jointSize * 2f, jointSize * 2f
+    );
+
+    Draw.rect(
+        clawRegion,
+        endX, endY,
+        forearmAngle
+    );
 
     Draw.reset();
 }
