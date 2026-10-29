@@ -72,10 +72,6 @@ public class ClawBlock extends Block {
 	config(Integer.class, (ClawBuild build, Integer value) -> {
     	build.throwPayload = value == 1;
 		});
-
-	config(Integer.class, (ClawBuild build) -> {
-    	return build.throwPayload ? 1 : 0;
-		});
     }
 
     @Override
@@ -200,10 +196,10 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
 
 		@Override
 		public void buildConfiguration(Table table){
-   			 table.button(
+    		table.button(
         		throwPayload ? "Throw: ON" : "Throw: OFF",
         		() -> configure(throwPayload ? 0 : 1)
-   			 ).size(160f, 40f);
+    		).size(160f, 40f);
 		}
 		
         public void findTarget(){
