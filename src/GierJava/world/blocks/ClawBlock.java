@@ -23,6 +23,8 @@ import mindustry.graphics.Pal;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.payloads.*;
 import arc.graphics.g2d.Fill;
+import arc.Core;
+import arc.graphics.g2d.TextureRegion;
 
 import mindustry.world.blocks.ConstructBlock;
 
@@ -37,6 +39,10 @@ public class ClawBlock extends Block {
     public int maxSize = 3;
     public float clawLayer = 55f;
     
+    public TextureRegion armRegion;
+    public TextureRegion jointRegion;
+    public TextureRegion clawRegion;
+    
     public ClawBlock(String name){
         super(name);
 
@@ -48,7 +54,15 @@ public class ClawBlock extends Block {
 
     }
 
+    @Override
+    public void load(){
+        super.load();
 
+        armRegion = Core.atlas.find(name + "-arm");
+        jointRegion = Core.atlas.find(name + "-joint");
+        clawRegion = Core.atlas.find(name + "-claw");
+    }
+    
     @Override
     public void setBars(){
         super.setBars();
@@ -295,11 +309,7 @@ public void draw(){
     Draw.reset();
 }
 
-private void drawArm(
-    float baseX, float baseY,
-    float endX, float endY,
-    float baseAngle
-){
+private void drawArm(float baseX, float baseY, float endX, float endY, float baseAngle){
     float dx = endX - baseX;
     float dy = endY - baseY;
     float distance = Mathf.sqrt(dx * dx + dy * dy);
@@ -311,60 +321,49 @@ private void drawArm(
     float elbowX = Mathf.lerp(baseX, endX, 0.5f);
     float elbowY = Mathf.lerp(baseY, endY, 0.5f);
 
-    float bend = Mathf.sin(clawProgress * Mathf.PI) * 8f;
+    float bend = Mathf.sin(clawProgress * 3.1415926f) * 8f;
     float perpX = -Mathf.sin(angle * Mathf.degRad);
     float perpY = Mathf.cos(angle * Mathf.degRad);
 
     elbowX += perpX * bend;
     elbowY += perpY * bend;
 
-    Draw.z(clawLayer);
+    Draw.z(layer + 0.1f);
+    Draw.color(team.color);
 
-    Draw.color(Pal.darkerMetal);
-    Lines.stroke(5f);
-    Lines.line(baseX, baseY, elbowX, elbowY);
-    Lines.line(elbowX, elbowY, endX, endY);
+    drawArmSegment(baseX, baseY, elbowX, elbowY);
+    drawArmSegment(elbowX, elbowY, endX, endY);
 
-    Draw.color(Pal.gray);
-    Lines.stroke(2f);
-    Lines.line(baseX, baseY, elbowX, elbowY);
-    Lines.line(elbowX, elbowY, endX, endY);
+    if(jointRegion.found()){
+        Draw.rect(jointRegion, baseX, baseY, 8f, 8f);
+        Draw.rect(jointRegion, elbowX, elbowY, 7f, 7f);
+    }
 
-    Draw.color(Pal.darkMetal);
-    Fill.circle(baseX, baseY, 5f);
-
-    Draw.color(Pal.accent);
-    Fill.circle(baseX, baseY, 2.5f);
-
-    Draw.color(Pal.darkMetal);
-    Fill.circle(elbowX, elbowY, 4f);
-
-    Draw.color(Pal.accent);
-    Fill.circle(elbowX, elbowY, 2f);
-
-    float clawAngle = angle;
-    float clawLength = 5f;
-    float spread = 25f;
-
-    float leftAngle = (clawAngle + 180f - spread) * Mathf.degRad;
-    float rightAngle = (clawAngle + 180f + spread) * Mathf.degRad;
-
-    float leftX = endX + Mathf.cos(leftAngle) * clawLength;
-    float leftY = endY + Mathf.sin(leftAngle) * clawLength;
-
-    float rightX = endX + Mathf.cos(rightAngle) * clawLength;
-    float rightY = endY + Mathf.sin(rightAngle) * clawLength;
-
-    Draw.color(Pal.darkMetal);
-    Lines.stroke(3f);
-    Lines.line(endX, endY, leftX, leftY);
-    Lines.line(endX, endY, rightX, rightY);
-
-    Draw.color(Pal.accent);
-    Fill.circle(endX, endY, 2.5f);
+    if(clawRegion.found()){
+        Draw.rect(clawRegion, endX, endY, angle);
+    }
 
     Draw.reset();
 }
+
+private void drawArmSegment(float startX, float startY, float endX, float endY){
+    float dx = endX - startX;
+    float dy = endY - startY;
+    float length = Mathf.sqrt(dx * dx + dy * dy);
+    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
+
+    if(armRegion.found()){
+        Draw.rect(
+            armRegion,
+            (startX + endX) / 2f,
+            (startY + endY) / 2f,
+            length,
+            armRegion.height * (8f / armRegion.width),
+            angle
+        );
+    }
+}
+        
 public float progress(){
     return switch(state){
         case 1 -> clawProgress;
