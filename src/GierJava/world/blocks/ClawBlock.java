@@ -25,6 +25,9 @@ import mindustry.world.blocks.payloads.*;
 import arc.graphics.g2d.Fill;
 import arc.Core;
 import arc.graphics.g2d.TextureRegion;
+import mindustry.Vars;
+import mindustry.gen.Building;
+import mindustry.world.Tile;
 
 import mindustry.world.blocks.ConstructBlock;
 
@@ -56,7 +59,6 @@ public class ClawBlock extends Block {
         update = true;
         solid = true;
         rotate = true;
-        swapDiagonalPlacement = true;
         group = BlockGroup.payloads;
 
     }
@@ -82,19 +84,50 @@ public class ClawBlock extends Block {
     }
 
 
-    @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
-        super.drawPlace(x, y, rotation, valid);
+@Override
+public void drawPlace(int x, int y, int rotation, boolean valid){
+    super.drawPlace(x, y, rotation, valid);
 
-        float endX = x + Geometry.d4(rotation).x * range * tilesize;
-        float endY = y + Geometry.d4(rotation).y * range * tilesize;
+    float centerX = x * tilesize + offset;
+    float centerY = y * tilesize + offset;
 
-        Draw.color(Pal.accent);
-        Lines.stroke(2f);
-        Lines.line(x, y, endX, endY);
+    float startX = centerX + Geometry.d4(rotation).x * (size * tilesize / 2f);
+    float startY = centerY + Geometry.d4(rotation).y * (size * tilesize / 2f);
 
-        Draw.reset();
+    float endX = startX + Geometry.d4(rotation).x * range * tilesize;
+    float endY = startY + Geometry.d4(rotation).y * range * tilesize;
+
+    Draw.color(Pal.accent);
+    Lines.stroke(2f);
+    Lines.line(startX, startY, endX, endY);
+
+    for(int i = size / 2 + 1; i <= range; i++){
+        int tx = x + Geometry.d4(rotation).x * i;
+        int ty = y + Geometry.d4(rotation).y * i;
+
+        Tile other = world.tile(tx, ty);
+
+        if(other != null && other.build != null){
+            Building build = other.build;
+
+            if(build.team == Vars.player.team()
+                && build.block.canPickup
+                && build.block.size <= maxSize
+                && !(build instanceof ConstructBlock.ConstructBuild)){
+
+                Drawf.square(
+                    build.x,
+                    build.y,
+                    build.block.size * tilesize / 2f + 3f,
+                    0f
+                );
+                break;
+            }
+        }
     }
+
+    Draw.reset();
+}
 
     public float getBuildTime(Block block){
         return block.buildTime * multiplier;
@@ -290,30 +323,31 @@ public void draw(){
 
     float endX = baseX;
     float endY = baseY;
-    float targetEase = 0f;
 
     if(state == 1 || state == 2){
-        targetEase = 1f;
         endX = targetX;
         endY = targetY;
     }else if(state == 3 && payload != null){
-        targetEase = 1f - payloadProgress;
         endX = Mathf.lerp(targetX, x, payloadProgress);
         endY = Mathf.lerp(targetY, y, payloadProgress);
     }else if(state == 4 && payload != null){
-        targetEase = 1f;
         endX = Mathf.lerp(x, backX(), payloadProgress);
         endY = Mathf.lerp(y, backY(), payloadProgress);
+    }else{
+        float idleDistance = upperArmLength * 0.65f;
+        float angle = rotation * 90f;
+
+        endX = baseX + Mathf.cosDeg(angle) * idleDistance;
+        endY = baseY + Mathf.sinDeg(angle) * idleDistance;
     }
 
+    float targetEase = state == 0 ? 0f : 1f;
     armEase = Mathf.lerpDelta(armEase, targetEase, armEaseSpeed);
 
-    if(state >= 1 && state <= 4){
-        float easedX = Mathf.lerp(baseX, endX, armEase);
-        float easedY = Mathf.lerp(baseY, endY, armEase);
+    float easedX = Mathf.lerp(baseX, endX, armEase);
+    float easedY = Mathf.lerp(baseY, endY, armEase);
 
-        drawArm(baseX, baseY, easedX, easedY);
-    }
+    drawArm(baseX, baseY, easedX, easedY);
 
     if(payload != null){
         payload.draw();
