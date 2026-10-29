@@ -4,14 +4,27 @@ import arc.struct.*;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
+import static mindustry.content.Items.*;
 import static GierJava.content.GierBlocks.*;
+import static GierJava.content.GierItems.*;
 import static GierJava.content.GierPlanets.*;
+import static GierJava.content.GierSectorPreset.*;
 import static mindustry.content.TechTree.*;
 
 public class GierTechTree {
 
     public static void load(){
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
+
+            node(lead, () -> {
+                node(copper, () -> {});
+                node(graphite, () -> {
+                    node(silicon, () -> {});
+                    node(metaglassChunk, () -> {
+                        node(metaglass, () -> {});
+                    });
+                });
+            });
 
             node(hydroDrill, () -> {
                 node(rail, () -> {
@@ -45,6 +58,8 @@ public class GierTechTree {
             node(restorator, () -> {
                 node(mendPylon, () -> {});
             });
+
+            node(Chasm, () -> {});
 
         });
     }

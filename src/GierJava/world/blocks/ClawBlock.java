@@ -17,6 +17,14 @@ import mindustry.world.meta.BlockGroup;
 import arc.graphics.g2d.Lines;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
+import arc.scene.ui.layout.Table;
+import mindustry.ui.Bar;
+import mindustry.graphics.Pal;
+import mindustry.content.Blocks;
+import mindustry.world.blocks.payloads.*;
+import arc.graphics.g2d.Fill;
+
+import mindustry.world.blocks.ConstructBlock;
 
 import static mindustry.Vars.*;
 
@@ -25,6 +33,8 @@ public class ClawBlock extends Block {
     public int range = 5;
     public float clawSpeed = 0.08f;
     public float payloadSpeed = 0.06f;
+    public float multiplier = 1f;
+    public int maxSize = 3;
 
     public ClawBlock(String name){
         super(name);
@@ -32,8 +42,40 @@ public class ClawBlock extends Block {
         update = true;
         solid = true;
         rotate = true;
+        swapDiagonalPlacement = true;
         group = BlockGroup.payloads;
 
+    }
+
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("progress", entity -> new Bar(
+            "Progress", 
+            Pal.items, 
+            entity::progress
+        ));
+    }
+
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        float endX = x + Geometry.d4(rotation).x * range * tilesize;
+        float endY = y + Geometry.d4(rotation).y * range * tilesize;
+
+        Draw.color(Pal.accent);
+        Lines.stroke(2f);
+        Lines.line(x, y, endX, endY);
+
+        Draw.reset();
+    }
+
+    public float getBuildTime(Block block){
+        return block.buildTime * multiplier;
     }
 
     public class ClawBuild extends Building{
@@ -82,16 +124,10 @@ public class ClawBlock extends Block {
                 Tile other = tile.nearby(dirX() * i, dirY() * i);
 
                 if(other == null) break;
-
                 Building build = other.build;
 
-                if(build == null) continue;
-
-                if(build == this) continue;
-
-                if(build.team != team) continue;
-
-                if(!build.block.canPickup) continue;
+                if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
+                if(!build.block.canPickup || build.block.size > maxSize) continue;
 
                 target = build;
                 targetX = build.x;
@@ -135,7 +171,7 @@ public class ClawBlock extends Block {
 
                     // Wait for the target block's build time.
                     workProgress += edelta();
-                    if(workProgress >= target.block.buildTime){
+                    if(workProgress >= getBuildTime(target.block)){
                         grabTarget();
                     }
                 }
@@ -159,44 +195,53 @@ public class ClawBlock extends Block {
                     }
                 }
 
-                case 4 -> {
-                    payloadProgress = Mathf.approachDelta(
-                        payloadProgress, 1f, payloadSpeed
-                    );
+    case 4 -> {
+    payloadProgress = Mathf.approachDelta(
+        payloadProgress, 1f, payloadSpeed
+    );
 
-                    if(payload != null){
-                        payload.set(
-                            Mathf.lerp(x, backX(), payloadProgress),
-                            Mathf.lerp(y, backY(), payloadProgress),
-                            rotation * 90f
-                        );
-                    }
+    if(payload != null){
+        payload.set(
+            Mathf.lerp(x, backX(), payloadProgress),
+            Mathf.lerp(y, backY(), payloadProgress),
+            rotation * 90f
+        );
+    }
 
-                    if(payloadProgress >= 1f){
-                        Tile out = world.tileWorld(backX(), backY());
+    if(payloadProgress >= 1f && payload != null){
+        Tile out = world.tileWorld(backX(), backY());
 
-                        if(out != null && out.build == null && out.block().isAir()){
-                            if(payload instanceof BuildPayload bp){
-                                bp.place(out, rotation);
-                                payload = null;
-                                resetClaw();
-                            }
-                        }
-                    }
-                }
+        if(out != null && out.build != null){
+            Building output = out.build;
+
+            if(output.block.acceptsPayload || output.block instanceof PayloadBlock || output.block instanceof PayloadConveyor){
+                if (!output.acceptPayload(this, payload)) return;
+                output.handlePayload(this, payload);
+                payload = null;
+                resetClaw();
+            }
+        }
+    }
+}
             }
         }
 
         public void grabTarget(){
-            if(target == null || target.tile == null){
+            if(target == null || target.tile == null || !target.isValid()){
                 resetClaw();
                 return;
             }
 
+            if (target.isValid()) {
+
             payload = new BuildPayload(target);
             Tile targetTile = target.tile;
 
+            targetTile.setBlock(target.block, target.team);
             targetTile.build.kill();
+
+            }
+
             targetX = target.x;
             targetY = target.y;
 
@@ -216,14 +261,12 @@ public class ClawBlock extends Block {
         @Override
         public void draw(){
             super.draw();
-
-            float length = range * tilesize * clawProgress;
             if(state == 1 || state == 2){
                 Draw.color(team.color);
                 Draw.rect(
                     region,
-                    x + dirX() * length / 2f,
-                    y + dirY() * length / 2f,
+                    x + ((target.x - x) * clawProgress),
+                    y + ((target.y - y) * clawProgress),
                     rotation * 90f
                 );
                 Draw.color();
@@ -233,6 +276,17 @@ public class ClawBlock extends Block {
                 payload.draw();
             }
         }
+
+public float progress(){
+    return switch(state){
+        case 1 -> clawProgress;
+        case 2 -> target == null || getBuildTime(target.block) <= 0f
+            ? 0f
+            : Mathf.clamp(workProgress / getBuildTime(target.block));
+        case 3, 4 -> payloadProgress;
+        default -> 0f;
+    };
+}
 
 @Override
 public void drawSelect(){
@@ -273,9 +327,8 @@ public void drawSelect(){
         if(other == null) break;
         Building build = other.build;
 
-        if(build == null || build == this) continue;
-        if(build.team != team) continue;
-        if(!build.block.canPickup) continue;
+        if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
+        if(!build.block.canPickup || build.block.size > maxSize) continue;
 
         return build;
         }

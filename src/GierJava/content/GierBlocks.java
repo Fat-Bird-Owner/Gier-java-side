@@ -345,7 +345,8 @@ public class GierBlocks {
 
             customShadow = true;
             baseExplosiveness = 40f;
-
+            itemCapacity = 10;
+            
             envEnabled = -1;
             databaseTag = "gier";
             alwaysUnlocked = true;
