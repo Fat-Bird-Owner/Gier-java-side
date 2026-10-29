@@ -328,7 +328,7 @@ private void drawArm(float baseX, float baseY, float endX, float endY, float bas
     elbowX += perpX * bend;
     elbowY += perpY * bend;
 
-    Draw.z(layer + 0.1f);
+    Draw.z(clawLayer);
     Draw.color(team.color);
 
     drawArmSegment(baseX, baseY, elbowX, elbowY);
