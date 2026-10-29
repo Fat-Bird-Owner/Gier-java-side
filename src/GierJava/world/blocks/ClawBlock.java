@@ -172,6 +172,12 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
 		public float throwEndX, throwEndY;
 		public float throwRotation;
 
+		public PayloadProjectileType throwBullet = new PayloadProjectileType();
+
+		public float throwLaunchSpeed = 1f;
+		public float throwDamageMultiplier = 1f;
+		public float throwRecoil;
+		
         public int dirX(){
             return Geometry.d4(rotation).x;
         }
@@ -226,19 +232,29 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
         }
 
 public void launchPayload(){
-    if(payload == null) return;
+    if(payload == null || !(payload instanceof BuildPayload buildPayload)) return;
 
-    throwing = true;
-    throwProgress = 0f;
+    float angle = rotation * 90f;
+    float spawnX = x + dirX() * (block.size * tilesize / 2f + 4f);
+    float spawnY = y + dirY() * (block.size * tilesize / 2f + 4f);
 
-    throwStartX = x;
-    throwStartY = y;
+    throwBullet.create(
+        this,
+        team,
+        spawnX,
+        spawnY,
+        angle,
+        throwBullet.damage * throwDamageMultiplier,
+        throwLaunchSpeed,
+        1f,
+        buildPayload
+    );
 
-    throwEndX = x + dirX() * throwRange * tilesize;
-    throwEndY = y + dirY() * throwRange * tilesize;
-
-    throwRotation = rotation * 90f;
-    state = 5;
+    payload = null;
+    state = 0;
+    clawProgress = 0f;
+    workProgress = 0f;
+    payloadProgress = 0f;
 }
 
 public void updateThrownPayload(){
@@ -277,6 +293,9 @@ public void updateThrownPayload(){
 		
         @Override
         public void updateTile(){
+
+			throwRecoil = Mathf.approachDelta(throwRecoil, 0f, 0.12f);
+			
             switch(state){
                 case 0 -> {
                     if(payload == null){
@@ -329,12 +348,15 @@ public void updateThrownPayload(){
 			if(payloadProgress >= 1f){
     			payloadProgress = 0f;
 
-    			if(throwPayload && payload instanceof BuildPayload){
-        			launchPayload();
-   				 }else{
-       				 state = 4;
-    				}}
-                }
+if(payloadProgress >= 1f){
+    payloadProgress = 0f;
+
+    if(throwPayload && payload instanceof BuildPayload){
+        launchPayload();
+    }else{
+        state = 4;
+    }
+}}}
 
     case 4 -> {
     payloadProgress = Mathf.approachDelta(
@@ -415,8 +437,9 @@ public void draw(){
     	8f
 	);
 
-	float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance - Mathf.sinDeg(dirAngle) * sway;
-	float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance + Mathf.cosDeg(dirAngle) * sway;
+	float recoilOffset = throwRecoil * 5f;
+	float desiredX = baseX + Mathf.cosDeg(dirAngle) * idleDistance - dirX() * recoilOffset;
+	float desiredY = baseY + Mathf.sinDeg(dirAngle) * idleDistance - dirY() * recoilOffset;
 
     switch(state){
         case 1, 2 -> {
