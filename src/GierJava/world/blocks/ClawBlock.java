@@ -47,9 +47,9 @@ public class ClawBlock extends Block {
     public float jointSize = 4f;
     public float armBend = 1f;
 	public float idleSway = 1f;
-	public float idleSpeed = 0.05f;
+	public float idleSpeed = 0.01f;
 
-	public float recoilStrength = 12f;
+	public float recoilStrength = -120f;
 	public float recoilRecovery = 0.04f;
 
 	public float chargeTime = 95f;
@@ -194,7 +194,10 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
 		public void buildConfiguration(Table table){
     		table.button(
         		throwPayload ? "Throw: ON" : "Throw: OFF",
-        		() -> configure(throwPayload ? 0 : 1)
+        		() -> {
+					configure(throwPayload ? 0 : 1);
+					deselect();
+				}
     		).size(160f, 40f);
 		}
 		
@@ -232,7 +235,7 @@ public void launchPayload(){
         spawnX,
         spawnY,
         angle,
-        throwBullet.damage * throwDamageMultiplier,
+        (throwBullet.damage * payload.build.block.size) * throwDamageMultiplier,
         throwLaunchSpeed,
         1f,
         buildPayload
