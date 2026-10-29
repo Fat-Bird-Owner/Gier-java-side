@@ -100,6 +100,7 @@ public class GierPlanets {
             accessible = true;
             visible = true;
             allowLaunchToNumbered = false;
+            alwaysUnlocked = true;
             atmosphereColor = Color.valueOf("1d214ec3");
             iconColor = Color.valueOf("596ab8ff");
             startSector = 24;
