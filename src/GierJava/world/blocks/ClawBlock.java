@@ -256,40 +256,6 @@ public void launchPayload(){
     workProgress = 0f;
     payloadProgress = 0f;
 }
-
-public void updateThrownPayload(){
-    if(!throwing || payload == null) return;
-
-    throwProgress = Mathf.approachDelta(
-        throwProgress,
-        1f,
-        1f / throwDuration
-    );
-
-    float t = Mathf.clamp(throwProgress);
-    float eased = Mathf.pow(t, 0.8f);
-
-    float px = Mathf.lerp(throwStartX, throwEndX, eased);
-    float py = Mathf.lerp(throwStartY, throwEndY, eased);
-
-    payload.set(px, py, throwRotation);
-
-    if(throwProgress >= 1f){
-        Tile landing = world.tileWorld(throwEndX, throwEndY);
-
-        if(landing != null && landing.build == null && payload instanceof BuildPayload buildPayload){
-            buildPayload.place(landing, rotation);
-            payload = null;
-            throwing = false;
-            resetClaw();
-        }else{
-            throwing = false;
-            throwProgress = 0f;
-            state = 4;
-            payloadProgress = 0f;
-        }
-    }
-}
 		
         @Override
         public void updateTile(){
@@ -332,31 +298,29 @@ public void updateThrownPayload(){
                     }
                 }
 
-                case 3 -> {
-                    payloadProgress = Mathf.approachDelta(
-                        payloadProgress, 1f, payloadSpeed
-                    );
+case 3 -> {
+    payloadProgress = Mathf.approachDelta(
+        payloadProgress, 1f, payloadSpeed
+    );
 
-                    if(payload != null){
-                        payload.set(
-                            Mathf.lerp(targetX, x, payloadProgress),
-                            Mathf.lerp(targetY, y, payloadProgress),
-                            rotation * 90f
-                        );
-                    }
-
-			if(payloadProgress >= 1f){
-    			payloadProgress = 0f;
-
-if(payloadProgress >= 1f){
-    payloadProgress = 0f;
-
-    if(throwPayload && payload instanceof BuildPayload){
-        launchPayload();
-    }else{
-        state = 4;
+    if(payload != null){
+        payload.set(
+            Mathf.lerp(targetX, x, payloadProgress),
+            Mathf.lerp(targetY, y, payloadProgress),
+            rotation * 90f
+        );
     }
-}}}
+
+    if(payloadProgress >= 1f){
+        payloadProgress = 0f;
+
+        if(throwPayload && payload instanceof BuildPayload){
+            launchPayload();
+        }else{
+            state = 4;
+        }
+    }
+}
 
     case 4 -> {
     payloadProgress = Mathf.approachDelta(
@@ -371,24 +335,30 @@ if(payloadProgress >= 1f){
         );
     }
 
-    if(payloadProgress >= 1f && payload != null){
-        Tile out = world.tileWorld(backX(), backY());
+if(payloadProgress >= 1f && payload != null){
+    Tile out = world.tileWorld(backX(), backY());
 
-        if(out != null && out.build != null){
-            Building output = out.build;
+    if(out != null && out.build != null){
+        Building output = out.build;
 
-            if(output.block.acceptsPayload || output.block instanceof PayloadBlock || output.block instanceof PayloadConveyor){
-                if (!output.acceptPayload(this, payload)) return;
+        if(output.block.acceptsPayload
+            || output.block instanceof PayloadBlock
+            || output.block instanceof PayloadConveyor){
+
+            if(output.acceptPayload(this, payload)){
                 output.handlePayload(this, payload);
                 payload = null;
                 resetClaw();
             }
         }
     }
+
+    if(payload != null){
+        payloadProgress = 1f;
+    }
 }
-				case 5 -> updateThrownPayload();		
-        	}
-        }
+		
+}}}
 
         public void grabTarget(){
             if(target == null || target.tile == null || !target.isValid()){
