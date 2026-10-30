@@ -19,7 +19,7 @@ import mindustry.type.PayloadSeq;
 import static mindustry.Vars.*;
 
 public class PayloadAmmoTurret extends Turret{
-    public OrderedMap<UnlockableContent, BulletType> ammoTyeys = {};
+    public OrderedMap<UnlockableContent, BulletType> ammoTypes = {};
 
     public PayloadAmmoTurret(String name){
         super(name);
