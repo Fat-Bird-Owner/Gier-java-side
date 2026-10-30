@@ -59,7 +59,7 @@ public class DerelictBlocks {
     public static void load(){
 
 		bulkStone = new HarvestWall("bulk-stone"){
-			buildTime = 90f;
+			buildTime = 90;
 		};
 		
         derelictScrapWall = new Wall("dense-scrap-wall"){{
