@@ -2,6 +2,8 @@ package GierJava.world.blocks;
 
 import mindustry.world.*;
 import mindustry.gen.*;
+import mindustry.world.environment.*;
+import mindustry.entities.BuildingComp;
 
 // Unkillable static walls used for claws
 public class HarvestWall extends StaticWall {
@@ -13,7 +15,7 @@ public class HarvestWall extends StaticWall {
 
 	public class HarvestBuild extends Building {
 
-		@Override
+	@Override
     public void kill(){
     }
 
