@@ -91,7 +91,7 @@ public class DerelictBlocks {
 
     	ammo(
     		derelictScrapWall, new ArtilleryBulletType(4f, 80f),
-    		largeDerelictScrapWall, new ArtilleryBulletType(3f, 120f)
+    		derelictScrapWallLarge, new ArtilleryBulletType(3f, 120f)
 		);
 
     	limitRange();
