@@ -93,7 +93,11 @@ public class DerelictBlocks {
     	ammo(
     	derelictScrapWall,
 		new BasicBulletType(6f, 7.5f){{
-    		shoot = new ShootSpread(15, 3f);
+    		shoot = new ShootSpread(15, 3f){{
+				shotDelay = 5f;
+			}};
+
+			outlineRadius = 0;
    			pierceArmor = true;
 			hitEffect = Fx.none;
 			damage = 2.5f;
