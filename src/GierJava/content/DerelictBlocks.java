@@ -47,6 +47,7 @@ import mindustry.world.meta.*;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.bullet.*;
+import mindustry.entities.pattern.*;
 
 import static mindustry.type.ItemStack.with;
 
@@ -90,8 +91,18 @@ public class DerelictBlocks {
   		ammoPerShot = 1;
 
     	ammo(
-    		derelictScrapWall, new ArtilleryBulletType(4f, 80f),
-    		derelictScrapWallLarge, new ArtilleryBulletType(3f, 120f)
+    	derelictScrapWall,
+		new BasicBulletType(6f, 7.5f){{
+    		shoot = new ShootSpread(15, 3f);
+   			pierceArmor = true;
+			hitEffect = Fx.none;
+			damage = 2.5f;
+    		knockback = 0.3f;
+    		hitSize = 9f;
+		}},
+			
+    	derelictScrapWallLarge, 
+		new ArtilleryBulletType(3f, 120f)
 		);
 
     	limitRange();
