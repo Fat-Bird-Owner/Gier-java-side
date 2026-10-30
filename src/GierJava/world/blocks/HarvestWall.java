@@ -9,13 +9,20 @@ public class HarvestWall extends StaticWall {
 
 	public HarvestWall(String name){
 		super(name);
-    destructible = true;
-  }
+    	destructible = true;
+  	}
 
+	@Override
+	public boolean canBreak(Tile tile){
+    	return false;
+	}
+	
 	public class HarvestBuild extends Building {
 
 	@Override
     public void kill(){
+		destroyEffect.at(x, y);
+		destroySound.at(x, y);
     }
 
     @Override
