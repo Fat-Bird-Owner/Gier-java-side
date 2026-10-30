@@ -46,11 +46,12 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.entities.bullet.*;
 
 import static mindustry.type.ItemStack.with;
 
 public class DerelictBlocks {
-    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock;
+    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock, cleave;
 
     public static void load(){
 
@@ -71,6 +72,30 @@ public class DerelictBlocks {
             requirements(Category.defense, with(Items.scrap, 250));
             range = 10;
         }};
+
+		cleave = new PayloadTurret("cleave"){{
+    	requirements(Category.turret, with(
+        	Items.scrap, 300,
+            Items.sand, 200
+    	));
+
+    	size = 2;
+    	health = 1200;
+
+    	range = 240f;
+    	reload = 60f;
+	    rotateSpeed = 3f;
+
+   		maxAmmo = 5;
+  		ammoPerShot = 1;
+
+    	ammo(
+    		derelictScrapWall, new ArtilleryBulletType(4f, 80f),
+    		largeDerelictScrapWall, new ArtilleryBulletType(3f, 120f)
+		);
+
+    	limitRange();
+	}};
         
     }
 }
