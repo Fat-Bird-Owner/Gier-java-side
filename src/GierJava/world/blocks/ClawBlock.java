@@ -56,6 +56,8 @@ public class ClawBlock extends Block {
 	public float chargePullback = 14f;
 	public float chargeShake = 1.5f;
 	public float armEaseSpeed = 0.12f;
+
+	public boolean anyTeam = false;
 	private PayloadProjectileType throwBullet = new PayloadProjectileType();
 	
 public ClawBlock(String name){
@@ -210,7 +212,7 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
                 if(other == null) break;
                 Building build = other.build;
 
-                if(build == null || build == this || build.team != team || build instanceof ConstructBlock.ConstructBuild) continue;
+                if(build == null || build == this || (anyTeam || build.team != team) || build instanceof ConstructBlock.ConstructBuild) continue;
                 if(!build.block.canPickup || build.block.size > maxSize) continue;
 
                 target = build;
