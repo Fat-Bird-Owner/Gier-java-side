@@ -212,7 +212,7 @@ public void drawPlace(int x, int y, int rotation, boolean valid){
                 if(other == null) break;
                 Building build = other.build;
 
-                if(build == null || build == this || (anyTeam || build.team != team) || build instanceof ConstructBlock.ConstructBuild) continue;
+                if(build == null || build == this || (!anyTeam && build.team != team) || build instanceof ConstructBlock.ConstructBuild) continue;
                 if(!build.block.canPickup || build.block.size > maxSize) continue;
 
                 target = build;
