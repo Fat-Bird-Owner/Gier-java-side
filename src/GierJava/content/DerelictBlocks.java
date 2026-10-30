@@ -58,7 +58,9 @@ public class DerelictBlocks {
 
     public static void load(){
 
-		bulkStone = new HarvestWall("bull-stone");
+		bulkStone = new HarvestWall("bulk-stone"){
+			buildTime = 90f;
+		};
 		
         derelictScrapWall = new Wall("dense-scrap-wall"){{
             requirements(Category.defense, with(Items.scrap, 25));
@@ -75,7 +77,8 @@ public class DerelictBlocks {
 
         clawBlock = new ClawBlock("claw-block"){{
             requirements(Category.defense, with(Items.scrap, 250));
-            range = 10;
+            range = 4;
+			chargePullback = 24f;
         }};
 
 		cleave = new PayloadTurret("cleave"){{
@@ -94,6 +97,7 @@ public class DerelictBlocks {
    		maxAmmo = 5;
   		ammoPerShot = 1;
 		outlineRadius = 0;
+		outlineColor = Color.valueOf("00000000");
 			
     	ammo(
     	bulkStone,
@@ -104,7 +108,8 @@ public class DerelictBlocks {
 			
    			pierceArmor = true;
 			damage = 2.5f;
-    		knockback = 0.3f;
+    		knockback = 1.35f;
+			impact = true;
     		hitSize = 9f;
 		}});
 
