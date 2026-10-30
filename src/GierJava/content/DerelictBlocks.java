@@ -52,10 +52,14 @@ import mindustry.entities.pattern.*;
 import static mindustry.type.ItemStack.with;
 
 public class DerelictBlocks {
-    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock, cleave;
+    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock, cleave,
+
+	bulkStone;
 
     public static void load(){
 
+		bulkStone = new HarvestWall("bull-stone");
+		
         derelictScrapWall = new Wall("dense-scrap-wall"){{
             requirements(Category.defense, with(Items.scrap, 25));
             health = 500;
@@ -81,7 +85,7 @@ public class DerelictBlocks {
     	));
 
     	size = 2;
-    	health = 1200;
+    	health = 250;
 
     	range = 240f;
     	reload = 60f;
@@ -89,25 +93,20 @@ public class DerelictBlocks {
 
    		maxAmmo = 5;
   		ammoPerShot = 1;
-
+		outlineRadius = 0;
+			
     	ammo(
-    	derelictScrapWall,
+    	bulkStone,
 		new BasicBulletType(6f, 7.5f){{
     		shoot = new ShootSpread(15, 3f){{
 				shotDelay = 5f;
 			}};
-
-			outlineRadius = 0;
+			
    			pierceArmor = true;
-			hitEffect = Fx.none;
 			damage = 2.5f;
     		knockback = 0.3f;
     		hitSize = 9f;
-		}},
-			
-    	derelictScrapWallLarge, 
-		new ArtilleryBulletType(3f, 120f)
-		);
+		}});
 
     	limitRange();
 	}};
