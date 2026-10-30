@@ -14,6 +14,7 @@ import mindustry.ui.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
+import mindustry.type.PayloadSeq;
 
 import static mindustry.Vars.*;
 
