@@ -52,9 +52,17 @@ import mindustry.entities.pattern.*;
 import static mindustry.type.ItemStack.with;
 
 public class DerelictBlocks {
-    public static Block derelictScrapWall, derelictScrapWallLarge, clawBlock, cleave,
+    public static Block 
+	
+	derelictScrapWall, 
+	derelictScrapWallLarge, 
+	
+	clawBlock, 
+	cleave,
+	traid,
 
-	bulkStone;
+	bulkStone,
+	limeStone;
 
     public static void load(){
 
@@ -105,7 +113,8 @@ public class DerelictBlocks {
     		shoot = new ShootSpread(15, 3f){{
 				shotDelay = 5f;
 			}};
-			
+
+			trailLength = 4f;
    			pierceArmor = true;
 			damage = 2.5f;
     		knockback = 1.35f;
@@ -115,6 +124,60 @@ public class DerelictBlocks {
 
     	limitRange();
 	}};
-        
+
+	triad = new PayloadTurret("traid"){{
+    	requirements(Category.turret, with(
+        	Items.scrap, 200,
+            Items.sand, 300
+    	));
+		
+		shoot = new shootAlternate(3f){{
+			shots = 2f;
+		}};
+		
+    	size = 2;
+    	health = 250;
+
+    	range = 300f;
+    	reload = 30f;
+	    rotateSpeed = 3f;
+
+   		maxAmmo = 3;
+  		ammoPerShot = 1;
+		outlineRadius = 0;
+		shootY = 5f;
+		
+    	ammo(
+    	limeStone,
+		new FlakBulletType(4f, 3){{
+                    backColor = trailColor = Pal.glassAmmoBack;
+                    hitColor = frontColor = Pal.glassAmmoFront;
+                    despawnEffect = Fx.hitBulletColor;
+
+                    lifetime = 60f;
+                    ammoMultiplier = 5f;
+                    shootEffect = Fx.shootSmall;
+                    reloadMultiplier = 0.8f;
+                    width = 6f;
+                    height = 8f;
+                    hitEffect = Fx.flakExplosion;
+                    splashDamage = 30f * 1.5f;
+                    splashDamageRadius = 20f;
+                    fragBullets = 6;
+                    fragBullet = new BasicBulletType(3f, 5){{
+                        width = 5f;
+                        height = 12f;
+                        shrinkY = 1f;
+                        lifetime = 20f;
+                        backColor = trailColor = Pal.glassAmmoBack;
+                        hitColor = frontColor = Pal.glassAmmoFront;
+                        despawnEffect = Fx.none;
+                        collidesGround = false;
+                    }};
+                }});
+
+    	limitRange();
+	}};
+		
     }
 }
