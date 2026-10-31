@@ -56,6 +56,8 @@ public class GierBlocks {
     gierCopperOre,
     gierGraphiteOre,
     denseStone,
+    erodedStone,
+    denseErordedStone,
     ferricBed,
     smoothBasalt,
     ferricPillar,
@@ -116,7 +118,15 @@ public class GierBlocks {
         denseStone = new Floor("dense-stone"){{
             variants = 3;
         }};
-        
+
+        erodedStone = new Floor("eroded-stone"){{
+            variants = 3;
+        }};
+
+        denseErodedStone = new Floor("dense-eroded-stone"){{
+            variants = 3;
+        }};
+            
         smoothBasalt = new Floor("smooth-basalt"){{
             variants = 3;
         }};
