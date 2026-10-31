@@ -501,7 +501,7 @@ public class GierBlocks {
         size = 3;
         squareSprite = false;
 
-        attribute = Attribute.carbon;
+        attribute = Attribute.add("carbon");
         priority = 1.5f;
 
         outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
@@ -513,8 +513,6 @@ public class GierBlocks {
 
         consumeItem(Items.graphite, 1);
         consumePower(0.65f);
-
-        ambientSound = Sounds.machine;
         ambientSoundVolume = 0.2f;
 
         updateEffectChance = 1f;
@@ -535,9 +533,7 @@ public class GierBlocks {
         drawer = new DrawMulti(
         new DrawRegion("-bottom"),
         new DrawLiquidTile(Liquids.water, 2f),
-        new DrawBlurSpin("-rotator"){{
-            rotateSpeed = 5f;
-        }},
+        new DrawBlurSpin("-rotator", 5f),
         new DrawDefault()
         );
 
