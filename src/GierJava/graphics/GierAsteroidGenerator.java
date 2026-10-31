@@ -54,7 +54,7 @@ public class GierAsteroidGenerator extends BlankPlanetGenerator{
 
         tiles.eachTile(tile -> tile.setFloor(space));
 
-        asteroid(sx, sy, 150, Blocks.ferricStone);
+        asteroid(sx, sy, 150, Blocks.ferricStone.asFloor());
 
         int amount = rand.random(minAsteroids, maxAsteroids);
 
@@ -66,10 +66,10 @@ public class GierAsteroidGenerator extends BlankPlanetGenerator{
             int y = rand.random(radius, height - radius);
 
             Block[] terrain = {
-                Blocks.ferricStone,
-                Blocks.carbonStone,
-                Blocks.beryllicStone,
-                Blocks.stone
+                Blocks.ferricStone.asFloor(),
+                Blocks.carbonStone.asFloor(),
+                Blocks.beryllicStone.asFloor(),
+                Blocks.stone.asFloor()
             };
 
             Block selected = terrain[rand.random(terrain.length - 1)];
@@ -84,21 +84,19 @@ public class GierAsteroidGenerator extends BlankPlanetGenerator{
             int x = rand.random(radius, width - radius);
             int y = rand.random(radius, height - radius);
 
-            asteroid(x, y, radius, Blocks.ferricStone);
+            asteroid(x, y, radius, Blocks.ferricStone.asFloor());
         }
 
         tiles.eachTile(tile -> {
 
-            if(tile.floor() == Blocks.ferricStone &&
-                rand.chance(0.025f)){
+            if(tile.floor() == Blocks.ferricStone && rand.chance(0.025f)){
 
-                tile.setFloor(Blocks.ferricCraters);
+                tile.setFloor(Blocks.ferricCraters.asFloor());
             }
 
-            if(tile.floor() == Blocks.stone &&
-                rand.chance(0.02f)){
+            if(tile.floor() == Blocks.stone && rand.chance(0.02f)){
 
-                tile.setFloor(Blocks.craters);
+                tile.setFloor(Blocks.craters.asFloor());
             }
         });
 
