@@ -1,4 +1,4 @@
-package graphics;
+package GierJava.graphics;
 
 import mindustry.maps.planet.AsteroidGenerator;
 
