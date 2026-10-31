@@ -57,7 +57,7 @@ public class GierBlocks {
     gierGraphiteOre,
     denseStone,
     erodedStone,
-    denseErordedStone,
+    denseErodedStone,
     ferricBed,
     smoothBasalt,
     ferricPillar,
