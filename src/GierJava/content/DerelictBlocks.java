@@ -135,7 +135,7 @@ public class DerelictBlocks {
             Items.sand, 300
     	));
 		
-		shoot = new ShootAlternate(3f)
+		shoot = new ShootAlternate(3f);
 		
     	size = 2;
     	health = 250;
