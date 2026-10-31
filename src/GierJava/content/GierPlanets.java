@@ -135,7 +135,7 @@ public class GierPlanets {
             clipRadius = 2f;
             defaultEnv = Env.space;
             icon = "commandRally";
-            generator = new AsteroidGenerator();
+            generator = new GierAsteroidGenerator();
             cgen.get((AsteroidGenerator)generator);
 
             meshLoader = () -> {
