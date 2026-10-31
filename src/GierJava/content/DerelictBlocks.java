@@ -59,7 +59,7 @@ public class DerelictBlocks {
 	
 	clawBlock, 
 	cleave,
-	traid,
+	triad,
 
 	bulkStone,
 	limeStone;
@@ -70,7 +70,7 @@ public class DerelictBlocks {
 			buildTime = 90;
 		}};
 
-		limeSton = new HarvestWall("lime-stone"){{
+		limeStone = new HarvestWall("lime-stone"){{
 			buildTime = 120;
 		}};
 		
