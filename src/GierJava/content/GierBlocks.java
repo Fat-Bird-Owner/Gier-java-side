@@ -78,6 +78,7 @@ public class GierBlocks {
 
     // Crafting
     sunderFurnace,
+    dihydrogenShaft,
     industrialTrimmer,
     multiCraft,
 
@@ -490,6 +491,56 @@ public class GierBlocks {
             shieldHealth = 500f;
         }};
 
+        dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
+        requirements(Category.production, with(
+        Items.lead, 450,
+        Items.metaglass, 200,
+        Items.silicon, 100
+        ));
+
+        size = 3;
+        squareSprite = false;
+
+        attribute = Attribute.add("carbon");
+        priority = 1.5f;
+
+        outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
+        liquidCapacity = 200f;
+
+        craftTime = 45f;
+        baseEfficiency = 0f;
+        minEfficiency = 0.25f;
+
+        consumeItem(Items.graphite, 1);
+        consumePower(0.65f);
+        ambientSoundVolume = 0.2f;
+
+        updateEffectChance = 1f;
+        updateEffectSpread = 1f;
+        updateEffect = new ParticleEffect(){{
+        sizeFrom = 3f;
+        particles = 1;
+        baseLength = 10f;
+        sizeTo = 5f;
+        length = 14.5f;
+        layer = 61f;
+        lifetime = 40f;
+        colorFrom = Color.valueOf("596ab866");
+        colorTo = Color.valueOf("ffffff00");
+        interp = Interp.sineOut;
+        }};
+
+        drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(Liquids.water, 2f),
+        new DrawBlurSpin("-rotator", 5f),
+        new DrawDefault()
+        );
+
+            envEnabled = -1;
+            researchCostMultiplier = 0.34f;
+        }};
+        
         // Power
 
         transitNode = new TransitNode("transit-node"){{
