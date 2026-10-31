@@ -42,7 +42,7 @@ public class GierJava extends Mod{
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
 
             GierPlanets.gier.radius = 0.5f;
-            GierPlaners.kela.sectors.each(s -> {
+            GierPlanets.kela.sectors.each(s -> {
                 if (s.preset != null) return;
                 s.generateEnemyBase = true;
             });
