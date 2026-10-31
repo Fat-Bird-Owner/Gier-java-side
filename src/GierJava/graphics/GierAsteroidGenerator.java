@@ -4,6 +4,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.noise.*;
 
+import mindustry.content.Blocks;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.graphics.g3d.*;
@@ -205,12 +206,7 @@ public class GierAsteroidGenerator extends BlankPlanetGenerator{
         );
     }
 
-    private void asteroid(
-        int cx,
-        int cy,
-        int radius,
-        Block terrain
-    ){
+    private void asteroid(int cx, int cy, int radius, Floor terrain){
 
         for(int x = cx - radius; x <= cx + radius; x++){
             for(int y = cy - radius; y <= cy + radius; y++){
