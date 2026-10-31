@@ -42,11 +42,12 @@ public class GierJava extends Mod{
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
 
             GierPlanets.gier.radius = 0.5f;
+            /*
             GierPlanets.kela.sectors.each(s -> {
                 if (s.preset != null) return;
                 s.generateEnemyBase = true;
             });
-
+            */
             GierPlanets.kela.reloadMeshAsync();
             GierPlanets.kela.techTree = GierPlanets.gier.techTree;
             GierPlanets.gier.techTree.each(n -> {
