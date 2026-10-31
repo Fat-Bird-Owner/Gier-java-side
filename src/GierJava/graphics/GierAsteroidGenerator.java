@@ -1,4 +1,4 @@
-package GierJava.world;
+package GierJava.graphics;
 
 import arc.math.*;
 import arc.math.geom.*;
