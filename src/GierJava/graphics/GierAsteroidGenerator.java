@@ -1,6 +1,7 @@
 package GierJava.graphics;
 
 import mindustry.maps.planet.AsteroidGenerator;
+import mindustry.type.Sector;
 
 public class GierAsteroidGenerator extends AsteroidGenerator{
 
