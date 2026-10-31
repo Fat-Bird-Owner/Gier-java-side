@@ -118,7 +118,7 @@ public class DerelictBlocks {
 				shotDelay = 5f;
 			}};
 
-			trailLength = 4f;
+			trailLength = 4;
    			pierceArmor = true;
 			damage = 2.5f;
     		knockback = 1.35f;
@@ -135,8 +135,8 @@ public class DerelictBlocks {
             Items.sand, 300
     	));
 		
-		shoot = new shootAlternate(3f){{
-			shots = 2f;
+		shoot = new ShootAlternate(3f){{
+			shots = 2;
 		}};
 		
     	size = 2;
@@ -153,7 +153,7 @@ public class DerelictBlocks {
 		
     	ammo(
     	limeStone,
-		new FlakBulletType(4f, 3){{
+		new FlakBulletType(6f, 3){{
                     backColor = trailColor = Pal.glassAmmoBack;
                     hitColor = frontColor = Pal.glassAmmoFront;
                     despawnEffect = Fx.hitBulletColor;
