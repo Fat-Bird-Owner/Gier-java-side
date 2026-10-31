@@ -22,4 +22,10 @@ public class GierAsteroidGenerator extends AsteroidGenerator{
         berylliumScale = 1f;
         thoriumScl = 0.8f;
     }
+
+    @Override
+    public boolean allowLanding(Sector sector){
+        return true;
+    }
+    
 }
