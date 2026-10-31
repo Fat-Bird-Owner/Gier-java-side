@@ -129,24 +129,23 @@ public class DerelictBlocks {
     	limitRange();
 	}};
 
-	triad = new PayloadTurret("traid"){{
+	triad = new PayloadTurret("triad"){{
     	requirements(Category.turret, with(
         	Items.scrap, 200,
             Items.sand, 300
     	));
 		
-		shoot = new ShootAlternate(3f){{
-			shots = 2;
-		}};
+		shoot = new ShootAlternate(3f)
 		
     	size = 2;
     	health = 250;
 
     	range = 300f;
-    	reload = 30f;
+    	reload = 8f;
 	    rotateSpeed = 3f;
-
-   		maxAmmo = 3;
+		targetGround = false;
+		
+   		maxAmmo = 18;
   		ammoPerShot = 1;
 		outlineRadius = 0;
 		shootY = 5f;
