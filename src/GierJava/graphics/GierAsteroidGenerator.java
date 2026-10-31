@@ -74,7 +74,7 @@ public class GierAsteroidGenerator extends BlankPlanetGenerator{
 
             Block selected = terrain[rand.random(terrain.length - 1)];
 
-            asteroid(x, y, radius, selected);
+            asteroid(x, y, radius, selected.asFloor());
         }
 
         for(int i = 0; i < amount * 3; i++){
