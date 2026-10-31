@@ -4,9 +4,6 @@ import mindustry.client.*
 import mindustry.client.service.*
 import mindustry.client.task.*
 import java.util.jar.*
-import ent.task.FetchCompsTask
-import org.gradle.api.GradleException
-import org.gradle.api.tasks.compile.JavaCompile
 
 buildscript{
     val (mindustry, mindustryVersion, mindustrySource) = when(val version = providers.gradleProperty("mindustryVersion").get()){
