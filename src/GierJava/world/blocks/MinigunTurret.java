@@ -30,7 +30,7 @@ public class MinigunTurret extends ItemTurret {
             if(isActive() && hasAmmo() && isShooting()){
                 spin = Math.min(spin + (1f / acceleration) * Time.delta, maxAccel);
             }else{
-                spin = Math.max(spin - (1f / deceleration) * Time.delta, 0f);
+                spin = Math.max(spin - (1f / deceleration) * Time.delta, 0.1f);
             }
         }
 
