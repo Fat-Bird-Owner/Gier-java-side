@@ -93,7 +93,7 @@ public class GierUnitTypes {
             burstKnockback = 8f;
             }});
             
-        }}
+        }};
         
         spark = new UnitType("spark"){{
 
