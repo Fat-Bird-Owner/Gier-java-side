@@ -13,6 +13,7 @@ public class MinigunTurret extends ItemTurret {
     public float deceleration = 400f;
     public float maxAccel = 1f;
     public float overheatDamage = 1f;
+    public float meltPoint = 1f;
     
     public MinigunTurret(String name){
         super(name);
@@ -43,7 +44,7 @@ public class MinigunTurret extends ItemTurret {
             }
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-                if (spin > maxAccel && (liquids == null || liquid == null || liquids.get(liquid) < coolant.amount)){
+                if (spin > meltPoint && (liquids == null || liquid == null || liquids.get(liquid) < coolant.amount)){
                     
                 damage(overheatDamage * (spin - maxAccel));
                     
