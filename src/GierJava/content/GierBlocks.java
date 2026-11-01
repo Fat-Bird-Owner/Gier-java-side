@@ -412,7 +412,7 @@ public class GierBlocks {
                         layerOffset = -0.01f;
                         progress = PartProgress.reload;
                         outlineLayerOffset = -1f;
-                        moveX = -6.5f;
+                        moveX = -3.5f;
                     }},
                     new RegionPart("-barrel"){{
                         y = -1f;
