@@ -333,21 +333,67 @@ public class GierBlocks {
             researchCostMultiplier = 0.2f;
             size = 4;
 
+            inaccuracy = 15f;
             shootSound = Sounds.shootCyclone;
             reload = 3f;
-            
+
+            baseExplosiveness = 150f;
             range = 400f;
             acceleration = 500f;
             ammo(
-                Items.copper,  new BasicBulletType(2.5f, 9){{
-                    width = 7f;
-                    height = 9f;
-                    lifetime = 60f;
-                    ammoMultiplier = 2;
+                Items.copper, new FlakBulletType(8f, 6){{
+                    ammoMultiplier = 2f;
+                    shootEffect = Fx.shootSmall;
+                    reloadMultiplier = 0.8f;
+                    width = 6f;
+                    height = 11f;
+                    hitEffect = Fx.flakExplosion;
+                    splashDamage = 25f;
+                    splashDamageRadius = 25f;
+                    lifetime = 50f;
+                    
+                    fragBullet = new BasicBulletType(3f, 12, "bullet"){{
+                        width = 5f;
+                        height = 12f;
+                        shrinkY = 1f;
+                        lifetime = 20f;
+                        despawnEffect = Fx.none;
+                    }};
+                    fragBullets = 2;
+                    explodeRange = 20f;
+                    collidesGround = true;
 
-                    hitEffect = despawnEffect = Fx.hitBulletColor;
-                    hitColor = backColor = trailColor = Pal.copperAmmoBack;
+                    backColor = hitColor = trailColor = Pal.copperAmmoBack;
                     frontColor = Pal.copperAmmoFront;
+                    despawnEffect = Fx.hitBulletColor;
+                }},
+
+                Items.metaglass, new FlakBulletType(8f, 6){{
+                    ammoMultiplier = 2f;
+                    shootEffect = Fx.shootSmall;
+                    reloadMultiplier = 0.8f;
+                    width = 6f;
+                    height = 11f;
+                    hitEffect = Fx.flakExplosion;
+                    splashDamage = 45f;
+                    splashDamageRadius = 25f;
+                    lifetime = 50f;
+                    fragBullet = new BasicBulletType(3f, 12, "bullet"){{
+                        width = 5f;
+                        height = 12f;
+                        shrinkY = 1f;
+                        lifetime = 20f;
+                        backColor = Pal.gray;
+                        frontColor = Color.white;
+                        despawnEffect = Fx.none;
+                    }};
+                    fragBullets = 4;
+                    explodeRange = 20f;
+                    collidesGround = true;
+
+                    backColor = hitColor = trailColor = Pal.glassAmmoBack;
+                    frontColor = Pal.glassAmmoFront;
+                    despawnEffect = Fx.hitBulletColor;
                 }}
             );
             
@@ -357,7 +403,7 @@ public class GierBlocks {
                         progress = PartProgress.reload;
                         layerOffset = -0.0091f;
                         moveY = -2f;
-                        moveX = -3.5f;
+                        moveX = 3.5f;
                         outlineLayerOffset = -1f;
                     }},
                     new RegionPart("-barrel"){{
@@ -371,7 +417,7 @@ public class GierBlocks {
                     new RegionPart("-barrel"){{
                         y = -1f;
                         x = -3.25f;
-                        layerOffset = -0.05f;
+                        layerOffset = -0.009f;
                         progress = PartProgress.reload;
                         outlineLayerOffset = -1f;
                         moveX = 3.5f;
