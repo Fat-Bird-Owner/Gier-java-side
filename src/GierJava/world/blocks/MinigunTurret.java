@@ -21,7 +21,8 @@ public class MinigunTurret extends ItemTurret {
     public class MinigunBuild extends ItemTurretBuild{
 
         public float spin;
-
+        private Liquid liquid;
+        
         @Override
         public void updateTile(){
 
@@ -37,7 +38,9 @@ public class MinigunTurret extends ItemTurret {
         @Override
         protected void updateReload(){
 
-            if (liquids != null) Liquid liquid = liquids.current();
+            if (liquids != null) {
+             liquid = liquids.current();
+            }
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
                 if (spin >= maxAccel && (liquids == null || liquid == null || liquids.get(liquid) < coolant.amount)){
