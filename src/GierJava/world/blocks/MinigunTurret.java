@@ -2,7 +2,7 @@ package GierJava.world.blocks;
 
 import arc.util.*;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.type.Item;
+import mindustry.type.*;
 import arc.math.*;
 
 import static mindustry.Vars.*;
@@ -36,13 +36,15 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         protected void updateReload(){
+
+            Liquid liquid = liquids.current();
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-                if (spin >= maxAccel){
+                if (spin >= maxAccel && (!liquid || liquids.get(liquid) < coolant.amoumt){
                     
                 damage(overheatDamage);
                     
-                if(Mathf.chance(0.06 * coolant.amount)){
+                if(coolant != null && Mathf.chance(0.06 * coolant.amount)){
                     coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
                 }
             }
