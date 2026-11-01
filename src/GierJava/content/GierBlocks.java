@@ -67,6 +67,7 @@ public class GierBlocks {
 
     // Turret
     tension,
+    momentum,
 
     // Distribution
     rail,
@@ -327,6 +328,48 @@ public class GierBlocks {
                 }};
             }};
 
+        momentum = new MinigunTurret("momentum"){{
+            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silcon,150));
+            researchCostMultiplier = 0.2f;
+            size = 4;
+
+            ammo(
+                Items.copper,  new BasicBulletType(2.5f, 9){{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
+                    ammoMultiplier = 2;
+
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                    hitColor = backColor = trailColor = Pal.copperAmmoBack;
+                    frontColor = Pal.copperAmmoFront;
+                }}
+            );
+            
+            drawer = new DrawTurret(){{
+                parts = Seq.with(
+                    new RegionPart("-barrel"){{
+                        progress = PartProgress.recoil
+                        moveY = -6f;
+                    }},
+                    new RegionPart("-barrel"){{
+                        x = 1f;
+                        y = -3.25f;
+                        layerOffset = -0.05f;
+                        progress = PartProgress.recoil;
+                        moveX = -2f;
+                    }},
+                    new RegionPart("-barrel"){{
+                        x = -1f;
+                        y = -3.25f;
+                        layerOffset = -0.05f;
+                        progress = PartProgress.recoil;
+                        moveX = 2f;
+                    }}
+                )
+            }}
+        }};
+        
         // Distribution
 
         rail = new StackConveyor("rail"){{
