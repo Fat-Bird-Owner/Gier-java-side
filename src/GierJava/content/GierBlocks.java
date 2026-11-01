@@ -329,7 +329,7 @@ public class GierBlocks {
             }};
 
         momentum = new MinigunTurret("momentum"){{
-            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silcon,150));
+            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon,150));
             researchCostMultiplier = 0.2f;
             size = 4;
 
