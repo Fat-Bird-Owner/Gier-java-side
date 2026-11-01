@@ -5,8 +5,8 @@ import mindustry.world.blocks.defense.turrets.*;
 
 public class MinigunTurret extends ItemTurret {
 
-    public float acceleration = 0.15f;
-    public float deceleration = 0.3f;
+    public float acceleration = 180f;
+    public float deceleration = 400f;
 
     public MinigunTurret(String name){
         super(name);
@@ -22,9 +22,9 @@ public class MinigunTurret extends ItemTurret {
             super.updateTile();
 
             if(isActive() && hasAmmo() && isShooting()){
-                spin = Math.min(spin + acceleration * Time.delta, 1f);
+                spin = Math.min(spin + (1f / acceleration) * Time.delta, 1f);
             }else{
-                spin = Math.max(spin - deceleration * Time.delta, 0f);
+                spin = Math.max(spin - (1f / deceleration) * Time.delta, 0f);
             }
         }
 
