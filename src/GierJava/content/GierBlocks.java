@@ -353,18 +353,18 @@ public class GierBlocks {
                         moveY = -6f;
                     }},
                     new RegionPart("-barrel"){{
-                        x = 1f;
-                        y = -3.25f;
+                        y = 1f;
+                        x = 3.25f;
                         layerOffset = -0.05f;
                         progress = PartProgress.recoil;
-                        moveX = -2f;
+                        moveX = -6.5f;
                     }},
                     new RegionPart("-barrel"){{
-                        x = -1f;
-                        y = -3.25f;
+                        y = -1f;
+                        x = -3.25f;
                         layerOffset = -0.05f;
                         progress = PartProgress.recoil;
-                        moveX = 2f;
+                        moveX = 6.5f;
                     }}
                 );
             }};
