@@ -36,9 +36,12 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         protected void updateReload(){
+
+            Item item = peekAmmo();
+            
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-            if (peekAmmo() != null && minFlammability != -1f){
-                if (peekAmmo().flammability >= minFlammability){
+            if (item != null && minFlammability != -1f){
+                if (item.flammability >= minFlammability){
                     
                 damage(overheatDamage);
                     
