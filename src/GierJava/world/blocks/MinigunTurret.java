@@ -31,7 +31,7 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         protected void updateReload(){
-            reloadCounter += spin + super.updateReload();
+            reloadCounter += spin + delta() * ammoReloadMultiplier() * baseReloadSpeed();
         }
     }
 }
