@@ -37,10 +37,10 @@ public class MinigunTurret extends ItemTurret {
         @Override
         protected void updateReload(){
 
-            Liquid liquid = liquids.current();
+            if (liquids != null) Liquid liquid = liquids.current();
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-                if (spin >= maxAccel && (liquid == null || liquids.get(liquid) < coolant.amount)){
+                if (spin >= maxAccel && (liquids == null || liquid == null || liquids.get(liquid) < coolant.amount)){
                     
                 damage(overheatDamage);
                     
