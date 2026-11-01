@@ -5,7 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
-import arc.math.geom.Tmp;
+import arc.util.Tmp;
 import arc.util.Time;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Units;
