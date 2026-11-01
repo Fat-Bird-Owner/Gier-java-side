@@ -340,6 +340,10 @@ public class GierBlocks {
             baseExplosiveness = 150f;
             range = 400f;
             acceleration = 500f;
+
+            outlineColor = Color.valueOf("2f2f3f");
+            coolant = consumeCoolant(0.5f);
+            
             ammo(
                 Items.copper, new FlakBulletType(8f, 6){{
                     ammoMultiplier = 2f;
