@@ -333,6 +333,9 @@ public class GierBlocks {
             researchCostMultiplier = 0.2f;
             size = 4;
 
+            shootSound = Sounds.shootCyclone;
+            reload = 3f;
+            
             range = 400f;
             acceleration = 500f;
             ammo(
@@ -351,23 +354,27 @@ public class GierBlocks {
             drawer = new DrawTurret(){{
                 parts = Seq.with(
                     new RegionPart("-barrel"){{
-                        progress = PartProgress.recoil;
-                        layerOffset = -0.01f;
-                        moveY = -1f;
+                        progress = PartProgress.reload;
+                        layerOffset = -0.0091f;
+                        moveY = -2f;
+                        moveX = -3.5f;
+                        outlineLayerOffset = -1f;
                     }},
                     new RegionPart("-barrel"){{
                         y = -1f;
                         x = 3.25f;
-                        layerOffset = -0.05f;
-                        progress = PartProgress.recoil;
+                        layerOffset = -0.01f;
+                        progress = PartProgress.reload;
+                        outlineLayerOffset = -1f;
                         moveX = -6.5f;
                     }},
                     new RegionPart("-barrel"){{
                         y = -1f;
                         x = -3.25f;
                         layerOffset = -0.05f;
-                        progress = PartProgress.recoil;
-                        moveX = 6.5f;
+                        progress = PartProgress.reload;
+                        outlineLayerOffset = -1f;
+                        moveX = 3.5f;
                     }}
                 );
             }};
