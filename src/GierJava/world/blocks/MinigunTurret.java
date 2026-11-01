@@ -30,8 +30,8 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        public float reloadTime(){
-            return Mathf.lerp(reload, minReload, spin);
+        protected void updateReload(){
+            reloadCounter += spin + super.updateReload();
         }
     }
 }
