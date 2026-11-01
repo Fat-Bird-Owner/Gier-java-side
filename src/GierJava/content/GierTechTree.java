@@ -51,7 +51,9 @@ public class GierTechTree {
                     node(electricCapacitor, () -> {});
                     node(ignitionGenerator, () -> {});
                 });
-                node(tension, () -> {});
+                node(tension, () -> {
+                    node(momentum, () -> {});
+                });
                 node(copperFort, () -> {});
             });
 
