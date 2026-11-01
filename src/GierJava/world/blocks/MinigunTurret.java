@@ -11,7 +11,7 @@ public class MinigunTurret extends ItemTurret {
 
     public float acceleration = 180f;
     public float deceleration = 400f;
-    public float minFlammability = -1f;
+    public float maxAccel = 1f;
     public float overheatDamage = 1f;
     
     public MinigunTurret(String name){
@@ -28,7 +28,7 @@ public class MinigunTurret extends ItemTurret {
             super.updateTile();
 
             if(isActive() && hasAmmo() && isShooting()){
-                spin = Math.min(spin + (1f / acceleration) * Time.delta, 1f);
+                spin = Math.min(spin + (1f / acceleration) * Time.delta, maxAccel);
             }else{
                 spin = Math.max(spin - (1f / deceleration) * Time.delta, 0f);
             }
@@ -36,19 +36,16 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         protected void updateReload(){
-
-            Item item = getAmmoContent();
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-            if (item != null && item instanceof Item && minFlammability != -1f){
-                if (item.flammability >= minFlammability){
+                if (spin >= maxAccel){
                     
                 damage(overheatDamage);
                     
                 if(Mathf.chance(0.06 * coolant.amount)){
                     coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
                 }
-            }}
+            }
             
         }
     }
