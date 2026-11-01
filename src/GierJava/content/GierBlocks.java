@@ -349,7 +349,7 @@ public class GierBlocks {
             drawer = new DrawTurret(){{
                 parts = Seq.with(
                     new RegionPart("-barrel"){{
-                        progress = PartProgress.recoil
+                        progress = PartProgress.recoil;
                         moveY = -6f;
                     }},
                     new RegionPart("-barrel"){{
@@ -366,8 +366,8 @@ public class GierBlocks {
                         progress = PartProgress.recoil;
                         moveX = 2f;
                     }}
-                )
-            }}
+                );
+            }};
         }};
         
         // Distribution
