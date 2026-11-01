@@ -40,7 +40,7 @@ public class MinigunTurret extends ItemTurret {
             Item item = getAmmoContent();
             
             reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
-            if (item != null && minFlammability != -1f){
+            if (item != null && item instanceof Item && minFlammability != -1f){
                 if (item.flammability >= minFlammability){
                     
                 damage(overheatDamage);
