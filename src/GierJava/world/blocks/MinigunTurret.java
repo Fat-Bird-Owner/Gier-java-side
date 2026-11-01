@@ -14,11 +14,47 @@ public class MinigunTurret extends ItemTurret {
     public float maxAccel = 1f;
     public float overheatDamage = 1f;
     public float meltPoint = 1f;
+
+    public Color coolColor = Color.valueOf("72d8ff");
+    public Color warmColor = Color.valueOf("ffb347");
+    public Color hotColor = Color.valueOf("ff3838");
+    public Color criticalColor = Color.valueOf("a00020");
+    public Color extremeColor = Color.valueOf("51205f");
     
     public MinigunTurret(String name){
         super(name);
     }
 
+    @Override
+    public void setBars(){
+    super.setBars();
+
+    addBar("spin", (MinigunBuild build) -> new Bar(
+            "Spin",
+            () -> getSpinColor(),
+            () -> spin / maxAccel
+        ));
+    }
+
+    public Color getSpinColor(){
+    float progress = spin / maxAccel;
+
+    if(progress < meltPoint){
+        return coolColor.cpy().lerp(warmColor, progress / meltPoint);
+    }
+
+    float heat = (progress - meltPoint) / (1f - meltPoint);
+    if(heat < 0.33f){
+        return hotColor.cpy().lerp(criticalColor, heat / 0.33f);
+    }
+
+    if(heat < 0.66f){
+        return criticalColor.cpy().lerp(extremeColor, (heat - 0.33f) / 0.33f);
+    }
+
+    return extremeColor;
+    }
+    
     public class MinigunBuild extends ItemTurretBuild{
 
         public float spin;
