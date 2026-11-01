@@ -32,30 +32,11 @@ public class MinigunTurret extends ItemTurret {
     public void setBars(){
     super.setBars();
 
-    addBar("spin", (MinigunBuild build) -> new Bar(
-            "Spin",
-            () -> getSpinColor(),
-            () -> spin / maxAccel
+        addBar("spin", (MinigunBuild build) -> new Bar(
+            () -> "Spin",
+            () -> build.getSpinColor(),
+            () -> build.spin / maxAccel
         ));
-    }
-
-    public Color getSpinColor(){
-    float progress = spin / maxAccel;
-
-    if(progress < meltPoint){
-        return coolColor.cpy().lerp(warmColor, progress / meltPoint);
-    }
-
-    float heat = (progress - meltPoint) / (1f - meltPoint);
-    if(heat < 0.33f){
-        return hotColor.cpy().lerp(criticalColor, heat / 0.33f);
-    }
-
-    if(heat < 0.66f){
-        return criticalColor.cpy().lerp(extremeColor, (heat - 0.33f) / 0.33f);
-    }
-
-    return extremeColor;
     }
     
     public class MinigunBuild extends ItemTurretBuild{
@@ -75,6 +56,25 @@ public class MinigunTurret extends ItemTurret {
             }
         }
 
+        public Color getSpinColor(){
+        float progress = spin / maxAccel;
+
+        if(progress < meltPoint){
+            return coolColor.cpy().lerp(warmColor, progress / meltPoint);
+        }
+
+        float heat = (progress - meltPoint) / (1f - meltPoint);
+        if(heat < 0.33f){
+            return hotColor.cpy().lerp(criticalColor, heat / 0.33f);
+        }
+
+        if(heat < 0.66f){
+            return criticalColor.cpy().lerp(extremeColor, (heat - 0.33f) / 0.33f);
+        }
+
+        return extremeColor;
+        }
+        
         @Override
         protected void updateReload(){
 
