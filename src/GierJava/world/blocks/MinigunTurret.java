@@ -4,6 +4,9 @@ import arc.util.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.type.*;
 import arc.math.*;
+import arc.graphics.*;
+import arc.scene.ui.layout.*;
+import mindustry.ui.*;
 
 import static mindustry.Vars.*;
 
