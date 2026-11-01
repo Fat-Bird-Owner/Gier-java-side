@@ -78,7 +78,7 @@ public class GierUnitTypes {
             ));
         }};
 
-        singularity = new UnutType("singularity"){{
+        singularity = new UnitType("singularity"){{
             speed = 1f;
             flying = true;
 
