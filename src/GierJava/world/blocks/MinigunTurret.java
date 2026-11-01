@@ -5,7 +5,6 @@ import mindustry.world.blocks.defense.turrets.*;
 
 public class MinigunTurret extends ItemTurret {
 
-    public float minReload = 3f;
     public float acceleration = 0.15f;
     public float deceleration = 0.3f;
 
@@ -31,7 +30,7 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         protected void updateReload(){
-            reloadCounter += spin + delta() * ammoReloadMultiplier() * baseReloadSpeed();
+            reloadCounter += spin * (delta() * ammoReloadMultiplier() * baseReloadSpeed());
         }
     }
 }
