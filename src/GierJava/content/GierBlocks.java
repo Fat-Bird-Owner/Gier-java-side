@@ -397,18 +397,18 @@ public class GierBlocks {
                 }}
             );
             
-            drawer = new DrawTurret(){{
+            drawer = new DrawTurret("reinforced-"){{
                 parts = Seq.with(
                     new RegionPart("-barrel"){{
                         progress = PartProgress.reload;
                         layerOffset = -0.0091f;
-                        moveY = -2f;
+                        y = -1f;
                         moveX = 3.5f;
                         outlineLayerOffset = -1f;
                     }},
                     new RegionPart("-barrel"){{
                         y = -1f;
-                        x = 3.25f;
+                        x = -3.5f;
                         layerOffset = -0.01f;
                         progress = PartProgress.reload;
                         outlineLayerOffset = -1f;
@@ -421,6 +421,13 @@ public class GierBlocks {
                         progress = PartProgress.reload;
                         outlineLayerOffset = -1f;
                         moveX = 3.5f;
+                    }},
+                    new RegionPart("-barrel"){{
+                        progress = PartProgress.reload;
+                        layerOffset = -0.011f;
+                        y = -1f;
+                        moveX = -3.5f;
+                        outlineLayerOffset = -1f;
                     }}
                 );
             }};
