@@ -27,6 +27,7 @@ import mindustry.ai.types.*;
 import mindustry.gen.Sounds;
 import mindustry.entities.abilities.*;
 import mindustry.entities.pattern.*;
+import GierJava.world.abilities.*;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
@@ -34,6 +35,7 @@ public class GierUnitTypes {
     
     // Core units
     restoration,
+    singularity,
     
     // Exogen units
     spark,
@@ -76,6 +78,23 @@ public class GierUnitTypes {
             ));
         }};
 
+        singularity = new UnutType("singularity"){{
+            speed = 1f;
+            flying = true;
+
+            abilities.add(new ChronoSingularityAbility(){{
+            radius = 100f;
+            activeDuration = 180f;
+            cooldown = 720f;
+
+            pullStrength = 0.12f;
+            damage = 12f;
+            burstDamage = 80f;
+            burstKnockback = 8f;
+            }});
+            
+        }}
+        
         spark = new UnitType("spark"){{
 
         flying = true;
