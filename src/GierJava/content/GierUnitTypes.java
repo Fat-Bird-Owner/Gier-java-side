@@ -36,6 +36,9 @@ public class GierUnitTypes {
     // Core units
     restoration,
     singularity,
+
+    // Player unit
+    occupy,
     
     // Exogen units
     spark,
@@ -47,6 +50,7 @@ public class GierUnitTypes {
     public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class, MDTXFixc.class}, genIO = false) UnitType carrier;
     
     public static void load(){
+        
         restoration = new UnitType("restoration"){{
             speed = 3.5f;
             flying = true;
@@ -78,6 +82,45 @@ public class GierUnitTypes {
             ));
         }};
 
+        occupy = new UnitType("occupy"){{
+
+        outlineColor = Color.valueOf("2f2f3fff");
+        mechLegColor = Color.valueOf("2f2f3fff");
+
+        speed = 0.75f;
+        hitSize = 8f;
+        health = 250;
+        armor = 2.5f;
+
+        weapons.add(new Weapon("occupy-weapon"){{
+            x = 0f;
+            shootX = 7f;
+            shootY = 6f;
+            reload = 60f;
+            top = false;
+
+            shoot = new ShootHelix(){{
+                offset = 4f;
+                scl = 4f;
+                mag = 2f;
+            }};
+
+        bullet = new MissileBulletType(3.7f, 10f){{
+                despawnHit = true;
+                hitEffect = blastExplosion;
+                lifetime = 68.918915f;
+                lightRadius = 20f;
+                lightningType = damageLightning;
+                makeFire = true;
+                status = StatusEffects.burning;
+
+                backColor = Color.valueOf("f68021ff");
+                frontColor = Color.valueOf("f8ad42ff");
+                width = 7f;
+                }};
+            }});
+        }};
+        
         singularity = new UnitType("singularity"){{
             speed = 1f;
             flying = true;
