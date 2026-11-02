@@ -31,7 +31,15 @@ public class PowerCore extends CoreBlock {
 
     public float powerProduction = 2f;
     public Color landingColor = Color.valueOf("8ebdffff");
-    
+
+	public TextureRegion podRegion;
+
+	private float podOffsetX;
+	private float podOffsetY;
+	private float podRotation;
+	private float lastLandingFin = -1f;
+	private boolean podInitialized;
+	
     public PowerCore(String name){
         super(name);
         outputsPower = true;
@@ -39,6 +47,12 @@ public class PowerCore extends CoreBlock {
         hasPower = true;
     }
 
+	@Override
+	public void load(){
+		super.load();
+		podRegion = Core.atlas.find(name + "-pod");
+	}
+	
     @Override 
     public void setStats(){
         super.setStats();
@@ -87,30 +101,36 @@ public class PowerCore extends CoreBlock {
 					Draw.color(Color.black, 0.22f * (1f - reveal));
 					Fill.circle(x, y, 34f + fall * 12f);
 
-					if(fin < impactTime){
+				if(fin < impactTime){
 
-							float rotation = (1f - fall) * 8f;
-
-							Draw.color(Color.valueOf("252b32"));
-							Draw.rect("white", x, y + podHeight, 66f, 54f, rotation);
-
-							Draw.color(Color.valueOf("59636b"));
-
-							for(int i = 0; i < 4; i++){
-									float angle = i * 90f + rotation;
-									float px = x + Mathf.cosDeg(angle) * 25f;
-									float py = y + podHeight + Mathf.sinDeg(angle) * 20f;
-
-									Draw.rect("white", px, py, 13f, 49f, angle);
-							}
-
-							Draw.color(Color.valueOf("87939a"));
-							Draw.rect("white", x, y + podHeight + 27f, 57f, 8f, rotation);
-
-							Draw.color(Color.valueOf("e69b36"));
-							Draw.rect("white", x - 17f, y + podHeight, 4f, 42f, rotation);
-							Draw.rect("white", x + 17f, y + podHeight, 4f, 42f, rotation);
+					if(fin < lastLandingFin){
+							podInitialized = false;
 					}
+
+					if(!podInitialized){
+							podOffsetX = Mathf.random(-140f, 140f);
+							podOffsetY = Mathf.random(150f, 240f);
+							podRotation = Mathf.random(-20f, 20f);
+							podInitialized = true;
+					}
+
+					lastLandingFin = fin;
+
+					float podX = x + podOffsetX * (1f - fall);
+					float podY = y + podOffsetY * (1f - fall) + podHeight;
+					float podScale = Mathf.lerp(0.45f, 1f, fall);
+					float rotation = podRotation * (1f - fall);
+
+					Draw.color(Color.white);
+					Draw.rect(
+							podRegion,
+							podX,
+							podY,
+							podRegion.width * podRegion.scl() * podScale,
+							podRegion.height * podRegion.scl() * podScale,
+							rotation
+					);
+				}
 
 					if(fin >= impactTime){
 
