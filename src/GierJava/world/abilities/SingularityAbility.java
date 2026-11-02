@@ -7,7 +7,6 @@ import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.math.Rand;
-import arc.math.geom.Angles;
 import arc.struct.IntMap;
 import arc.util.Time;
 import mindustry.entities.Effect;
