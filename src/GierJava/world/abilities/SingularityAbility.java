@@ -196,10 +196,7 @@ private static final Effect contractingRing = new Effect(30f, 160f, e -> {
 
         float baseRadius = radius * 0.45f * shrink;
         float pulse = Mathf.absin(Time.time, 3f, 4f);
-
-    float progress = Mathf.clamp(state.timer / activeDuration);
-    float baseRadius = radius * 0.45f * (1f - progress * 0.35f);
-    float spikeSize = spikeLength * (1f - progress * 0.8f);
+        float spikeSize = spikeLength * (1f - progress * 0.8f);
 
     Rand rand = new Rand();
     rand.setSeed(unit.id);
