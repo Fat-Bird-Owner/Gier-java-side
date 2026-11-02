@@ -93,7 +93,7 @@ public class GierUnitTypes {
         health = 250;
         armor = 2.5f;
 
-        weapons.add(new Weapon("occupy-weapon"){{
+        weapons.add(new Weapon("gier-java-occupy-weapon"){{
             x = 0f;
             shootX = 7f;
             shootY = 6f;
@@ -429,7 +429,7 @@ public class GierUnitTypes {
                     }};
             }});
 
-            weapons.add(new Weapon("cr-weapon"){{
+            weapons.add(new Weapon("gier-java-cr-weapon"){{
                     reload = 25f;
                     x = 0f;
                     y = -2f;
