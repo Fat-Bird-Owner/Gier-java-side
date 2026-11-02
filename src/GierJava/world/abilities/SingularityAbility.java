@@ -57,30 +57,17 @@ public class SingularityAbility extends Ability{
         Draw.reset();
     });
 
-    private static final Effect contractingRing = new Effect(30f, 160f, e -> {
-        if(!(e.data instanceof Float startRadius)) return;
+private static final Effect contractingRing = new Effect(30f, 160f, e -> {
+    float progress = Mathf.pow(e.fin(), 0.7f);
+    float r = (float)e.data * (1f - progress);
 
-        float progress = Mathf.pow(e.fin(), 0.7f);
-        float r = startRadius * (1f - progress);
+    Draw.color(e.color);
+    Draw.alpha(e.fout());
+    Lines.stroke(3f * e.fout());
+    Lines.circle(e.x, e.y, r);
 
-        Draw.color(e.color);
-        Lines.stroke(2.5f * e.fout());
-
-        for(int i = 0; i < 12; i++){
-            float angle = i * 30f + e.id % 30;
-            float start = angle + 3f;
-            float end = angle + 23f;
-
-            float x1 = e.x + Angles.trnsx(start, r);
-            float y1 = e.y + Angles.trnsy(start, r);
-            float x2 = e.x + Angles.trnsx(end, r);
-            float y2 = e.y + Angles.trnsy(end, r);
-
-            Lines.line(x1, y1, x2, y2);
-        }
-
-        Draw.reset();
-    });
+    Draw.reset();
+});
 
     private static final Effect dustBurst = new Effect(65f, 180f, e -> {
         Rand rand = new Rand();
@@ -210,42 +197,46 @@ public class SingularityAbility extends Ability{
         float baseRadius = radius * 0.45f * shrink;
         float pulse = Mathf.absin(Time.time, 3f, 4f);
 
-        Draw.z(Layer.effect);
+    float progress = Mathf.clamp(state.timer / activeDuration);
+    float baseRadius = radius * 0.45f * (1f - progress * 0.35f);
+    float spikeSize = spikeLength * (1f - progress * 0.8f);
 
-        Rand rand = new Rand();
-        rand.setSeed(unit.id);
+    Rand rand = new Rand();
+    rand.setSeed(unit.id);
 
-        Draw.color(innerColor);
-        Fill.circle(unit.x, unit.y, 8f + pulse);
+    Draw.color(innerColor);
+    Fill.circle(unit.x, unit.y, baseRadius);
 
-        Draw.color(color);
+    Draw.color(color);
 
-        for(int i = 0; i < spikeCount; i++){
+    for(int i = 0; i < spikeCount; i++){
 
-            float angle = i * (360f / spikeCount);
-            float randomLength = rand.random(0.4f, 1f);
+    float angle = i * (360f / spikeCount);
+    float length = spikeSize * rand.random(0.4f, 1f);
+    float width = 360f / spikeCount * 0.8f;
 
-            float length = spikeLength * randomLength * (1f - progress * 0.8f);
-            float inner = baseRadius - 3f;
-            float outer = baseRadius + length;
+    float innerAngle1 = angle - width / 2f;
+    float innerAngle2 = angle + width / 2f;
 
-            float x1 = unit.x + Angles.trnsx(angle, inner);
-            float y1 = unit.y + Angles.trnsy(angle, inner);
-            float x2 = unit.x + Angles.trnsx(angle, outer);
-            float y2 = unit.y + Angles.trnsy(angle, outer);
+    float x1 = unit.x + Angles.trnsx(innerAngle1, baseRadius * 0.85f);
+    float y1 = unit.y + Angles.trnsy(innerAngle1, baseRadius * 0.85f);
 
-            Lines.stroke(1.5f + randomLength);
-            Lines.line(x1, y1, x2, y2);
-        }
+    float x2 = unit.x + Angles.trnsx(angle, baseRadius + length);
+    float y2 = unit.y + Angles.trnsy(angle, baseRadius + length);
 
-        Draw.color(innerColor);
-        Fill.circle(unit.x, unit.y, 5f + pulse * 0.5f);
+    float x3 = unit.x + Angles.trnsx(innerAngle2, baseRadius * 0.85f);
+    float y3 = unit.y + Angles.trnsy(innerAngle2, baseRadius * 0.85f);
 
-        Draw.color(color);
-        Lines.stroke(2f);
-        Lines.circle(unit.x, unit.y, baseRadius);
+    Fill.tri(x1, y1, x2, y2, x3, y3);
+    }
 
-        Draw.reset();
+    Draw.color(innerColor);
+    Fill.circle(unit.x, unit.y, baseRadius * 0.65f);
+
+    Draw.color(color);
+    Fill.circle(unit.x, unit.y, baseRadius * 0.35f);
+
+    Draw.reset();
     }
 
     private void burst(Unit unit){
