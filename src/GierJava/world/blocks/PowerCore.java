@@ -107,35 +107,87 @@ public class PowerCore extends CoreBlock{
 							);
 					}
 
-					@Override
-					public void drawLaunch(){
+								@Override
+			public void drawLaunch(){
 
-							if(landingBuffer == null || landingPlanet == null) return;
+					if(landingBuffer == null || landingPlanet == null) return;
 
-							float fin = renderer.getLandTimeIn();
-							float zoom = Interp.pow3In.apply(fin);
-							float fade = Mathf.clamp((fin - 0.78f) / 0.22f);
+					float fin = renderer.getLandTimeIn();
+					float zoom = Interp.pow3In.apply(fin);
 
-							landingParams.camPos.set(landingDirection);
-							landingParams.zoom = Mathf.lerp(1f, -0.45f, zoom);
+					float cloudProgress = Mathf.clamp((fin - 0.48f) / 0.48f);
+					cloudProgress = Interp.pow2In.apply(cloudProgress);
 
-							landingBuffer.begin(Color.clear);
-							renderer.planets.render(landingParams);
-							landingBuffer.end();
+					float fade = Mathf.clamp((fin - 0.88f) / 0.12f);
 
-							Draw.color(Color.white);
-							Draw.alpha(1f - fade);
+					landingParams.camPos.set(landingDirection);
+					landingParams.zoom = Mathf.lerp(1f, -1.8f, zoom);
 
-							Draw.rect(
-									Draw.wrap(landingBuffer.getTexture()),
-									Core.camera.position.x,
-									Core.camera.position.y,
-									Core.camera.width,
-									-Core.camera.height
-							);
+					renderer.planets.bloom.setThreshold(1.8f);
 
-							Draw.reset();
+					landingBuffer.begin(Color.clear);
+					renderer.planets.render(landingParams);
+					landingBuffer.end();
+
+					Draw.color(Color.white);
+					Draw.alpha(1f - fade);
+
+					Draw.rect(
+							Draw.wrap(landingBuffer.getTexture()),
+							Core.camera.position.x,
+							Core.camera.position.y,
+							Core.camera.width,
+							-Core.camera.height
+					);
+
+					float cx = Core.camera.position.x;
+					float cy = Core.camera.position.y;
+					float w = Core.camera.width;
+					float h = Core.camera.height;
+					float size = Math.max(w, h);
+
+					if(cloudProgress > 0f){
+
+							float cloudAlpha = cloudProgress * 0.82f;
+
+							Draw.color(Color.valueOf("a9bac4"), cloudAlpha * 0.45f);
+							Fill.rect(cx, cy, w, h);
+
+							Draw.color(Color.valueOf("c4d0d6"), cloudAlpha);
+
+							for(int i = 0; i < 9; i++){
+
+									float angle = i * 40f;
+									float distance = size * 0.25f * (1f - cloudProgress);
+
+									float cloudX = cx + Mathf.cosDeg(angle) * distance;
+									float cloudY = cy + Mathf.sinDeg(angle) * distance;
+
+									float radius = size * 0.38f * cloudProgress;
+
+									Fill.circle(cloudX, cloudY, radius);
+							}
+
+							Draw.color(Color.valueOf("e0e6e9"), cloudAlpha * 0.65f);
+
+							for(int i = 0; i < 6; i++){
+
+									float angle = i * 60f + 30f;
+									float distance = size * 0.18f * (1f - cloudProgress);
+
+									float cloudX = cx + Mathf.cosDeg(angle) * distance;
+									float cloudY = cy + Mathf.sinDeg(angle) * distance;
+
+									Fill.circle(
+											cloudX,
+											cloudY,
+											size * 0.22f * cloudProgress
+									);
+							}
 					}
+
+					Draw.reset();
+			}
 
 					@Override
 					public void draw(){
@@ -155,6 +207,7 @@ public class PowerCore extends CoreBlock{
 					@Override
 					public void endLaunch(){
 							if(landingBuffer != null){
+									renderer.planets.bloom.setThreshold(0.8f);
 									landingBuffer.dispose();
 									landingBuffer = null;
 							}
