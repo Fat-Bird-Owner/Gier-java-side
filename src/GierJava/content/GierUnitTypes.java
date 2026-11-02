@@ -86,7 +86,8 @@ public class GierUnitTypes {
 
         outlineColor = Color.valueOf("2f2f3fff");
         mechLegColor = Color.valueOf("2f2f3fff");
-
+        envEnabled = -1;
+            
         speed = 0.75f;
         hitSize = 8f;
         health = 250;
@@ -107,10 +108,9 @@ public class GierUnitTypes {
 
         bullet = new MissileBulletType(3.7f, 10f){{
                 despawnHit = true;
-                hitEffect = blastExplosion;
+                hitEffect = Fx.blastExplosion;
                 lifetime = 68.918915f;
                 lightRadius = 20f;
-                lightningType = damageLightning;
                 makeFire = true;
                 status = StatusEffects.burning;
 
