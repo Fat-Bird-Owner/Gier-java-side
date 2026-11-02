@@ -1,26 +1,32 @@
 package GierJava.world.blocks;
 
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.gl.FrameBuffer;
+import arc.*;
+import arc.audio.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.struct.*;
 import arc.util.*;
+import arc.util.io.*;
+import mindustry.*;
 import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.storage.*;
+import mindustry.world.blocks.*;
+import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.world.blocks.storage.*;
+import mindustry.content.Liquids;
 
 import static mindustry.Vars.*;
 
-public class PowerCore extends CoreBlock{
+public class PowerCore extends CoreBlock {
 
     public float powerProduction = 2f;
 
@@ -31,10 +37,10 @@ public class PowerCore extends CoreBlock{
         hasPower = true;
     }
 
-    @Override
+    @Override 
     public void setStats(){
         super.setStats();
-        stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
+        stats.add(Stat.basePowerGeneration, powerProduction* 60f, StatUnit.powerSecond);
     }
 
     @Override
@@ -42,146 +48,21 @@ public class PowerCore extends CoreBlock{
         super.setBars();
 
         if(hasPower && outputsPower){
-            addBar("power", (PowerCoreBuild entity) -> new Bar(
-                () -> Core.bundle.format(
-                    "bar.poweroutput",
-                    Strings.fixed(entity.getPowerProduction() * 60f * entity.timeScale(), 1)
-                ),
-                () -> Pal.powerBar,
-                () -> entity.getPowerProduction() / powerProduction * 60f
-            ));
+            addBar("power", (PowerCoreBuild entity) -> new Bar(() ->
+            Core.bundle.format("bar.poweroutput",
+            Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
+            () -> Pal.powerBar,
+            () -> entity.getPowerProduction() / powerProduction * 60f));
         }
     }
 
-    public class PowerCoreBuild extends CoreBuild{
-
-        private FrameBuffer landingBuffer;
-        private Planet landingPlanet;
-        private final PlanetParams landingParams = new PlanetParams();
-        private final Vec3 landingDirection = new Vec3();
-
-        private int bufferSize;
+    public class PowerCoreBuild extends CoreBuild {
 
         @Override
         public float getPowerProduction(){
             return enabled ? powerProduction : 0f;
         }
 
-        @Override
-        public void beginLaunch(boolean launching){
-            super.beginLaunch(launching);
-
-            if(headless || launching) return;
-
-            if(landingBuffer != null){
-                landingBuffer.dispose();
-                landingBuffer = null;
-            }
-
-            Sector sector = state.rules.sector;
-
-            if(sector != null && sector.planet != null){
-                landingPlanet = sector.planet;
-
-                if(sector.tile != null){
-                    landingDirection.set(sector.tile.v).nor();
-                }else{
-                    randomDirection();
-                }
-            }else{
-                landingPlanet = state.rules.planetBackground != null
-                    ? state.rules.planetBackground.planet
-                    : state.rules.planet;
-
-                randomDirection();
-            }
-
-            if(landingPlanet == null) return;
-
-            landingParams.planet = landingPlanet;
-            landingParams.drawSkybox = true;
-            landingParams.drawUi = false;
-            landingParams.alwaysDrawAtmosphere = true;
-            landingParams.uiAlpha = 0f;
-
-            bufferSize = Math.max(Core.graphics.getWidth(), Core.graphics.getHeight());
-
-            landingParams.viewW = bufferSize;
-            landingParams.viewH = bufferSize;
-
-            landingBuffer = new FrameBuffer(bufferSize, bufferSize);
-        }
-
-        private void randomDirection(){
-            landingDirection.set(
-                Mathf.random(-1f, 1f),
-                Mathf.random(-1f, 1f),
-                Mathf.random(-1f, 1f)
-            ).nor();
-        }
-
-        @Override
-        public void drawLaunch(){
-            if(landingBuffer != null && landingPlanet != null){
-
-                float fin = Mathf.clamp(renderer.getLandTimeIn());
-                float zoom = Interp.pow3In.apply(fin);
-
-                landingParams.camPos.set(landingDirection);
-                landingParams.zoom = Mathf.lerp(1f, -1.5f, zoom);
-
-                float fade = Mathf.clamp((fin - 0.25f) / 0.25f);
-                fade = Interp.pow2In.apply(fade);
-
-                int size = Math.max(
-                    Core.graphics.getWidth(),
-                    Core.graphics.getHeight()
-                );
-
-                if(size != bufferSize){
-                    landingBuffer.dispose();
-
-                    bufferSize = size;
-                    landingBuffer = new FrameBuffer(size, size);
-
-                    landingParams.viewW = size;
-                    landingParams.viewH = size;
-                }
-
-                landingBuffer.begin(Color.clear);
-                renderer.planets.render(landingParams);
-                landingBuffer.end();
-
-                float drawSize = Math.max(
-                    Core.camera.width,
-                    Core.camera.height
-                );
-
-                Draw.color(Color.white);
-                Draw.alpha(1f - fade);
-
-                Draw.rect(
-                    Draw.wrap(landingBuffer.getTexture()),
-                    Core.camera.position.x,
-                    Core.camera.position.y,
-                    drawSize,
-                    -drawSize
-                );
-
-                Draw.reset();
-            }
-            
-            super.drawLaunch();
-        }
-
-        @Override
-        public void endLaunch(){
-            if(landingBuffer != null){
-                landingBuffer.dispose();
-                landingBuffer = null;
-            }
-
-            landingPlanet = null;
-        }
     }
+
 }
