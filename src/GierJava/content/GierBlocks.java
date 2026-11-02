@@ -398,7 +398,33 @@ public class GierBlocks {
                     backColor = hitColor = trailColor = Pal.glassAmmoBack;
                     frontColor = Pal.glassAmmoFront;
                     despawnEffect = Fx.hitBulletColor;
-                }}
+                }},
+
+                Items.surgeAlloy, new BasicBulletType(8f, 70){{
+                    width = 11f;
+                    height = 20f;
+                    lifetime = 27f;
+                    shrinkX = 0.4f;
+                    shrinkY = 0f;
+                    shootEffect = Fx.shootBig;
+                    hitEffect = Fx.blastExplosion;
+                    trailParam = 0.5f;
+                    lightning = 2;
+                    lightningLength = 6;
+                    lightningColor = Pal.surge;
+                    
+                    lightningDamage = 20;
+                    despawnSound = Sounds.shockBullet;
+                    bulletInterval = 4f;
+
+                    intervalBullet = new LightningBulletType(){{
+                        damage = 5f;
+                        lightningLength = 3;
+                        lightningLengthRand = 4;
+                        lightningColor = Pal.surge;
+                        hitEffect = Fx.hitLancerLow;
+                    }};
+                }};
             );
             
             drawer = new DrawTurret("reinforced-"){{
@@ -430,7 +456,16 @@ public class GierBlocks {
                         progress = PartProgress.reload;
                         layerOffset = -0.011f;
                         y = -1f;
-                        moveX = -3.5f;
+                        moveX = -1.75f;
+                        x = 1.75f;
+                        outline = false;
+                    }},
+                    new RegionPart("-barrel"){{
+                        progress = PartProgress.reload;
+                        layerOffset = -0.01f;
+                        y = -1f;
+                        moveX = -1.75f;
+                        x = -1.75f;
                         outlineLayerOffset = -1f;
                     }}
                 );
