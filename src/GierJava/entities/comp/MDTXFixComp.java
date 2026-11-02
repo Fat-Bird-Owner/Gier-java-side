@@ -18,20 +18,37 @@ abstract class MDTXFixComp implements Posc{
     @Import float shield;
     @Import Seq<StatusEntry> statuses;
 
-    private transient float lastHealth = 0f, lastShield = 0f;
-    private final transient WindowedMean healthBalanceMean = new WindowedMean(120);
+    private transient float lastHealth;
+    private transient float lastShield;
+    private transient WindowedMean healthBalanceMean;
+    private transient boolean initialized;
 
     @Override
-    public void update() {
-        healthBalanceMean.add(
-            ((health - lastHealth) + (shield - lastShield)) / Time.delta
-        );
+    public void update(){
+
+    if(healthBalanceMean == null){
+        healthBalanceMean = new WindowedMean(120);
+    }
+
+    if(!initialized){
+        lastHealth = health;
+        lastShield = shield;
+        initialized = true;
+        return;
+    }
+
+    if(Time.delta <= 0f) return;
+
+    healthBalanceMean.add(
+        ((health - lastHealth) + (shield - lastShield)) / Time.delta
+    );
+
         lastHealth = health;
         lastShield = shield;
     }
 
-    public float healthBalance() {
-        return healthBalanceMean.mean();
+    public float healthBalance(){
+        return healthBalanceMean == null ? 0f : healthBalanceMean.mean();
     }
 
     public Seq<StatusEntry> statuses(){
