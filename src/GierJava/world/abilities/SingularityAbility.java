@@ -15,6 +15,7 @@ import mindustry.entities.Units;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
+import arc.math.Angles;
 
 public class SingularityAbility extends Ability{
 
