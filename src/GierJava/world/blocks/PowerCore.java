@@ -128,7 +128,7 @@ public class PowerCore extends CoreBlock{
                 float zoom = Interp.pow3In.apply(fin);
 
                 landingParams.camPos.set(landingDirection);
-                landingParams.zoom = Mathf.lerp(1f, -0.45f, zoom);
+                landingParams.zoom = Mathf.lerp(1f, -1.5f, zoom);
 
                 float fade = Mathf.clamp((fin - 0.25f) / 0.25f);
                 fade = Interp.pow2In.apply(fade);
