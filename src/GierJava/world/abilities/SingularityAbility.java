@@ -89,7 +89,7 @@ public class SingularityAbility extends Ability{
         float progress = e.finpow();
         float spread = 12f + progress * 65f;
 
-        Draw.color(dustColor);
+        Draw.color(e.color);
         for(int i = 0; i < 32; i++){
             float angle = rand.random(360f);
             float distance = rand.random(spread);
@@ -101,7 +101,7 @@ public class SingularityAbility extends Ability{
             Fill.circle(x, y, size);
         }
 
-        Draw.color(color);
+        Draw.color(e.color);
         for(int i = 0; i < 14; i++){
             float angle = rand.random(360f);
             float distance = rand.random(spread * 0.7f);
