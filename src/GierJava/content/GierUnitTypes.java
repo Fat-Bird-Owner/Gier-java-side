@@ -36,13 +36,13 @@ public class GierUnitTypes {
     // Core units
     restoration,
     singularity,
-
-    // Player unit
-    occupy,
     
     // Exogen units
     spark,
     drive;
+
+    // Player produced units
+    public static @EntityDef(value = {Unitc.class, MDTXFixc.class, Mechc.class}, genIO = false) UnitType occupy;
     
     public static @EntityDef(value = {Unitc.class, MDTXFixc.class}, genIO = false) UnitType ash;
     
