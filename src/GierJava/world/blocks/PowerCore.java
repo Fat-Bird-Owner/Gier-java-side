@@ -30,7 +30,8 @@ import static mindustry.Vars.*;
 public class PowerCore extends CoreBlock {
 
     public float powerProduction = 2f;
-
+    public Color landingColor = Color.valueOf("8ebdffff");
+    
     public PowerCore(String name){
         super(name);
         outputsPower = true;
