@@ -1,5 +1,6 @@
 package GierJava.world.blocks;
 
+import arc.graphics.Color;
 import arc.*;
 import arc.audio.*;
 import arc.graphics.g2d.*;
@@ -63,6 +64,53 @@ public class PowerCore extends CoreBlock {
             return enabled ? powerProduction : 0f;
         }
 
+        @Override
+        public void drawLanding(float x, float y){
+
+        float fin = renderer.getLandTimeIn();
+        float fout = 1f - fin;
+
+        float progress = Interp.pow3Out.apply(fin);
+
+        float height = 18f * fout;
+        float scale = Mathf.lerp(0.82f, 1f, progress);
+        float rotation = 5f * fout;
+
+        float coreRadius = size * tilesize * 0.55f;
+
+        Draw.z(Layer.effect);
+
+        Draw.color(Color.black, 0.18f * fout);
+        Fill.circle(x, y, coreRadius * 0.85f);
+
+        Draw.color(landingColor, 0.08f * fout);
+        Fill.circle(x, y, coreRadius * 1.4f);
+
+        Draw.color(Color.white);
+        Draw.rect(
+            region,
+            x,
+            y + height,
+            region.width * region.scl() * scale,
+            region.height * region.scl() * scale,
+            rotation
+            );
+
+            if(teamRegions[team.id] != teamRegion){
+                Draw.color(team.color);
+                Draw.rect(
+                    teamRegions[team.id],
+                    x,
+                    y + height,
+                    region.width * region.scl() * scale,
+                    region.height * region.scl() * scale,
+                    rotation
+                );
+            }
+
+            Draw.reset();
+        }
+        
     }
 
 }
