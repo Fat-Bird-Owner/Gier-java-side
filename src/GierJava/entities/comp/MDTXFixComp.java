@@ -13,7 +13,7 @@ import mindustry.gen.Posc;
  * @implNote Use to fix crash in MindustryX...
  */
 @EntityComponent
-abstract class MDTXFixComp implements Posc{
+abstract class MDTXFixComp {
     @Import float health;
     @Import float shield;
     @Import Seq<StatusEntry> statuses;
