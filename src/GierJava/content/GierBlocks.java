@@ -424,7 +424,7 @@ public class GierBlocks {
                         lightningColor = Pal.surge;
                         hitEffect = Fx.hitLancerLow;
                     }};
-                }};
+                }}
             );
             
             drawer = new DrawTurret("reinforced-"){{
