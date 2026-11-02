@@ -1,210 +1,166 @@
 package GierJava.world.blocks;
 
+import arc.Core;
 import arc.graphics.Color;
-import arc.*;
-import arc.audio.*;
+import arc.graphics.gl.FrameBuffer;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
-import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.graphics.g3d.PlanetParams;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.*;
-import mindustry.world.draw.*;
-import mindustry.world.meta.*;
 import mindustry.world.blocks.storage.*;
-import mindustry.content.Liquids;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class PowerCore extends CoreBlock {
+public class PowerCore extends CoreBlock{
 
-    public float powerProduction = 2f;
-    public Color landingColor = Color.valueOf("8ebdffff");
+			public float powerProduction = 2f;
 
-	public TextureRegion podRegion;
-
-	private float podOffsetX;
-	private float podOffsetY;
-	private float podRotation;
-	private float lastLandingFin = -1f;
-	private boolean podInitialized;
-	
-    public PowerCore(String name){
-        super(name);
-        outputsPower = true;
-        consumesPower = false;
-        hasPower = true;
-    }
-
-	@Override
-	public void load(){
-		super.load();
-		podRegion = Core.atlas.find(name + "-pod");
-	}
-	
-    @Override 
-    public void setStats(){
-        super.setStats();
-        stats.add(Stat.basePowerGeneration, powerProduction* 60f, StatUnit.powerSecond);
-    }
-
-    @Override
-    public void setBars(){
-        super.setBars();
-
-        if(hasPower && outputsPower){
-            addBar("power", (PowerCoreBuild entity) -> new Bar(() ->
-            Core.bundle.format("bar.poweroutput",
-            Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
-            () -> Pal.powerBar,
-            () -> entity.getPowerProduction() / powerProduction * 60f));
-        }
-    }
-
-    public class PowerCoreBuild extends CoreBuild {
-
-        @Override
-        public float getPowerProduction(){
-            return enabled ? powerProduction : 0f;
-        }
+			public PowerCore(String name){
+					super(name);
+					outputsPower = true;
+					consumesPower = false;
+					hasPower = true;
+			}
 
 			@Override
-			public void drawLanding(float x, float y){
+			public void setStats(){
+					super.setStats();
+					stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
+			}
 
-					float fin = renderer.getLandTimeIn();
+			@Override
+			public void setBars(){
+					super.setBars();
 
-					float impactTime = 0.68f;
-					float revealTime = 0.84f;
+					if(hasPower && outputsPower){
+							addBar("power", (PowerCoreBuild entity) -> new Bar(
+									() -> Core.bundle.format(
+											"bar.poweroutput",
+											Strings.fixed(entity.getPowerProduction() * 60f * entity.timeScale(), 1)
+									),
+									() -> Pal.powerBar,
+									() -> entity.getPowerProduction() / powerProduction * 60f
+							));
+					}
+			}
 
-					float fall = Mathf.clamp(fin / impactTime);
-					float explosion = Mathf.clamp((fin - impactTime) / 0.16f);
-					float reveal = Mathf.clamp((fin - revealTime) / (1f - revealTime));
+			public class PowerCoreBuild extends CoreBuild{
 
-					float podHeight = 190f * (1f - Interp.pow3In.apply(fall));
+					private FrameBuffer landingBuffer;
+					private Planet landingPlanet;
+					private final PlanetParams landingParams = new PlanetParams();
+					private final Vec3 landingDirection = new Vec3();
 
-					float impactX = x;
-					float impactY = y;
-
-					Draw.z(Layer.effect);
-
-					Draw.color(Color.black, 0.22f * (1f - reveal));
-					Fill.circle(x, y, 34f + fall * 12f);
-
-				if(fin < impactTime){
-
-					if(fin < lastLandingFin){
-							podInitialized = false;
+					@Override
+					public float getPowerProduction(){
+							return enabled ? powerProduction : 0f;
 					}
 
-					if(!podInitialized){
-							podOffsetX = Mathf.random(-140f, 140f);
-							podOffsetY = Mathf.random(150f, 240f);
-							podRotation = Mathf.random(-20f, 20f);
-							podInitialized = true;
-					}
+					@Override
+					public void beginLaunch(boolean launching){
+							super.beginLaunch(launching);
 
-					lastLandingFin = fin;
+							thrusterTime = 0f;
 
-					float podX = x + podOffsetX * (1f - fall);
-					float podY = y + podOffsetY * (1f - fall) + podHeight;
-					float podScale = Mathf.lerp(0.45f, 1f, fall);
-					float rotation = podRotation * (1f - fall);
+							if(headless || launching) return;
 
-					Draw.color(Color.white);
-					Draw.rect(
-							podRegion,
-							podX,
-							podY,
-							podRegion.width * podRegion.scl() * podScale,
-							podRegion.height * podRegion.scl() * podScale,
-							rotation
-					);
-				}
-
-					if(fin >= impactTime){
-
-							float radius = 18f + explosion * 85f;
-							float alpha = 1f - explosion;
-
-							Draw.color(Color.white, alpha * 0.85f);
-							Fill.circle(impactX, impactY, radius * 0.35f);
-
-							Draw.color(Color.valueOf("ffad45"), alpha * 0.65f);
-							Fill.circle(impactX, impactY, radius * 0.65f);
-
-							Draw.color(Color.valueOf("d6dce0"), alpha);
-							Lines.stroke(4f * alpha);
-							Lines.circle(impactX, impactY, radius);
-
-							for(int i = 0; i < 16; i++){
-									float angle = i * 22.5f;
-									float distance = explosion * (35f + (i % 4) * 13f);
-
-									float sx = impactX + Mathf.cosDeg(angle) * distance;
-									float sy = impactY + Mathf.sinDeg(angle) * distance;
-
-									Draw.color(i % 2 == 0 ? Color.orange : Color.white, alpha);
-									Fill.circle(sx, sy, 1.5f + alpha);
+							if(landingBuffer != null){
+									landingBuffer.dispose();
 							}
 
-							for(int i = 0; i < 8; i++){
-									float angle = i * 45f + 12f;
-									float distance = explosion * (25f + (i % 3) * 18f);
+							Sector sector = state.rules.sector;
 
-									float px = x + Mathf.cosDeg(angle) * distance;
-									float py = y + Mathf.sinDeg(angle) * distance;
+							if(sector != null && sector.planet != null){
+									landingPlanet = sector.planet;
+									landingDirection.set(sector.tile.v).nor();
+							}else{
+									landingPlanet = state.rules.planetBackground != null
+											? state.rules.planetBackground.planet
+											: state.rules.planet;
 
-									float rotation = angle + explosion * (i % 2 == 0 ? 220f : -220f);
-									float panelAlpha = 1f - Mathf.clamp(explosion * 0.9f);
-
-									Draw.color(Color.valueOf(i % 2 == 0 ? "59636b" : "87939a"), panelAlpha);
-									Draw.rect("white", px, py, 22f, 9f, rotation);
+									landingDirection.set(
+											Mathf.random(-1f, 1f),
+											Mathf.random(-1f, 1f),
+											Mathf.random(-1f, 1f)
+									).nor();
 							}
+
+							landingParams.planet = landingPlanet;
+							landingParams.drawSkybox = true;
+							landingParams.drawUi = false;
+							landingParams.alwaysDrawAtmosphere = true;
+							landingParams.uiAlpha = 0f;
+
+							landingBuffer = new FrameBuffer(
+									Core.graphics.getWidth(),
+									Core.graphics.getHeight()
+							);
 					}
 
-					if(fin >= revealTime){
+					@Override
+					public void drawLaunch(){
 
-							float coreAlpha = Interp.pow2Out.apply(reveal);
+							if(landingBuffer == null || landingPlanet == null) return;
+
+							float fin = renderer.getLandTimeIn();
+							float zoom = Interp.pow3In.apply(fin);
+							float fade = Mathf.clamp((fin - 0.78f) / 0.22f);
+
+							landingParams.camPos.set(landingDirection);
+							landingParams.zoom = Mathf.lerp(1f, -0.45f, zoom);
+
+							landingBuffer.begin(Color.clear);
+							renderer.planets.render(landingParams);
+							landingBuffer.end();
 
 							Draw.color(Color.white);
-							Draw.alpha(coreAlpha);
+							Draw.alpha(1f - fade);
 
 							Draw.rect(
-									region,
-									x,
-									y,
-									region.width * region.scl(),
-									region.height * region.scl()
+									Draw.wrap(landingBuffer.getTexture()),
+									Core.camera.position.x,
+									Core.camera.position.y,
+									Core.camera.width,
+									-Core.camera.height
 							);
 
-							if(teamRegions[team.id] != teamRegion){
-									Draw.color(team.color);
-									Draw.alpha(coreAlpha);
+							Draw.reset();
+					}
 
-									Draw.rect(
-											teamRegions[team.id],
-											x,
-											y,
-											region.width * region.scl(),
-											region.height * region.scl()
-									);
+					@Override
+					public void draw(){
+							thrusterTime = 0f;
+
+							if(renderer.getLandTime() > 0f && !renderer.isLaunching()){
+									float alpha = Mathf.clamp((renderer.getLandTimeIn() - 0.78f) / 0.22f);
+
+									Draw.alpha(alpha);
+									super.draw();
+									Draw.reset();
+							}else{
+									super.draw();
 							}
 					}
 
-					Draw.reset();
-            }
-        
-    }
+					@Override
+					public void endLaunch(){
+							if(landingBuffer != null){
+									landingBuffer.dispose();
+									landingBuffer = null;
+							}
 
+							landingPlanet = null;
+							thrusterTime = 0f;
+					}
+			}
 }
