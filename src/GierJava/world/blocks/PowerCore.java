@@ -1,11 +1,12 @@
 package GierJava.world.blocks;
 
-import arc.graphics.g2d.Draw;
-import arc.util.Strings;
 import arc.Core;
 import arc.graphics.Color;
+import arc.graphics.gl.FrameBuffer;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.util.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -19,134 +20,168 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class PowerCoreBuild extends CoreBuild{
+public class PowerCore extends CoreBlock{
 
-    private FrameBuffer landingBuffer;
-    private Planet landingPlanet;
-    private final PlanetParams landingParams = new PlanetParams();
-    private final Vec3 landingDirection = new Vec3();
+    public float powerProduction = 2f;
 
-    private int bufferSize;
-
-    @Override
-    public float getPowerProduction(){
-        return enabled ? powerProduction : 0f;
+    public PowerCore(String name){
+        super(name);
+        outputsPower = true;
+        consumesPower = false;
+        hasPower = true;
     }
 
     @Override
-    public void beginLaunch(boolean launching){
-        super.beginLaunch(launching);
+    public void setStats(){
+        super.setStats();
+        stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
+    }
 
-        if(headless || launching) return;
+    @Override
+    public void setBars(){
+        super.setBars();
 
-        if(landingBuffer != null){
-            landingBuffer.dispose();
-            landingBuffer = null;
+        if(hasPower && outputsPower){
+            addBar("power", (PowerCoreBuild entity) -> new Bar(
+                () -> Core.bundle.format(
+                    "bar.poweroutput",
+                    Strings.fixed(entity.getPowerProduction() * 60f * entity.timeScale(), 1)
+                ),
+                () -> Pal.powerBar,
+                () -> entity.getPowerProduction() / powerProduction * 60f
+            ));
+        }
+    }
+
+    public class PowerCoreBuild extends CoreBuild{
+
+        private FrameBuffer landingBuffer;
+        private Planet landingPlanet;
+        private final PlanetParams landingParams = new PlanetParams();
+        private final Vec3 landingDirection = new Vec3();
+
+        private int bufferSize;
+
+        @Override
+        public float getPowerProduction(){
+            return enabled ? powerProduction : 0f;
         }
 
-        Sector sector = state.rules.sector;
+        @Override
+        public void beginLaunch(boolean launching){
+            super.beginLaunch(launching);
 
-        if(sector != null && sector.planet != null){
-            landingPlanet = sector.planet;
+            if(headless || launching) return;
 
-            if(sector.tile != null){
-                landingDirection.set(sector.tile.v).nor();
+            if(landingBuffer != null){
+                landingBuffer.dispose();
+                landingBuffer = null;
+            }
+
+            Sector sector = state.rules.sector;
+
+            if(sector != null && sector.planet != null){
+                landingPlanet = sector.planet;
+
+                if(sector.tile != null){
+                    landingDirection.set(sector.tile.v).nor();
+                }else{
+                    randomDirection();
+                }
             }else{
+                landingPlanet = state.rules.planetBackground != null
+                    ? state.rules.planetBackground.planet
+                    : state.rules.planet;
+
                 randomDirection();
             }
-        }else{
-            landingPlanet = state.rules.planetBackground != null
-                ? state.rules.planetBackground.planet
-                : state.rules.planet;
 
-            randomDirection();
+            if(landingPlanet == null) return;
+
+            landingParams.planet = landingPlanet;
+            landingParams.drawSkybox = true;
+            landingParams.drawUi = false;
+            landingParams.alwaysDrawAtmosphere = true;
+            landingParams.uiAlpha = 0f;
+
+            bufferSize = Math.max(Core.graphics.getWidth(), Core.graphics.getHeight());
+
+            landingParams.viewW = bufferSize;
+            landingParams.viewH = bufferSize;
+
+            landingBuffer = new FrameBuffer(bufferSize, bufferSize);
         }
 
-        if(landingPlanet == null) return;
-
-        landingParams.planet = landingPlanet;
-        landingParams.drawSkybox = true;
-        landingParams.drawUi = false;
-        landingParams.alwaysDrawAtmosphere = true;
-        landingParams.uiAlpha = 0f;
-
-        bufferSize = Math.max(Core.graphics.getWidth(), Core.graphics.getHeight());
-
-        landingParams.viewW = bufferSize;
-        landingParams.viewH = bufferSize;
-
-        landingBuffer = new FrameBuffer(bufferSize, bufferSize);
-    }
-
-    private void randomDirection(){
-        landingDirection.set(
-            Mathf.random(-1f, 1f),
-            Mathf.random(-1f, 1f),
-            Mathf.random(-1f, 1f)
-        ).nor();
-    }
-
-    @Override
-    public void drawLaunch(){
-        if(landingBuffer == null || landingPlanet == null) return;
-
-        float fin = Mathf.clamp(renderer.getLandTimeIn());
-
-        float zoom = Interp.pow3In.apply(fin);
-
-        // Planet zoom
-        landingParams.camPos.set(landingDirection);
-        landingParams.zoom = Mathf.lerp(1f, -0.45f, zoom);
-
-        // Fade starts at 25%, finishes at 50%.
-        float fade = Mathf.clamp((fin - 0.25f) / 0.25f);
-        fade = Interp.pow2In.apply(fade);
-
-        // Recreate buffer if the screen size changes.
-        int size = Math.max(Core.graphics.getWidth(), Core.graphics.getHeight());
-
-        if(size != bufferSize){
-            landingBuffer.dispose();
-
-            bufferSize = size;
-            landingBuffer = new FrameBuffer(size, size);
-
-            landingParams.viewW = size;
-            landingParams.viewH = size;
+        private void randomDirection(){
+            landingDirection.set(
+                Mathf.random(-1f, 1f),
+                Mathf.random(-1f, 1f),
+                Mathf.random(-1f, 1f)
+            ).nor();
         }
 
-        // Render planet.
-        landingBuffer.begin(Color.clear);
-        renderer.planets.render(landingParams);
-        landingBuffer.end();
+        @Override
+        public void drawLaunch(){
+            if(landingBuffer != null && landingPlanet != null){
 
-        // Draw fading planet.
-        Draw.color(Color.white);
-        Draw.alpha(1f - fade);
+                float fin = Mathf.clamp(renderer.getLandTimeIn());
+                float zoom = Interp.pow3In.apply(fin);
 
-        float drawSize = Math.max(Core.camera.width, Core.camera.height);
+                landingParams.camPos.set(landingDirection);
+                landingParams.zoom = Mathf.lerp(1f, -0.45f, zoom);
 
-        Draw.rect(
-            Draw.wrap(landingBuffer.getTexture()),
-            Core.camera.position.x,
-            Core.camera.position.y,
-            drawSize,
-            -drawSize
-        );
+                float fade = Mathf.clamp((fin - 0.25f) / 0.25f);
+                fade = Interp.pow2In.apply(fade);
 
-        Draw.reset();
+                int size = Math.max(
+                    Core.graphics.getWidth(),
+                    Core.graphics.getHeight()
+                );
 
-        // Keep the original core landing animation and thrusters.
-        drawLanding(x, y);
-    }
+                if(size != bufferSize){
+                    landingBuffer.dispose();
 
-    @Override
-    public void endLaunch(){
-        if(landingBuffer != null){
-            landingBuffer.dispose();
-            landingBuffer = null;
+                    bufferSize = size;
+                    landingBuffer = new FrameBuffer(size, size);
+
+                    landingParams.viewW = size;
+                    landingParams.viewH = size;
+                }
+
+                landingBuffer.begin(Color.clear);
+                renderer.planets.render(landingParams);
+                landingBuffer.end();
+
+                float drawSize = Math.max(
+                    Core.camera.width,
+                    Core.camera.height
+                );
+
+                Draw.color(Color.white);
+                Draw.alpha(1f - fade);
+
+                Draw.rect(
+                    Draw.wrap(landingBuffer.getTexture()),
+                    Core.camera.position.x,
+                    Core.camera.position.y,
+                    drawSize,
+                    -drawSize
+                );
+
+                Draw.reset();
+            }
+            
+            super.drawLaunch();
         }
 
-        landingPlanet = null;
+        @Override
+        public void endLaunch(){
+            if(landingBuffer != null){
+                landingBuffer.dispose();
+                landingBuffer = null;
+            }
+
+            landingPlanet = null;
+        }
     }
 }
