@@ -82,7 +82,7 @@ public class GierUnitTypes {
             speed = 1f;
             flying = true;
 
-            abilities.add(new ChronoSingularityAbility(){{
+            abilities.add(new SingularityAbility(){{
             radius = 100f;
             activeDuration = 180f;
             cooldown = 720f;
