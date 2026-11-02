@@ -194,7 +194,7 @@ private static final Effect contractingRing = new Effect(30f, 160f, e -> {
         float progress = Mathf.clamp(state.timer / activeDuration);
         float shrink = 1f - progress * 0.35f;
 
-        float baseRadius = radius * 0.45f * shrink;
+        float baseRadius = radius * 0.22f * (1f - progress * 0.35f);
         float pulse = Mathf.absin(Time.time, 3f, 4f);
         float spikeSize = spikeLength * (1f - progress * 0.8f);
 
@@ -209,8 +209,13 @@ private static final Effect contractingRing = new Effect(30f, 160f, e -> {
     for(int i = 0; i < spikeCount; i++){
 
     float angle = i * (360f / spikeCount);
-    float length = spikeSize * rand.random(0.4f, 1f);
-    float width = 360f / spikeCount * 0.8f;
+    float length = spikeSize * Mathf.randomSeed(
+    unit.id + i * 71 + (int)(Time.time / 2f),
+    0.25f,
+    1.4f
+    );
+        
+    float width = 360f / spikeCount * 0.45f;
 
     float innerAngle1 = angle - width / 2f;
     float innerAngle2 = angle + width / 2f;
