@@ -1,5 +1,6 @@
 package GierJava.world.blocks;
 
+import 
 import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -93,7 +94,7 @@ public class AnimatedUnitFactory extends UnitBlock{
         super.setBars();
 
         addBar("progress", (AnimatedUnitFactoryBuild build) -> new mindustry.ui.Bar(
-            () -> mindustry.core.Core.bundle.format(
+            () -> Core.bundle.format(
                 "bar.progress",
                 (int)(build.fraction() * 100f)
             ),
@@ -102,6 +103,20 @@ public class AnimatedUnitFactory extends UnitBlock{
         ));
     }
 
+    public static class UnitPlan{
+        public UnitType unit;
+        public ItemStack[] requirements;
+        public float time;
+
+        public UnitPlan(UnitType unit, float time, ItemStack[] requirements){
+            this.unit = unit;
+            this.time = time;
+            this.requirements = requirements;
+        }
+
+        UnitPlan(){}
+    }
+    
     public class AnimatedUnitFactoryBuild extends UnitBuild{
 
         public int currentPlan = 0;
