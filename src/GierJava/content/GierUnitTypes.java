@@ -31,7 +31,7 @@ import GierJava.world.abilities.*;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
-    public static @EntityDef(value = {Unitc.class, MDTXFixc.class}, genIO = false) UnitType 
+    public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType
     
     // Core units
     restoration,
@@ -42,12 +42,12 @@ public class GierUnitTypes {
     drive;
 
     // Player produced units
-    public static @EntityDef(value = {Unitc.class, MDTXFixc.class, Mechc.class}, genIO = false) UnitType occupy;
+    public static @EntityDef(value = {MDTXFixUnitc.class, Mechc.class}) UnitType occupy;
     
-    public static @EntityDef(value = {Unitc.class, MDTXFixc.class}, genIO = false) UnitType ash;
+    public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType ash;
     
     // Internals
-    public static @EntityDef(value = {Unitc.class, BuildingTetherc.class, Payloadc.class, MDTXFixc.class}, genIO = false) UnitType carrier;
+    public static @EntityDef(value = {MDTXFixUnitc.class, BuildingTetherc.class, Payloadc.class}) UnitType carrier;
     
     public static void load(){
         
