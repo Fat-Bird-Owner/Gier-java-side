@@ -56,7 +56,7 @@ public class IframeAbility extends Ability{
     public void addStats(Table stats){
         super.addStats(stats);
 
-        stats.add(Stat.reload, duration / 60f, StatUnit.seconds);
+        stats.add(Stat.reload + ":" + (duration / 60f) + StatUnit.seconds);
         stats.row();
 
         stats.add("Invulnerability status: ").left();
@@ -64,7 +64,7 @@ public class IframeAbility extends Ability{
         stats.row();
 
         stats.add("Status duration: ").left();
-        stats.add(statusDuration / 60f, StatUnit.seconds);
+        stats.add((statusDuration / 60f) + StatUnit.seconds);
         stats.row();
 
         stats.add("Counter status: ").left();
