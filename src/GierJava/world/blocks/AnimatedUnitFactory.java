@@ -87,7 +87,7 @@ public class AnimatedUnitFactory extends UnitBlock{
                         case construct:
                             Draw.draw(Layer.blockOver, () ->
                                 Drawf.construct(
-                                    this, unit,
+                                    this, unit.region,
                                     rotdeg() - 90f,
                                     op, speedScl, time
                                 )
@@ -119,57 +119,29 @@ public class AnimatedUnitFactory extends UnitBlock{
         }
 
         private void drawWeaponAnimation(float p, AnimationOrder order){
-            
     float rotation = rotdeg() - 90f;
-    float armLength = unit.hitSize * 1.2f;
-    float move = Mathf.pow(p, 2f);
 
     for(var weapon : unit.weapons){
         if(!weapon.region.found()) continue;
 
-        float targetX = x + Angles.trnsx(rotation, weapon.x, weapon.y);
-        float targetY = y + Angles.trnsy(rotation, weapon.x, weapon.y);
+        float wx = x + Angles.trnsx(rotation, weapon.x, weapon.y);
+        float wy = y + Angles.trnsy(rotation, weapon.x, weapon.y);
 
-        float angle = Angles.angle(x, y, targetX, targetY);
-
-        float startX = x + Angles.trnsx(angle, armLength);
-        float startY = y + Angles.trnsy(angle, armLength);
-
-        float wx = Mathf.lerp(startX, targetX, move);
-        float wy = Mathf.lerp(startY, targetY, move);
-
-        float weaponRotation = rotation + weapon.baseRotation;
-
-        Draw.color();
-
-        if(weapon.top && weapon.outlineRegion.found()){
-            float prev = Draw.xscl;
-            Draw.xscl *= -Mathf.sign(weapon.flipSprite);
-
-            Draw.rect(
-                weapon.outlineRegion,
-                wx, wy,
-                weaponRotation
-            );
-
-            Draw.xscl = prev;
-        }
-
-        float prev = Draw.xscl;
-        Draw.xscl *= -Mathf.sign(weapon.flipSprite);
-
-        Draw.rect(
-            weapon.region,
-            wx, wy,
-            weaponRotation
+        Draw.draw(Layer.blockOver, () ->
+            Drawf.construct(
+                this,
+                weapon.region,
+                wx - x,
+                wy - y,
+                rotation + weapon.baseRotation,
+                p,
+                speedScl,
+                time
+            )
         );
-
-        Draw.xscl = prev;
     }
-
-        Draw.color();
         }
-
+        
         private void drawLiquidAnimation(float p, AnimationOrder order){
             float radius = unit.hitSize * 0.65f;
 
