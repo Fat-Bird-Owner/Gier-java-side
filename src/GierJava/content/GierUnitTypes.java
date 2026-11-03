@@ -138,7 +138,7 @@ public class GierUnitTypes {
             drawCell = false;
             faceTarget = false;
 
-    weapons.add(new Weapon("overboard-weapon"){{
+    weapons.add(new Weapon("gier-java-overboard-weapon"){{
         x = 4f;
         reload = 30f;
         rotate = true;
