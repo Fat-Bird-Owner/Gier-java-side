@@ -1,6 +1,5 @@
 package GierJava.world.blocks;
-
-import 
+ 
 import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
