@@ -43,6 +43,10 @@ public class GierUnitTypes {
 
     // Player produced units
     public static @EntityDef(value = {MDTXFixUnitc.class, Mechc.class}) UnitType occupy;
+
+    public static @EntittDef(value = {MDTXFixUnitc.class, Hoverc.class}) UnitType overboard
+
+    
     
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType ash;
     
@@ -87,6 +91,8 @@ public class GierUnitTypes {
         outlineColor = Color.valueOf("2f2f3fff");
         mechLegColor = Color.valueOf("2f2f3fff");
         envEnabled = -1;
+
+        drawCell = false;
             
         speed = 0.75f;
         hitSize = 8f;
@@ -106,17 +112,66 @@ public class GierUnitTypes {
                 mag = 2f;
             }};
 
-        bullet = new MissileBulletType(3.7f, 10f){{
+        bullet = new MissileBulletType(3.7f, 15f){{
                 despawnHit = true;
                 hitEffect = Fx.blastExplosion;
                 lifetime = 68.918915f;
                 lightRadius = 20f;
-                makeFire = true;
                 status = StatusEffects.burning;
 
                 backColor = Color.valueOf("f68021ff");
                 frontColor = Color.valueOf("f8ad42ff");
                 width = 7f;
+                }};
+            }});
+        }};
+
+        overboard = new UnitType("overboard"){{
+            speed = 1.4f;
+            hitSize = 12f;
+            health = 200f;
+
+            outlineRadius = 0;
+            outlines = false;
+            accel = 0.2f;
+            drag = 0.03f;
+            drawCell = false;
+            faceTarget = false;
+
+            baseRegion = "window-empty";
+
+    weapons.add(new Weapon("overboard-weapon"){{
+        x = 4f;
+        reload = 30f;
+        rotate = true;
+        layerOffset = 0.1f;
+        shootSound = Sounds.shootAvert;
+
+        ejectEffect = new SoundEffect(){{
+            effect = Fx.none;
+            sound = Sounds.shootDisperse;
+        }};
+
+            bullet = new MissileBulletType(3.7f, 5f){{
+                    despawnHit = true;
+                    hitEffect = Fx.blastExplosion;
+                    lifetime = 34f;
+                    lightRadius = 20f;
+
+                    backColor = Color.valueOf("8692e7ff");
+                    frontColor = Color.valueOf("8692e7ff");
+                    width = 7f;
+
+                    weaveMag = 2f;
+                    weaveScale = 3f;
+
+                    lightningColor = Color.valueOf("8692e7ff");
+                    lightColor = Color.valueOf("8692e7ff");
+                    lightning = 6;
+                    lightningDamage = 4f;
+                    trailChance = 1f;
+                    trailColor = Color.valueOf("8692e7ff");
+                    lightningLength = 7;
                 }};
             }});
         }};
