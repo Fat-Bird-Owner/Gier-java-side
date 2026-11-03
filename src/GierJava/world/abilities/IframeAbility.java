@@ -22,19 +22,19 @@ public class IframeAbility extends Ability{
     public void update(Unit unit){
         super.update(unit);
 
-        if(unit.damaged()){
+        if(unit.damaged() && !unit.hasEffect(status)){
             timer = duration;
             effect.at(unit.x, unit.y);
+            
+            unit.apply(status, statusDuration);
+            if(stopMovement){
+                unit.vel.set(0, 0);
+            }
+            
         }
 
         if(timer > 0f){
             timer -= Time.delta;
-
-            unit.apply(status, statusDuration);
-
-            if(stopMovement){
-                unit.vel.setZero();
-            }
         }
     }
 
