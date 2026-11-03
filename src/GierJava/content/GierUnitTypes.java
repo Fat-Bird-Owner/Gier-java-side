@@ -423,7 +423,8 @@ public class GierUnitTypes {
             */
 
             abilities.add(new ShieldRegenFieldAbility(30f, 300f, 180f, 0f));
-
+            abilities.add(new IframeAbility());
+                
             weapons.add(new Weapon(){{
                     reload = 300f;
                     shootStatus = StatusEffects.slow;
