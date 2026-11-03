@@ -44,7 +44,7 @@ public class GierUnitTypes {
     // Player produced units
     public static @EntityDef(value = {MDTXFixUnitc.class, Mechc.class}) UnitType occupy;
 
-    public static @EntittDef(value = {MDTXFixUnitc.class, Hoverc.class}) UnitType overboard;
+    public static @EntityDef(value = {MDTXFixUnitc.class, ElevationMovec.class}) UnitType overboard;
 
     
     
