@@ -20,6 +20,7 @@ public class AnimatedUnitFactory extends UnitFactory{
 
     public AnimatedUnitFactory(String name){
         super(name);
+        buildType = AnimatedUnitFactoryBuild::new;
     }
 
     public void setAnimations(UnitType unit, AnimationOrder... orders){
