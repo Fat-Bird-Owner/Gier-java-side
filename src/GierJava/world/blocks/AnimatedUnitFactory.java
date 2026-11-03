@@ -1,6 +1,6 @@
 package GierJava.world.blocks;
 
-import mindustry.audio.*;
+import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
