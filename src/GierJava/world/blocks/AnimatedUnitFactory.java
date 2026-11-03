@@ -57,6 +57,10 @@ public class AnimatedUnitFactory extends UnitFactory{
             Draw.z(Layer.blockOver + 0.1f);
             Draw.rect(topRegion, x, y);
 
+            Draw.color(Color.red);
+            Fill.circle(x, y, 12f);
+            Draw.color();
+            
             if(currentPlan < 0 || currentPlan >= plans.size || payload != null){
                 Draw.reset();
                 return;
