@@ -8,7 +8,7 @@ import mindustry.gen.Unit;
 import mindustry.type.StatusEffect;
 import mindustry.content.*;
 
-public class Iframe extends Ability{
+public class IframeAbility extends Ability{
 
     public float duration = 60f;
     public boolean stopMovement = true;
@@ -40,6 +40,6 @@ public class Iframe extends Ability{
 
     @Override
     public String localized(){
-        return "IFrame";
+        return "IFrame Ability";
     }
 }
