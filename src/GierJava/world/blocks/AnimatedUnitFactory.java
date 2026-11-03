@@ -1,12 +1,11 @@
+
 package GierJava.world.blocks;
 
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.audio.Sound;
-import arc.struct.Seq;
 import arc.math.Angles;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
+import arc.struct.Seq;
+
 import mindustry.Vars;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -87,19 +86,25 @@ public class AnimatedUnitFactory extends UnitBlock{
                     switch(order.type){
                         case construct:
                             Draw.draw(Layer.blockOver, () ->
-                                Drawf.construct(this, unit, rotdeg() - 90f, op, speedScl, time)
+                                Drawf.construct(
+                                    this, unit,
+                                    rotdeg() - 90f,
+                                    op, speedScl, time
+                                )
                             );
                             break;
 
                         case weapon:
-                        drawWeaponAnimation(op, order);
-                        break;
+                            drawWeaponAnimation(op, order);
+                            break;
+
                         case liquid:
-                        drawLiquidAnimation(op, order);
-                        break;
+                            drawLiquidAnimation(op, order);
+                            break;
+
                         case paint:
-                        drawPaintAnimation(op, order);
-                        break;
+                            drawPaintAnimation(op, order);
+                            break;
                     }
                 }
             }
@@ -113,55 +118,60 @@ public class AnimatedUnitFactory extends UnitBlock{
             Draw.reset();
         }
 
-    private void drawWeaponAnimation(float p, AnimationOrder order){
-    if(unit.weapons.isEmpty()) return;
+        private void drawWeaponAnimation(float p, AnimationOrder order){
+            if(unit.weapons.isEmpty()) return;
 
-    Draw.color(order.color);
-    Lines.stroke(Math.max(1f, unit.hitSize * 0.08f));
+            Draw.color(order.color);
+            Lines.stroke(Math.max(1f, unit.hitSize * 0.08f));
 
-    float length = unit.hitSize * 0.8f;
+            float length = unit.hitSize * 0.8f;
 
-    for(int i = 0; i < unit.weapons.size; i++){
-        float angle = i * 180f;
-        float sx = x + Angles.trnsx(angle, length);
-        float sy = y + Angles.trnsy(angle, length);
-        float tx = Mathf.lerp(sx, x, p);
-        float ty = Mathf.lerp(sy, y, p);
+            for(int i = 0; i < unit.weapons.size; i++){
+                float angle = i * 180f;
 
-        Lines.line(sx, sy, tx, ty);
-        Fill.circle(tx, ty, Math.max(2f, unit.hitSize * 0.12f));
-    }
+                float sx = x + Angles.trnsx(angle, length);
+                float sy = y + Angles.trnsy(angle, length);
 
-     private void drawLiquidAnimation(float p, AnimationOrder order){
-    float radius = unit.hitSize * 0.65f;
+                float tx = Mathf.lerp(sx, x, p);
+                float ty = Mathf.lerp(sy, y, p);
 
-    Draw.color(order.color);
-    Draw.alpha(order.intensity);
-    Lines.stroke(Math.max(1f, unit.hitSize * 0.06f));
-    Lines.circle(x, y, radius * p);
+                Lines.line(sx, sy, tx, ty);
+                Fill.circle(tx, ty, Math.max(2f, unit.hitSize * 0.12f));
+            }
 
-    for(int i = 0; i < 8; i++){
-        float angle = animationTime * 2f + i * 45f;
-        Fill.circle(
-            x + Angles.trnsx(angle, radius * p),
-            y + Angles.trnsy(angle, radius * p),
-            Math.max(1f, unit.hitSize * 0.045f) * order.intensity
-        );
-    }
+            Draw.color();
+        }
 
-    Draw.color();
-     }
+        private void drawLiquidAnimation(float p, AnimationOrder order){
+            float radius = unit.hitSize * 0.65f;
 
-    Draw.color();
-    }
+            Draw.color(order.color);
+            Draw.alpha(order.intensity);
 
-    private void drawPaintAnimation(float p, AnimationOrder order){
-    Draw.color();
-    Draw.mixcol(order.color, 1f);
-    Draw.alpha(order.intensity * (1f - p));
-    Draw.rect(unit.fullIcon, x, y);
-    Draw.reset();
-    }
-     
+            Lines.stroke(Math.max(1f, unit.hitSize * 0.06f));
+            Lines.circle(x, y, radius * p);
+
+            for(int i = 0; i < 8; i++){
+                float angle = animationTime * 2f + i * 45f;
+
+                Fill.circle(
+                    x + Angles.trnsx(angle, radius * p),
+                    y + Angles.trnsy(angle, radius * p),
+                    Math.max(1f, unit.hitSize * 0.045f) * order.intensity
+                );
+            }
+
+            Draw.color();
+        }
+
+        private void drawPaintAnimation(float p, AnimationOrder order){
+            Draw.color();
+            Draw.mixcol(order.color, 1f);
+            Draw.alpha(order.intensity * (1f - p));
+
+            Draw.rect(unit.fullIcon, x, y);
+
+            Draw.reset();
+        }
     }
 }
