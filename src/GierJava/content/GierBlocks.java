@@ -78,7 +78,7 @@ public class GierBlocks {
 
     // Production
     hydroDrill,
-
+    
     // Crafting
     sunderFurnace,
     dihydrogenShaft,
@@ -94,6 +94,9 @@ public class GierBlocks {
     photonPanel,
     ignitionGenerator,
     electricCapacitor,
+
+    // Units
+    assemblyBay,
     
     // Effect
     coreSatellite,
@@ -771,6 +774,39 @@ public class GierBlocks {
             consumePowerBuffered(500f);
             envEnabled = -1;
             baseExplosiveness = 25f;
+        }};
+
+        // Units
+
+    assemblyBay = new AnimatedUnitFactory("assembly-bay"){{
+            requirements(Category.units, with(Items.lead, 200, Items.copper, 150, Items.silicon, 100));
+            size = 3;
+
+            plans.add(new UnitPlan(
+            GierUnitTypes.occupy,
+            900f,
+            ItemStack.with(Items.lead, 50, Items.scrap, 50)
+            ));
+
+        setAnimations(GierUnitTypes.occupy,
+            new AnimationOrder(
+                AnimationOrder.AnimationType.construct,
+                0f, 1f
+            ),
+            new AnimationOrder(
+                AnimationOrder.AnimationType.weapon,
+                0.15f, 0.65f
+            ).color(Color.valueOf("b5d9ffff")),
+            new AnimationOrder(
+                AnimationOrder.AnimationType.liquid,
+                0.35f, 0.85f
+            ).color(Color.valueOf("55aaff")).intensity(0.8f),
+            new AnimationOrder(
+                AnimationOrder.AnimationType.paint,
+                0.75f, 1f
+            ).color(Color.valueOf("777777"))
+        );
+            
         }};
         
         // Effect
