@@ -64,7 +64,7 @@ public class IframeAbility extends Ability{
         stats.row();
 
         stats.add("Status duration: ").left();
-        stats.add((statusDuration / 60f) + StatUnit.seconds);
+        stats.add((statusDuration / 60f) + "sec");
         stats.row();
 
         stats.add("Counter status: ").left();
