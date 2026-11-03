@@ -88,7 +88,7 @@ public class AnimatedUnitFactory extends UnitBlock{
                         case construct:
                             Draw.draw(Layer.blockOver, () ->
                                 Drawf.construct(
-                                    this, unit,
+                                    x, y, unit, Pal.accent,
                                     rotdeg() - 90f,
                                     op, speedScl, time
                                 )
@@ -130,10 +130,10 @@ public class AnimatedUnitFactory extends UnitBlock{
 
         Draw.draw(Layer.blockOver, () ->
             Drawf.construct(
-                this,
+                x,
+                y,
                 weapon.region,
-                wx - x,
-                wy - y,
+                Pal.accent,
                 rotation + weapon.baseRotation,
                 p,
                 speedScl,
