@@ -119,27 +119,55 @@ public class AnimatedUnitFactory extends UnitBlock{
         }
 
         private void drawWeaponAnimation(float p, AnimationOrder order){
-            if(unit.weapons.isEmpty()) return;
+            
+    float rotation = rotdeg() - 90f;
+    float armLength = unit.hitSize * 1.2f;
+    float move = Mathf.pow(p, 2f);
 
-            Draw.color(order.color);
-            Lines.stroke(Math.max(1f, unit.hitSize * 0.08f));
+    for(var weapon : unit.weapons){
+        if(!weapon.region.found()) continue;
 
-            float length = unit.hitSize * 0.8f;
+        float targetX = x + Angles.trnsx(rotation, weapon.x, weapon.y);
+        float targetY = y + Angles.trnsy(rotation, weapon.x, weapon.y);
 
-            for(int i = 0; i < unit.weapons.size; i++){
-                float angle = i * 180f;
+        float angle = Angles.angle(x, y, targetX, targetY);
 
-                float sx = x + Angles.trnsx(angle, length);
-                float sy = y + Angles.trnsy(angle, length);
+        float startX = x + Angles.trnsx(angle, armLength);
+        float startY = y + Angles.trnsy(angle, armLength);
 
-                float tx = Mathf.lerp(sx, x, p);
-                float ty = Mathf.lerp(sy, y, p);
+        float wx = Mathf.lerp(startX, targetX, move);
+        float wy = Mathf.lerp(startY, targetY, move);
 
-                Lines.line(sx, sy, tx, ty);
-                Fill.circle(tx, ty, Math.max(2f, unit.hitSize * 0.12f));
-            }
+        float weaponRotation = rotation + weapon.baseRotation;
 
-            Draw.color();
+        Draw.color();
+
+        if(weapon.top && weapon.outlineRegion.found()){
+            float prev = Draw.xscl;
+            Draw.xscl *= -Mathf.sign(weapon.flipSprite);
+
+            Draw.rect(
+                weapon.outlineRegion,
+                wx, wy,
+                weaponRotation
+            );
+
+            Draw.xscl = prev;
+        }
+
+        float prev = Draw.xscl;
+        Draw.xscl *= -Mathf.sign(weapon.flipSprite);
+
+        Draw.rect(
+            weapon.region,
+            wx, wy,
+            weaponRotation
+        );
+
+        Draw.xscl = prev;
+    }
+
+        Draw.color();
         }
 
         private void drawLiquidAnimation(float p, AnimationOrder order){
