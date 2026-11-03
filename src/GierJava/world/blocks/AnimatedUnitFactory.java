@@ -59,6 +59,7 @@ public class AnimatedUnitFactory extends UnitBlock{
                     payload = new UnitPayload(created);
                     payVector.setZero();
                     Events.fire(new UnitCreateEvent(created, this));
+                    consume();
                     progress = 0f;
                 }
             }else{
@@ -87,7 +88,7 @@ public class AnimatedUnitFactory extends UnitBlock{
                         case construct:
                             Draw.draw(Layer.blockOver, () ->
                                 Drawf.construct(
-                                    this, unit.region,
+                                    this, unit,
                                     rotdeg() - 90f,
                                     op, speedScl, time
                                 )
