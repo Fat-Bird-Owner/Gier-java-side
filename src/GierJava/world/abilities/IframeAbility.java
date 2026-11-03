@@ -1,5 +1,6 @@
 package GierJava.world.abilities;
 
+import arc.scene.ui.layout.Table;
 import arc.util.Time;
 import mindustry.entities.abilities.Ability;
 import mindustry.entities.Effect;
