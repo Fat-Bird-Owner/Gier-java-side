@@ -20,7 +20,6 @@ public class AnimatedUnitFactory extends UnitFactory{
 
     public AnimatedUnitFactory(String name){
         super(name);
-        buildType = AnimatedUnitFactoryBuild::new;
     }
 
     public void setAnimations(UnitType unit, AnimationOrder... orders){
@@ -48,86 +47,9 @@ public class AnimatedUnitFactory extends UnitFactory{
 
         @Override
         public void draw(){
-            Draw.rect(region, x, y);
-            Draw.rect(outRegion, x, y, rotdeg());
-
-            Draw.z(Layer.blockOver);
-            payRotation = rotdeg();
-            drawPayload();
-
-            Draw.z(Layer.blockOver + 0.1f);
-            Draw.rect(topRegion, x, y);
-
             Draw.color(Color.red);
             Fill.circle(x, y, 12f);
             Draw.color();
-            
-            if(currentPlan < 0 || currentPlan >= plans.size || payload != null){
-                Draw.reset();
-                return;
-            }
-
-            UnitType unit = plans.get(currentPlan).unit;
-            float buildProgress = fraction();
-
-            Seq<AnimationOrder> orders = getAnimations(unit);
-
-            boolean customConstruct = false;
-
-            for(AnimationOrder order : orders){
-                if(order.type == AnimationOrder.AnimationType.construct){
-                    customConstruct = true;
-                    break;
-                }
-            }
-
-            if(!customConstruct){
-                Draw.draw(Layer.blockOver + 0.2f, () ->
-                    mindustry.graphics.Drawf.construct(
-                        this, unit, rotdeg() - 90f,
-                        buildProgress, speedScl, time
-                    )
-                );
-            }else{
-                for(AnimationOrder order : orders){
-                    if(order.type == AnimationOrder.AnimationType.construct){
-                        float p = order.progress(buildProgress);
-
-                        if(p > 0f){
-                            Draw.draw(Layer.blockOver + 0.2f, () ->
-                                mindustry.graphics.Drawf.construct(
-                                    this, unit, rotdeg() - 90f,
-                                    p, speedScl, time
-                                )
-                            );
-                        }
-                    }
-                }
-            }
-
-            Draw.z(Layer.blockOver + 0.3f);
-
-            for(AnimationOrder order : orders){
-                float p = order.progress(buildProgress);
-
-                if(p <= 0f) continue;
-
-                switch(order.type){
-                    case weapon:
-                        drawWeaponAnimation(unit, order, p);
-                        break;
-                    case liquid:
-                        drawLiquidAnimation(unit, order, p);
-                        break;
-                    case paint:
-                        drawPaintAnimation(unit, order, p);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            Draw.reset();
         }
 
         private void drawWeaponAnimation(UnitType unit, AnimationOrder order, float progress){
