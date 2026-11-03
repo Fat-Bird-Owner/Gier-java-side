@@ -138,8 +138,6 @@ public class GierUnitTypes {
             drawCell = false;
             faceTarget = false;
 
-            baseRegion = "window-empty";
-
     weapons.add(new Weapon("overboard-weapon"){{
         x = 4f;
         reload = 30f;
