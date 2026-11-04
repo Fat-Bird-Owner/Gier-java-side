@@ -16,8 +16,8 @@ import mindustry.ui.dialogs.*;
 
 public class GierResearchDialog extends ResearchDialog{
 
-    private static final float horizontalSpacing = Scl.scl(100f);
-    private static final float verticalSpacing = Scl.scl(130f);
+    private static final float horizontalSpacing = Scl.scl(300f);
+    private static final float verticalSpacing = Scl.scl(390f);
 
     private float nextX;
 
@@ -83,6 +83,12 @@ public class GierResearchDialog extends ResearchDialog{
             hasChildren = true;
         }
 
+        float centerX = (minX + maxX) / 2f;
+
+        for(TechTreeNode node : nodes){
+            node.x -= centerX;
+        }
+        
         if(!hasChildren){
             node.x = nextX;
             nextX += horizontalSpacing;
@@ -91,9 +97,6 @@ public class GierResearchDialog extends ResearchDialog{
         }
 
         node.y = depth * verticalSpacing;
-        if (node.y < -1f) {
-            node.y *= -1f;
-        }
         
         return node.x;
     }
@@ -127,9 +130,7 @@ public class GierResearchDialog extends ResearchDialog{
                 for(TechTreeNode child : node.children){
                     if(!child.visible) continue;
 
-                    boolean locked =
-                        !node.node.content.unlockedHost() ||
-                        !child.node.content.unlockedHost();
+                    boolean locked = !node.node.content.unlockedHost() || !child.node.content.unlockedHost();
 
                     Draw.z(locked ? 1f : 2f);
 
@@ -153,6 +154,7 @@ public class GierResearchDialog extends ResearchDialog{
             Draw.reset();
 
             for(Element child : getChildren()){
+            if (!node.node.content.unlockedHost() || !child.node.content.unlockedHost()) return;
                 child.draw();
             }
             
