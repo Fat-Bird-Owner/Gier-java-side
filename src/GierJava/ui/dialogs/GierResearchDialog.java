@@ -6,12 +6,12 @@ import arc.math.Mathf;
 import arc.math.geom.Rect;
 import arc.scene.Group;
 import arc.util.Reflect;
-
+import mindustry.ui.dialogs.*;
 import mindustry.Vars;
 import mindustry.graphics.Pal;
-import mindustry.graphics.Scl;
+import arc.scene.ui.layout.*;
 
-public class UpwardResearchDialog extends ResearchDialog{
+public class GierResearchDialog extends ResearchDialog{
 
     public float spacingX = 30f;
     public float spacingY = 45f;
