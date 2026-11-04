@@ -13,6 +13,14 @@ import mindustry.type.*;
 import mindustry.world.blocks.units.UnitBlock;
 import mindustry.world.blocks.payloads.UnitPayload;
 import mindustry.game.EventType.UnitCreateEvent;
+import arc.Core;
+import arc.graphics.Color;
+import arc.util.Strings;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatValues;
+import mindustry.ui.Styles;
+import mindustry.ui.Bar;
+import arc.util.Scaling;
 
 public class AnimatedUnitFactory extends UnitBlock{
 
