@@ -783,9 +783,12 @@ public class GierBlocks {
             size = 3;
             buildTime = 900f;
 
+            consumeItems(with(Items.scrap, 50, Items.lead, 25));
+            consumeLiquids(with(Liquids.oil, 1f / 60f));
+            
             animations(
                 new AnimationOrder(AnimationOrder.AnimationType.construct, 0f, 1f),
-                new AnimationOrder(AnimationOrder.AnimationType.weapon, 0.15f, 0.65f)
+                new AnimationOrder(AnimationOrder.AnimationType.weapon, 0.75f, 1f)
             );
         }};
         
