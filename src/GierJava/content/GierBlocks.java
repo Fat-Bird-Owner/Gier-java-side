@@ -784,7 +784,7 @@ public class GierBlocks {
             buildTime = 900f;
 
             consumeItems(with(Items.scrap, 50, Items.lead, 25));
-            consumeLiquids(Liquids.oil, 1f / 60f);
+            consumeLiquid(Liquids.oil, 1f / 60f);
             
             animations(
                 new AnimationOrder(AnimationOrder.AnimationType.construct, 0f, 1f),
