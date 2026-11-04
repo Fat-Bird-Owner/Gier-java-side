@@ -33,7 +33,7 @@ public class MinigunTurret extends ItemTurret {
     super.setBars();
 
         addBar("spin", (MinigunBuild build) -> new Bar(
-            () -> "Spin",
+            () -> "bar.spin",
             () -> build.getSpinColor(),
             () -> build.spin / maxAccel
         ));

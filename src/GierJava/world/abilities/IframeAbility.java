@@ -1,15 +1,15 @@
 package GierJava.world.abilities;
 
+import arc.Core;
 import arc.scene.ui.layout.Table;
-import arc.util.Time;
+import arc.util.*;
 import mindustry.entities.abilities.Ability;
 import mindustry.entities.Effect;
 import mindustry.content.Fx;
 import mindustry.gen.Unit;
 import mindustry.type.StatusEffect;
 import mindustry.content.StatusEffects;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.*;
 
 public class IframeAbility extends Ability{
 
@@ -55,28 +55,11 @@ public class IframeAbility extends Ability{
     @Override
     public void addStats(Table stats){
         super.addStats(stats);
-
-        stats.add(Stat.reload + ":" + (duration / 60f) + StatUnit.seconds);
         stats.row();
-
-        stats.add("Invulnerability status: ").left();
-        stats.add(status.localizedName);
-        stats.row();
-
-        stats.add("Status duration: ").left();
-        stats.add((statusDuration / 60f) + "sec");
-        stats.row();
-
-        stats.add("Counter status: ").left();
-        stats.add(counterStatus.localizedName);
-        stats.row();
-
-        stats.add("Stops movement: ").left();
-        stats.add(stopMovement ? "True" : "False");
-    }
-
-    @Override
-    public String localized(){
-        return "IFrame Ability";
+        stats.add(abilityStat("firingrate", Strings.autoFixed(60f / duration, 2))).row();
+        stats.add(abilityStat("invulnerabilityStatus", "[#" + status.color + "]" + status.localizedName)).row();
+        stats.add(abilityStat("duration", Strings.autoFixed(statusDuration / 60f, 2))).row();
+        stats.add(abilityStat("counterStatus", counterStatus == StatusEffects.none ? Core.bundle.get("none") : "[#" + counterStatus.color + "]" + counterStatus.localizedName)).row();
+        stats.add(abilityStat("stopMovement", Core.bundle.get(stopMovement ? "yes" : "no"))).row();
     }
 }
