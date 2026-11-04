@@ -29,7 +29,6 @@ public class GierJava extends Mod{
         GierWeather.load();
         GierSectorPreset.load();
         GierTechTree.load();
-        GierResearchDialog.load();
         
     }
 
