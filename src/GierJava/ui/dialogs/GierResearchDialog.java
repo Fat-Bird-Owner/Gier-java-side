@@ -16,7 +16,7 @@ import mindustry.ui.dialogs.*;
 
 public class GierResearchDialog extends ResearchDialog{
 
-    private static final float horizontalSpacing = Scl.scl(300f);
+    private static final float horizontalSpacing = Scl.scl(75f);
     private static final float verticalSpacing = Scl.scl(390f);
 
     private float nextX;
@@ -40,30 +40,32 @@ public class GierResearchDialog extends ResearchDialog{
         Reflect.set(Vars.ui, "research", new GierResearchDialog());
     }
 
-    void treeLayout(){
-        nextX = 0f;
+    private float layoutNode(TechTreeNode node, int depth){
+    float left = Float.MAX_VALUE;
+    float right = -Float.MAX_VALUE;
 
-        layoutNode(root, 0);
+    boolean hasChildren = false;
 
-        float minX = Float.MAX_VALUE;
-        float maxX = -Float.MAX_VALUE;
-        float minY = Float.MAX_VALUE;
-        float maxY = -Float.MAX_VALUE;
+    for(TechTreeNode child : node.children){
+        if(!child.visible) continue;
 
-        for(TechTreeNode node : nodes){
-            if(!node.visible) continue;
+        float childX = layoutNode(child, depth + 1);
 
-            minX = Math.min(minX, node.x - node.width / 2f);
-            maxX = Math.max(maxX, node.x + node.width / 2f);
-            minY = Math.min(minY, node.y - node.height / 2f);
-            maxY = Math.max(maxY, node.y + node.height / 2f);
-        }
+        left = Math.min(left, childX);
+        right = Math.max(right, childX);
+        hasChildren = true;
+    }
 
-        if(minX == Float.MAX_VALUE){
-            bounds.set(0, 0, 0, 0);
-        }else{
-            bounds.set(minX, minY, maxX - minX, maxY - minY);
-        }
+    if(!hasChildren){
+        node.x = nextX;
+        nextX += horizontalSpacing + nodeSize;
+    }else{
+        node.x = (left + right) / 2f;
+    }
+
+    node.y = depth * (verticalSpacing + nodeSize);
+
+    return node.x;
     }
 
 private float layoutNode(TechTreeNode node, int depth){
