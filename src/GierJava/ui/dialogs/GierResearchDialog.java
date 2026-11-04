@@ -7,6 +7,7 @@ import arc.math.geom.Rect;
 import arc.scene.Group;
 import arc.util.Reflect;
 import mindustry.ui.dialogs;
+import mindustry.ui.dialogs.*;
 import mindustry.Vars;
 import mindustry.graphics.Pal;
 import arc.scene.ui.layout.*;
