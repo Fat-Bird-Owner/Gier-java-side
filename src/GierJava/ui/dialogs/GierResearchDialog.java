@@ -10,7 +10,8 @@ import arc.util.Reflect;
 import mindustry.Vars;
 import mindustry.content.TechTree.TechNode;
 import mindustry.graphics.Pal;
-import mindustry.graphics.Scl;
+import arc.scene.ui.layout.Scl;
+import mindustry.ui.dialogs.*;
 
 public class GierResearchDialog extends ResearchDialog{
 
