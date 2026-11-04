@@ -161,10 +161,7 @@ public class GierBlocks {
         }};
 
         intel = new WorldMessageBlock("intel"){{
-            requirements(Category.logic, with(
-                Items.copper, 20,
-                Items.lead, 10
-            ));
+            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
 
             size = 1;
             maxTextLength = 400;
