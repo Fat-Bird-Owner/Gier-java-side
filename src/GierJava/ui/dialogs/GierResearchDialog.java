@@ -1,4 +1,4 @@
-package Gierjava.ui.dialogs;
+package GierJava.ui.dialogs;
 
 import arc.Core;
 import arc.graphics.g2d.Draw;
