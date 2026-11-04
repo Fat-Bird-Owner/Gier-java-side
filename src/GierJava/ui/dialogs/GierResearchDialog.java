@@ -82,12 +82,6 @@ public class GierResearchDialog extends ResearchDialog{
 
             hasChildren = true;
         }
-
-        float centerX = (minX + maxX) / 2f;
-
-        for(TechTreeNode node : nodes){
-            node.x -= centerX;
-        }
         
         if(!hasChildren){
             node.x = nextX;
@@ -154,7 +148,7 @@ public class GierResearchDialog extends ResearchDialog{
             Draw.reset();
 
             for(Element child : getChildren()){
-            if (!node.node.content.unlockedHost() || !child.node.content.unlockedHost()) return;
+                if(!child.isVisible()) continue;
                 child.draw();
             }
             
