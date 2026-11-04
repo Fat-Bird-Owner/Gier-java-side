@@ -16,8 +16,8 @@ import mindustry.ui.dialogs.*;
 
 public class GierResearchDialog extends ResearchDialog{
 
-    private static final float horizontalSpacing = Scl.scl(75f);
-    private static final float verticalSpacing = Scl.scl(390f);
+    private static final float horizontalSpacing = Scl.scl(25f);
+    private static final float verticalSpacing = Scl.scl(500f);
 
     private float nextX;
 
@@ -38,34 +38,6 @@ public class GierResearchDialog extends ResearchDialog{
 
     public static void load(){
         Reflect.set(Vars.ui, "research", new GierResearchDialog());
-    }
-
-    private float layoutNode(TechTreeNode node, int depth){
-    float left = Float.MAX_VALUE;
-    float right = -Float.MAX_VALUE;
-
-    boolean hasChildren = false;
-
-    for(TechTreeNode child : node.children){
-        if(!child.visible) continue;
-
-        float childX = layoutNode(child, depth + 1);
-
-        left = Math.min(left, childX);
-        right = Math.max(right, childX);
-        hasChildren = true;
-    }
-
-    if(!hasChildren){
-        node.x = nextX;
-        nextX += horizontalSpacing + nodeSize;
-    }else{
-        node.x = (left + right) / 2f;
-    }
-
-    node.y = depth * (verticalSpacing + nodeSize);
-
-    return node.x;
     }
 
 private float layoutNode(TechTreeNode node, int depth){
