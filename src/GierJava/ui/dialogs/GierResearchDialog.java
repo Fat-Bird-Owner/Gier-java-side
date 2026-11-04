@@ -16,7 +16,7 @@ public class GierResearchDialog extends ResearchDialog{
     public float spacingX = 30f;
     public float spacingY = 45f;
 
-    public UpwardResearchDialog(){
+    public GierResearchDialog(){
         super();
 
         View oldView = view;
