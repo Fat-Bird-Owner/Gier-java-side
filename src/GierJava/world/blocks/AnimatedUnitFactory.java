@@ -120,13 +120,13 @@ public class AnimatedUnitFactory extends UnitBlock{
         }
 
         private void drawWeaponAnimation(float p, AnimationOrder order){
-    float rotation = rotdeg() - 90f;
-
+        float rotation = rotdeg() - 90f;
+            
         Draw.draw(Layer.blockOver, () ->
          Drawf.construct(
             x, y, unit.fullIcon, Pal.accent,
             rotdeg() - 90f,
-            op, speedScl, time
+            p, speedScl, time
             )  
         );
 
