@@ -122,25 +122,14 @@ public class AnimatedUnitFactory extends UnitBlock{
         private void drawWeaponAnimation(float p, AnimationOrder order){
     float rotation = rotdeg() - 90f;
 
-    for(var weapon : unit.weapons){
-        if(!weapon.region.found()) continue;
-
-        float wx = x + Angles.trnsx(rotation, weapon.x, weapon.y);
-        float wy = y + Angles.trnsy(rotation, weapon.x, weapon.y);
-
         Draw.draw(Layer.blockOver, () ->
-            Drawf.construct(
-                x,
-                y,
-                weapon.region,
-                Pal.accent,
-                rotation + weapon.baseRotation,
-                p,
-                speedScl,
-                time
-            )
+         Drawf.construct(
+            x, y, unit.fullIcon, Pal.accent,
+            rotdeg() - 90f,
+            op, speedScl, time
+            )  
         );
-    }
+
         }
         
         private void drawLiquidAnimation(float p, AnimationOrder order){
