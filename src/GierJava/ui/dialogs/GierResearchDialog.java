@@ -96,6 +96,18 @@ public class GierResearchDialog extends ResearchDialog{
 
     public class UpwardView extends View{
 
+        private void clamp(){
+            float pad = nodeSize;
+
+            float ox = width/2f, oy = height/2f;
+            float rx = bounds.x + panX + ox, ry = panY + oy + bounds.y;
+            float rw = bounds.width, rh = bounds.height;
+            rx = Mathf.clamp(rx, -rw + pad, Core.graphics.getWidth() - pad);
+            ry = Mathf.clamp(ry, -rh + pad, Core.graphics.getHeight() - pad);
+            panX = rx - bounds.x - ox;
+            panY = ry - bounds.y - oy;
+        }
+        
         @Override
         public void drawChildren(){
             clamp();
