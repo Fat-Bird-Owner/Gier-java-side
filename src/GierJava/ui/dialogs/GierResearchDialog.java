@@ -1,4 +1,4 @@
-package mindustry.ui.dialogs;
+package Gierjava.ui.dialogs;
 
 import arc.Core;
 import arc.graphics.g2d.Draw;
