@@ -1,5 +1,6 @@
 package GierJava;
 
+import GierJava.ui.dialogs.*;
 import GierJava.graphics.GierEffects;
 import mindustry.mod.*;
 import arc.Events;
@@ -7,7 +8,6 @@ import GierJava.content.*;
 import GierJava.gen.*;
 import mindustry.game.EventType;
 import arc.Events;
-
 import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.*;
@@ -41,6 +41,8 @@ public class GierJava extends Mod{
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
 
+            GierResearchDialog.load();
+            
             GierPlanets.gier.radius = 0.5f;
             /*
             GierPlanets.kela.sectors.each(s -> {
