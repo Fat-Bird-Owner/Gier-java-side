@@ -783,6 +783,7 @@ public class GierBlocks {
             size = 3;
             buildTime = 900f;
 
+            itemCapacity = 100;
             consumeItems(with(Items.scrap, 50, Items.lead, 25));
             consumeLiquid(Liquids.oil, 1f / 60f);
             
