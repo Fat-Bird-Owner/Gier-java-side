@@ -65,6 +65,8 @@ public class GierBlocks {
     largeBalloonTree,
     massiveStoneBoulder,
 
+    intel,
+
     // Turret
     tension,
     momentum,
@@ -156,6 +158,23 @@ public class GierBlocks {
             fillsTile = false;
             layer = 81f;
             shadowLayer = 71f;
+        }};
+
+        intel = new WorldMessageBlock("intel"){{
+            requirements(Category.logic, with(
+                Items.copper, 20,
+                Items.lead, 10
+            ));
+
+            size = 1;
+            maxTextLength = 400;
+
+            panelWidth = 360f;
+            panelHeight = 140f;
+
+            scrollSpeed = 25f;
+            stripeSpacing = 36f;
+            stripeWidth = 10f;
         }};
         
         // Turret
