@@ -43,7 +43,8 @@ public class GierTechTree {
             });
 
             node(coreFacility, () -> {});
-
+            node(assemblyBay, () -> {});
+            
             node(transitNode, () -> {
                 node(powerGrid, () -> {});
 
