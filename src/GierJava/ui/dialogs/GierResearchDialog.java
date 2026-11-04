@@ -10,6 +10,7 @@ import mindustry.ui.dialogs.*;
 import mindustry.Vars;
 import mindustry.graphics.Pal;
 import arc.scene.ui.layout.*;
+import mindustry.ctype.*;
 
 public class GierResearchDialog extends ResearchDialog{
 
@@ -32,7 +33,7 @@ public class GierResearchDialog extends ResearchDialog{
     }
 
     public static void load(){
-        Reflect.set(Vars.ui, "research", new UpwardResearchDialog());
+        Reflect.set(Vars.ui, "research", new GierResearchDialog());
     }
 
     float subtreeWidth(TechTreeNode node){
