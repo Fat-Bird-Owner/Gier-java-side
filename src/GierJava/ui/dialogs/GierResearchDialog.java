@@ -106,7 +106,7 @@ public class GierResearchDialog extends ResearchDialog{
                 for(TechTreeNode child : node.children){
                     if(!child.visible) continue;
 
-                    boolean locked = locked(node.node) || locked(child.node);
+                    boolean locked = !child.node.content.unlocked() || !node.node.content.unlocked();
 
                     Draw.z(locked ? 1f : 2f);
                     Lines.stroke(
