@@ -89,7 +89,7 @@ public ClawBlock(String name){
         super.setBars();
 
         addBar("progress", entity -> new Bar(
-            "Progress", 
+            "bar.progress", 
             Pal.items, 
             entity::progress
         ));

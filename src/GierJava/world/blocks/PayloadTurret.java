@@ -59,12 +59,11 @@ public class PayloadTurret extends Turret {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("ammo", (PayloadTurretBuild entity) ->
-                new Bar(
-                        "stat.ammo",
-                        Pal.ammo,
-                        () -> (float)entity.totalAmmo / maxAmmo
-                )
+        addBar("ammo", (PayloadTurretBuild entity) ->new Bar(
+                "stat.ammo",
+                Pal.ammo,
+                () -> (float)entity.totalAmmo / maxAmmo
+            )
         );
     }
 
