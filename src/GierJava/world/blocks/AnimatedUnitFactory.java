@@ -26,6 +26,59 @@ public class AnimatedUnitFactory extends UnitBlock{
         buildType = AnimatedBuild::new;
     }
 
+    @Override
+    public void setBars(){
+        super.setBars();
+    addBar("progress", (AnimatedBuild build) ->
+        new Bar(
+            "bar.progress",
+            Pal.ammo,
+            build::fraction
+            )
+        );
+    }
+    
+    @Override
+    public void setStats(){
+    super.setStats();
+
+    stats.add(Stat.output, table -> {
+        table.row();
+
+        table.table(Styles.grayPanel, t -> {
+            if(unit.isBanned()){
+                t.image(Icon.cancel).color(Pal.remove).size(40);
+                return;
+            }
+
+            if(unit.unlockedNow()){
+                t.image(unit.uiIcon)
+                    .size(40)
+                    .pad(10f)
+                    .left()
+                    .scaling(Scaling.fit)
+                    .with(i -> StatValues.withTooltip(i, unit));
+
+                t.table(info -> {
+                    info.add(unit.localizedName).left();
+                    info.row();
+
+                    info.add(
+                        Strings.autoFixed(buildTime / 60f, 1) + " " +
+                        Core.bundle.get("unit.seconds")
+                    ).color(Color.lightGray);
+                }).left();
+            }else{
+                t.image(Icon.lock)
+                    .color(Pal.darkerGray)
+                    .size(40);
+            }
+        }).growX().pad(5f);
+
+        table.row();
+    });
+    }
+        
     public void animations(AnimationOrder... orders){
         animations.set(orders);
     }
