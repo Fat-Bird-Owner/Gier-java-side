@@ -66,34 +66,33 @@ public class GierResearchDialog extends ResearchDialog{
         }
     }
 
-    private float layoutNode(TechTreeNode node, int depth){
-        float left = Float.MAX_VALUE;
-        float right = -Float.MAX_VALUE;
+private float layoutNode(TechTreeNode node, int depth){
+    float left = Float.MAX_VALUE;
+    float right = -Float.MAX_VALUE;
 
-        boolean hasChildren = false;
+    boolean hasChildren = false;
 
-        for(TechTreeNode child : node.children){
-            if(!child.visible) continue;
+    for(TechTreeNode child : node.children){
+        if(!child.visible) continue;
 
-            float childX = layoutNode(child, depth + 1);
+        float childX = layoutNode(child, depth + 1);
 
-            left = Math.min(left, childX);
-            right = Math.max(right, childX);
-
-            hasChildren = true;
-        }
-        
-        if(!hasChildren){
-            node.x = nextX;
-            nextX += horizontalSpacing;
-        }else{
-            node.x = (left + right) / 2f;
-        }
-
-        node.y = depth * verticalSpacing;
-        
-        return node.x;
+        left = Math.min(left, childX);
+        right = Math.max(right, childX);
+        hasChildren = true;
     }
+
+    if(!hasChildren){
+        node.x = nextX;
+        nextX += horizontalSpacing;
+    }else{
+        node.x = (left + right) / 2f;
+    }
+
+    node.y = depth * verticalSpacing;
+
+    return node.x;
+}
 
     public class UpwardView extends View{
 
