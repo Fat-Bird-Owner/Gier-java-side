@@ -118,15 +118,22 @@ public class GierResearchDialog extends ResearchDialog{
             Draw.sort(true);
 
             for(TechTreeNode node : nodes){
-            if(!node.visible) continue;
+                if(!node.visible) continue;
 
-            for(TechTreeNode child : node.children){
-                if(!child.visible) continue;
+                for(TechTreeNode child : node.children){
+                    if(!child.visible) continue;
 
-                boolean locked = !node.node.content.unlockedHost() || !child.node.content.unlockedHost();
-                
+                    boolean locked =
+                        !node.node.content.unlockedHost() ||
+                        !child.node.content.unlockedHost();
+
                     Draw.z(locked ? 1f : 2f);
-                    Lines.stroke(Scl.scl(4f), locked ? Pal.gray : Pal.accent);
+
+                    Lines.stroke(
+                        Scl.scl(4f),
+                        locked ? Pal.gray : Pal.accent
+                    );
+
                     Draw.alpha(parentAlpha);
 
                     Lines.line(
@@ -140,22 +147,6 @@ public class GierResearchDialog extends ResearchDialog{
 
             Draw.sort(false);
             Draw.reset();
-
-            parentAlpha *= color.a;
-
-            for(arc.scene.Element child : getChildren()){
-                child.parentAlpha = parentAlpha;
-
-                if(!child.visible) continue;
-
-                child.x += child.translation.x;
-                child.y += child.translation.y;
-
-                child.draw();
-
-                child.x -= child.translation.x;
-                child.y -= child.translation.y;
-            }
         }
         
     }
