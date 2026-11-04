@@ -148,7 +148,7 @@ public class GierResearchDialog extends ResearchDialog{
             Draw.reset();
 
             for(Element child : getChildren()){
-                if(!child.isVisible()) continue;
+                if(!child.visible()) continue;
                 child.draw();
             }
             
