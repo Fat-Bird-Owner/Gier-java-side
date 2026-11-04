@@ -1,5 +1,6 @@
 package GierJava.ui.dialogs;
 
+import arc.scene.Element;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
@@ -89,8 +90,11 @@ public class GierResearchDialog extends ResearchDialog{
             node.x = (left + right) / 2f;
         }
 
-        node.y = -depth * verticalSpacing;
-
+        node.y = depth * verticalSpacing;
+        if (node.y < -1f) {
+            node.y *= -1f;
+        }
+        
         return node.x;
     }
 
@@ -147,6 +151,11 @@ public class GierResearchDialog extends ResearchDialog{
 
             Draw.sort(false);
             Draw.reset();
+
+            for(Element child : getChildren()){
+                child.draw();
+            }
+            
         }
         
     }
