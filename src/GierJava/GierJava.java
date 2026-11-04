@@ -29,6 +29,8 @@ public class GierJava extends Mod{
         GierWeather.load();
         GierSectorPreset.load();
         GierTechTree.load();
+        GierResearchDialog.load();
+        
     }
 
     public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<T> replacer){
@@ -40,8 +42,6 @@ public class GierJava extends Mod{
         Events.on(EventType.ClientLoadEvent.class, e -> {
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
-
-            GierResearchDialog.load();
             
             GierPlanets.gier.radius = 0.5f;
             /*
