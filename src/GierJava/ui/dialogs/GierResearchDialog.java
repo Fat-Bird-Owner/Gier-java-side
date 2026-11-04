@@ -1,22 +1,23 @@
-package GierJava.ui.dialogs;
+package mindustry.ui.dialogs;
 
+import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
 import arc.scene.Group;
 import arc.util.Reflect;
-import mindustry.ui.dialogs;
-import mindustry.ui.dialogs.*;
 import mindustry.Vars;
+import mindustry.content.TechTree.TechNode;
 import mindustry.graphics.Pal;
-import arc.scene.ui.layout.*;
-import mindustry.ctype.*;
+import mindustry.graphics.Scl;
 
 public class GierResearchDialog extends ResearchDialog{
 
-    public float spacingX = 30f;
-    public float spacingY = 45f;
+    private static final float horizontalSpacing = Scl.scl(100f);
+    private static final float verticalSpacing = Scl.scl(130f);
+
+    private float nextX;
 
     public GierResearchDialog(){
         super();
@@ -37,57 +38,59 @@ public class GierResearchDialog extends ResearchDialog{
         Reflect.set(Vars.ui, "research", new GierResearchDialog());
     }
 
-    float subtreeWidth(TechTreeNode node){
-        if(node.children.length == 0) return nodeSize;
-
-        float width = 0f;
-
-        for(TechTreeNode child : node.children){
-            width += subtreeWidth(child) + spacingX;
-        }
-
-        return Math.max(nodeSize, width - spacingX);
-    }
-
-    void layoutNode(TechTreeNode node, float x, float y){
-        node.x = x;
-        node.y = y;
-
-        if(node.children.length == 0) return;
-
-        float total = subtreeWidth(node);
-        float cursor = x - total / 2f;
-
-        for(TechTreeNode child : node.children){
-            float width = subtreeWidth(child);
-            float childX = cursor + width / 2f;
-
-            layoutNode(child, childX, y + spacingY);
-
-            cursor += width + spacingX;
-        }
-    }
-
-    @Override
     void treeLayout(){
-        layoutNode(root, 0f, 0f);
+        nextX = 0f;
 
-        float minx = 0f;
-        float miny = 0f;
-        float maxx = 0f;
-        float maxy = 0f;
+        layoutNode(root, 0);
+
+        float minX = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
 
         for(TechTreeNode node : nodes){
             if(!node.visible) continue;
 
-            minx = Math.min(minx, node.x - node.width / 2f);
-            maxx = Math.max(maxx, node.x + node.width / 2f);
-            miny = Math.min(miny, node.y - node.height / 2f);
-            maxy = Math.max(maxy, node.y + node.height / 2f);
+            minX = Math.min(minX, node.x - node.width / 2f);
+            maxX = Math.max(maxX, node.x + node.width / 2f);
+            minY = Math.min(minY, node.y - node.height / 2f);
+            maxY = Math.max(maxY, node.y + node.height / 2f);
         }
 
-        bounds = new Rect(minx, miny, maxx - minx, maxy - miny);
-        bounds.y += nodeSize * 1.5f;
+        if(minX == Float.MAX_VALUE){
+            bounds.set(0, 0, 0, 0);
+        }else{
+            bounds.set(minX, minY, maxX - minX, maxY - minY);
+        }
+    }
+
+    private float layoutNode(TechTreeNode node, int depth){
+        float left = Float.MAX_VALUE;
+        float right = -Float.MAX_VALUE;
+
+        boolean hasChildren = false;
+
+        for(TechTreeNode child : node.children){
+            if(!child.visible) continue;
+
+            float childX = layoutNode(child, depth + 1);
+
+            left = Math.min(left, childX);
+            right = Math.max(right, childX);
+
+            hasChildren = true;
+        }
+
+        if(!hasChildren){
+            node.x = nextX;
+            nextX += horizontalSpacing;
+        }else{
+            node.x = (left + right) / 2f;
+        }
+
+        node.y = depth * verticalSpacing;
+
+        return node.x;
     }
 
     public class UpwardView extends View{
@@ -107,9 +110,12 @@ public class GierResearchDialog extends ResearchDialog{
                 for(TechTreeNode child : node.children){
                     if(!child.visible) continue;
 
-                    boolean locked = !child.node.content.unlocked() || !node.node.content.unlocked();
+                    boolean locked =
+                        !node.node.content.unlockedHost() ||
+                        !child.node.content.unlockedHost();
 
                     Draw.z(locked ? 1f : 2f);
+
                     Lines.stroke(
                         Scl.scl(4f),
                         locked ? Pal.gray : Pal.accent
