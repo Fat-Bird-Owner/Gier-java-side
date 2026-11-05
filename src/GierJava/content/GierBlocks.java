@@ -4,6 +4,7 @@ import GierJava.world.blocks.*;
 import GierJava.content.GierItems;
 import GierJava.content.GierUnitTypes;
 import GierJava.content.DerelictBlocks;
+
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
 import arc.graphics.*;
@@ -508,7 +509,7 @@ public class GierBlocks {
             range = 400f;
             
             ammo(
-                DerelictBlocks.bulkStone, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
+                hydroDrill, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
                   lifetime = 50f;
                   armorMultiplier = -2f;
                   layer = 52f;
