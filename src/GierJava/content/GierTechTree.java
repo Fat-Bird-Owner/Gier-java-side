@@ -17,12 +17,27 @@ public class GierTechTree {
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
 
             node(lead, () -> {
-                node(copper, () -> {});
-                node(graphite, () -> {
-                    node(silicon, () -> {});
-                    node(metaglassChunk, () -> {
-                        node(metaglass, () -> {});
+                node(copper, () -> {
+                    node(beryllium, () -> {
+                        node(oxide, () -> {});
                     });
+                    node(titanium, () -> {
+                        node(surgeAlloy, () -> {});
+                        node(plastanium, () -> {});
+                    });
+                });
+                node(graphite, () -> {
+                    
+                    node(sand, () -> {
+
+                       node(blastCompound, () -> {};
+                       node(silicon, () -> {});
+                       node(metaglassChunk, () -> {
+                        node(metaglass, () -> {});
+                       }); 
+                        
+                    });
+                    
                 });
             });
 
@@ -54,6 +69,7 @@ public class GierTechTree {
                 });
                 node(tension, () -> {
                     node(momentum, () -> {});
+                    node(kilton, () -> {});
                 });
                 node(copperFort, () -> {});
             });
