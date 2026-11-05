@@ -30,7 +30,7 @@ public class GierTechTree {
                     
                     node(sand, () -> {
 
-                       node(blastCompound, () -> {};
+                       node(blastCompound, () -> {});
                        node(silicon, () -> {});
                        node(metaglassChunk, () -> {
                         node(metaglass, () -> {});
