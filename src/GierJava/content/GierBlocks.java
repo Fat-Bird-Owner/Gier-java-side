@@ -16,6 +16,7 @@ import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.DrawPart.*;
+import mindustry.content.StatusEffects;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.game.*;
