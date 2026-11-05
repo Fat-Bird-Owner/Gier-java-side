@@ -513,7 +513,7 @@ public class GierBlocks {
                   width = 15f;
                   height = 21f;
                   hitEffect = Fx.massiveExplosion;
-                }
+                }}
             );
             
             drawer = new DrawTurret("reinforced-");
