@@ -508,7 +508,7 @@ public class GierBlocks {
             range = 400f;
             
             ammo(
-                bulkStone, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
+                DerelictBlocks.bulkStone, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
                   lifetime = 50f;
                   armorMultiplier = -2f;
                   layer = 52f;
