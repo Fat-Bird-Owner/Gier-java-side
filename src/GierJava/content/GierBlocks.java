@@ -70,6 +70,7 @@ public class GierBlocks {
     // Turret
     tension,
     momentum,
+    kilton,
 
     // Distribution
     rail,
@@ -489,6 +490,33 @@ public class GierBlocks {
                     }}
                 );
             }};
+        }};
+
+        kilton = new LiquidTurrer("kilton"){{
+            requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
+            researchCostMultiplier = 0.25f;
+            size = 4;
+
+            inaccuracy = 5f;
+            shootSound = Sounds.shootTank;
+            ammoPerShot = 10;
+
+            reload = 300f;
+            recoilTime = 300f;
+            
+            ammo(
+                Liquids.oil, new BasicBulletType(8f, 50f, "gier-java-kilton-bullet"){{
+                  lifetime = 50;
+                  armorMultiplier = -2f;
+                  frontColor = trailColor = hitColor = Liquids.oil.color;
+                  trailWidth = 3f;
+                  width = 15f;
+                  height = 21f;
+                  hitEffect = Fx.massiveExplosion;
+                }
+            );
+            
+            drawer = new DrawTurret("reinforced-");
         }};
         
         // Distribution
