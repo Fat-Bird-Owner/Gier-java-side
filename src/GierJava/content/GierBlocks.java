@@ -355,10 +355,12 @@ public class GierBlocks {
             researchCostMultiplier = 0.2f;
             size = 4;
 
+            databaseTag = "gier";
             inaccuracy = 15f;
             shootSound = Sounds.shootCyclone;
             reload = 3f;
 
+            health = 2500;
             baseExplosiveness = 150f;
             range = 400f;
             acceleration = 500f;
@@ -922,6 +924,9 @@ public class GierBlocks {
             researchCostMultiplier = 0.25f;
             size = 4;
 
+            health = 2500;
+            databaseTag = "gier";
+            
             inaccuracy = 5f;
             shootSound = Sounds.shootTank;
             ammoPerShot = 1;
