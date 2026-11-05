@@ -492,7 +492,7 @@ public class GierBlocks {
             }};
         }};
 
-        kilton = new LiquidTurrer("kilton"){{
+        kilton = new LiquidTurret("kilton"){{
             requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
             researchCostMultiplier = 0.25f;
             size = 4;
