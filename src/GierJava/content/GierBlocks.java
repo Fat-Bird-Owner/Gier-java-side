@@ -3,7 +3,7 @@ package GierJava.content;
 import GierJava.world.blocks.*;
 import GierJava.content.GierItems;
 import GierJava.content.GierUnitTypes;
-
+import GierJava.content.DerelictBlocks;
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
 import arc.graphics.*;
@@ -493,22 +493,22 @@ public class GierBlocks {
             }};
         }};
 
-        kilton = new LiquidTurret("kilton"){{
+        kilton = new PayloadTurret("kilton"){{
             requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
             researchCostMultiplier = 0.25f;
             size = 4;
 
             inaccuracy = 5f;
             shootSound = Sounds.shootTank;
-            ammoPerShot = 100;
+            ammoPerShot = 1;
+            maxAmmo = 3;
 
             reload = 300f;
             recoilTime = 300f;
             range = 400f;
-            extinguish = false;
             
             ammo(
-                Liquids.oil, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
+                bulkStone, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
                   lifetime = 50f;
                   armorMultiplier = -2f;
                   layer = 52f;
