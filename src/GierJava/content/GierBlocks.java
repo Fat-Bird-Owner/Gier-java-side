@@ -493,49 +493,6 @@ public class GierBlocks {
                 );
             }};
         }};
-
-        kilton = new PayloadTurret("kilton"){{
-            requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
-            researchCostMultiplier = 0.25f;
-            size = 4;
-
-            inaccuracy = 5f;
-            shootSound = Sounds.shootTank;
-            ammoPerShot = 1;
-            maxAmmo = 3;
-
-            reload = 300f;
-            recoilTime = 300f;
-            range = 400f;
-            
-            ammo(
-                hydroDrill, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
-                  lifetime = 50f;
-                  armorMultiplier = -2f;
-                  layer = 52f;
-                  backColor = trailColor = hitColor = Liquids.oil.color;
-                    frontColor = Color.white;
-                    puddleLiquid = Liquids.oil;
-                    puddleAmount = 22f;
-                    puddles = 6;
-                    status = StatusEffects.melting;
-                    ammoMultiplier = 1f;
-                    homingPower = 0.01f;
-                  splashDamage = 75f;
-                  hitShake = 12f;
-                  splashDamageRadius = 40f;
-                  trailWidth = 3f;
-                  trailLength = 10;
-                  width = 15f;
-                  height = 21f;
-                  despawnHit = true;
-                  hitEffect = Fx.massiveExplosion;
-                }}
-            );
-
-            outlineRadius = 0;
-            drawer = new DrawTurret("reinforced-");
-        }};
         
         // Distribution
 
@@ -959,5 +916,49 @@ public class GierBlocks {
             phaseRangeBoost = 80f;
         }};
 
+        // Payload turrets
+        kilton = new PayloadTurret("kilton"){{
+            requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
+            researchCostMultiplier = 0.25f;
+            size = 4;
+
+            inaccuracy = 5f;
+            shootSound = Sounds.shootTank;
+            ammoPerShot = 1;
+            maxAmmo = 3;
+
+            reload = 300f;
+            recoilTime = 300f;
+            range = 400f;
+            
+            ammo(
+                hydroDrill, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
+                  lifetime = 50f;
+                  armorMultiplier = -2f;
+                  layer = 52f;
+                  backColor = trailColor = hitColor = Liquids.oil.color;
+                    frontColor = Color.white;
+                    puddleLiquid = Liquids.oil;
+                    puddleAmount = 22f;
+                    puddles = 6;
+                    status = StatusEffects.melting;
+                    ammoMultiplier = 1f;
+                    homingPower = 0.01f;
+                  splashDamage = 75f;
+                  hitShake = 12f;
+                  splashDamageRadius = 40f;
+                  trailWidth = 3f;
+                  trailLength = 10;
+                  width = 15f;
+                  height = 21f;
+                  despawnHit = true;
+                  hitEffect = Fx.massiveExplosion;
+                }}
+            );
+
+            outlineRadius = 0;
+            drawer = new DrawTurret("reinforced-");
+        }};
+        
     }
 }
