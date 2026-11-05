@@ -515,7 +515,7 @@ public class GierBlocks {
                   hitShake = 12f;
                   splashDamageRadius = 40f;
                   trailWidth = 3f;
-                  trailLength = 10f;
+                  trailLength = 10;
                   width = 15f;
                   height = 21f;
                   despawnHit = true;
