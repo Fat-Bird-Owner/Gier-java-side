@@ -946,7 +946,7 @@ public class GierBlocks {
                     ammoMultiplier = 1f;
                     homingPower = 0.01f;
                   splashDamage = 15f;
-                    pierc = true;
+                    pierce = true;
                   hitShake = 12f;
                   splashDamageRadius = 40f;
                   trailWidth = 3f;
