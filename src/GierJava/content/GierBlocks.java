@@ -506,7 +506,7 @@ public class GierBlocks {
             
             ammo(
                 Liquids.oil, new BasicBulletType(8f, 50f, "gier-java-kilton-bullet"){{
-                  lifetime = 50;
+                  lifetime = 50f;
                   armorMultiplier = -2f;
                   frontColor = trailColor = hitColor = Liquids.oil.color;
                   trailWidth = 3f;
