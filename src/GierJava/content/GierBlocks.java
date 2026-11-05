@@ -504,13 +504,21 @@ public class GierBlocks {
             reload = 300f;
             recoilTime = 300f;
             range = 400f;
+            extinguish = false;
             
             ammo(
-                Liquids.oil, new BasicBulletType(16f, 25f, "gier-java-kilton-bullet"){{
-                  lifetime = 25f;
+                Liquids.oil, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
+                  lifetime = 50f;
                   armorMultiplier = -2f;
-                  layer = 109f;
+                  layer = 52f;
                   backColor = trailColor = hitColor = Liquids.oil.color;
+                    frontColor = Color.white;
+                    puddleLiquid = Liquids.oil;
+                    puddleAmount = 22f;
+                    puddles = 6;
+                    status = StatusEffects.melting;
+                    ammoMultiplier = 1f;
+                    homingPower = 0.01f;
                   splashDamage = 75f;
                   hitShake = 12f;
                   splashDamageRadius = 40f;
