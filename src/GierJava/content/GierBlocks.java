@@ -936,7 +936,7 @@ public class GierBlocks {
                   lifetime = 50f;
                   armorMultiplier = -2f;
                   layer = 52f;
-                  backColor = trailColor = hitColor = Liquids.slag;
+                  backColor = trailColor = hitColor = Liquids.slag.color;
                     frontColor = Color.white;
                     puddleLiquid = Liquids.slag;
                     puddleAmount = 22f;
