@@ -499,23 +499,31 @@ public class GierBlocks {
 
             inaccuracy = 5f;
             shootSound = Sounds.shootTank;
-            ammoPerShot = 10;
+            ammoPerShot = 100;
 
             reload = 300f;
             recoilTime = 300f;
+            range = 400f;
             
             ammo(
-                Liquids.oil, new BasicBulletType(8f, 50f, "gier-java-kilton-bullet"){{
-                  lifetime = 50f;
+                Liquids.oil, new BasicBulletType(16f, 25f, "gier-java-kilton-bullet"){{
+                  lifetime = 25f;
                   armorMultiplier = -2f;
-                  frontColor = trailColor = hitColor = Liquids.oil.color;
+                  layer = 109f;
+                  backColor = trailColor = hitColor = Liquids.oil.color;
+                  splashDamage = 75f;
+                  hitShake = 12f;
+                  splashDamageRadius = 40f;
                   trailWidth = 3f;
+                  trailLength = 10f;
                   width = 15f;
                   height = 21f;
+                  despawnHit = true;
                   hitEffect = Fx.massiveExplosion;
                 }}
             );
-            
+
+            outlineRadius = 0;
             drawer = new DrawTurret("reinforced-");
         }};
         
