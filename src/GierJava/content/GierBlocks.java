@@ -817,17 +817,17 @@ public class GierBlocks {
 
         assemblyReconstructor = new ConfigurableReconstructor("assembly-reconstructor"){{
             requirements(Category.units, with(
-                copper, 300,
-                lead, 200,
-                silicon, 150
+                Items.copper, 300,
+                Items.lead, 200,
+                Items.silicon, 150
             ));
 
             size = 3;
             health = 1200;
-            consumesPower(1f);
+            consumePower(1f);
             
             constructTime = 60f * 20f;
-            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(copper, 40, lead, 20));
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(Items.copper, 40, Items.scrap, 40));
         }};
         
         // Effect
