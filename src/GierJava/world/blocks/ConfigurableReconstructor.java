@@ -1,4 +1,3 @@
-
 package GierJava.world.blocks;
 
 import arc.Core;
@@ -9,7 +8,9 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-
+import mindustry.ui.Styles;
+import mindustry.game.Events;
+import mindustry.io.TypeIO;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
