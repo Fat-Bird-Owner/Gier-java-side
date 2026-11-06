@@ -939,7 +939,7 @@ public class GierBlocks {
             ammo(
                 hydroDrill, new BasicBulletType(8f, 25f, "gier-java-kilton-bullet"){{
                   lifetime = 50f;
-                  armorMultiplier = -2f;
+                  armorMultiplier = -4f;
                   layer = 52f;
                   backColor = trailColor = hitColor = Liquids.slag.color;
                     frontColor = Color.white;
@@ -963,7 +963,7 @@ public class GierBlocks {
                 }},
                 electricCapacitor, new BasicBulletType(8f, 10f, "gier-java-kilton-bullet"){{
                   lifetime = 50f;
-                  armorMultiplier = -4f;
+                  armorMultiplier = -5f;
                   layer = 52f;
                   backColor = trailColor = hitColor = Items.surgeAlloy.color;
                     frontColor = Color.white;
