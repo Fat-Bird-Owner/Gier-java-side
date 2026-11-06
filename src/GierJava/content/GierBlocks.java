@@ -813,6 +813,21 @@ public class GierBlocks {
                 new AnimationOrder(AnimationOrder.AnimationType.weapon, 0.75f, 1f)
             );
         }};
+
+        assemblyReconstructor = new ConfigurableReconstructor("assembly-reconstructor"){{
+            requirements(Category.units, with(
+                copper, 300,
+                lead, 200,
+                silicon, 150
+            ));
+
+            size = 3;
+            health = 1200;
+            consumesPower(1f);
+            
+            constructTime = 60f * 20f;
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(copper, 40, lead, 20));
+        }};
         
         // Effect
 
