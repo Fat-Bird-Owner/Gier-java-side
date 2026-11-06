@@ -827,7 +827,8 @@ public class GierBlocks {
             consumePower(1f);
             
             constructTime = 60f * 20f;
-            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(Items.copper, 40, Items.scrap, 40));
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(Items.lead, 40, Items.scrap, 40));
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.staticu, with(Items.copper, 20, Items.scrap, 60));
         }};
         
         // Effect
