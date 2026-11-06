@@ -960,6 +960,26 @@ public class GierBlocks {
                   height = 21f;
                   despawnHit = true;
                   hitEffect = Fx.massiveExplosion;
+                }},
+                electricCapacitor, new BasicBulletType(8f, 10f, "gier-java-kilton-bullet"){{
+                  lifetime = 50f;
+                  armorMultiplier = -4f;
+                  layer = 52f;
+                  backColor = trailColor = hitColor = Items.surgeAlloy.color;
+                    frontColor = Color.white;
+                    status = StatusEffects.shocked;
+                    ammoMultiplier = 1f;
+                    homingPower = 0.01f;
+                  splashDamage = 25f;
+                    pierce = true;
+                  hitShake = 12f;
+                  splashDamageRadius = 76f;
+                  trailWidth = 3f;
+                  trailLength = 10;
+                  width = 15f;
+                  height = 21f;
+                  despawnHit = true;
+                  hitEffect = Fx.massiveExplosion;
                 }}
             );
 
