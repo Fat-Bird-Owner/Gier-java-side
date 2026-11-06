@@ -9,7 +9,7 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.ui.Styles;
-import mindustry.game.Events;
+import arc.Events;
 import mindustry.io.TypeIO;
 import mindustry.Vars;
 import mindustry.content.*;
