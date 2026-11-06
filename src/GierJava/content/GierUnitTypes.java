@@ -46,7 +46,7 @@ public class GierUnitTypes {
 
     public static @EntityDef(value = {MDTXFixUnitc.class, ElevationMovec.class}) UnitType overboard;
 
-    
+    public static @EntityDef(value = {MDTXFixUnitc.class, Tankc.class}) UnitType static;
     
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType ash;
     
@@ -172,6 +172,53 @@ public class GierUnitTypes {
                     lightningLength = 7;
                 }};
             }});
+        }};
+
+        static = new TankUnitType("static"){{
+        speed = 0.45f;
+        hitSize = 8f;
+
+        weapons.add(new Weapon("gier-java-static-weapon"){{
+            x = 0f;
+            reload = 60f;
+
+            rotateSpeed = 3f;
+            rotate = true;
+            mirror = false;
+
+            shootSound = Sounds.shootTank;
+
+                bullet = new MissileBulletType(5f, 15f){{
+                    despawnHit = true;
+                    hitEffect = Fx.flakExplosionBig;
+                    lifetime = 40f;
+                    makeFire = true;
+
+                    backColor = Color.valueOf("f68021ff");
+                   frontColor = Color.valueOf("f8f8f8ff");
+
+                    width = 7f;
+
+                    trailEffect = Fx.incinerateSlag;
+                    trailLength = 9;
+                    trailChance = 0.5f;
+
+                    pierce = true;
+                    pierceBuilding = true;
+                    pierceCap = 2;
+
+                    hitSound = Sounds.blockExplode2Alt;
+                }};
+            }});
+
+            armor = 4f;
+            outlineRadius = 0f;
+            outlines = false;
+            health = 400f;
+
+            omniMovement = false;
+            rotateSpeed = 1f;
+            drag = 0.4f;
         }};
         
         singularity = new UnitType("singularity"){{
