@@ -5,6 +5,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
@@ -204,14 +205,13 @@ public class ConfigurableReconstructor extends Reconstructor{
                 int index = i;
 
                 ImageButton button = table.button(
-                    recipe.to.uiIcon,
+                    new TextureRegionDrawable(recipe.to.uiIcon),
                     Styles.clearNoneTogglei,
                     48f,
-                    () -> {
-                        configure(index);
-                        deselect();
-                    }
-                ).size(54f).tooltip(recipe.to.localizedName).get();
+                () -> {
+                    configure(index);
+                    deselect();
+                }).size(54f).tooltip(recipe.to.localizedName).get();
 
                 button.update(() -> button.setChecked(
                     this.recipe() == recipe
