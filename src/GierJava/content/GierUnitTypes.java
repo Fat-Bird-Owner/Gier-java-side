@@ -46,7 +46,7 @@ public class GierUnitTypes {
 
     public static @EntityDef(value = {MDTXFixUnitc.class, ElevationMovec.class}) UnitType overboard;
 
-    public static @EntityDef(value = {MDTXFixUnitc.class, Tankc.class}) UnitType static;
+    public static @EntityDef(value = {MDTXFixUnitc.class, Tankc.class}) UnitType staticu;
     
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType ash;
     
@@ -174,7 +174,7 @@ public class GierUnitTypes {
             }});
         }};
 
-        static = new TankUnitType("static"){{
+        staticu = new TankUnitType("static"){{
         speed = 0.45f;
         hitSize = 8f;
 
