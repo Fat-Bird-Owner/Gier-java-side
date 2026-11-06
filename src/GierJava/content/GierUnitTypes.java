@@ -213,7 +213,7 @@ public class GierUnitTypes {
             }});
 
             armor = 4f;
-            outlineRadius = 0f;
+            outlineRadius = 0;
             outlines = false;
             health = 400f;
 
