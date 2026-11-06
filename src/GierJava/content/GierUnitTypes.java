@@ -4,6 +4,7 @@ import ent.anno.Annotations.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import GierJava.gen.*;
+import GierJava.world.abilities.*;
 import arc.*;
 import arc.audio.*;
 import arc.graphics.*;
@@ -27,7 +28,7 @@ import mindustry.ai.types.*;
 import mindustry.gen.Sounds;
 import mindustry.entities.abilities.*;
 import mindustry.entities.pattern.*;
-import GierJava.world.abilities.*;
+import mindustry.type.unit.*;
 
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
