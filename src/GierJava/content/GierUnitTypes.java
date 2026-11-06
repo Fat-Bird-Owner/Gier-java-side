@@ -138,7 +138,8 @@ public class GierUnitTypes {
             drag = 0.03f;
             drawCell = false;
             faceTarget = false;
-
+            hovering = true;
+            
     weapons.add(new Weapon("gier-java-overboard-weapon"){{
         x = 4f;
         reload = 30f;
@@ -179,6 +180,9 @@ public class GierUnitTypes {
         speed = 0.45f;
         hitSize = 8f;
 
+        floorMultiplier = -1.2f;
+        drownTimeMultiplier = 0.02f;
+            
         weapons.add(new Weapon("gier-java-static-weapon"){{
             x = 0f;
             reload = 60f;
