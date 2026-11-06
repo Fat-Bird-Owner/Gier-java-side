@@ -57,26 +57,32 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public boolean shouldConsume(){
-            if(!constructing || !enabled || !team.activateUnitFactories()) return false;
+        
+        if(payload == null || !enabled || !team.activateUnitFactories()) return false;
+        if(!hasUpgrade(payload.unit.type)) return false;
 
-            UpgradeRecipe recipe = getRecipe(payload.unit.type);
-            if(recipe == null) return false;
+        UpgradeRecipe recipe = getRecipe(payload.unit.type);
+        if(recipe == null) return false;
 
-            float cost = state.rules.unitCost(team);
+        float cost = Vars.state.rules.unitCost(team);
 
-            for(ItemStack stack : recipe.requirements){
-                if(!items.has(stack.item, Mathf.ceil(stack.amount * cost))){
-                    return false;
-                }
+        for(ItemStack stack : recipe.requirements){
+            if(!items.has(stack.item, Mathf.ceil(stack.amount * cost))){
+                return false;
             }
-
-            return true;
         }
 
-        @Override
-        public int getMaximumAccepted(Item item){
-            if(item.id >= capacities.length) return 0;
-            return Mathf.round(capacities[item.id] * state.rules.unitCost(team));
-        }
+        return true;
+    }
+
+    @Override
+    public int getMaximumAccepted(Item item){
+        if(item.id >= capacities.length) return 0;
+
+        return Mathf.round(
+            capacities[item.id] * Vars.state.rules.unitCost(team)
+        );
+    }
+        
     }
 }
