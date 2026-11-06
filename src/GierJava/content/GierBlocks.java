@@ -102,6 +102,7 @@ public class GierBlocks {
 
     // Units
     assemblyBay,
+    assemblyReconstructor,
     
     // Effect
     coreSatellite,
