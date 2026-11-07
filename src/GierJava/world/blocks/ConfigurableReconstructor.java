@@ -1,16 +1,19 @@
+
 package GierJava.world.blocks;
 
 import arc.Core;
 import arc.Events;
+import arc.audio.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
-import arc.scene.style.TextureRegionDrawable;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.Vars;
+
+import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.EventType.*;
@@ -19,16 +22,24 @@ import mindustry.graphics.*;
 import mindustry.io.TypeIO;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.blocks.units.Reconstructor;
+import mindustry.world.*;
+import mindustry.world.blocks.units.UnitBlock;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 import java.util.Arrays;
 
-public class ConfigurableReconstructor extends Reconstructor{
+public class ConfigurableReconstructor extends UnitBlock{
+
+    public float constructTime = 60f * 2f;
 
     public Seq<UpgradeRecipe> recipes = new Seq<>();
+
+    public int[] capacities = {};
+
+    public Sound createSound = Sounds.unitCreate;
+    public float createSoundVolume = 1f;
 
     public static class UpgradeRecipe{
         public UnitType from, to;
@@ -46,7 +57,12 @@ public class ConfigurableReconstructor extends Reconstructor{
     public ConfigurableReconstructor(String name){
         super(name);
 
-        buildType = ConfigurableBuild::new;
+        regionRotated1 = 1;
+        regionRotated2 = 2;
+
+        configurable = true;
+        commandable = true;
+        ambientSound = Sounds.loopUnitBuilding;
 
         config(Integer.class, (ConfigurableBuild build, Integer index) -> {
             if(index >= 0 && index < recipes.size){
@@ -61,6 +77,11 @@ public class ConfigurableReconstructor extends Reconstructor{
                 }
             }
         });
+
+        configClear((ConfigurableBuild build) -> {
+            build.selectedRecipe = -1;
+            build.progress = 0f;
+        });
     }
 
     public void addUpgrade(UnitType from, UnitType to, ItemStack[] requirements){
@@ -69,7 +90,6 @@ public class ConfigurableReconstructor extends Reconstructor{
 
     public void addUpgrade(UnitType from, UnitType to, ItemStack[] requirements, float time){
         recipes.add(new UpgradeRecipe(from, to, requirements, time));
-        upgrades.add(new UnitType[]{from, to});
     }
 
     public Seq<UpgradeRecipe> getRecipes(UnitType from){
@@ -77,25 +97,37 @@ public class ConfigurableReconstructor extends Reconstructor{
     }
 
     @Override
+    public void init(){
+        initCapacities();
+        super.init();
+    }
+
+    @Override
+    public void afterPatch(){
+        initCapacities();
+        super.afterPatch();
+    }
+
     public void initCapacities(){
         capacities = new int[Vars.content.items().size];
         itemCapacity = 10;
 
-        // Include vanilla consumer capacities.
+        // Vanilla consumers.
         ConsumeItems cons = findConsumer(c -> c instanceof ConsumeItems);
 
         if(cons != null){
             for(ItemStack stack : cons.items){
+                int amount = stack.amount * 2;
+
                 capacities[stack.item.id] = Math.max(
                     capacities[stack.item.id],
-                    stack.amount * 2
+                    amount
                 );
 
-                itemCapacity = Math.max(itemCapacity, stack.amount * 2);
+                itemCapacity = Math.max(itemCapacity, amount);
             }
         }
 
-        // Include custom recipe capacities.
         for(UpgradeRecipe recipe : recipes){
             for(ItemStack stack : recipe.requirements){
                 int amount = stack.amount * 2;
@@ -123,10 +155,11 @@ public class ConfigurableReconstructor extends Reconstructor{
         }
     }
 
-    public class ConfigurableBuild extends ReconstructorBuild{
+    public class ConfigurableBuild extends UnitBuild{
 
         public int selectedRecipe = -1;
 
+        public boolean constructing;
         public UpgradeRecipe recipe(){
             if(payload == null) return null;
 
@@ -138,13 +171,15 @@ public class ConfigurableReconstructor extends Reconstructor{
                 }
             }
 
-            // Use the first available recipe if none was selected.
             return recipes.find(r -> r.from == payload.unit.type);
         }
 
         public boolean hasRequirements(UpgradeRecipe recipe){
             if(recipe == null) return false;
-            if(Vars.state.rules.infiniteResources) return true;
+
+            if(Vars.state.rules.infiniteResources){
+                return true;
+            }
 
             float cost = Vars.state.rules.unitCost(team);
 
@@ -163,18 +198,53 @@ public class ConfigurableReconstructor extends Reconstructor{
             float cost = Vars.state.rules.unitCost(team);
 
             for(ItemStack stack : recipe.requirements){
-                items.remove(stack.item, Mathf.ceil(stack.amount * cost));
+                items.remove(
+                    stack.item,
+                    Mathf.ceil(stack.amount * cost)
+                );
             }
+        }
+
+        public boolean hasUpgrade(UnitType type){
+            return !getRecipes(type).isEmpty();
+        }
+
+        public UnitType unit(){
+            UpgradeRecipe recipe = recipe();
+
+            return recipe != null
+                && (recipe.to.unlockedNowHost() || team.isAI())
+                && !recipe.to.isBanned()
+                ? recipe.to
+                : null;
+        }
+
+        public boolean constructing(){
+            return payload != null && recipe() != null;
+        }
+
+        public float fraction(){
+            UpgradeRecipe recipe = recipe();
+
+            return recipe == null
+                ? 0f
+                : Mathf.clamp(progress / recipe.time);
         }
 
         @Override
         public boolean shouldConsume(){
-            return constructing() && enabled && team.activateUnitFactories();
+            return constructing
+                && enabled
+                && team.activateUnitFactories();
         }
 
         @Override
-        public boolean hasUpgrade(UnitType type){
-            return !getRecipes(type).isEmpty();
+        public BlockStatus status(){
+            if(!team.activateUnitFactories()){
+                return BlockStatus.inactiveUnitFactory;
+            }
+
+            return super.status();
         }
 
         @Override
@@ -199,30 +269,6 @@ public class ConfigurableReconstructor extends Reconstructor{
             }
 
             return false;
-        }
-
-        @Override
-        public boolean constructing(){
-            return payload != null && recipe() != null;
-        }
-
-        @Override
-        public UnitType unit(){
-            UpgradeRecipe recipe = recipe();
-
-            return recipe != null
-                && (recipe.to.unlockedNowHost() || team.isAI())
-                ? recipe.to
-                : null;
-        }
-
-        @Override
-        public float fraction(){
-            UpgradeRecipe recipe = recipe();
-
-            return recipe == null
-                ? 0f
-                : Mathf.clamp(progress / recipe.time);
         }
 
         @Override
@@ -275,7 +321,9 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public int getMaximumAccepted(Item item){
-            if(item.id >= capacities.length) return 0;
+            if(item.id < 0 || item.id >= capacities.length){
+                return 0;
+            }
 
             return Mathf.round(
                 capacities[item.id] * Vars.state.rules.unitCost(team)
@@ -284,6 +332,8 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public void updateTile(){
+            constructing = constructing();
+
             boolean valid = false;
 
             if(payload != null){
@@ -300,25 +350,10 @@ public class ConfigurableReconstructor extends Reconstructor{
                     }
 
                     if(progress >= recipe.time && hasRequirements(recipe)){
-                        // Create upgraded unit.
+                        
                         payload.unit = recipe.to.create(payload.unit.team());
 
-                        if(payload.unit.isCommandable()){
-                            if(commandPos != null){
-                                payload.unit.command().commandPosition(commandPos);
-                            }
-
-                            payload.unit.command().command(
-                                command == null && payload.unit.type.defaultCommand != null
-                                ? payload.unit.type.defaultCommand
-                                : command
-                            );
-                        }
-
-                        // Consume recipe resources.
                         consumeRequirements(recipe);
-
-                        // Consume vanilla block consumers.
                         consume();
 
                         createSound.at(
@@ -404,7 +439,7 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public byte version(){
-            return 4;
+            return 2;
         }
 
         @Override
@@ -412,8 +447,6 @@ public class ConfigurableReconstructor extends Reconstructor{
             super.write(write);
 
             write.f(progress);
-            TypeIO.writeVecNullable(write, commandPos);
-            TypeIO.writeCommand(write, command);
             write.i(selectedRecipe);
         }
 
@@ -421,10 +454,13 @@ public class ConfigurableReconstructor extends Reconstructor{
         public void read(Reads read, byte revision){
             super.read(read, revision);
 
-            if(revision >= 1) progress = read.f();
-            if(revision >= 2) commandPos = TypeIO.readVecNullable(read);
-            if(revision >= 3) command = TypeIO.readCommand(read);
-            if(revision >= 4) selectedRecipe = read.i();
+            if(revision >= 1){
+                progress = read.f();
+            }
+
+            if(revision >= 2){
+                selectedRecipe = read.i();
+            }
         }
     }
 }
