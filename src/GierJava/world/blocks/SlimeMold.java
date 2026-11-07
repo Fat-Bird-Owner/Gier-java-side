@@ -20,14 +20,14 @@ public class SlimeMold extends Wall{
 
     public class SlimeMoldBuild extends WallBuild{
 
-        public int getNearbyBlocks(Tile nearby){
+        public int getNearbyBlocks(Tile near){
             int found = 0;
 
             for(int dx = -1; dx <= 1; dx++){
                 for(int dy = -1; dy <= 1; dy++){
                     if(dx == 0 && dy == 0) continue;
 
-                    Tile nearby = world.tile(nearby.x + dx, nearby.y + dy);
+                    Tile nearby = world.tile(near.x + dx, near.y + dy);
 
                     if(nearby != null && nearby.block() == SlimeMold.this){
                         found++;
