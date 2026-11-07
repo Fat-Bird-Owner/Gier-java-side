@@ -5,21 +5,33 @@ import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
+import arc.util.Interval;
 
 import static mindustry.Vars.*;
 
 public class SlimeMold extends Wall{
 
-    public float growthChance = 0.02f;
+    public float growthChance = 0.02f, depriveDuration = 180f, deadDuration = 400f, depriveDamage = 0.45f;
     public int maxNeighbors = 4;
-
+    
     public SlimeMold(String name){
         super(name);
         update = true;
     }
 
+    public static Signal {
+        public int strength;
+
+        public Signal(int strength){
+            this.strength = strength;
+        }
+    }
+    
     public class SlimeMoldBuild extends WallBuild{
 
+        public Signal signal;
+        public float deprive;
+        
         public int getNearbyBlocks(Tile near){
             int found = 0;
 
@@ -40,7 +52,17 @@ public class SlimeMold extends Wall{
 
         @Override
         public void updateTile(){
-            if(!Mathf.chanceDelta(growthChance)) return;
+            if (signal == null && deprive >= depriveDuration){
+                deprive += 1f;
+                damage(depriveDamage);
+                if (deprive >= deadDuration) kill();
+            } else if (signal == null) {
+                deprive += 1f;
+            } else {
+                deprive = 0f;
+            }
+            
+            if(!Mathf.chanceDelta(growthChance) || signal == null) return;
 
             int direction = Mathf.random(3);
             Point2 dir = Geometry.d4[direction];
