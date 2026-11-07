@@ -22,7 +22,7 @@ public class SlimeMold extends Wall{
         update = true;
         drawCached = false;
         baseShake = 0f;
-        underBullet = true;
+        underBullets = true;
         drawCracks = false;
         drawTeamOverlay = false;
         createRubble = false;
@@ -103,7 +103,9 @@ public class SlimeMold extends Wall{
                         return;
                     }
                     
-                    nearby.build.signal = signal;
+                    if (nearby.build && nearby.build.signal != null){
+                        nearby.build.signal = signal;
+                    }
                     signal = null;
                 }
             }
