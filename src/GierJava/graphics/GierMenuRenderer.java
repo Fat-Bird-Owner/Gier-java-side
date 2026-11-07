@@ -123,11 +123,12 @@ public class GierMenuRenderer extends MenuRenderer{
                 }else if(distance < -2f){
                     floor = Blocks.sand;
 
-                    if (distance < -5f && distance > -6f && Mathf.chance(0.45f)){
+                    if (distance < -5f && distance > -6f && Mathf.chance(0.64f)){
                         wall = Blocks.darkMetal;
-                        if (Mathf.chance(0.45f)){
-                            floor = Blocks.metalFloor;
-                        }
+                    }
+
+                    if (distance < -5f && distance > -6f && Mathf.chance(0.87f)){
+                        floor = Blocks.metalFloor;
                     }
                     
                 }else if(distance < 1f){
@@ -274,7 +275,7 @@ public class GierMenuRenderer extends MenuRenderer{
     }
 
     private void drawUnits(){
-        float beachStart = width * 0.22f;
+        float beachStart = width * 0.28f;
         float beachEnd = width * 0.43f;
 
         for(int i = 0; i < units.length; i++){
