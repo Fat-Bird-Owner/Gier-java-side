@@ -24,6 +24,9 @@ import java.lang.reflect.*;
 import mindustry.ai.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
+import mindustry.gen.Groups;
+import mindustry.gen.EffectState;
+import mindustry.gen.Decal;
 
 import static mindustry.Vars.*;
 
@@ -172,10 +175,13 @@ private static final UnitType[] cruxUnits = {
 
     private void spawnUnit(UnitType type, Team team){
     float x = team == Team.sharded
-        ? Mathf.random(3f, width * 0.2f) * tilesize
-        : (width - 1f) * tilesize;
+    ? Mathf.random(3f, width * 0.2f) * tilesize
+    : (width - 1f) * tilesize;
 
-    float y = Mathf.random(3f, height - 3f) * tilesize;
+float y = Mathf.random(3f, height - 3f) * tilesize;
+
+    x += Mathf.range(2f * tilesize);
+    y += Mathf.range(2f * tilesize);
 
     boolean previousCap = type.useUnitCap;
     type.useUnitCap = false;
@@ -286,11 +292,22 @@ private static final UnitType[] cruxUnits = {
         }
     }
 
-    for(Unit unit : battleUnits){
-        if(!unit.isAdded()) continue;
+    state.teams.updateTeamStats();
 
-        unit.update();
-    }
+    Groups.updatePooling();
+    Groups.unit.update();
+
+    state.teams.updateTeamStats();
+
+    Groups.bullet.updatePhysics();
+    Groups.bullet.update();
+    Groups.bullet.collide();
+
+    Groups.all.each(e -> {
+        if(e instanceof EffectState || e instanceof Decal){
+            e.update();
+        }
+    });
     }
     
     @Override
