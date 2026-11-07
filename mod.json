@@ -1,10 +1,10 @@
 {
     "name": "gier-java",
     "displayName": "Gier: Java Side",
-    "description": "Java import of gier: revitalized.\nPlays different",
+    "description": "Java import of gier: revitalized.\nPlays differently\n\n[lightgrey[]]Star goal: 5[[]]",
     "version": "v1",
     "minGameVersion": "160",
-    "author": "Fat Bird's Owner\n [accent[]]Contributors:[[]] lu69159 [lightgrey[]](Space)[[]]",
+    "author": "Fat Bird's Owner\n[accent[]]Contributors:[[]] lu69159 [lightgrey[]](Space)[[]]",
     "repo": "Fat-Bird-Owner/Gier-java-side",
     "java": true,
     "main": "GierJava.GierJava"
