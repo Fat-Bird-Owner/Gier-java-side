@@ -177,15 +177,23 @@ private static final UnitType[] cruxUnits = {
 
     float y = Mathf.random(3f, height - 3f) * tilesize;
 
-    Unit unit = type.spawn(
-        team,
-        x,
-        y,
-        team == Team.sharded ? 0f : 180f
-    );
+    boolean previousCap = type.useUnitCap;
+    type.useUnitCap = false;
 
-    unit.add();
-    battleUnits.add(unit);
+    try{
+        Unit unit = type.create(team);
+
+        unit.set(x, y);
+        unit.rotation = team == Team.sharded ? 0f : 180f;
+
+        unit.controller(type.aiController.get());
+
+        unit.add();
+
+        battleUnits.add(unit);
+    }finally{
+        type.useUnitCap = previousCap;
+    }
     }
     
     private void cache(){
@@ -355,9 +363,10 @@ private static final UnitType[] cruxUnits = {
     for(Unit unit : battleUnits){
         if(!unit.isAdded()) continue;
 
-        unit.type.drawShadow(unit);
         unit.type.draw(unit);
     }
+
+    Draw.flush();
     }
 
     @Override
