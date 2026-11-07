@@ -943,6 +943,7 @@ public class GierBlocks {
 
             health = 2500;
             databaseTag = "gier";
+            baseExplosiveness = 50f;
             
             inaccuracy = 5f;
             shootSound = Sounds.shootTank;
