@@ -197,10 +197,12 @@ public class GierMenuRenderer extends MenuRenderer{
         batch.beginCache();
 
         for(Tile tile : world.tiles){
-            tile.block().drawBase(tile);
-    
+            if(tile.block() != Blocks.air && tile.build == null){
+                tile.block().drawBase(tile);
+            }
+            
             if(tile.build != null){
-                tile.build.draw();
+                tile.block().drawBaseCached(tile);
             }
             
         }
