@@ -3,9 +3,12 @@ package GierJava.world.blocks;
 import arc.math.*;
 import arc.math.geom.*;
 import mindustry.world.*;
+import mindustry.world.blocks.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.content.*;
 import arc.util.Interval;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 
 import static mindustry.Vars.*;
 
@@ -100,7 +103,7 @@ public class SlimeMold extends Wall{
                         return;
                     }
                     
-                    nearby.signal = signal;
+                    nearby.build.signal = signal;
                     signal = null;
                 }
             }
