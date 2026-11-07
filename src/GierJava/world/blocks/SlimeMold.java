@@ -102,8 +102,9 @@ public class SlimeMold extends Wall{
                         signal = null;
                         return;
                     }
-                    
-                    nearby.build.signal = signal;
+
+                    SlimeMoldBuild mold = (SlimeMoldBuild)nearby.build;
+                    mold.signal = signal;
                     signal = null;
                 }
             }
