@@ -78,9 +78,9 @@ public class GierMenuRenderer extends MenuRenderer{
                 current.dispose();
             }
 
-            Log.info("[BeachMenu] Installed.");
+            Log.info("[GierMenuRenderer]");
         }catch(Throwable error){
-            Log.err("[BeachMenu] Failed to install beach renderer.");
+            Log.err("[GierMenuRenderer] Failed to gier...");
             Log.err(error);
         }
     }
