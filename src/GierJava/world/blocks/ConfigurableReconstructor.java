@@ -311,10 +311,9 @@ public class ConfigurableReconstructor extends UnitBlock{
             float cost = Vars.state.rules.unitCost(team);
 
             for(ItemStack stack : recipe.requirements){
-                items.remove(
-                    stack.item,
-                    Mathf.ceil(stack.amount * cost)
-                );
+                int amount = Mathf.ceil(stack.amount * cost);
+
+                items.remove(stack.item, amount);
             }
         }
 
@@ -484,8 +483,6 @@ public class ConfigurableReconstructor extends UnitBlock{
                         Fx.producesmoke.at(this);
 
                         Events.fire(new UnitCreateEvent(payload.unit, this));
-
-                        selectedRecipe = -1;
                     }
                 }
             }
