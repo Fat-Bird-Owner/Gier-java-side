@@ -19,6 +19,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.fragments.*;
+import mindustry.world.meta.Env;
 import mindustry.world.*;
 import java.lang.reflect.*;
 import mindustry.ai.*;
