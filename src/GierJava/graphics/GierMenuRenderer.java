@@ -110,10 +110,10 @@ public class GierMenuRenderer extends MenuRenderer{
                 Block floor;
                 Block wall = Blocks.air;
                 
-                if(distance < -3.75f){
+                if(distance < -47.5f){
                     floor = Blocks.stone;
                     wall = Blocks.stoneWall;
-                }else if(distance < -3f){
+                }else if(distance < -20f){
                     floor = Blocks.stone;
                 }else if(distance < -2f){
                     floor = Blocks.sand;
