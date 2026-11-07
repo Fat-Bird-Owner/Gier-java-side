@@ -19,7 +19,7 @@ public class SlimeMold extends Wall{
         update = true;
     }
 
-    public static Signal {
+    public static class Signal {
         public int strength;
 
         public Signal(int strength){
