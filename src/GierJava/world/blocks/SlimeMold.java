@@ -4,7 +4,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
-import mindustry.content;
+import mindustry.content.*;
 
 import static mindustry.Vars.*;
 
