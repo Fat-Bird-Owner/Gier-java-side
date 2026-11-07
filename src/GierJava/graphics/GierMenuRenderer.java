@@ -272,7 +272,7 @@ public class GierMenuRenderer extends MenuRenderer{
 
     private void drawUnits(){
         float beachStart = width * 0.22f;
-        float beachEnd = width * 0.43;
+        float beachEnd = width * 0.43f;
 
         for(int i = 0; i < units.length; i++){
             UnitType type = units[i];
