@@ -1,5 +1,7 @@
 package GierJava.graphics;
 
+import GierJava.content.*;
+    
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
@@ -36,18 +38,15 @@ public class GierMenuRenderer extends MenuRenderer{
     private float time;
 
     private static final UnitType[] units = {
-        UnitTypes.dagger,
-        UnitTypes.nova,
-        UnitTypes.mono,
-        UnitTypes.poly,
-        UnitTypes.flare,
-        UnitTypes.crawler,
-        UnitTypes.dagger,
-        UnitTypes.nova,
-        UnitTypes.dagger,
-        UnitTypes.mono,
-        UnitTypes.poly,
-        UnitTypes.flare
+        GierUnitTypes.occupy,
+        GierUnitTypes.occupy,
+        GierUnitTypes.occupy,
+        GierUnitTypes.overboard,
+        GierUnitTypes.overboard
+        GierUnitTypes.overboard,
+        GierUnitTypes.staticu,
+        GierUnitTypes.staticu,
+        GierUnitTypes.staticu
     };
 
     public GierMenuRenderer(){
@@ -109,8 +108,14 @@ public class GierMenuRenderer extends MenuRenderer{
                 float distance = x - shoreline;
 
                 Block floor;
-
-                if(distance < -2f){
+                Block wall = Blocks.air;
+                
+                if(distance < -3.75f){
+                    floor = Blocks.stone;
+                    wall = Blocks.stoneWall;
+                }else if(distance < -3f){
+                    floor = Blocks.stone;
+                }else if(distance < -2f){
                     floor = Blocks.sand;
                 }else if(distance < 1f){
                     floor = Blocks.sandWater;
@@ -128,7 +133,7 @@ public class GierMenuRenderer extends MenuRenderer{
                 tile.y = (short)y;
 
                 tile.setFloor(floor.asFloor());
-                tile.setBlock(Blocks.air);
+                tile.setBlock(wall);
                 tile.setOverlay(Blocks.air);
             }
         }
