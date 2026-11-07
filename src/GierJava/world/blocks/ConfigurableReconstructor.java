@@ -1,6 +1,7 @@
 package GierJava.world.blocks;
 
 import arc.Core;
+import arc.Events;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.*;
@@ -9,19 +10,21 @@ import arc.scene.style.TextureRegionDrawable;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.ui.Styles;
-import arc.Events;
-import mindustry.io.TypeIO;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.io.TypeIO;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.payloads.*;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
+
+import java.util.Arrays;
 
 public class ConfigurableReconstructor extends Reconstructor{
 
@@ -42,12 +45,18 @@ public class ConfigurableReconstructor extends Reconstructor{
 
     public ConfigurableReconstructor(String name){
         super(name);
-        
+
+        buildType = ConfigurableBuild::new;
+
         config(Integer.class, (ConfigurableBuild build, Integer index) -> {
             if(index >= 0 && index < recipes.size){
                 UpgradeRecipe recipe = recipes.get(index);
 
                 if(build.payload != null && build.payload.unit.type == recipe.from){
+                    if(build.selectedRecipe != index){
+                        build.progress = 0f;
+                    }
+
                     build.selectedRecipe = index;
                 }
             }
@@ -72,18 +81,46 @@ public class ConfigurableReconstructor extends Reconstructor{
         capacities = new int[Vars.content.items().size];
         itemCapacity = 10;
 
+        // Include vanilla consumer capacities.
+        ConsumeItems cons = findConsumer(c -> c instanceof ConsumeItems);
+
+        if(cons != null){
+            for(ItemStack stack : cons.items){
+                capacities[stack.item.id] = Math.max(
+                    capacities[stack.item.id],
+                    stack.amount * 2
+                );
+
+                itemCapacity = Math.max(itemCapacity, stack.amount * 2);
+            }
+        }
+
+        // Include custom recipe capacities.
         for(UpgradeRecipe recipe : recipes){
             for(ItemStack stack : recipe.requirements){
                 int amount = stack.amount * 2;
 
-                capacities[stack.item.id] =
-                    Math.max(capacities[stack.item.id], amount);
+                capacities[stack.item.id] = Math.max(
+                    capacities[stack.item.id],
+                    amount
+                );
 
                 itemCapacity = Math.max(itemCapacity, amount);
             }
         }
 
-        consumeBuilder.each(c -> c.multiplier = b -> Vars.state.rules.unitCost(b.team));
+        consumeBuilder.each(c ->
+            c.multiplier = b -> Vars.state.rules.unitCost(b.team)
+        );
+    }
+
+    @Override
+    public void checkContentArrayCapacity(int items, int liquids){
+        super.checkContentArrayCapacity(items, liquids);
+
+        if(capacities.length != items){
+            capacities = Arrays.copyOf(capacities, items);
+        }
     }
 
     public class ConfigurableBuild extends ReconstructorBuild{
@@ -101,11 +138,13 @@ public class ConfigurableReconstructor extends Reconstructor{
                 }
             }
 
+            // Use the first available recipe if none was selected.
             return recipes.find(r -> r.from == payload.unit.type);
         }
 
         public boolean hasRequirements(UpgradeRecipe recipe){
-            if(recipe == null || Vars.state.rules.infiniteResources) return recipe != null;
+            if(recipe == null) return false;
+            if(Vars.state.rules.infiniteResources) return true;
 
             float cost = Vars.state.rules.unitCost(team);
 
@@ -119,7 +158,7 @@ public class ConfigurableReconstructor extends Reconstructor{
         }
 
         public void consumeRequirements(UpgradeRecipe recipe){
-            if(Vars.state.rules.infiniteResources) return;
+            if(recipe == null || Vars.state.rules.infiniteResources) return;
 
             float cost = Vars.state.rules.unitCost(team);
 
@@ -130,13 +169,7 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public boolean shouldConsume(){
-            UpgradeRecipe recipe = recipe();
-
-            return enabled &&
-                payload != null &&
-                recipe != null &&
-                hasRequirements(recipe) &&
-                team.activateUnitFactories();
+            return constructing() && enabled && team.activateUnitFactories();
         }
 
         @Override
@@ -151,16 +184,21 @@ public class ConfigurableReconstructor extends Reconstructor{
 
         @Override
         public boolean acceptPayload(Building source, Payload payload){
-            if(this.payload != null || (!enabled && source != this)
+            if(this.payload != null
+                || (!enabled && source != this)
                 || relativeTo(source) == rotation
                 || !(payload instanceof UnitPayload pay)){
                 return false;
             }
 
-            return getRecipes(pay.unit.type).contains(
-                r -> !r.to.isBanned() &&
-                    (r.to.unlockedNowHost() || team.isAI())
-            );
+            for(UpgradeRecipe recipe : getRecipes(pay.unit.type)){
+                if(!recipe.to.isBanned()
+                    && (recipe.to.unlockedNowHost() || team.isAI())){
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         @Override
@@ -172,21 +210,25 @@ public class ConfigurableReconstructor extends Reconstructor{
         public UnitType unit(){
             UpgradeRecipe recipe = recipe();
 
-            return recipe != null &&
-                (recipe.to.unlockedNowHost() || team.isAI())
-                ? recipe.to : null;
+            return recipe != null
+                && (recipe.to.unlockedNowHost() || team.isAI())
+                ? recipe.to
+                : null;
         }
 
         @Override
         public float fraction(){
             UpgradeRecipe recipe = recipe();
 
-            return recipe == null ? 0f : Mathf.clamp(progress / recipe.time);
+            return recipe == null
+                ? 0f
+                : Mathf.clamp(progress / recipe.time);
         }
 
         @Override
         public boolean shouldShowConfigure(Player player){
-            return payload != null && !getRecipes(payload.unit.type).isEmpty();
+            return payload != null
+                && !getRecipes(payload.unit.type).isEmpty();
         }
 
         @Override
@@ -208,14 +250,17 @@ public class ConfigurableReconstructor extends Reconstructor{
                     new TextureRegionDrawable(recipe.to.uiIcon),
                     Styles.clearNoneTogglei,
                     48f,
-                () -> {
-                    configure(index);
-                    deselect();
-                }).size(54f).tooltip(recipe.to.localizedName).get();
+                    () -> {
+                        configure(index);
+                        deselect();
+                    }
+                ).size(54f)
+                .tooltip(recipe.to.localizedName)
+                .get();
 
-                button.update(() -> button.setChecked(
-                    this.recipe() == recipe
-                ));
+                button.update(() ->
+                    button.setChecked(this.recipe() == recipe)
+                );
 
                 if(++count % 4 == 0){
                     table.row();
@@ -249,12 +294,13 @@ public class ConfigurableReconstructor extends Reconstructor{
                 }else if(moveInPayload()){
                     if(efficiency > 0f && hasRequirements(recipe)){
                         valid = true;
-                        progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
+
+                        progress += edelta()
+                            * Vars.state.rules.unitBuildSpeed(team);
                     }
 
                     if(progress >= recipe.time && hasRequirements(recipe)){
-                        consumeRequirements(recipe);
-
+                        // Create upgraded unit.
                         payload.unit = recipe.to.create(payload.unit.team());
 
                         if(payload.unit.isCommandable()){
@@ -262,14 +308,25 @@ public class ConfigurableReconstructor extends Reconstructor{
                                 payload.unit.command().commandPosition(commandPos);
                             }
 
-                            payload.unit.command().command(
-                                command == null && payload.unit.type.defaultCommand != null
+                            payload.unit.command(
+                                command == null
+                                    && payload.unit.type.defaultCommand != null
                                     ? payload.unit.type.defaultCommand
                                     : command
                             );
                         }
 
-                        createSound.at(this, 1f + Mathf.range(0.06f), createSoundVolume);
+                        // Consume recipe resources.
+                        consumeRequirements(recipe);
+
+                        // Consume vanilla block consumers.
+                        consume();
+
+                        createSound.at(
+                            this,
+                            1f + Mathf.range(0.06f),
+                            createSoundVolume
+                        );
 
                         progress = 0f;
 
@@ -277,13 +334,21 @@ public class ConfigurableReconstructor extends Reconstructor{
                         Fx.producesmoke.at(this);
 
                         Events.fire(new UnitCreateEvent(payload.unit, this));
+
                         selectedRecipe = -1;
                     }
                 }
             }
 
-            speedScl = Mathf.lerpDelta(speedScl, Mathf.num(valid), 0.05f);
-            time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);
+            speedScl = Mathf.lerpDelta(
+                speedScl,
+                Mathf.num(valid),
+                0.05f
+            );
+
+            time += edelta()
+                * speedScl
+                * Vars.state.rules.unitBuildSpeed(team);
         }
 
         @Override
@@ -310,7 +375,14 @@ public class ConfigurableReconstructor extends Reconstructor{
             if(constructing() && hasArrived() && recipe != null){
                 Draw.draw(Layer.blockOver, () -> {
                     Draw.alpha(1f - fraction());
-                    Draw.rect(payload.unit.type.fullIcon, x, y, payload.rotation() - 90);
+
+                    Draw.rect(
+                        payload.unit.type.fullIcon,
+                        x,
+                        y,
+                        payload.rotation() - 90
+                    );
+
                     Draw.reset();
 
                     Drawf.construct(
