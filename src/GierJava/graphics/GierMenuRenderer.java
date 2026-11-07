@@ -119,7 +119,12 @@ public class GierMenuRenderer extends MenuRenderer{
                     }
                     
                 }else if(distance < -10f){
+                    
                     floor = Blocks.stone;
+                    if (distance < -15f && distance > -17f && Mathf.chance(0.13f)){
+                        wall = DerelictBlocks.derelictScrapWall;
+                    }
+                    
                 }else if(distance < -2f){
                     floor = Blocks.sand;
                 }else if(distance < 1f){
@@ -266,8 +271,8 @@ public class GierMenuRenderer extends MenuRenderer{
     }
 
     private void drawUnits(){
-        float beachStart = width * 0.08f;
-        float beachEnd = width * 0.5f - 4f;
+        float beachStart = width * 0.22f;
+        float beachEnd = width * 0.43;
 
         for(int i = 0; i < units.length; i++){
             UnitType type = units[i];
