@@ -308,11 +308,10 @@ public class ConfigurableReconstructor extends Reconstructor{
                                 payload.unit.command().commandPosition(commandPos);
                             }
 
-                            payload.unit.command(
-                                command == null
-                                    && payload.unit.type.defaultCommand != null
-                                    ? payload.unit.type.defaultCommand
-                                    : command
+                            payload.unit.command().command(
+                                command == null && payload.unit.type.defaultCommand != null
+                                ? payload.unit.type.defaultCommand
+                                : command
                             );
                         }
 
