@@ -41,7 +41,8 @@ public class GierJava extends Mod{
         Events.on(EventType.ClientLoadEvent.class, e -> {
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
-            
+
+            GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
             /*
             GierPlanets.kela.sectors.each(s -> {
