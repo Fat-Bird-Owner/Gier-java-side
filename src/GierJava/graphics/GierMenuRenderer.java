@@ -21,6 +21,9 @@ import mindustry.type.*;
 import mindustry.ui.fragments.*;
 import mindustry.world.*;
 import java.lang.reflect.*;
+import mindustry.ai.*;
+import mindustry.entities.*;
+import mindustry.entities.units.*;
 
 import static mindustry.Vars.*;
 
@@ -37,25 +40,38 @@ public class GierMenuRenderer extends MenuRenderer{
     private CacheBatch batch;
     private float time;
 
+    private final Seq<Unit> battleUnits = new Seq<>();
+
+    private float reinforcementTimer;
+
+    private static final int maxUnitsPerTeam = 12;
+    private static final float reinforcementDelay = 180f;
+    
     private static final UnitType[] units = {
-        GierUnitTypes.occupy,
-        GierUnitTypes.occupy,
-        GierUnitTypes.occupy,
-        GierUnitTypes.overboard,
-        GierUnitTypes.overboard,
-        GierUnitTypes.overboard,
-        GierUnitTypes.staticu,
-        GierUnitTypes.staticu,
-        GierUnitTypes.staticu
-    };
+    private static final UnitType[] shardedUnits = {
+    GierUnitTypes.occupy,
+    GierUnitTypes.occupy,
+    GierUnitTypes.occupy,
+    GierUnitTypes.staticu,
+    GierUnitTypes.staticu,
+    GierUnitTypes.staticu
+};
+
+private static final UnitType[] cruxUnits = {
+    GierUnitTypes.overboard,
+    GierUnitTypes.overboard,
+    GierUnitTypes.overboard
+};
 
     public GierMenuRenderer(){
-        super();
+    super();
 
-        Time.mark();
-        generate();
-        cache();
-        Log.debug("Time to generate beach menu: @", Time.elapsed());
+    Time.mark();
+    generate();
+    cache();
+    spawnArmy();
+
+    Log.debug("Time to generate battle menu: @", Time.elapsed());
     }
 
     public static void install(){
@@ -155,6 +171,24 @@ public class GierMenuRenderer extends MenuRenderer{
         world.setGenerating(false);
     }
 
+    private void spawnUnit(UnitType type, Team team){
+    float x = team == Team.sharded
+        ? Mathf.random(3f, width * 0.2f) * tilesize
+        : (width - 1f) * tilesize;
+
+    float y = Mathf.random(3f, height - 3f) * tilesize;
+
+    Unit unit = type.spawn(
+        team,
+        x,
+        y,
+        team == Team.sharded ? 0f : 180f
+    );
+
+    unit.add();
+    battleUnits.add(unit);
+    }
+    
     private void cache(){
         Draw.proj().setOrtho(
             0,
@@ -209,9 +243,53 @@ public class GierMenuRenderer extends MenuRenderer{
         Core.batch = previous;
     }
 
+    private void spawnArmy(){
+    for(UnitType type : shardedUnits){
+        spawnUnit(type, Team.sharded);
+    }
+
+    for(UnitType type : cruxUnits){
+        spawnUnit(type, Team.crux);
+    }
+    }
+    
+    private void updateBattle(){
+    reinforcementTimer += Time.delta;
+
+    battleUnits.removeAll(unit -> !unit.isAdded() || unit.dead);
+
+    if(reinforcementTimer >= reinforcementDelay){
+        reinforcementTimer = 0f;
+
+        int shardedCount = battleUnits.count(u -> u.team == Team.sharded);
+        int cruxCount = battleUnits.count(u -> u.team == Team.crux);
+
+        if(shardedCount < maxUnitsPerTeam){
+            spawnUnit(
+                shardedUnits[Mathf.random(shardedUnits.length - 1)],
+                Team.sharded
+            );
+        }
+
+        if(cruxCount < maxUnitsPerTeam){
+            spawnUnit(
+                cruxUnits[Mathf.random(cruxUnits.length - 1)],
+                Team.crux
+            );
+        }
+    }
+
+    for(Unit unit : battleUnits){
+        if(!unit.isAdded()) continue;
+
+        unit.update();
+    }
+    }
+    
     @Override
     public void render(){
         time += Time.delta;
+        updateBattle();
 
         float scaling = Math.max(
             Scl.scl(4f),
@@ -275,44 +353,22 @@ public class GierMenuRenderer extends MenuRenderer{
     }
 
     private void drawUnits(){
-        float beachStart = width * 0.28f;
-        float beachEnd = width * 0.43f;
+    for(Unit unit : battleUnits){
+        if(!unit.isAdded()) continue;
 
-        for(int i = 0; i < units.length; i++){
-            UnitType type = units[i];
-
-            float x = Mathf.randomSeed(
-                i * 17 + 3,
-                beachStart,
-                beachEnd
-            );
-
-            float y = Mathf.randomSeed(
-                i * 31 + 7,
-                3f,
-                height - 3f
-            );
-
-            Unit unit = type.sample;
-
-            unit.setType(type);
-            unit.team = Team.sharded;
-            unit.elevation = 0f;
-            unit.rotation = 0f;
-            unit.heal();
-
-            unit.set(
-                x * tilesize,
-                y * tilesize
-            );
-
-            type.drawShadow(unit);
-            type.draw(unit);
-        }
+        unit.type.drawShadow(unit);
+        unit.type.draw(unit);
+    }
     }
 
     @Override
     public void dispose(){
+        for(Unit unit : battleUnits){
+            if(unit.isAdded()) unit.remove();
+        }
+
+        battleUnits.clear();
+
         if(batch != null) batch.dispose();
         if(shadows != null) shadows.dispose();
 
