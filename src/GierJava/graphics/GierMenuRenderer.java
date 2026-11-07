@@ -69,6 +69,7 @@ private static final UnitType[] cruxUnits = {
     super();
 
     Time.mark();
+    setupBattleRules();
     generate();
     cache();
     spawnArmy();
@@ -102,6 +103,13 @@ private static final UnitType[] cruxUnits = {
         }
     }
 
+    private void setupBattleRules(){
+    state.rules.disableUnitCap = true;
+    state.rules.env = Env.any;
+    state.rules.waves = false;
+    state.rules.attackMode = false;
+    }
+    
     private void generate(){
         world.setGenerating(true);
 
