@@ -70,7 +70,7 @@ public class GierMenuRenderer extends MenuRenderer{
 
             if(current instanceof GierMenuRenderer) return;
 
-            BeachMenuRenderer replacement = new GierMenuRenderer();
+            GierMenuRenderer replacement = new GierMenuRenderer();
 
             field.set(Vars.ui.menufrag, replacement);
 
@@ -239,7 +239,7 @@ public class GierMenuRenderer extends MenuRenderer{
         batch.drawCache(cacheWall);
         batch.endDraw();
 
-        drawBeachUnits();
+        drawUnits();
 
         Draw.proj(mat);
 
@@ -259,8 +259,8 @@ public class GierMenuRenderer extends MenuRenderer{
         float beachStart = width * 0.08f;
         float beachEnd = width * 0.5f - 4f;
 
-        for(int i = 0; i < beachUnits.length; i++){
-            UnitType type = beachUnits[i];
+        for(int i = 0; i < units.length; i++){
+            UnitType type = units[i];
 
             float x = Mathf.randomSeed(
                 i * 17 + 3,
