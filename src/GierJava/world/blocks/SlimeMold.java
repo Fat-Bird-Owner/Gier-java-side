@@ -3,7 +3,7 @@ package GierJava.world.blocks;
 import arc.math.*;
 import arc.math.geom.*;
 import mindustry.world.*;
-import mindustry.world.block.defense.*;
+import mindustry.world.blocks.defense.*;
 import mindustry.content;
 
 import static mindustry.Vars.*;
