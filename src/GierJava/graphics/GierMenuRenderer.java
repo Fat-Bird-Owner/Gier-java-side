@@ -47,7 +47,6 @@ public class GierMenuRenderer extends MenuRenderer{
     private static final int maxUnitsPerTeam = 12;
     private static final float reinforcementDelay = 180f;
     
-    private static final UnitType[] units = {
     private static final UnitType[] shardedUnits = {
     GierUnitTypes.occupy,
     GierUnitTypes.occupy,
