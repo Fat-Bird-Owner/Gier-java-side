@@ -176,19 +176,18 @@ public class ConfigurableReconstructor extends UnitBlock{
 
         public boolean hasRequirements(UpgradeRecipe recipe){
             if(recipe == null) return false;
-
-            if(Vars.state.rules.infiniteResources){
-                return true;
-            }
+            if(Vars.state.rules.infiniteResources) return true;
 
             float cost = Vars.state.rules.unitCost(team);
 
             for(ItemStack stack : recipe.requirements){
-                if(!items.has(stack.item, Mathf.ceil(stack.amount * cost))){
+                int amount = Mathf.ceil(stack.amount * cost);
+
+                if(items.get(stack.item) < amount){
                     return false;
                 }
             }
-
+    
             return true;
         }
 
@@ -252,6 +251,11 @@ public class ConfigurableReconstructor extends UnitBlock{
             return hasUpgrade(unit.type);
         }
 
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < getMaximumAccepted(item);
+        }
+        
         @Override
         public boolean acceptPayload(Building source, Payload payload){
             if(this.payload != null
@@ -321,9 +325,7 @@ public class ConfigurableReconstructor extends UnitBlock{
 
         @Override
         public int getMaximumAccepted(Item item){
-            if(item.id < 0 || item.id >= capacities.length){
-                return 0;
-            }
+            if(item.id < 0 || item.id >= capacities.length) return 0;
 
             return Mathf.round(
                 capacities[item.id] * Vars.state.rules.unitCost(team)
