@@ -1,4 +1,3 @@
-
 package GierJava.world.blocks;
 
 import arc.Core;
@@ -12,7 +11,11 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-
+import mindustry.ui.Styles;
+import mindustry.ui.Stats;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
+import arc.scene.ui.layout.Scaling;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -59,7 +62,8 @@ public class ConfigurableReconstructor extends UnitBlock{
 
         regionRotated1 = 1;
         regionRotated2 = 2;
-
+        hasItems = true;
+        
         configurable = true;
         commandable = true;
         ambientSound = Sounds.loopUnitBuilding;
@@ -84,6 +88,116 @@ public class ConfigurableReconstructor extends UnitBlock{
         });
     }
 
+    @Override
+    public void setBars(){
+    super.setBars();
+
+    addBar("progress", (ConfigurableBuild build) -> new Bar(
+        () -> Core.bundle.format(
+            "bar.progress",
+            Strings.autoFixed(build.fraction() * 100f, 0)
+        ),
+        () -> Pal.ammo,
+        build::fraction
+    ));
+
+    addBar("units", (ConfigurableBuild build) -> new Bar(
+        () -> {
+            UnitType unit = build.unit();
+
+            return unit == null
+                ? "[lightgray]" + Iconc.cancel
+                : Core.bundle.format(
+                    "bar.unitcap",
+                    Fonts.getUnicodeStr(unit.name),
+                    build.team.data().countType(unit),
+                    unit.useUnitCap ? Units.getStringCap(build.team) : "∞"
+                );
+        },
+        () -> Pal.power,
+        () -> {
+            UnitType unit = build.unit();
+
+            return unit == null ? 0f :
+                unit.useUnitCap
+                    ? (float)build.team.data().countType(unit) / Units.getCap(build.team)
+                    : 1f;
+        }
+    ));
+}
+    
+    @Override
+    public void setStats(){
+    stats.timePeriod = constructTime;
+
+    super.setStats();
+
+    stats.add(Stat.productionTime, constructTime / 60f, StatUnit.seconds);
+
+    stats.add(Stat.output, table -> {
+        table.row();
+
+        for(UpgradeRecipe recipe : recipes){
+            if(!recipe.from.unlockedNow() || !recipe.to.unlockedNow()){
+                continue;
+            }
+
+            table.table(Styles.grayPanel, t -> {
+                t.left();
+
+                t.image(recipe.from.uiIcon)
+                    .size(40)
+                    .pad(10f)
+                    .left()
+                    .scaling(Scaling.fit)
+                    .with(i -> StatValues.withTooltip(i, recipe.from));
+
+                t.table(info -> {
+                    info.add(recipe.from.localizedName).left();
+                    info.row();
+                }).pad(10f).left();
+
+            }).fill().padTop(5).padBottom(5);
+
+            table.table(Styles.grayPanel, t -> {
+                t.image(Icon.right)
+                    .color(Pal.darkishGray)
+                    .size(40)
+                    .pad(10f);
+            }).fill().padTop(5).padBottom(5);
+
+            table.table(Styles.grayPanel, t -> {
+                t.left();
+
+                t.image(recipe.to.uiIcon)
+                    .size(40)
+                    .pad(10f)
+                    .right()
+                    .scaling(Scaling.fit)
+                    .with(i -> StatValues.withTooltip(i, recipe.to));
+
+                t.table(info -> {
+                    info.add(recipe.to.localizedName).right();
+                    info.row();
+                }).pad(10f).right();
+
+            }).fill().padTop(5).padBottom(5);
+
+            table.row();
+            table.table(Styles.grayPanel, req -> {
+                req.left();
+
+                for(ItemStack stack : recipe.requirements){
+                    req.image(stack.item.uiIcon).size(24).padRight(4);
+                    req.add(String.valueOf(stack.amount)).padRight(10);
+                }
+            }).fillX().padBottom(5);
+
+            table.row();
+        }
+    });
+}
+    
     public void addUpgrade(UnitType from, UnitType to, ItemStack[] requirements){
         addUpgrade(from, to, requirements, constructTime);
     }
