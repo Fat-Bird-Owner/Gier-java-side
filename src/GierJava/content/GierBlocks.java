@@ -66,9 +66,12 @@ public class GierBlocks {
     balloonTree,
     largeBalloonTree,
     massiveStoneBoulder,
-
+    
     intel,
 
+    // Invasive Coral
+    boriumCoral,
+    
     // Turret
     tension,
     momentum,
@@ -176,6 +179,12 @@ public class GierBlocks {
             scrollSpeed = 25f;
             stripeSpacing = 36f;
             stripeWidth = 10f;
+        }};
+
+        // Coral
+
+        boriumCoral = new SlimeMold("borium-coral"){{
+            solid = false;
         }};
         
         // Turret
