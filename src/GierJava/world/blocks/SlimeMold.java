@@ -95,7 +95,7 @@ public class SlimeMold extends Wall{
                 int direction = Mathf.random(3);
                 Point2 dir = Geometry.d4[direction];
                 Tile nearby = world.tile(tile.x + dir.x, tile.y + dir.y);
-                if (nearby != null && nearby.build != null && nearby.block() == block && nearby.team() == team){
+                if (nearby != null && nearby.build != null && nearby.build instanceof SlimeMoldBuild && nearby.team() == team){
 
                     signal.strength -= 1;
                     if (signal.strength <= 0){
