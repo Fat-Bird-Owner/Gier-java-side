@@ -1,6 +1,6 @@
 package GierJava.graphics;
 
-import GierJava.content.*;
+import GierJava.content.GierUnitTypes;
     
 import arc.*;
 import arc.func.*;
@@ -42,7 +42,7 @@ public class GierMenuRenderer extends MenuRenderer{
         GierUnitTypes.occupy,
         GierUnitTypes.occupy,
         GierUnitTypes.overboard,
-        GierUnitTypes.overboard
+        GierUnitTypes.overboard,
         GierUnitTypes.overboard,
         GierUnitTypes.staticu,
         GierUnitTypes.staticu,
