@@ -1,6 +1,6 @@
 package GierJava.graphics;
 
-import GierJava.content.GierUnitTypes;
+import GierJava.content.*;
     
 import arc.*;
 import arc.func.*;
@@ -110,10 +110,15 @@ public class GierMenuRenderer extends MenuRenderer{
                 Block floor;
                 Block wall = Blocks.air;
                 
-                if(distance < -47.5f){
+                if(distance < -27.5f){
                     floor = Blocks.stone;
                     wall = Blocks.stoneWall;
-                }else if(distance < -20f){
+                    
+                    if (Mathf.chance(0.1f)){
+                        wall = GierBlocks.massiveStoneBoulder;
+                    }
+                    
+                }else if(distance < -10f){
                     floor = Blocks.stone;
                 }else if(distance < -2f){
                     floor = Blocks.sand;
