@@ -123,8 +123,11 @@ public class GierMenuRenderer extends MenuRenderer{
                 }else if(distance < -2f){
                     floor = Blocks.sand;
 
-                    if (distance < -5f && distance > -6f && Mathf.chance(0.23f)){
-                        wall = DerelictBlocks.derelictScrapWall;
+                    if (distance < -5f && distance > -6f && Mathf.chance(0.45f)){
+                        wall = Blocks.darkMetal;
+                        if (Mathf.chance(0.45f)){
+                            floor = Blocks.metalFloor;
+                        }
                     }
                     
                 }else if(distance < 1f){
@@ -197,14 +200,7 @@ public class GierMenuRenderer extends MenuRenderer{
         batch.beginCache();
 
         for(Tile tile : world.tiles){
-            if(tile.block() != Blocks.air && tile.build == null){
-                tile.block().drawBase(tile);
-            }
-            
-            if(tile.build != null){
-                tile.block().drawBaseCached(tile);
-            }
-            
+            tile.block().drawBase(tile);
         }
 
         cacheWall = batch.endCache();
