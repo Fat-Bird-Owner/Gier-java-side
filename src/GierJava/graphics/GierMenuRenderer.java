@@ -114,14 +114,14 @@ public class GierMenuRenderer extends MenuRenderer{
                     floor = Blocks.stone;
                     wall = Blocks.stoneWall;
                     
-                    if (Mathf.chance(0.1f)){
+                    if (Mathf.chance(0.06f)){
                         wall = GierBlocks.massiveStoneBoulder;
                     }
                     
                 }else if(distance < -10f){
                     
                     floor = Blocks.stone;
-                    if (distance < -15f && distance > -17f && Mathf.chance(0.13f)){
+                    if (distance < -12f && distance > -13f && Mathf.chance(0.23f)){
                         wall = DerelictBlocks.derelictScrapWall;
                     }
                     
@@ -186,6 +186,10 @@ public class GierMenuRenderer extends MenuRenderer{
 
         for(Tile tile : world.tiles){
             tile.floor().drawBase(tile);
+
+            if(tile.build != null){
+                tile.build.draw();
+            }
         }
 
         for(Tile tile : world.tiles){
