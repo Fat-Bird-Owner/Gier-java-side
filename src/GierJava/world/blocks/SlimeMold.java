@@ -20,7 +20,7 @@ public class SlimeMold extends Wall{
 
     public class SlimeMoldBuild extends WallBuild{
 
-        public int getNearbyBlocks(nearby){
+        public int getNearbyBlocks(Tile nearby){
             int found = 0;
 
             for(int dx = -1; dx <= 1; dx++){
