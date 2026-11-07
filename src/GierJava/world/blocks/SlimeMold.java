@@ -11,7 +11,7 @@ import static mindustry.Vars.*;
 public class SlimeMold extends Wall{
 
     public float growthChance = 0.02f;
-    public int maxNeighbors = 3;
+    public int maxNeighbors = 4;
 
     public SlimeMold(String name){
         super(name);
@@ -20,14 +20,14 @@ public class SlimeMold extends Wall{
 
     public class SlimeMoldBuild extends WallBuild{
 
-        public int getNearbyBlocks(){
+        public int getNearbyBlocks(nearby){
             int found = 0;
 
             for(int dx = -1; dx <= 1; dx++){
                 for(int dy = -1; dy <= 1; dy++){
                     if(dx == 0 && dy == 0) continue;
 
-                    Tile nearby = world.tile(tile.x + dx, tile.y + dy);
+                    Tile nearby = world.tile(nearby.x + dx, nearby.y + dy);
 
                     if(nearby != null && nearby.block() == SlimeMold.this){
                         found++;
@@ -40,7 +40,6 @@ public class SlimeMold extends Wall{
 
         @Override
         public void updateTile(){
-            if(getNearbyBlocks() >= maxNeighbors) return;
             if(!Mathf.chanceDelta(growthChance)) return;
 
             int direction = Mathf.random(3);
@@ -53,7 +52,8 @@ public class SlimeMold extends Wall{
 
             if(nearby == null) return;
             if(nearby.block() != Blocks.air) return;
-
+            if(getNearbyBlocks(nearby) >= maxNeighbors) return;
+            
             nearby.setBlock(block, team);
         }
     }
