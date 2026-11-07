@@ -50,7 +50,7 @@ public class GierMenuRenderer extends MenuRenderer{
         UnitTypes.flare
     };
 
-    public BeachMenuRenderer(){
+    public GierMenuRenderer(){
         super();
 
         Time.mark();
