@@ -91,6 +91,7 @@ public class GierBlocks {
     sunderFurnace,
     dihydrogenShaft,
     industrialTrimmer,
+    plastaniumCrusher,
     multiCraft,
 
     // Defense
@@ -505,7 +506,7 @@ public class GierBlocks {
                 );
             }};
         }};
-        
+
         // Distribution
 
         rail = new StackConveyor("rail"){{
@@ -520,7 +521,7 @@ public class GierBlocks {
             alwaysUnlocked = true;
 
         }};
-
+        
         railOverflow = new ConfigGate("rail-overflow"){{
             requirements(Category.distribution, with(Items.lead, 20, Items.copper, 10));
             databaseTag = "gier";
@@ -661,6 +662,100 @@ public class GierBlocks {
             );
         }};
 
+        plastaniumCrusher = new GenericCrafter("plastanium-crusher"){{
+        size = 3;
+        requirements(Category.crafting,
+            ItemStack.with(
+                Items.lead, 400,
+                Items.copper, 250,
+                Items.silicon, 150,
+                Items.metaglass, 100,
+                Items.titanium, 50
+            )
+        );
+
+    squareSprite = false;
+    baseExplosiveness = 25f;
+    envEnabled = -1;
+
+    itemCapacity = 100;
+    liquidCapacity = 100;
+
+    consumes.power(3.66667f);
+    consumeitems(with(Items.titanium, 40,Items.graphite, 50));
+
+    outputItem = new ItemStack(Items.plastanium, 20);
+    craftTime = 1500f;
+
+    researchCostMultiplier = 0.5f;
+    databaseTag = "adv-plastanium";
+
+    craftEffect = new MultiEffect(
+        Fx.coalSmeltsmoke,
+
+        new ParticleEffect(){{
+            particles = 16;
+            colorFrom = Color.valueOf("4f4f4f");
+            colorTo = Color.valueOf("6f6f6f");
+            baseLength = 10f;
+            sizeFrom = 12f;
+            length = 0f;
+            sizeTo = 0f;
+            interp = Interp.sineOut;
+            layer = 22f;
+            lifetime = 300f;
+        }},
+
+        new ParticleEffect(){{
+            particles = 32;
+            colorFrom = Color.valueOf("4f4f4f");
+            colorTo = Color.valueOf("6f6f6f");
+            length = 34f;
+            sizeFrom = 4f;
+            sizeTo = 0f;
+            interp = Interp.sineOut;
+            layer = 29f;
+        }},
+
+        new ParticleEffect(){{
+            particles = 1;
+            length = 0f;
+            region = Core.atlas.find("gr-plastanium-crusher-bottom");
+            lifetime = 180f;
+            layer = 30.025f;
+            sizeTo = 12f;
+            sizeFrom = 12f;
+            lightScl = 0f;
+        }},
+
+        new SeqEffect(
+            new ParticleEffect(){{
+                particles = 1;
+                length = 0f;
+                region = Core.atlas.find("gr-plastanium-crusher-crusher");
+                lifetime = 30f;
+                sizeTo = 8f;
+                sizeFrom = 12f;
+                clipSize = 10f;
+                colorTo = Color.valueOf("8f8f8f");
+                interp = Interp.bounceOut;
+            }},
+            new ParticleEffect(){{
+                particles = 1;
+                length = 0f;
+                region = Core.atlas.find("gr-plastanium-crusher-crusher");
+                lifetime = 150f;
+                sizeTo = 12f;
+                sizeFrom = 8f;
+                clipSize = 10f;
+                colorFrom = Color.valueOf("8f8f8f");
+                colorTo = Color.white;
+                interp = Interp.bounceOut;
+                }}
+                )
+            );
+        }};
+        
         // Defense
 
         copperFort = new IntegrityShield("copper-fort"){{
