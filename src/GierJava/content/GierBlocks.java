@@ -97,6 +97,7 @@ public class GierBlocks {
 
     // Defense
     copperFort,
+    scrapMound,
 
     // Power
     transitNode,
@@ -780,6 +781,12 @@ public class GierBlocks {
             shieldHealth = 500f;
         }};
 
+        scrapMound = new Wall("scrap-mound"){{
+            requirements(Category.defense, with(Items.scrap, 48));
+            size = 2;
+            health = 400;
+        }}
+        
         dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
         requirements(Category.production, with(
         Items.lead, 450,
