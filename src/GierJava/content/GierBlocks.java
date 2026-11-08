@@ -680,8 +680,8 @@ public class GierBlocks {
     baseExplosiveness = 25f;
     envEnabled = -1;
 
-    itemCapacity = 100;
-    liquidCapacity = 100;
+    itemCapacity = 80;
+    liquidCapacity = 80;
 
     consumePower(3.66667f);
     consumeItems(with(Items.titanium, 40));
@@ -723,7 +723,7 @@ public class GierBlocks {
         new ParticleEffect(){{
             particles = 1;
             length = 0f;
-            region = "gier-java-plastanium-crusher-crusher";
+            region = "gier-java-plastanium-crusher-bottom";
             lifetime = 180f;
             layer = 30.025f;
             sizeTo = 12f;
@@ -756,7 +756,7 @@ public class GierBlocks {
                 interp = Interp.bounceOut;
                 }}
                 ){{
-            layer = 30.025f;
+            layer = 30.05f;
         }}
             );
         }};
