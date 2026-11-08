@@ -722,7 +722,7 @@ public class GierBlocks {
         new ParticleEffect(){{
             particles = 1;
             length = 0f;
-            region = Core.atlas.find("gier-java-plastanium-crusher-bottom");
+            region = "gier-java-plastanium-crusher-crusher"
             lifetime = 180f;
             layer = 30.025f;
             sizeTo = 12f;
@@ -734,7 +734,7 @@ public class GierBlocks {
             new ParticleEffect(){{
                 particles = 1;
                 length = 0f;
-                region = Core.atlas.find("gier-java-plastanium-crusher-crusher");
+                region = "gier-java-plastanium-crusher-crusher";
                 lifetime = 30f;
                 sizeTo = 8f;
                 sizeFrom = 12f;
@@ -745,7 +745,7 @@ public class GierBlocks {
             new ParticleEffect(){{
                 particles = 1;
                 length = 0f;
-                region = Core.atlas.find("gier-java-plastanium-crusher-crusher");
+                region = "gier-java-plastanium-crusher-crusher";
                 lifetime = 150f;
                 sizeTo = 12f;
                 sizeFrom = 8f;
