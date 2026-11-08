@@ -684,8 +684,9 @@ public class GierBlocks {
     liquidCapacity = 100;
 
     consumePower(3.66667f);
-    consumeItems(with(Items.titanium, 40,Items.graphite, 50));
-
+    consumeItems(with(Items.titanium, 40));
+    consumeLiquid(Liquids.oil, 15f / 60f);
+            
     outputItem = new ItemStack(Items.plastanium, 20);
     craftTime = 1500f;
 
@@ -754,7 +755,9 @@ public class GierBlocks {
                 colorTo = Color.white;
                 interp = Interp.bounceOut;
                 }}
-                )
+                ){{
+            layer = 30.025f;
+        }}
             );
         }};
         
