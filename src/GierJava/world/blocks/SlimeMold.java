@@ -117,8 +117,8 @@ public class SlimeMold extends Wall{
                 }
             }
 
-            if (signal == null && tile.overlay()){
-                if (tile.overlay().itemDrop == null) continue;
+            if (signal == null && transmitInterval <= 0f){
+                if (tile.overlay() == null && tile.overlay().itemDrop == null) return;
                 signal = new Signal(signalProduct);
             }
             
