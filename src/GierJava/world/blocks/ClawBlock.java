@@ -477,6 +477,7 @@ public void draw(){
     Draw.reset();
 }
 
+
 private void drawArm(float baseX, float baseY, float endX, float endY){
     float dx = endX - baseX;
     float dy = endY - baseY;
@@ -518,24 +519,35 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
     ) * Mathf.radDeg;
 
     Draw.z(clawLayer);
-    Draw.color(team.color);
+    Draw.color(Color.white);
 
-	drawLimb(baseX, baseY, elbowX, elbowY);
-	drawLimb(elbowX, elbowY, endX, endY);
+    drawLimb(
+        baseX, baseY,
+        elbowX, elbowY,
+        upperAngle
+    );
+
+    drawLimb(
+        elbowX, elbowY,
+        endX, endY,
+        forearmAngle
+    );
 
     Draw.rect(
         jointRegion,
         baseX, baseY,
-        jointSize * 2f, jointSize * 2f
+        jointSize * 2f,
+        jointSize * 2f
     );
 
     Draw.rect(
         jointRegion,
         elbowX, elbowY,
-        jointSize * 2f, jointSize * 2f
+        jointSize * 2f,
+        jointSize * 2f
     );
 
-    Draw.rect(
+	Draw.rect(
         clawRegion,
         endX, endY,
         forearmAngle
@@ -544,16 +556,16 @@ private void drawArm(float baseX, float baseY, float endX, float endY){
     Draw.reset();
 }
 
-private void drawLimb(float fromX, float fromY, float toX, float toY){
-    float dx = toX - fromX;
-    float dy = toY - fromY;
-
-    float angle = Mathf.atan2(dy, dx) * Mathf.radDeg;
+private void drawLimb(
+    float fromX, float fromY, float toX, float toY, float angle){
+    float distance = Mathf.dst(fromX, fromY, toX, toY);
 
     Draw.rect(
         armRegion,
         (fromX + toX) / 2f,
         (fromY + toY) / 2f,
+        distance,
+        armRegion.height,
         angle
     );
 }
