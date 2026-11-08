@@ -1,31 +1,25 @@
 package GierJava.graphics;
 
 import GierJava.content.*;
-
+    
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.noise.*;
 import mindustry.*;
-import mindustry.ai.*;
-import mindustry.ai.types.*;
 import mindustry.content.*;
-import mindustry.entities.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.fragments.*;
 import mindustry.world.*;
-import mindustry.world.meta.Env;
-
 import java.lang.reflect.*;
 
 import static mindustry.Vars.*;
@@ -37,50 +31,31 @@ public class GierMenuRenderer extends MenuRenderer{
     private final int height = !mobile ? 50 : 40;
 
     private int cacheFloor, cacheWall;
-
     private Camera camera = new Camera();
     private Mat mat = new Mat();
-
     private FrameBuffer shadows;
     private CacheBatch batch;
-
     private float time;
 
-    private final Seq<Unit> battleUnits = new Seq<>();
-
-    private float reinforcementTimer;
-
-    private final Interval commanderTimer = new Interval(1);
-
-    private static final int maxUnitsPerTeam = 12;
-    private static final float reinforcementDelay = 180f;
-
-    private static final UnitType[] shardedUnits = {
+    private static final UnitType[] units = {
         GierUnitTypes.occupy,
         GierUnitTypes.occupy,
         GierUnitTypes.occupy,
+        GierUnitTypes.overboard,
+        GierUnitTypes.overboard,
+        GierUnitTypes.overboard,
         GierUnitTypes.staticu,
         GierUnitTypes.staticu,
         GierUnitTypes.staticu
-    };
-
-    private static final UnitType[] cruxUnits = {
-        GierUnitTypes.overboard,
-        GierUnitTypes.overboard,
-        GierUnitTypes.overboard
     };
 
     public GierMenuRenderer(){
         super();
 
         Time.mark();
-
-        setupBattleRules();
         generate();
         cache();
-        spawnArmy();
-
-        Log.debug("Time to generate battle menu: @", Time.elapsed());
+        Log.debug("Time to generate beach menu: @", Time.elapsed());
     }
 
     public static void install(){
@@ -109,13 +84,6 @@ public class GierMenuRenderer extends MenuRenderer{
         }
     }
 
-    private void setupBattleRules(){
-        state.rules.disableUnitCap = true;
-        state.rules.env = Env.any;
-        state.rules.waves = false;
-        state.rules.attackMode = false;
-    }
-
     private void generate(){
         world.setGenerating(true);
 
@@ -141,35 +109,31 @@ public class GierMenuRenderer extends MenuRenderer{
 
                 Block floor;
                 Block wall = Blocks.air;
-
+                
                 if(distance < -18f){
                     floor = Blocks.stone;
                     wall = Blocks.stoneWall;
-
-                    if(Mathf.chance(0.06f)){
+                    
+                    if (Mathf.chance(0.06f)){
                         wall = GierBlocks.massiveStoneBoulder;
                     }
-
-                }else if(distance < -10f){
-                    floor = Blocks.stone;
-
+                    
+                }else if(distance < -10f){                   
+                    floor = Blocks.stone;                    
                 }else if(distance < -2f){
                     floor = Blocks.sand;
 
-                    if(distance < -5f && distance > -6f && Mathf.chance(0.64f)){
+                    if (distance < -5f && distance > -6f && Mathf.chance(0.45f)){
                         wall = Blocks.darkMetal;
+                        if (Mathf.chance(0.45f)){
+                            floor = Blocks.metalFloor;
+                        }
                     }
-
-                    if(distance < -5f && distance > -6f && Mathf.chance(0.87f)){
-                        floor = Blocks.metalFloor;
-                    }
-
+                    
                 }else if(distance < 1f){
                     floor = Blocks.sandWater;
-
                 }else if(distance < width * 0.12f){
                     floor = Blocks.water;
-
                 }else{
                     floor = Blocks.deepwater;
                 }
@@ -190,74 +154,6 @@ public class GierMenuRenderer extends MenuRenderer{
         world.setGenerating(false);
     }
 
-    private void spawnUnit(UnitType type, Team team){
-    Vec2 position = findSpawnPosition(type, team);
-
-    if(position == null){
-        Log.warn("No valid spawn position for @ (@)", type.name, team.name);
-        return;
-    }
-
-    try{
-        Unit unit = type.spawn(team, position.x, position.y);
-
-        unit.controller(new MenuCommandAI());
-        battleUnits.add(unit);
-
-        Unit enemy = Units.closestEnemy(
-            team,
-            unit.x,
-            unit.y,
-            Float.MAX_VALUE,
-            e -> !e.dead() &&
-                e.checkTarget(type.targetAir, type.targetGround)
-        );
-
-        if(enemy != null && unit.controller() instanceof MenuCommandAI ai){
-            ai.commandTarget(enemy);
-        }
-
-    }catch(Throwable error){
-    }}
-
-    private Vec2 findSpawnPosition(UnitType type, Team team){
-    int minX, maxX;
-
-    if(team == Team.sharded || team == Team.crux){
-        minX = 3;
-        maxX = width / 3;
-    }else if(type.naval){
-        minX = (int)(width * 0.65f);
-        maxX = width - 3;
-    }else{
-        minX = width / 3;
-        maxX = (int)(width * 0.48f);
-    }
-
-    for(int i = 0; i < 500; i++){
-        int x = Mathf.random(minX, maxX);
-        int y = Mathf.random(3, height - 4);
-
-        x = Mathf.clamp(x, 2 * tilesize, (width - 6) * tilesize);
-        y = Mathf.clamp(y, 2 * tilesize, (height - 6) * tilesize);
-        
-        Tile tile = world.tile(x, y);
-
-        if(tile == null || tile.solid()) continue;
-
-        if(type.naval){
-            if(!tile.floor().isLiquid) continue;
-        }else if(!type.flying){
-            if(tile.floor().isDeep()) continue;
-            if(type.canDrown && tile.floor().isLiquid) continue;
-        }
-
-        return new Vec2(tile.worldx(), tile.worldy());
-    }
-
-    return null;
-    }
-    
     private void cache(){
         Draw.proj().setOrtho(
             0,
@@ -312,110 +208,9 @@ public class GierMenuRenderer extends MenuRenderer{
         Core.batch = previous;
     }
 
-    private void spawnArmy(){
-        for(UnitType type : shardedUnits){
-            spawnUnit(type, Team.sharded);
-        }
-
-        for(UnitType type : cruxUnits){
-            spawnUnit(type, Team.crux);
-        }
-    }
-
-    private void updateBattle(){
-        reinforcementTimer += Time.delta;
-
-        battleUnits.removeAll(unit -> !unit.isAdded() || unit.dead);
-
-        if(reinforcementTimer >= reinforcementDelay){
-            reinforcementTimer = 0f;
-
-            int shardedCount = battleUnits.count(
-                u -> u.team == Team.sharded
-            );
-
-            int cruxCount = battleUnits.count(
-                u -> u.team == Team.crux
-            );
-
-            if(shardedCount < maxUnitsPerTeam){
-                spawnUnit(
-                    shardedUnits[Mathf.random(shardedUnits.length - 1)],
-                    Team.sharded
-                );
-            }
-
-            if(cruxCount < maxUnitsPerTeam){
-                spawnUnit(
-                    cruxUnits[Mathf.random(cruxUnits.length - 1)],
-                    Team.crux
-                );
-            }
-        }
-        simulateBattle();
-    }
-
-    private void simulateBattle(){
-
-        state.teams.updateTeamStats();
-
-        runCommander();
-
-        Groups.updatePooling();
-        Groups.unit.update();      
-        state.teams.updateTeamStats();
-    
-        Groups.bullet.updatePhysics();
-        Groups.bullet.update();
-        Groups.bullet.collide();
-
-        Groups.all.each(e -> {
-            if(e instanceof EffectState || e instanceof Decal){
-                e.update();
-            }
-        });
-    }
-
-    private void runCommander(){
-        if(!commanderTimer.get(20f)) return;
-
-        for(Unit unit : battleUnits){
-            if(unit.dead || !unit.isAdded()) continue;
-
-            if(!(unit.controller() instanceof MenuCommandAI ai)) continue;
-            if(ai.attackTarget != null &&
-                !Units.invalidateTarget(
-                    ai.attackTarget,
-                    unit.team,
-                    unit.x,
-                    unit.y
-                )){
-                continue;
-            }
-
-            Unit enemy = Units.closestEnemy(
-                unit.team,
-                unit.x,
-                unit.y,
-                Float.MAX_VALUE,
-                e -> !e.dead() &&
-                    e.checkTarget(
-                        unit.type.targetAir,
-                        unit.type.targetGround
-                    )
-            );
-
-            if(enemy != null){
-                ai.commandTarget(enemy);
-            }
-        }
-    }
-
     @Override
     public void render(){
         time += Time.delta;
-
-        updateBattle();
 
         float scaling = Math.max(
             Scl.scl(4f),
@@ -479,72 +274,47 @@ public class GierMenuRenderer extends MenuRenderer{
     }
 
     private void drawUnits(){
-        for(Unit unit : battleUnits){
-            if(!unit.isAdded()) continue;
+        float beachStart = width * 0.22f;
+        float beachEnd = width * 0.43f;
 
-            unit.type.draw(unit);
+        for(int i = 0; i < units.length; i++){
+            UnitType type = units[i];
+
+            float x = Mathf.randomSeed(
+                i * 17 + 3,
+                beachStart,
+                beachEnd
+            );
+
+            float y = Mathf.randomSeed(
+                i * 31 + 7,
+                3f,
+                height - 3f
+            );
+
+            Unit unit = type.sample;
+
+            unit.setType(type);
+            unit.team = Team.sharded;
+            unit.elevation = 0f;
+            unit.rotation = 0f;
+            unit.heal();
+
+            unit.set(
+                x * tilesize,
+                y * tilesize
+            );
+
+            type.drawShadow(unit);
+            type.draw(unit);
         }
-
-        Draw.flush();
     }
 
     @Override
     public void dispose(){
-        for(Unit unit : battleUnits){
-            if(unit.isAdded()){
-                unit.remove();
-            }
-        }
-
-        battleUnits.clear();
-
         if(batch != null) batch.dispose();
         if(shadows != null) shadows.dispose();
 
         super.dispose();
-    }
-
-    private static class MenuCommandAI extends CommandAI{
-
-        @Override
-        public void updateUnit(){
-            if(unit == null || !unit.isValid()) return;
-
-            if(attackTarget != null &&
-                Units.invalidateTarget(
-                    attackTarget,
-                    unit.team,
-                    unit.x,
-                    unit.y
-                )){
-                attackTarget = null;
-                targetPos = null;
-            }
-
-            updateTargeting();
-
-            Teamc dst = attackTarget != null
-                ? attackTarget
-                : target;
-
-            if(dst == null ||
-                Units.invalidateTarget(dst, unit.team, unit.x, unit.y)){
-                return;
-            }
-
-            float engageRange = Math.max(1f, unit.range() - 10f);
-
-            if(unit.within(dst, engageRange)){
-                unit.lookAt(dst);
-                return;
-            }
-
-            Vec2 move = Tmp.v1.set(dst)
-                .sub(unit)
-                .setLength(unit.speed());
-
-            unit.movePref(move);
-            unit.lookAt(dst);
-        }
     }
 }
