@@ -9,13 +9,14 @@ import mindustry.content.*;
 import arc.util.Interval;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.util.*;
 
 import static mindustry.Vars.*;
 
 public class SlimeMold extends Wall{
 
-    public float growthChance = 0.02f, depriveDuration = 180f, deadDuration = 400f, depriveDamage = 0.45f;
-    public int maxNeighbors = 4, signalProduct = 25;
+    public float growthChance = 0.02f, depriveDuration = 180f, deadDuration = 400f, depriveDamage = 0.45f, blockDamage = 15f, transmitCooldown = 5f;
+    public int maxNeighbors = 3, signalProduct = 15;
     
     public SlimeMold(String name){
         super(name);
@@ -42,6 +43,7 @@ public class SlimeMold extends Wall{
         public Signal signal;
         public float deprive;
         public float drawScale = 1f;
+        public float transmitInterval;
         
         public int getNearbyBlocks(Tile near){
             int found = 0;
@@ -75,6 +77,8 @@ public class SlimeMold extends Wall{
         @Override
         public void updateTile(){
 
+            transmitInterval -= Time.delta;
+            
             drawScale = Mathf.lerpDelta(
                 drawScale,
                 signal != null ? 1.3f : 1f,
@@ -86,17 +90,19 @@ public class SlimeMold extends Wall{
                 damage(depriveDamage);
                 if (deprive >= deadDuration) kill();
             } else if (signal == null) {
-                deprive += 1f;
+                deprive += Time.delta;
             } else {
                 deprive = 0f;
             }
-
-            if (signal != null){
+            
+            if (signal != null && transmitInterval <= 0f){
                 int direction = Mathf.random(3);
                 Point2 dir = Geometry.d4[direction];
                 Tile nearby = world.tile(tile.x + dir.x, tile.y + dir.y);
                 if (nearby != null && nearby.build != null && nearby.build instanceof SlimeMoldBuild && nearby.team() == team){
 
+                    transmitInterval = transmitCooldown;
+                    
                     signal.strength -= 1;
                     if (signal.strength <= 0){
                         signal = null;
@@ -107,9 +113,12 @@ public class SlimeMold extends Wall{
                     mold.signal = signal;
                     signal = null;
                 }
+            } else if (nearby != null && nearby.build != null && nearby.team() != team){
+                nearby.build.damage(blockDamage);
             }
 
-            if (signal == null && getNearbyBlocks(tile) >= maxNeighbors){
+            if (signal == null && tile.overlay()){
+                if (tile.overlay().itemDrop == null) continue;
                 signal = new Signal(signalProduct);
             }
             
