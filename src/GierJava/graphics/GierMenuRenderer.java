@@ -204,15 +204,6 @@ public class GierMenuRenderer extends MenuRenderer{
         unit.controller(new MenuCommandAI());
         battleUnits.add(unit);
 
-        Log.info(
-            "Spawned @ for @ at @, @ | Groups: @",
-            type.name,
-            team.name,
-            unit.x,
-            unit.y,
-            Groups.unit.size()
-        );
-
         Unit enemy = Units.closestEnemy(
             team,
             unit.x,
@@ -227,15 +218,12 @@ public class GierMenuRenderer extends MenuRenderer{
         }
 
     }catch(Throwable error){
-        Log.err("Failed to spawn @ for @", type.name, team.name);
-        Log.err(error);
-    }
-    }
+    }}
 
     private Vec2 findSpawnPosition(UnitType type, Team team){
     int minX, maxX;
 
-    if(team == Team.sharded){
+    if(team == Team.sharded || team == Team.crux){
         minX = 3;
         maxX = width / 3;
     }else if(type.naval){
