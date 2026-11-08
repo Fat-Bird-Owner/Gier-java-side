@@ -722,7 +722,7 @@ public class GierBlocks {
         new ParticleEffect(){{
             particles = 1;
             length = 0f;
-            region = "gier-java-plastanium-crusher-crusher"
+            region = "gier-java-plastanium-crusher-crusher";
             lifetime = 180f;
             layer = 30.025f;
             sizeTo = 12f;
@@ -940,6 +940,8 @@ public class GierBlocks {
         crane = new ClawBlock("crane"){{
             requirements(Category.units, with(Items.silicon, 50, Items.lead, 175));
             range = 2;
+
+            upperArmLength = forearmLength = 12f;
             
             anyTeam = true;
             consumeLiquid(Liquids.oil, 3f / 60f);
