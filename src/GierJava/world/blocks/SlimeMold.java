@@ -113,7 +113,7 @@ public class SlimeMold extends Wall{
         );
 
         if(nearby == null || !(nearby.build instanceof SlimeMoldBuild mold)) {
-            if (nearby.team() == team) continue;
+            if (nearby.build == null || nearby.team() == team) continue;
                 nearby.build.damage(blockDamage);
             continue;
         }
