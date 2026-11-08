@@ -112,9 +112,9 @@ public class SlimeMold extends Wall{
                     SlimeMoldBuild mold = (SlimeMoldBuild)nearby.build;
                     mold.signal = signal;
                     signal = null;
-                }
-            } else if (nearby != null && nearby.build != null && nearby.team() != team){
+                } else if (nearby != null && nearby.build != null && nearby.team() != team){
                 nearby.build.damage(blockDamage);
+                }
             }
 
             if (signal == null && tile.overlay()){
