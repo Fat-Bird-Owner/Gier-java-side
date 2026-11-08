@@ -24,6 +24,11 @@ public class GierTechTree {
                     node(titanium, () -> {
                         node(surgeAlloy, () -> {});
                         node(plastanium, () -> {});
+                        
+                        node(tungsten, () -> {
+                            node(carbide, () -> {});
+                        });
+                        
                     });
                 });
                 node(graphite, () -> {
@@ -42,6 +47,7 @@ public class GierTechTree {
             });
 
             node(hydroDrill, () -> {
+                node(dihydrogenShaft, () -> {});
                 node(rail, () -> {
                     node(overheadBelt, () -> {});
                     node(railOverflow, () -> {});
@@ -52,6 +58,7 @@ public class GierTechTree {
 
                 node(sunderFurnace, () -> {
                     node(industrialTrimmer, () -> {});
+                    node(plastaniumCrusher, () -> {});
                 });
 
                 node(crate, () -> {});
@@ -73,7 +80,9 @@ public class GierTechTree {
                     node(momentum, () -> {});
                     node(kilton, () -> {});
                 });
-                node(copperFort, () -> {});
+                node(copperFort, () -> {
+                    node(scrapMound, () -> {});
+                });
             });
 
             node(restorator, () -> {
