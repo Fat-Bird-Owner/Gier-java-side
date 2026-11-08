@@ -100,7 +100,7 @@ public class SlimeMold extends Wall{
     transmitInterval = transmitCooldown;
 
     SlimeMoldBuild best = null;
-    int lowestDist = dist;
+    int lowestDist = Integer.MAX_VALUE;
 
     for(int i = 0; i < 4; i++){
         Point2 dir = Geometry.d4[i];
@@ -111,24 +111,27 @@ public class SlimeMold extends Wall{
         );
 
         if(nearby == null || !(nearby.build instanceof SlimeMoldBuild mold)) continue;
-        if(mold.team != team) continue;
+        if(mold.team != team || mold.signal != null) continue;
 
-        if(mold.dist < lowestDist){
-            lowestDist = mold.dist;
-            best = mold;
+        if(mold.dist == 0 || mold.dist > dist){
+            if(mold.dist < lowestDist){
+                lowestDist = mold.dist;
+                best = mold;
+            }
         }
     }
 
-    if(best != null && best.signal == null){
-    signal.strength--;
+    if(best != null){
+        signal.strength--;
 
-    if(signal.strength <= 0){
+        if(signal.strength <= 0){
+            signal = null;
+            return;
+        }
+
+        best.dist = dist + 1;
+        best.signal = signal;
         signal = null;
-        return;
-    }
-
-    best.signal = signal;
-    signal = null;
     }
             }
 
