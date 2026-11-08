@@ -785,7 +785,7 @@ public class GierBlocks {
             requirements(Category.defense, with(Items.scrap, 48));
             size = 2;
             health = 400;
-        }}
+        }};
         
         dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
         requirements(Category.production, with(
