@@ -96,30 +96,41 @@ public class SlimeMold extends Wall{
                 deprive = 0f;
             }
             
-            if (signal != null && transmitInterval <= 0f){
-                int direction = Mathf.random(3);
-                Point2 dir = Geometry.d4[direction];
-                Tile nearby = world.tile(tile.x + dir.x, tile.y + dir.y);
-                if (nearby != null && nearby.build != null && nearby.build instanceof SlimeMoldBuild && nearby.team() == team){
+            if(signal != null && transmitInterval <= 0f){
+    transmitInterval = transmitCooldown;
 
-                    transmitInterval = transmitCooldown;
-                    
-                    signal.strength -= 1;
-                    if (signal.strength <= 0){
-                        signal = null;
-                        return;
-                    }
+    SlimeMoldBuild best = null;
+    int lowestDist = dist;
 
-                    SlimeMoldBuild mold = (SlimeMoldBuild)nearby.build;
-                    if (dist > mold.dist){
-                        mold.dist = signal.strength;
-                        mold.signal = signal;
-                        signal = null;
-                    }
-                    
-                } else if (nearby != null && nearby.build != null && nearby.team() != team){
-                nearby.build.damage(blockDamage);
-                }
+    for(int i = 0; i < 4; i++){
+        Point2 dir = Geometry.d4[i];
+
+        Tile nearby = world.tile(
+            tile.x + dir.x,
+            tile.y + dir.y
+        );
+
+        if(nearby == null || !(nearby.build instanceof SlimeMoldBuild mold)) continue;
+        if(mold.team != team) continue;
+
+        if(mold.dist < lowestDist){
+            lowestDist = mold.dist;
+            best = mold;
+        }
+    }
+
+    if(best != null){
+        signal.strength--;
+
+        if(signal.strength <= 0){
+            signal = null;
+            return;
+        }
+
+        best.dist = dist + 1;
+        best.signal = signal;
+        signal = null;
+    }
             }
 
             if (signal == null && transmitInterval <= 0f){
