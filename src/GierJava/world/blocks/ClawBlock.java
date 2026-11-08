@@ -38,7 +38,8 @@ public class ClawBlock extends Block {
     public float multiplier = 1f;
     public int maxSize = 3;
     public float clawLayer = 55f;
-    
+	public float armHeight = 6f;
+	
     public TextureRegion armRegion;
     public TextureRegion jointRegion;
     public TextureRegion clawRegion;
@@ -566,7 +567,7 @@ private void drawLimb(
         (fromX + toX) / 2f,
         (fromY + toY) / 2f,
         distance,
-        armRegion.height,
+        armHeight,
         angle
     );
 }
