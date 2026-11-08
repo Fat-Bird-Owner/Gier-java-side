@@ -250,8 +250,8 @@ public class GierMenuRenderer extends MenuRenderer{
         int x = Mathf.random(minX, maxX);
         int y = Mathf.random(3, height - 4);
 
-        x = Mathf.clamp(x, 2 * tilesize, (width - 3) * tilesize);
-        y = Mathf.clamp(y, 2 * tilesize, (height - 3) * tilesize);
+        x = Mathf.clamp(x, 2 * tilesize, (width - 6) * tilesize);
+        y = Mathf.clamp(y, 2 * tilesize, (height - 6) * tilesize);
         
         Tile tile = world.tile(x, y);
 
