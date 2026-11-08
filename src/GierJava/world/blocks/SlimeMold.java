@@ -119,17 +119,16 @@ public class SlimeMold extends Wall{
         }
     }
 
-    if(best != null){
-        signal.strength--;
+    if(best != null && best.signal == null){
+    signal.strength--;
 
-        if(signal.strength <= 0){
-            signal = null;
-            return;
-        }
-
-        best.dist = dist + 1;
-        best.signal = signal;
+    if(signal.strength <= 0){
         signal = null;
+        return;
+    }
+
+    best.signal = signal;
+    signal = null;
     }
             }
 
