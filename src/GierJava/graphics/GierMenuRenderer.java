@@ -203,6 +203,7 @@ public class GierMenuRenderer extends MenuRenderer{
         try{
             Unit unit = type.spawn(team, x, y);
 
+            Log.info("Spawn position: @, @", unit.x, unit.y);
             unit.controller(new MenuCommandAI());
 
             battleUnits.add(unit);
@@ -322,7 +323,6 @@ public class GierMenuRenderer extends MenuRenderer{
                 );
             }
         }
-
         simulateBattle();
     }
 
@@ -331,8 +331,6 @@ public class GierMenuRenderer extends MenuRenderer{
         state.teams.updateTeamStats();
 
         runCommander();
-
-        Groups.updatePooling();
         Groups.unit.update();
 
         state.teams.updateTeamStats();
