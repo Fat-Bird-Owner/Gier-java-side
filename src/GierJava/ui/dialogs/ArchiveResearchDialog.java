@@ -70,7 +70,7 @@ public class ArchiveResearchDialog{
 
     private boolean supported(Planet planet){
         return planet != null &&
-            (planet.name.equals("gr-gier") || planet.name.equals("gr-kela"));
+            (planet.name.equals("gier-java-gier") || planet.name.equals("gier-java-kela"));
     }
 
     private boolean valid(TechTree.TechNode node){
