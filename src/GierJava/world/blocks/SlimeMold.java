@@ -28,6 +28,8 @@ public class SlimeMold extends Wall{
         drawTeamOverlay = false;
         createRubble = false;
         rebuildable = false;
+        drawDynamic = true;
+        drawCached = false;
     }
 
     public static class Signal {
