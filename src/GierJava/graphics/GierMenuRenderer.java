@@ -1,33 +1,32 @@
 package GierJava.graphics;
 
 import GierJava.content.*;
-    
+
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.*;
+import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.noise.*;
 import mindustry.*;
+import mindustry.ai.*;
+import mindustry.ai.types.*;
 import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.fragments.*;
-import mindustry.world.meta.Env;
 import mindustry.world.*;
+import mindustry.world.meta.Env;
+
 import java.lang.reflect.*;
-import mindustry.ai.*;
-import mindustry.entities.*;
-import mindustry.entities.units.*;
-import mindustry.gen.Groups;
-import mindustry.gen.EffectState;
-import mindustry.gen.Decal;
 
 import static mindustry.Vars.*;
 
@@ -38,44 +37,50 @@ public class GierMenuRenderer extends MenuRenderer{
     private final int height = !mobile ? 50 : 40;
 
     private int cacheFloor, cacheWall;
+
     private Camera camera = new Camera();
     private Mat mat = new Mat();
+
     private FrameBuffer shadows;
     private CacheBatch batch;
+
     private float time;
 
     private final Seq<Unit> battleUnits = new Seq<>();
 
     private float reinforcementTimer;
 
+    private final Interval commanderTimer = new Interval(1);
+
     private static final int maxUnitsPerTeam = 12;
     private static final float reinforcementDelay = 180f;
-    
-    private static final UnitType[] shardedUnits = {
-    GierUnitTypes.occupy,
-    GierUnitTypes.occupy,
-    GierUnitTypes.occupy,
-    GierUnitTypes.staticu,
-    GierUnitTypes.staticu,
-    GierUnitTypes.staticu
-};
 
-private static final UnitType[] cruxUnits = {
-    GierUnitTypes.overboard,
-    GierUnitTypes.overboard,
-    GierUnitTypes.overboard
-};
+    private static final UnitType[] shardedUnits = {
+        GierUnitTypes.occupy,
+        GierUnitTypes.occupy,
+        GierUnitTypes.occupy,
+        GierUnitTypes.staticu,
+        GierUnitTypes.staticu,
+        GierUnitTypes.staticu
+    };
+
+    private static final UnitType[] cruxUnits = {
+        GierUnitTypes.overboard,
+        GierUnitTypes.overboard,
+        GierUnitTypes.overboard
+    };
 
     public GierMenuRenderer(){
-    super();
+        super();
 
-    Time.mark();
-    setupBattleRules();
-    generate();
-    cache();
-    spawnArmy();
+        Time.mark();
 
-    Log.debug("Time to generate battle menu: @", Time.elapsed());
+        setupBattleRules();
+        generate();
+        cache();
+        spawnArmy();
+
+        Log.debug("Time to generate battle menu: @", Time.elapsed());
     }
 
     public static void install(){
@@ -105,12 +110,12 @@ private static final UnitType[] cruxUnits = {
     }
 
     private void setupBattleRules(){
-    state.rules.disableUnitCap = true;
-    state.rules.env = Env.any;
-    state.rules.waves = false;
-    state.rules.attackMode = false;
+        state.rules.disableUnitCap = true;
+        state.rules.env = Env.any;
+        state.rules.waves = false;
+        state.rules.attackMode = false;
     }
-    
+
     private void generate(){
         world.setGenerating(true);
 
@@ -136,32 +141,35 @@ private static final UnitType[] cruxUnits = {
 
                 Block floor;
                 Block wall = Blocks.air;
-                
+
                 if(distance < -18f){
                     floor = Blocks.stone;
                     wall = Blocks.stoneWall;
-                    
-                    if (Mathf.chance(0.06f)){
+
+                    if(Mathf.chance(0.06f)){
                         wall = GierBlocks.massiveStoneBoulder;
                     }
-                    
-                }else if(distance < -10f){                   
-                    floor = Blocks.stone;                    
+
+                }else if(distance < -10f){
+                    floor = Blocks.stone;
+
                 }else if(distance < -2f){
                     floor = Blocks.sand;
 
-                    if (distance < -5f && distance > -6f && Mathf.chance(0.64f)){
+                    if(distance < -5f && distance > -6f && Mathf.chance(0.64f)){
                         wall = Blocks.darkMetal;
                     }
 
-                    if (distance < -5f && distance > -6f && Mathf.chance(0.87f)){
+                    if(distance < -5f && distance > -6f && Mathf.chance(0.87f)){
                         floor = Blocks.metalFloor;
                     }
-                    
+
                 }else if(distance < 1f){
                     floor = Blocks.sandWater;
+
                 }else if(distance < width * 0.12f){
                     floor = Blocks.water;
+
                 }else{
                     floor = Blocks.deepwater;
                 }
@@ -183,34 +191,43 @@ private static final UnitType[] cruxUnits = {
     }
 
     private void spawnUnit(UnitType type, Team team){
-    float x = team == Team.sharded
-    ? Mathf.random(3f, width * 0.2f) * tilesize
-    : (width - 1f) * tilesize;
+        float x = team == Team.sharded
+            ? Mathf.random(3f, width * 0.2f) * tilesize
+            : (width - 1f) * tilesize;
 
-float y = Mathf.random(3f, height - 3f) * tilesize;
+        float y = Mathf.random(3f, height - 3f) * tilesize;
 
-    x += Mathf.range(2f * tilesize);
-    y += Mathf.range(2f * tilesize);
+        x += Mathf.range(2f * tilesize);
+        y += Mathf.range(2f * tilesize);
 
-    boolean previousCap = type.useUnitCap;
-    type.useUnitCap = false;
+        try{
+            Unit unit = type.spawn(team, x, y);
 
-    try{
-        Unit unit = type.create(team);
+            unit.controller(new MenuCommandAI());
 
-        unit.set(x, y);
-        unit.rotation = team == Team.sharded ? 0f : 180f;
+            battleUnits.add(unit);
 
-        unit.controller(type.aiController.get());
+            Unit enemy = Units.closestEnemy(
+                team,
+                x,
+                y,
+                Float.MAX_VALUE,
+                e -> !e.dead() &&
+                    e.checkTarget(type.targetAir, type.targetGround)
+            );
 
-        unit.add();
+            if(enemy != null && unit.controller() instanceof MenuCommandAI ai){
+                ai.commandTarget(enemy);
+            }
 
-        battleUnits.add(unit);
-    }finally{
-        type.useUnitCap = previousCap;
+            Log.info("Spawned @ for @", type.name, team.name);
+
+        }catch(Throwable error){
+            Log.err("Failed to spawn @ for @", type.name, team.name);
+            Log.err(error);
+        }
     }
-    }
-    
+
     private void cache(){
         Draw.proj().setOrtho(
             0,
@@ -266,62 +283,110 @@ float y = Mathf.random(3f, height - 3f) * tilesize;
     }
 
     private void spawnArmy(){
-    for(UnitType type : shardedUnits){
-        spawnUnit(type, Team.sharded);
+        for(UnitType type : shardedUnits){
+            spawnUnit(type, Team.sharded);
+        }
+
+        for(UnitType type : cruxUnits){
+            spawnUnit(type, Team.crux);
+        }
     }
 
-    for(UnitType type : cruxUnits){
-        spawnUnit(type, Team.crux);
-    }
-    }
-    
     private void updateBattle(){
-    reinforcementTimer += Time.delta;
+        reinforcementTimer += Time.delta;
 
-    battleUnits.removeAll(unit -> !unit.isAdded() || unit.dead);
+        battleUnits.removeAll(unit -> !unit.isAdded() || unit.dead);
 
-    if(reinforcementTimer >= reinforcementDelay){
-        reinforcementTimer = 0f;
+        if(reinforcementTimer >= reinforcementDelay){
+            reinforcementTimer = 0f;
 
-        int shardedCount = battleUnits.count(u -> u.team == Team.sharded);
-        int cruxCount = battleUnits.count(u -> u.team == Team.crux);
-
-        if(shardedCount < maxUnitsPerTeam){
-            spawnUnit(
-                shardedUnits[Mathf.random(shardedUnits.length - 1)],
-                Team.sharded
+            int shardedCount = battleUnits.count(
+                u -> u.team == Team.sharded
             );
+
+            int cruxCount = battleUnits.count(
+                u -> u.team == Team.crux
+            );
+
+            if(shardedCount < maxUnitsPerTeam){
+                spawnUnit(
+                    shardedUnits[Mathf.random(shardedUnits.length - 1)],
+                    Team.sharded
+                );
+            }
+
+            if(cruxCount < maxUnitsPerTeam){
+                spawnUnit(
+                    cruxUnits[Mathf.random(cruxUnits.length - 1)],
+                    Team.crux
+                );
+            }
         }
 
-        if(cruxCount < maxUnitsPerTeam){
-            spawnUnit(
-                cruxUnits[Mathf.random(cruxUnits.length - 1)],
-                Team.crux
-            );
-        }
+        simulateBattle();
     }
 
-    state.teams.updateTeamStats();
+    private void simulateBattle(){
 
-    Groups.updatePooling();
-    Groups.unit.update();
+        state.teams.updateTeamStats();
 
-    state.teams.updateTeamStats();
+        runCommander();
 
-    Groups.bullet.updatePhysics();
-    Groups.bullet.update();
-    Groups.bullet.collide();
+        Groups.updatePooling();
+        Groups.unit.update();
 
-    Groups.all.each(e -> {
-        if(e instanceof EffectState || e instanceof Decal){
-            e.update();
-        }
-    });
-    }
+        state.teams.updateTeamStats();
     
+        Groups.bullet.updatePhysics();
+        Groups.bullet.update();
+        Groups.bullet.collide();
+
+        Groups.all.each(e -> {
+            if(e instanceof EffectState || e instanceof Decal){
+                e.update();
+            }
+        });
+    }
+
+    private void runCommander(){
+        if(!commanderTimer.get(20f)) return;
+
+        for(Unit unit : battleUnits){
+            if(unit.dead || !unit.isAdded()) continue;
+
+            if(!(unit.controller() instanceof MenuCommandAI ai)) continue;
+            if(ai.attackTarget != null &&
+                !Units.invalidateTarget(
+                    ai.attackTarget,
+                    unit.team,
+                    unit.x,
+                    unit.y
+                )){
+                continue;
+            }
+
+            Unit enemy = Units.closestEnemy(
+                unit.team,
+                unit.x,
+                unit.y,
+                Float.MAX_VALUE,
+                e -> !e.dead() &&
+                    e.checkTarget(
+                        unit.type.targetAir,
+                        unit.type.targetGround
+                    )
+            );
+
+            if(enemy != null){
+                ai.commandTarget(enemy);
+            }
+        }
+    }
+
     @Override
     public void render(){
         time += Time.delta;
+
         updateBattle();
 
         float scaling = Math.max(
@@ -386,19 +451,21 @@ float y = Mathf.random(3f, height - 3f) * tilesize;
     }
 
     private void drawUnits(){
-    for(Unit unit : battleUnits){
-        if(!unit.isAdded()) continue;
+        for(Unit unit : battleUnits){
+            if(!unit.isAdded()) continue;
 
-        unit.type.draw(unit);
-    }
+            unit.type.draw(unit);
+        }
 
-    Draw.flush();
+        Draw.flush();
     }
 
     @Override
     public void dispose(){
         for(Unit unit : battleUnits){
-            if(unit.isAdded()) unit.remove();
+            if(unit.isAdded()){
+                unit.remove();
+            }
         }
 
         battleUnits.clear();
@@ -407,5 +474,49 @@ float y = Mathf.random(3f, height - 3f) * tilesize;
         if(shadows != null) shadows.dispose();
 
         super.dispose();
+    }
+
+    private static class MenuCommandAI extends CommandAI{
+
+        @Override
+        public void updateUnit(){
+            if(unit == null || !unit.isValid()) return;
+
+            if(attackTarget != null &&
+                Units.invalidateTarget(
+                    attackTarget,
+                    unit.team,
+                    unit.x,
+                    unit.y
+                )){
+                attackTarget = null;
+                targetPos = null;
+            }
+
+            updateTargeting();
+
+            Teamc dst = attackTarget != null
+                ? attackTarget
+                : target;
+
+            if(dst == null ||
+                Units.invalidateTarget(dst, unit.team, unit.x, unit.y)){
+                return;
+            }
+
+            float engageRange = Math.max(1f, unit.range() - 10f);
+
+            if(unit.within(dst, engageRange)){
+                unit.lookAt(dst);
+                return;
+            }
+
+            Vec2 move = Tmp.v1.set(dst)
+                .sub(unit)
+                .setLength(unit.speed());
+
+            unit.movePref(move);
+            unit.lookAt(dst);
+        }
     }
 }
