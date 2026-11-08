@@ -44,6 +44,7 @@ public class SlimeMold extends Wall{
         public float deprive;
         public float drawScale = 1f;
         public float transmitInterval;
+        public int dist = 0;
         
         public int getNearbyBlocks(Tile near){
             int found = 0;
@@ -110,8 +111,13 @@ public class SlimeMold extends Wall{
                     }
 
                     SlimeMoldBuild mold = (SlimeMoldBuild)nearby.build;
+                    if (mold.dist < dist) return;
+                    
                     mold.signal = signal;
+                    mold.dist = signal;
+                    
                     signal = null;
+                    
                 } else if (nearby != null && nearby.build != null && nearby.team() != team){
                 nearby.build.damage(blockDamage);
                 }
