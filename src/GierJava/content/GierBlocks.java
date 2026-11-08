@@ -10,6 +10,7 @@ import mindustry.gen.Sounds;
 import arc.graphics.*;
 import arc.math.*;
 import arc.struct.*;
+import arc.Core;
 import mindustry.*;
 import mindustry.entities.*;
 import GierJava.graphics.GierPal;
@@ -107,6 +108,7 @@ public class GierBlocks {
     // Units
     assemblyBay,
     assemblyReconstructor,
+    crane,
     
     // Effect
     coreSatellite,
@@ -681,8 +683,8 @@ public class GierBlocks {
     itemCapacity = 100;
     liquidCapacity = 100;
 
-    consumes.power(3.66667f);
-    consumeitems(with(Items.titanium, 40,Items.graphite, 50));
+    consumePower(3.66667f);
+    consumeItems(with(Items.titanium, 40,Items.graphite, 50));
 
     outputItem = new ItemStack(Items.plastanium, 20);
     craftTime = 1500f;
@@ -720,7 +722,7 @@ public class GierBlocks {
         new ParticleEffect(){{
             particles = 1;
             length = 0f;
-            region = Core.atlas.find("gr-plastanium-crusher-bottom");
+            region = Core.atlas.find("gier-java-plastanium-crusher-bottom");
             lifetime = 180f;
             layer = 30.025f;
             sizeTo = 12f;
@@ -732,7 +734,7 @@ public class GierBlocks {
             new ParticleEffect(){{
                 particles = 1;
                 length = 0f;
-                region = Core.atlas.find("gr-plastanium-crusher-crusher");
+                region = Core.atlas.find("gier-java-plastanium-crusher-crusher");
                 lifetime = 30f;
                 sizeTo = 8f;
                 sizeFrom = 12f;
@@ -743,7 +745,7 @@ public class GierBlocks {
             new ParticleEffect(){{
                 particles = 1;
                 length = 0f;
-                region = Core.atlas.find("gr-plastanium-crusher-crusher");
+                region = Core.atlas.find("gier-java-plastanium-crusher-crusher");
                 lifetime = 150f;
                 sizeTo = 12f;
                 sizeFrom = 8f;
@@ -933,6 +935,14 @@ public class GierBlocks {
             constructTime = 60f * 20f;
             addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(Items.lead, 40, Items.scrap, 40));
             addUpgrade(GierUnitTypes.occupy, GierUnitTypes.staticu, with(Items.copper, 20, Items.scrap, 60));
+        }};
+
+        crane = new ClawBlock("crane"){{
+            requirements(Category.units, with(Items.silicon, 50, Items.lead, 175));
+            range = 2;
+            
+            anyTeam = true;
+            consumeLiquid(Liquids.oil, 3f / 60f);
         }};
         
         // Effect
