@@ -191,44 +191,82 @@ public class GierMenuRenderer extends MenuRenderer{
     }
 
     private void spawnUnit(UnitType type, Team team){
-        float x = team == Team.sharded
-            ? Mathf.random(3f, width * 0.2f) * tilesize
-            : (width - 1f) * tilesize;
+    Vec2 position = findSpawnPosition(type, team);
 
-        float y = Mathf.random(3f, height - 3f) * tilesize;
-
-        x += Mathf.range(2f * tilesize);
-        y += Mathf.range(2f * tilesize);
-
-        try{
-            Unit unit = type.spawn(team, x, y);
-
-            Log.info("Spawn position: @, @", unit.x, unit.y);
-            unit.controller(new MenuCommandAI());
-
-            battleUnits.add(unit);
-
-            Unit enemy = Units.closestEnemy(
-                team,
-                x,
-                y,
-                Float.MAX_VALUE,
-                e -> !e.dead() &&
-                    e.checkTarget(type.targetAir, type.targetGround)
-            );
-
-            if(enemy != null && unit.controller() instanceof MenuCommandAI ai){
-                ai.commandTarget(enemy);
-            }
-
-            Log.info("Spawned @ for @", type.name, team.name);
-
-        }catch(Throwable error){
-            Log.err("Failed to spawn @ for @", type.name, team.name);
-            Log.err(error);
-        }
+    if(position == null){
+        Log.warn("No valid spawn position for @ (@)", type.name, team.name);
+        return;
     }
 
+    try{
+        Unit unit = type.spawn(team, position.x, position.y);
+
+        unit.controller(new MenuCommandAI());
+        battleUnits.add(unit);
+
+        Log.info(
+            "Spawned @ for @ at @, @ | Groups: @",
+            type.name,
+            team.name,
+            unit.x,
+            unit.y,
+            Groups.unit.size()
+        );
+
+        Unit enemy = Units.closestEnemy(
+            team,
+            unit.x,
+            unit.y,
+            Float.MAX_VALUE,
+            e -> !e.dead() &&
+                e.checkTarget(type.targetAir, type.targetGround)
+        );
+
+        if(enemy != null && unit.controller() instanceof MenuCommandAI ai){
+            ai.commandTarget(enemy);
+        }
+
+    }catch(Throwable error){
+        Log.err("Failed to spawn @ for @", type.name, team.name);
+        Log.err(error);
+    }
+    }
+
+    private Vec2 findSpawnPosition(UnitType type, Team team){
+    int minX, maxX;
+
+    if(team == Team.sharded){
+        minX = 3;
+        maxX = width / 3;
+    }else if(type.naval){
+        minX = (int)(width * 0.65f);
+        maxX = width - 3;
+    }else{
+        minX = width / 3;
+        maxX = (int)(width * 0.48f);
+    }
+
+    for(int i = 0; i < 500; i++){
+        int x = Mathf.random(minX, maxX);
+        int y = Mathf.random(3, height - 4);
+
+        Tile tile = world.tile(x, y);
+
+        if(tile == null || tile.solid()) continue;
+
+        if(type.naval){
+            if(!tile.floor().isLiquid) continue;
+        }else if(!type.flying){
+            if(tile.floor().isDeep()) continue;
+            if(type.canDrown && tile.floor().isLiquid) continue;
+        }
+
+        return new Vec2(tile.worldx(), tile.worldy());
+    }
+
+    return null;
+    }
+    
     private void cache(){
         Draw.proj().setOrtho(
             0,
@@ -331,8 +369,9 @@ public class GierMenuRenderer extends MenuRenderer{
         state.teams.updateTeamStats();
 
         runCommander();
-        Groups.unit.update();
 
+        Groups.updatePooling()
+        Groups.unit.update();      
         state.teams.updateTeamStats();
     
         Groups.bullet.updatePhysics();
