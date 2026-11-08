@@ -46,6 +46,9 @@ public class GierJava extends Mod{
 
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
+
+            new ArchiveResearchDialog();
+            
             /*
             GierPlanets.kela.sectors.each(s -> {
                 if (s.preset != null) return;
