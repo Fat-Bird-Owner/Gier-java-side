@@ -111,12 +111,11 @@ public class SlimeMold extends Wall{
                     }
 
                     SlimeMoldBuild mold = (SlimeMoldBuild)nearby.build;
-                    if (mold.dist < dist && mold.dist != 0) return;
-
-                    mold.dist = signal.strength;
-                    mold.signal = signal;
-                    
-                    signal = null;
+                    if (mold.dist >= dist){
+                        mold.dist = signal.strength;
+                        mold.signal = signal;
+                        signal = null;
+                    }
                     
                 } else if (nearby != null && nearby.build != null && nearby.team() != team){
                 nearby.build.damage(blockDamage);
