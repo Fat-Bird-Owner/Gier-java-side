@@ -370,7 +370,7 @@ public class GierMenuRenderer extends MenuRenderer{
 
         runCommander();
 
-        Groups.updatePooling()
+        Groups.updatePooling();
         Groups.unit.update();      
         state.teams.updateTeamStats();
     
