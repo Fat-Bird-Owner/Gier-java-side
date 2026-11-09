@@ -10,6 +10,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import arc.struct.Seq;
 import mindustry.Vars;
+import arc.Core;
 
 import GierJava.content.*;
 
@@ -17,6 +18,27 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
   private int coreX, coreY;
   private float lowest = 1f;
+
+  @Override
+  public void onSectorCaptured(Sector sector){
+    Vars.ui.showCustomConfirm(
+                Core.bundle.get("gier.capture.title"),
+                Core.bundle.get("gier.capture.text"),
+                Core.bundle.get("gier.capture.accept"),
+                Core.bundle.get("gier.capture.continue"),
+                () -> {},
+                () -> {
+                  
+                    Vars.state.rules.winWave += 10;
+                    Vars.state.rules.wave = true;
+                  
+                    sector.info.winWave = Vars.state.rules.winWave;
+                    sector.saveInfo();
+                  
+                }
+            );
+        });
+  }
   
   @Override
   public boolean allowLanding(Sector sector){
@@ -104,11 +126,12 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     float copper = Simplex.noise2d(seed + 10, 3, 0.55f, 1f / 18f, x, y);
     float lead = Simplex.noise2d(seed + 20, 3, 0.55f, 1f / 24f, x, y);
     float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
+    float graphite = Simplex.noise2d(seed + 59, 3, 0.55f, 1f / 20f, x, y);
     float titanium = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 38f, x, y);
     float beryllium = Simplex.noise2d(seed + 41, 3, 0.55f, 1f / 28f, x, y);
     float tungsten = Simplex.noise2d(seed + 43, 3, 0.55f, 1f / 42f, x, y);
     float thorium = Simplex.noise2d(seed + 50, 3, 0.55f, 1f / 45f, x, y);
-
+    
     if(copper > 0.72f){
         ore = Blocks.oreCopper;
     }
@@ -117,6 +140,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         ore = Blocks.oreLead;
     }
 
+    if (graphite > 0.8f){
+      ore = Blocks.wallOreGraphite;
+    }
+            
     if(sand > 0.65f){
         floor = Blocks.darksand;
     }
@@ -194,7 +221,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
           }
 
         Vars.state.rules.waves = true;
-        Vars.state.rules.winWave = 50;
+        Vars.state.rules.winWave = 20;
+
+
+      
         Vars.state.rules.spawns = Seq.with(
         new SpawnGroup(GierUnitTypes.drive){{
             begin = 1;
@@ -202,7 +232,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             spacing = 1;
             unitAmount = 2;
             unitScaling = 1.2f;
-            max = 12;
+            max = 3;
         }},
 
         new SpawnGroup(GierUnitTypes.drive){{
@@ -213,7 +243,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             unitScaling = 0.8f;
             shields = 40f;
             shieldScaling = 5f;
-            max = 16;
+            max = 5;
         }},
 
         new SpawnGroup(GierUnitTypes.spark){{
@@ -221,14 +251,14 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             spacing = 1;
             unitAmount = 2;
             unitScaling = 0.45f;
-            max = 10;
+            max = 4;
         }},
 
         new SpawnGroup(GierUnitTypes.ash){{
             begin = 20;
-            spacing = 2;
+            spacing = 1;
             unitAmount = 1;
-            max = 12;
+            max = 2;
             unitScaling = 0.2f;
         }}
     );
