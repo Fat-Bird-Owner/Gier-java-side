@@ -47,7 +47,11 @@ public class GierTechTree {
             });
 
             node(hydroDrill, () -> {
-                node(dihydrogenShaft, () -> {});
+                node(dihydrogenShaft, () -> {
+                    node(fluidSilo, () -> {
+                        node(fluidTank, () -> {});
+                    });
+                });
                 node(rail, () -> {
                     node(overheadBelt, () -> {});
                     node(railOverflow, () -> {});
