@@ -29,7 +29,6 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     private Room[][] rooms;
 
     private static class Room{
-    private static class Room{
     int x, y;
     Block resource;
     Floor floor;
