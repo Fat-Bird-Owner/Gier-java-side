@@ -194,10 +194,6 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     protected void generate(){
 
-        lowest = 0f;
-        coreX = width / 2;
-        coreY = height / 2;
-
         createRooms();
         generateAsteroids();
         
@@ -218,41 +214,6 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             floor = Blocks.empty;
 
-            if(v_n4 > 0.28f){
-                floor = Blocks.stone;
-
-                if(v_n4 > 0.28f && v_n4 > lowest){
-                    boolean valid = true;
-
-                    for(int rx = -4; rx <= 4; rx++){
-                        for(int ry = -4; ry <= 4; ry++){
-                            int tx = x + rx;
-                            int ty = y + ry;
-
-                            if(tx < 0 || ty < 0 || tx >= width || ty >= height){
-                                valid = false;
-                                break;
-                            }
-
-                            Tile nearby = tiles.get(tx, ty);
-
-                            if(nearby == null || nearby.floor() != Blocks.stone){
-                                valid = false;
-                                break;
-                            }
-                        }
-
-                        if(!valid) break;
-                    }
-
-                    if(valid){
-                        lowest = v_n4;
-                        coreX = x;
-                        coreY = y;
-                    }
-                }
-            }
-
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
 
             ore = Blocks.air;
@@ -266,6 +227,45 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
         });
 
+        float bestDistance = Float.MAX_VALUE;
+
+coreX = width / 2;
+coreY = height / 2;
+
+for(int x = 4; x < width - 4; x++){
+    for(int y = 4; y < height - 4; y++){
+        Tile tile = tiles.get(x, y);
+
+        if(tile == null || tile.floor() != Blocks.stone) continue;
+
+        boolean valid = true;
+
+        for(int rx = -4; rx <= 4 && valid; rx++){
+            for(int ry = -4; ry <= 4; ry++){
+                Tile nearby = tiles.get(x + rx, y + ry);
+
+                if(nearby == null || nearby.floor() != Blocks.stone){
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
+        if(!valid) continue;
+
+        float distance = Mathf.dst2(
+            x, y,
+            width / 2f, height / 2f
+        );
+
+        if(distance < bestDistance){
+            bestDistance = distance;
+            coreX = x;
+            coreY = y;
+        }
+    }
+}
+        
         int margin = 12;
 
         int[][] spawnPositions = {
