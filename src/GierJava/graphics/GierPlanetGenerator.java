@@ -38,10 +38,15 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     @Override
     protected void generate(){
+
+      float coreX, coreY;
+      float lowest = 1f;
+      
+      
         pass((x, y) -> {
             block = Blocks.air;
 
-            float scale = 0.7f;
+            float scale = 1f;
           
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
                 x + 30f * ((float)Simplex.noise2d(seed, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
@@ -57,6 +62,12 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             if(v_n4 > -0.15f){
                 floor = Blocks.stone;
+
+              if (v_n4 > lowest) {
+                lowest = v_n4;
+                coreX = x;
+                coreY = y;
+              }
             }
 
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
@@ -99,6 +110,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
           
         });
 
+/*
         int spawnX = width / 2;
         int spawnY = height / 2;
 
@@ -134,7 +146,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             if(waterTiles <= 4) break;
         }
-
+*/
         int margin = 12;
 
         int[][] spawnPositions = {
@@ -192,7 +204,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         }}
     );
       
-        Schematics.placeLoadout(defaultLoadout, spawnX, spawnY);
+        Schematics.placeLoadout(defaultLoadout, coreX, coreY);
     }
 }
 
