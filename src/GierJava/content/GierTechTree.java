@@ -82,6 +82,7 @@ public class GierTechTree {
                 });
                 node(copperFort, () -> {
                     node(scrapMound, () -> {});
+                    node(fusionDome, () -> {});   
                 });
             });
 
