@@ -61,8 +61,13 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     public void generate(Tiles tiles, Sector sec, WorldParams params){
         seed = params.seedOffset + baseSeed;
         super.generate(tiles, sec, params);
-    }
+   }
 
+  @Override
+    public void postGenerate(Tiles tiles){
+        basegen.postGenerate();
+    }
+  
     @Override
     protected void generate(){      
 
