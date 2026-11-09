@@ -48,7 +48,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         this.radius = radius;
     }
     }
-
+    
     private void generateAsteroids(){
     for(int rx = 0; rx < rooms.length; rx++){
         for(int ry = 0; ry < rooms[rx].length; ry++){
@@ -145,6 +145,21 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         return rooms[roomX][roomY];
     }
 
+    @Override
+    public void generateSector(Sector sector){
+        int id = sector.id;
+
+        if(id < 10){
+            sector.threat = 0.3f;
+        }else if(id < 30){
+            sector.threat = 0.5f;
+        }else if(id < 60){
+            sector.threat = 0.7f;
+        }else{
+            sector.threat = 0.9f;
+        }
+    }
+    
     @Override
     public void onSectorCaptured(Sector sector){
         Vars.ui.showCustomConfirm(
