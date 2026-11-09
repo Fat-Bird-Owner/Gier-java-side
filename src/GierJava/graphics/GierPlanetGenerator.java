@@ -37,6 +37,41 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         }
     }
 
+    private static class Asteroid{
+    int x, y;
+    float radius;
+
+    Asteroid(int x, int y, float radius){
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+    }
+    }
+
+    private void generateAsteroidOre(int x, int y){
+    Room room = getRoom(x, y);
+
+    if(room == null) return;
+
+    for(Asteroid asteroid : room.asteroids){
+        float noise = Simplex.noise2d(
+            seed + asteroid.x * 31 + asteroid.y * 17,
+            2,
+            0.6f,
+            1f / 2f,
+            x,
+            y
+        );
+
+        float distance = Mathf.dst(x, y, asteroid.x, asteroid.y);
+
+        if(distance < asteroid.radius * 0.75f + noise * 0.8f){
+            ore = room.resource;
+            return;
+        }
+    }
+    }
+    
     private void createRooms(){
         int columns = (width + roomSize - 1) / roomSize;
         int rows = (height + roomSize - 1) / roomSize;
@@ -131,10 +166,13 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         coreY = height / 2;
 
         createRooms();
+        generateAsteroids();
 
         pass((x, y) -> {
             block = Blocks.air;
 
+            generateAsteroidOre(x, y);
+            
             float scale = 1f;
 
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
