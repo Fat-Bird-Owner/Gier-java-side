@@ -37,8 +37,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
                   
                 }
             );
-        });
-  }
+        }
   
   @Override
   public boolean allowLanding(Sector sector){
