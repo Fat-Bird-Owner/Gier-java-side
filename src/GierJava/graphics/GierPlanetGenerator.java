@@ -30,7 +30,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
                 () -> {
                   
                     Vars.state.rules.winWave += 10;
-                    Vars.state.rules.wave = true;
+                    Vars.state.rules.waves = true;
                   
                     sector.info.winWave = Vars.state.rules.winWave;
                     sector.saveInfo();
