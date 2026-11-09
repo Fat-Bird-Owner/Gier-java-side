@@ -42,7 +42,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     protected void generate(){      
 
-        lowest = 1f;
+        lowest = Float.POSITIVE_INFINITY;
+        coreX = width / 2;
+        coreY = height / 2;  
       
         pass((x, y) -> {
             block = Blocks.air;
@@ -64,11 +66,37 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             if(v_n4 > -0.15f){
                 floor = Blocks.stone;
 
-              if (v_n4 < lowest) {
-                lowest = v_n4;
-                coreX = x;
-                coreY = y;
+              if(v_n4 > -0.15f && v_n4 < lowest){
+    boolean valid = true;
+
+    for(int rx = -4; rx <= 4; rx++){
+        for(int ry = -4; ry <= 4; ry++){
+            int tx = x + rx;
+            int ty = y + ry;
+
+            if(tx < 0 || ty < 0 || tx >= width || ty >= height){
+                valid = false;
+                break;
+            }
+
+            Tile nearby = tiles.get(tx, ty);
+
+            if(nearby == null || nearby.floor() != Blocks.stone){
+                valid = false;
+                break;
+            }
+        }
+
+        if(!valid) break;
+    }
+
+    if(valid){
+        lowest = v_n4;
+        coreX = x;
+        coreY = y;
+    }
               }
+              
             }
 
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
@@ -77,8 +105,8 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     float lead = Simplex.noise2d(seed + 20, 3, 0.55f, 1f / 24f, x, y);
     float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
     float titanium = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 38f, x, y);
-    float beryllium = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 28f, x, y);
-    float tungsten = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 42f, x, y);
+    float beryllium = Simplex.noise2d(seed + 41, 3, 0.55f, 1f / 28f, x, y);
+    float tungsten = Simplex.noise2d(seed + 43, 3, 0.55f, 1f / 42f, x, y);
     float thorium = Simplex.noise2d(seed + 50, 3, 0.55f, 1f / 45f, x, y);
 
     if(copper > 0.72f){
