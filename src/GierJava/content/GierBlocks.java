@@ -853,9 +853,7 @@ public class GierBlocks {
             cooldownBrokenBase = 6.3f;
 
             envEnabled = -1;
-            customShadow = true;
             squareSprite = false;
-
             consumePower(10f);
 
             researchCostMultiplier = 0.35f;
