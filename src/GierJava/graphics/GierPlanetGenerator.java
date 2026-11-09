@@ -218,10 +218,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             floor = Blocks.empty;
 
-            if(v_n4 > -0.18f){
+            if(v_n4 > 0.48f){
                 floor = Blocks.stone;
 
-                if(v_n4 > -0.18f && v_n4 < lowest){
+                if(v_n4 > 0.48f && v_n4 < lowest){
                     boolean valid = true;
 
                     for(int rx = -4; rx <= 4; rx++){
