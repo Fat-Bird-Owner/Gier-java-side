@@ -20,7 +20,7 @@ import mindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.game.Schematic;
 import mindustry.game.Schematics;
-import mindustry.game.Loadouts;
+import mindustry.content.Loadouts;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
