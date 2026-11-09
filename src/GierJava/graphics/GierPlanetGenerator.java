@@ -17,7 +17,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
   }
 
       @Override
-    public int getSize(Sector sector){
+    public int getSectorSize(Sector sector){
         return 400;
     }
 
