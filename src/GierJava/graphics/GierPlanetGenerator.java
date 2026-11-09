@@ -340,7 +340,7 @@ for(int x = 4; x < width - 4; x++){
         }
         */
 
-        Vars.state.rules.waveTeam = Team.get(4);
+        Vars.state.rules.waveTeam = Team.get(5);
         Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
         Vars.state.rules.spawns = Seq.with(
             new SpawnGroup(GierUnitTypes.drive){{
@@ -348,7 +348,7 @@ for(int x = 4; x < width - 4; x++){
                 end = 51;
                 spacing = 1;
                 unitAmount = 2;
-                unitScaling = 1.2f;
+                unitScaling = 0.6f;
                 max = 3;
             }},
 
@@ -357,7 +357,7 @@ for(int x = 4; x < width - 4; x++){
                 end = 51;
                 spacing = 1;
                 unitAmount = 2;
-                unitScaling = 0.8f;
+                unitScaling = 0.4f;
                 shields = 40f;
                 shieldScaling = 5f;
                 max = 5;
@@ -367,7 +367,7 @@ for(int x = 4; x < width - 4; x++){
                 begin = 12;
                 spacing = 1;
                 unitAmount = 2;
-                unitScaling = 0.45f;
+                unitScaling = 0.2f;
                 max = 4;
             }},
 
@@ -376,12 +376,19 @@ for(int x = 4; x < width - 4; x++){
                 spacing = 1;
                 unitAmount = 1;
                 max = 2;
-                unitScaling = 0.2f;
+                unitScaling = 0.1f;
             }}
         );
 
         Schematics.placeLoadout(
             Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
             ,coreX, coreY);
+
+        state.rules.planetBackground = new PlanetParams(){{
+            planet = sector.planet;
+            zoom = 1f;
+            camPos = new Vec3(1.2388899f, 1.6047299f, 2.4758825f);
+        }};
+        
     }
 }
