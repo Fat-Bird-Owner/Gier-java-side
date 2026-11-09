@@ -14,7 +14,7 @@ import arc.Core;
 import mindustry.maps.generators.BaseGenerator;
 import mindustry.graphics.g3d.*;
 import arc.math.geom.*;
-import mindustry.world.environment.Floor;
+import mindustry.world.blocks.environment.Floor;
 import GierJava.content.*;
 
 public class GierPlanetGenerator extends BlankPlanetGenerator{
