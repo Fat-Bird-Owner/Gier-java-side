@@ -48,6 +48,34 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
     }
 
+    private void generateAsteroids(){
+    for(Room room : rooms){
+        int count = rand.random(2, 5);
+
+        for(int i = 0; i < count; i++){
+            float radius = rand.random(1.5f, 3.5f);
+
+            int x = room.x * roomSize + rand.random(roomSize - 1);
+            int y = room.y * roomSize + rand.random(roomSize - 1);
+
+            boolean overlaps = false;
+
+            for(Asteroid other : room.asteroids){
+                float minDistance = radius + other.radius + 2f;
+
+                if(Mathf.dst2(x, y, other.x, other.y) < minDistance * minDistance){
+                    overlaps = true;
+                    break;
+                }
+            }
+
+            if(!overlaps){
+                room.asteroids.add(new Asteroid(x, y, radius));
+            }
+        }
+    }
+    }
+    
     private void generateAsteroidOre(int x, int y){
     Room room = getRoom(x, y);
 
