@@ -9,6 +9,8 @@ import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
 
+import GierJava.content.*;
+
 public class GierPlanetGenerator extends BlankPlanetGenerator{
 
   @Override
@@ -37,7 +39,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         pass((x, y) -> {
             block = Blocks.air;
 
-            float scale = 2.45f;
+            float scale = 2.7f;
           
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
                 x + 30f * ((float)Simplex.noise2d(seed, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
@@ -121,6 +123,60 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             if(waterTiles <= 4) break;
         }
 
+        int margin = 12;
+
+        int[][] spawnPositions = {
+            {margin, margin},
+            {width - margin - 1, margin},
+            {margin, height - margin - 1},
+            {width - margin - 1, height - margin - 1}
+          };
+
+          for(int[] pos : spawnPositions){
+              Tile tile = tiles.get(pos[0], pos[1]);
+
+            if(tile != null){
+                tile.setOverlay(Blocks.spawn);
+            }
+          }
+
+        state.rules.winWave = 50;
+      
+        state.rules.spawns = Seq.with(
+        new SpawnGroup(UnitTypes.dagger){{
+            begin = 1;
+            end = 10;
+            spacing = 1;
+            unitAmount = 2;
+            max = 12;
+        }},
+
+        new SpawnGroup(GierUnitTypes.drive){{
+            begin = 5;
+            end = 20;
+            spacing = 2;
+            unitAmount = 2;
+            max = 16;
+        }},
+
+        new SpawnGroup(GierUnitTypes.spark){{
+            begin = 15;
+            spacing = 5;
+            unitAmount = 2;
+            max = 10;
+        }},
+
+        new SpawnGroup(GierUnitTypes.ash){{
+            begin = 30;
+            spacing = 5;
+            unitAmount = 1;
+            max = 12;
+        }}
+    );
+      
         Schematics.placeLoadout(defaultLoadout, spawnX, spawnY);
     }
 }
+
+
+
