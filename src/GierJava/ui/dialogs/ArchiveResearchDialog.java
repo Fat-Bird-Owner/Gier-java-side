@@ -233,10 +233,10 @@ public class ArchiveResearchDialog{
             Button research = new Button();
             research.add(new Image(Icon.tree));
 
-            table.add(typeImage).pad(15f);
-            table.add(image).size(48f).pad(20f);
-            table.add(label).pad(20f);
-            table.add(research).size(50f).padRight(350f);
+            table.add(typeImage).pad(15f).center();
+            table.add(image).size(48f).pad(20f).center()
+            table.add(label).pad(20f).center();
+            table.add(research).size(50f).padRight(350f).center();
 
             if(!node.content.unlocked()){
                 image.setColor(Pal.gray);
