@@ -818,7 +818,7 @@ public class GierBlocks {
             cooldownNormal = 15f;
             cooldownBrokenBase = 6.3f;
 
-            envEnabled = Env.any;
+            envEnabled = -1;
             customShadow = true;
             squareSprite = false;
 
