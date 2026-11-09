@@ -1,215 +1,224 @@
 package GierJava.graphics;
 
-import arc.math.*;
-import arc.util.noise.Simplex;
-import mindustry.content.*;
+import arc.math.Mathf;
+import arc.math.geom.*;
+import arc.struct.Seq;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.game.Team;
+import mindustry.maps.generators.BlankPlanetGenerator;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.environment.Floor;
+import mindustry.maps.generators.*;
 import mindustry.game.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.storage.*;
+import mindustry.world.meta.*;
+import mindustry.content.*;
+import mindustry.game.Schematic;
 import mindustry.game.Schematics;
+import mindustry.game.Loadouts;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import arc.struct.Seq;
-import mindustry.Vars;
-import arc.Core;
-import mindustry.maps.generators.BaseGenerator;
-
-import GierJava.content.*;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.storage.*;
+import mindustry.world.meta.*;
+import mindustry.content.*;
+import arc.math.*;
+import arc.struct.*;
 
 public class GierPlanetGenerator extends BlankPlanetGenerator{
 
-  private int coreX, coreY;
-  private float lowest = 1f;
+    private int coreX, coreY;
+    private float lowest;
 
-  private final BaseGenerator basegen = new BaseGenerator();
-  
-  @Override
-  public void onSectorCaptured(Sector sector){
-    Vars.ui.showCustomConfirm(
-                Core.bundle.get("gier.capture.title"),
-                Core.bundle.get("gier.capture.text"),
-                Core.bundle.get("gier.capture.accept"),
-                Core.bundle.get("gier.capture.continue"),
-                () -> {},
-                () -> {
-                  
-                    Vars.state.rules.winWave += 10;
-                    Vars.state.rules.waves = true;
-                  
-                    sector.info.winWave = Vars.state.rules.winWave;
-                    sector.saveInfo();
-                  
-                }
-            );
+    private static final int roomRadius = 10;
+    private static final int targetRooms = 32;
+
+    private static class Room{
+        int x, y;
+        int radius;
+        Block resource;
+
+        Room(int x, int y, int radius, Block resource){
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.resource = resource;
         }
-  
-  @Override
-  public boolean allowLanding(Sector sector){
-      return true;
-  }
+    }
 
-      @Override
+    @Override
     public int getSectorSize(Sector sector){
         return 400;
     }
 
     @Override
-    public boolean allowAcceleratorLanding(Sector sector){
-      return true;
+    public boolean allowLanding(Sector sector){
+        return true;
     }
-  
+
+    @Override
+    public boolean allowAcceleratorLanding(Sector sector){
+        return true;
+    }
+
     @Override
     public void generate(Tiles tiles, Sector sec, WorldParams params){
-        seed = params.seedOffset + baseSeed;
-        super.generate(tiles, sec, params);
-   }
+        this.tiles = tiles;
+        this.sector = sec;
+        this.width = tiles.width;
+        this.height = tiles.height;
+        this.seed = params.seedOffset + baseSeed;
+        this.rand.setSeed(sec.id + params.seedOffset + baseSeed);
 
-  @Override
-    public void postGenerate(Tiles tiles){
-        basegen.postGenerate();
+        tiles.fill();
+
+        generate();
+
+        generateResourceRooms();
+
+        findCorePosition();
+
+        Schematics.placeLoadout(defaultLoadout, coreX, coreY);
+
+        placeSpawnPoints();
     }
-  
+
     @Override
-    protected void generate(){      
-
-        lowest = Float.POSITIVE_INFINITY;
-        coreX = width / 2;
-        coreY = height / 2;  
-      
+    protected void generate(){
         pass((x, y) -> {
-            block = Blocks.air;
-
-            float scale = 1f;
-          
-            float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
-                x + 30f * ((float)Simplex.noise2d(seed, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
-                y + 30f * ((float)Simplex.noise2d(seed + 1, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f) - 0.5f) * 2f;
-
-            float v_n3 = ((float)Simplex.noise2d(seed + 5, 3, 0.50f, scale / (22f * width / 160f),
-                x + 15f * ((float)Simplex.noise2d(seed + 3, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
-                y + 15f * ((float)Simplex.noise2d(seed + 4, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f) - 0.5f) * 2f;
-
-            float v_n4 = v_n2 + v_n3;
+            float n1 = Simplex.noise2d(seed, 3, 0.55f, 1f / 35f, x, y);
+            float n2 = Simplex.noise2d(seed + 1, 3, 0.55f, 1f / 20f, x, y);
+            float n3 = Simplex.noise2d(seed + 2, 3, 0.55f, 1f / 28f, x, y);
+            float n4 = Simplex.noise2d(seed + 3, 3, 0.55f, 1f / 45f, x, y);
 
             floor = Blocks.empty;
+            ore = Blocks.air;
+            block = Blocks.air;
 
-            if(v_n4 > -0.18f){
+            if(n4 > -0.18f){
                 floor = Blocks.stone;
-
-              if(v_n4 > -0.18f && v_n4 < lowest){
-    boolean valid = true;
-
-    for(int rx = -4; rx <= 4; rx++){
-        for(int ry = -4; ry <= 4; ry++){
-            int tx = x + rx;
-            int ty = y + ry;
-
-            if(tx < 0 || ty < 0 || tx >= width || ty >= height){
-                valid = false;
-                break;
             }
 
-            Tile nearby = tiles.get(tx, ty);
-
-            if(nearby == null || nearby.floor() != Blocks.stone){
-                valid = false;
-                break;
-            }
-        }
-
-        if(!valid) break;
-    }
-
-    if(valid){
-        lowest = v_n4;
-        coreX = x;
-        coreY = y;
-    }
-              }
-              
+            if(n2 > 0.25f){
+                floor = Blocks.sand;
             }
 
-            if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
+            if(n3 > 0.35f){
+                floor = Blocks.darksand;
+            }
 
-    float copper = Simplex.noise2d(seed + 10, 3, 0.55f, 1f / 18f, x, y);
-    float lead = Simplex.noise2d(seed + 20, 3, 0.55f, 1f / 24f, x, y);
-    float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
-    float graphite = Simplex.noise2d(seed + 59, 3, 0.55f, 1f / 20f, x, y);
-    float titanium = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 38f, x, y);
-    float beryllium = Simplex.noise2d(seed + 41, 3, 0.55f, 1f / 28f, x, y);
-    float tungsten = Simplex.noise2d(seed + 43, 3, 0.55f, 1f / 42f, x, y);
-    float thorium = Simplex.noise2d(seed + 50, 3, 0.55f, 1f / 45f, x, y);
-    
-    if(copper > 0.72f){
-        ore = Blocks.oreCopper;
-    }
+            if(floor == Blocks.empty){
+                floor = Blocks.water;
+            }
 
-    if(lead > 0.72f){
-        ore = Blocks.oreLead;
-    }
-
-    if (graphite > 0.8f){
-      ore = Blocks.wallOreGraphite;
-    }
-            
-    if(sand > 0.65f){
-        floor = Blocks.darksand;
-    }
-          
-    if(titanium > 0.8f){
-        ore = Blocks.oreTitanium;
-    }
-
-    if(beryllium > 0.8f){
-        ore = Blocks.oreBeryllium;
-    }
-
-    if(tungsten > 0.84f){
-        ore = Blocks.oreTungsten;
-    }
-          
-    if(thorium > 0.89f){
-        ore = Blocks.oreCrystalThorium;
-    }
-          
+            tiles.getn(x, y).setFloor((Floor)floor);
+            tiles.getn(x, y).setBlock(block);
         });
+    }
 
-/*
-        int spawnX = width / 2;
-        int spawnY = height / 2;
+    private Seq<Block> getResources(){
+        return Seq.with(
+            Blocks.oreCopper,
+            Blocks.oreLead,
+            Blocks.oreGraphite,
+            Blocks.oreTitanium,
+            Blocks.oreBeryllium,
+            Blocks.oreTungsten,
+            Blocks.oreCrystalThorium
+        );
+    }
 
-        int bestWater = Integer.MAX_VALUE;
-        int waterCheckRad = 5;
+    private void generateResourceRooms(){
+        Seq<Room> rooms = new Seq<>();
+        Seq<Block> resources = getResources();
 
-        float length = Math.min(width, height) / 2.55f - rand.random(13f, 23f);
-        int offset = rand.random(360);
+        int attempts = 1000;
 
-        for(int i = 0; i < 360; i += 5){
-            int angle = offset + i;
+        for(int i = 0; i < attempts && rooms.size < targetRooms; i++){
+            int x = rand.random(roomRadius + 5, width - roomRadius - 6);
+            int y = rand.random(roomRadius + 5, height - roomRadius - 6);
 
-            int cx = (int)(width / 2f + Angles.trnsx(angle, length));
-            int cy = (int)(height / 2f + Angles.trnsy(angle, length));
+            if(Mathf.dst2(x, y, coreX, coreY) < 35f * 35f) continue;
 
-            int waterTiles = 0;
+            Tile center = tiles.get(x, y);
 
-            for(int rx = -waterCheckRad; rx <= waterCheckRad; rx++){
-                for(int ry = -waterCheckRad; ry <= waterCheckRad; ry++){
-                    Tile tile = tiles.get(cx + rx, cy + ry);
+            if(center == null || center.floor().isLiquid || center.floor().solid) continue;
 
-                    if(tile == null || tile.floor().isLiquid){
-                        waterTiles++;
-                    }
+            boolean overlaps = false;
+
+            for(Room room : rooms){
+                float minDistance = roomRadius + room.radius + 5f;
+
+                if(Mathf.dst2(x, y, room.x, room.y) < minDistance * minDistance){
+                    overlaps = true;
+                    break;
                 }
             }
 
-            if(waterTiles < bestWater){
-                bestWater = waterTiles;
-                spawnX = cx;
-                spawnY = cy;
-            }
+            if(overlaps) continue;
 
-            if(waterTiles <= 4) break;
+            rooms.add(new Room(x, y, roomRadius, resources.random(rand)));
         }
-*/
+
+        for(Room room : rooms){
+            for(int x = room.x - room.radius; x <= room.x + room.radius; x++){
+                for(int y = room.y - room.radius; y <= room.y + room.radius; y++){
+                    if(Mathf.dst2(x, y, room.x, room.y) > room.radius * room.radius) continue;
+
+                    Tile tile = tiles.get(x, y);
+
+                    if(tile == null || tile.floor().isLiquid || tile.floor().solid) continue;
+
+                    tile.setOverlay(room.resource);
+                }
+            }
+        }
+    }
+
+    private void findCorePosition(){
+        lowest = Float.POSITIVE_INFINITY;
+        coreX = width / 2;
+        coreY = height / 2;
+
+        for(int x = 5; x < width - 5; x++){
+            for(int y = 5; y < height - 5; y++){
+                Tile tile = tiles.get(x, y);
+
+                if(tile == null || tile.floor() != Blocks.stone) continue;
+
+                boolean valid = true;
+
+                for(int tx = x - 4; tx <= x + 4 && valid; tx++){
+                    for(int ty = y - 4; ty <= y + 4; ty++){
+                        Tile other = tiles.get(tx, ty);
+
+                        if(other == null || other.floor() != Blocks.stone){
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+
+                if(!valid) continue;
+
+                float value = Simplex.noise2d(seed + 3, 3, 0.55f, 1f / 45f, x, y);
+
+                if(value < lowest){
+                    lowest = value;
+                    coreX = x;
+                    coreY = y;
+                }
+            }
+        }
+    }
+
+    private void placeSpawnPoints(){
         int margin = 12;
 
         int[][] spawnPositions = {
@@ -217,90 +226,14 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             {width - margin - 1, margin},
             {margin, height - margin - 1},
             {width - margin - 1, height - margin - 1}
-          };
+        };
 
-          for(int[] pos : spawnPositions){
-              Tile tile = tiles.get(pos[0], pos[1]);
+        for(int[] pos : spawnPositions){
+            Tile tile = tiles.get(pos[0], pos[1]);
 
             if(tile != null){
                 tile.setOverlay(Blocks.spawn);
             }
-          }
-
-        Vars.state.rules.waves = true;
-        Vars.state.rules.winWave = 20;
-
-Tile enemySpawn = null;
-float farthest = -1f;
-
-for(int x = 20; x < width - 20; x += 4){
-    for(int y = 20; y < height - 20; y += 4){
-        Tile tile = tiles.get(x, y);
-
-        if(tile == null || tile.floor().isLiquid || tile.floor().solid) continue;
-
-        float distance = Mathf.dst2(x, y, coreX, coreY);
-
-        if(distance > farthest){
-            farthest = distance;
-            enemySpawn = tile;
         }
     }
 }
-      
-     if(enemySpawn != null){
-    basegen.generate(
-        tiles,
-        Seq.with(enemySpawn),
-        enemySpawn,
-        Team.crux,
-        sector,
-        sector.threat
-    );
-
-     }
-      
-      Vars.state.rules.spawns = Seq.with(
-        new SpawnGroup(GierUnitTypes.drive){{
-            begin = 1;
-            end = 51;
-            spacing = 1;
-            unitAmount = 2;
-            unitScaling = 1.2f;
-            max = 3;
-        }},
-
-        new SpawnGroup(GierUnitTypes.drive){{
-            begin = 5;
-            end = 51;
-            spacing = 2;
-            unitAmount = 2;
-            unitScaling = 0.8f;
-            shields = 40f;
-            shieldScaling = 5f;
-            max = 5;
-        }},
-
-        new SpawnGroup(GierUnitTypes.spark){{
-            begin = 12;
-            spacing = 1;
-            unitAmount = 2;
-            unitScaling = 0.45f;
-            max = 4;
-        }},
-
-        new SpawnGroup(GierUnitTypes.ash){{
-            begin = 20;
-            spacing = 1;
-            unitAmount = 1;
-            max = 2;
-            unitScaling = 0.2f;
-        }}
-    );
-      
-        Schematics.placeLoadout(defaultLoadout, coreX, coreY);
-    }
-}
-
-
-
