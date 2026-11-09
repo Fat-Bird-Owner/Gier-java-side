@@ -20,6 +20,8 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
   private int coreX, coreY;
   private float lowest = 1f;
 
+  private final BaseGenerator basegen = new BaseGenerator();
+  
   @Override
   public void onSectorCaptured(Sector sector){
     Vars.ui.showCustomConfirm(
