@@ -131,14 +131,14 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     );
 
     Seq<Floor> floors = Seq.with(
-        Blocks.ferricStone,
-        Blocks.basalt,
-        Blocks.carbonStone,
-        Blocks.shale,
-        Blocks.beryllicStone,
-        Blocks.carbonStone,
-        Blocks.crystallineStone,
-        Blocks.metalFloorDamaged
+        Blocks.ferricStone.asFloor(),
+        Blocks.basalt.asFloor(),
+        Blocks.carbonStone.asFloor(),
+        Blocks.shale.asFloor(),
+        Blocks.beryllicStone.asFloor(),
+        Blocks.carbonStone.asFloor(),
+        Blocks.crystallineStone.asFloor(),
+        Blocks.metalFloorDamaged.asFloor()
     );
 
     for(int x = 0; x < columns; x++){
