@@ -325,12 +325,8 @@ for(int x = 4; x < width - 4; x++){
         }
         */
 
-        Vars.state.rules.loadout = ItemStack.list(
-            Items.copper, 750,
-            Items.lead, 750,
-            Items.graphite, 500,
-        );
-        
+        Vars.state.rules.team = Team.get(4);
+        Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
         Vars.state.rules.spawns = Seq.with(
             new SpawnGroup(GierUnitTypes.drive){{
                 begin = 1;
