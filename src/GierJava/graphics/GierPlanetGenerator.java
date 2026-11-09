@@ -12,6 +12,8 @@ import arc.struct.Seq;
 import mindustry.Vars;
 import arc.Core;
 import mindustry.maps.generators.BaseGenerator;
+import mindustry.graphics.g3d.*;
+import arc.math.geom.*;
 
 import GierJava.content.*;
 
@@ -384,7 +386,7 @@ for(int x = 4; x < width - 4; x++){
             Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
             ,coreX, coreY);
 
-        state.rules.planetBackground = new PlanetParams(){{
+        Vars.state.rules.planetBackground = new PlanetParams(){{
             planet = sector.planet;
             zoom = 1f;
             camPos = new Vec3(1.2388899f, 1.6047299f, 2.4758825f);
