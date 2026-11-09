@@ -102,7 +102,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
         float distance = Mathf.dst(x, y, asteroid.x, asteroid.y);
 
-        if(distance < asteroid.radius + 3f){
+        if(distance < asteroid.radius + 1.8f){
             floor = room.floor;
         }
 
@@ -254,7 +254,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             float v_n4 = v_n2 + v_n3;
 
-            floor = Blocks.empty;
+            floor = Blocks.space;
 
             if(v_n4 > 0.28f){
                 floor = Blocks.stone;
@@ -378,7 +378,7 @@ for(int x = 4; x < width - 4; x++){
             new SpawnGroup(GierUnitTypes.drive){{
                 begin = 5;
                 end = 51;
-                spacing = 1;
+                spacing = 2;
                 unitAmount = 2;
                 unitScaling = 0.4f;
                 shields = 40f;
