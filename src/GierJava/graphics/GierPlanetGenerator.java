@@ -8,6 +8,8 @@ import mindustry.game.Schematics;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
+import arc.struct.Seq;
+import mindustry.Vars;
 
 import GierJava.content.*;
 
@@ -140,10 +142,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             }
           }
 
-        state.rules.winWave = 50;
-      
-        state.rules.spawns = Seq.with(
-        new SpawnGroup(UnitTypes.dagger){{
+        Vars.state.rules.winWave = 50;
+        Vars.state.rules.spawns = Seq.with(
+        new SpawnGroup(GierUnitTypes.drive){{
             begin = 1;
             end = 10;
             spacing = 1;
