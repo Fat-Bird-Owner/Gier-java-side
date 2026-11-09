@@ -85,6 +85,10 @@ public class GierBlocks {
     droneFacility,
     facilityDropzone,
 
+    // Liquids
+    fluidSilo,
+    fluidTank,
+    
     // Production
     hydroDrill,
     
@@ -578,6 +582,36 @@ public class GierBlocks {
             envEnabled = -1;
         }};
 
+        fluidSilo = new LiquidRouter("fluid-silo"){{
+            requirements(Category.liquid, with(
+                Items.titanium, 50,
+                Items.metaglass, 150
+            ));
+
+            size = 2;
+            liquidPadding = 2f;
+            liquidCapacity = 250f;
+            squareSprite = false;
+
+            researchCostMultiplier = 0.25f;
+            databaseTag = "gier";
+        }};
+
+        fluidTank = new LiquidRouter("fluid-tank"){{
+            requirements(Category.liquid, with(
+                Items.tungsten, 100,
+                Items.metaglass, 300
+            ));
+
+            size = 3;
+            liquidPadding = 2f;
+            liquidCapacity = 1250f;
+            squareSprite = false;
+
+            researchCostMultiplier = 0.25f;
+            databaseTag = "gier";
+        }};
+        
         // Production
 
         hydroDrill = new Drill("hydro-drill"){{
