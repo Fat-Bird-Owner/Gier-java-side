@@ -64,7 +64,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             if(v_n4 > -0.15f){
                 floor = Blocks.stone;
 
-              if (v_n4 > lowest) {
+              if (v_n4 < lowest) {
                 lowest = v_n4;
                 coreX = x;
                 coreY = y;
