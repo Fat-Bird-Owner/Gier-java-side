@@ -11,6 +11,7 @@ import mindustry.world.*;
 import arc.struct.Seq;
 import mindustry.Vars;
 import arc.Core;
+import mindustry.maps.generators.BaseGenerator;
 
 import GierJava.content.*;
 
