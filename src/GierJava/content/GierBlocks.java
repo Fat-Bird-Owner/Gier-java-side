@@ -97,6 +97,7 @@ public class GierBlocks {
 
     // Defense
     copperFort,
+    fusionDome,
     scrapMound,
 
     // Power
@@ -785,6 +786,46 @@ public class GierBlocks {
             requirements(Category.defense, with(Items.scrap, 48));
             size = 2;
             health = 400;
+        }};
+
+        fusionDome = new IntegrityShield("fusion-dome"){{
+           requirements(Category.defense, with(
+                Items.lead, 750,
+                Items.copper, 500,
+                Items.metaglass, 250,
+                Items.silicon, 250
+            ));
+
+            size = 3;
+            health = 3500;
+            itemCapacity = 0;
+
+            baseExplosiveness = 150f;
+
+            destroyBullet = new ExplosionBulletType(1500f, 120f){{
+                instantDisappear = true;
+                despawnHit = true;
+                scaledSplashDamage = true;
+                hitEffect = Fx.reactorExplosion;
+                hitShake = 45f;
+            }};
+
+            radius = 160f;
+            sides = 4;
+            shieldHealth = 4500f;
+            shieldRotation = 45f;
+
+            cooldownNormal = 15f;
+            cooldownBrokenBase = 6.3f;
+
+            envEnabled = Env.any;
+            customShadow = true;
+            squareSprite = false;
+
+            consumePower(10f);
+
+            researchCostMultiplier = 0.35f;
+            databaseTag = "gier";
         }};
         
         dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
