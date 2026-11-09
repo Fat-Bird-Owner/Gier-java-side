@@ -41,7 +41,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         pass((x, y) -> {
             block = Blocks.air;
 
-            float scale = 2.7f;
+            float scale = 3.3f;
           
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
                 x + 30f * ((float)Simplex.noise2d(seed, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
@@ -142,36 +142,43 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             }
           }
 
+        Vars.state.rules.waves = true;
         Vars.state.rules.winWave = 50;
         Vars.state.rules.spawns = Seq.with(
         new SpawnGroup(GierUnitTypes.drive){{
             begin = 1;
-            end = 10;
+            end = 51;
             spacing = 1;
             unitAmount = 2;
+            unitScaling = 1.2f;
             max = 12;
         }},
 
         new SpawnGroup(GierUnitTypes.drive){{
             begin = 5;
-            end = 20;
+            end = 51;
             spacing = 2;
             unitAmount = 2;
+            unitScaling = 0.8f;
+            shields = 40f;
+            shieldScaling = 5f;
             max = 16;
         }},
 
         new SpawnGroup(GierUnitTypes.spark){{
-            begin = 15;
-            spacing = 5;
+            begin = 12;
+            spacing = 1;
             unitAmount = 2;
+            unitScaling = 0.45f;
             max = 10;
         }},
 
         new SpawnGroup(GierUnitTypes.ash){{
-            begin = 30;
-            spacing = 5;
+            begin = 20;
+            spacing = 2;
             unitAmount = 1;
             max = 12;
+            unitScaling = 0.2f;
         }}
     );
       
