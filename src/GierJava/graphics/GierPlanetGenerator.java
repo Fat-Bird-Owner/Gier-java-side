@@ -218,10 +218,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             floor = Blocks.empty;
 
-            if(v_n4 > 0.48f){
+            if(v_n4 > 0.28f){
                 floor = Blocks.stone;
 
-                if(v_n4 > 0.48f && v_n4 < lowest){
+                if(v_n4 > 0.28f && v_n4 < lowest){
                     boolean valid = true;
 
                     for(int rx = -4; rx <= 4; rx++){
@@ -330,7 +330,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             new SpawnGroup(GierUnitTypes.drive){{
                 begin = 5;
                 end = 51;
-                spacing = 2;
+                spacing = 1;
                 unitAmount = 2;
                 unitScaling = 0.8f;
                 shields = 40f;
@@ -355,6 +355,8 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             }}
         );
 
-        Schematics.placeLoadout(defaultLoadout, coreX, coreY);
+        Schematics.placeLoadout(
+            Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
+            ,coreX, coreY);
     }
 }
