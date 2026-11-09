@@ -37,7 +37,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         pass((x, y) -> {
             block = Blocks.air;
 
-            float scale = 1.7f;
+            float scale = 2.45f;
           
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
                 x + 30f * ((float)Simplex.noise2d(seed, 2, 0.50f, scale / (90f * width / 160f), x, y) - 0.5f) * 2f,
@@ -59,23 +59,27 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     float copper = Simplex.noise2d(seed + 10, 3, 0.55f, 1f / 18f, x, y);
     float lead = Simplex.noise2d(seed + 20, 3, 0.55f, 1f / 24f, x, y);
-    float coal = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
+    float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
     float titanium = Simplex.noise2d(seed + 40, 3, 0.55f, 1f / 38f, x, y);
     float thorium = Simplex.noise2d(seed + 50, 3, 0.55f, 1f / 45f, x, y);
 
-    if(copper > 0.62f){
+    if(copper > 0.72f){
         ore = Blocks.oreCopper;
     }
 
-    if(lead > 0.65f){
+    if(lead > 0.72f){
         ore = Blocks.oreLead;
     }
 
-    if(titanium > 0.72f){
+    if(sand > 0.65f){
+        floor = Blocks.darksand;
+    }
+          
+    if(titanium > 0.8f){
         ore = Blocks.oreTitanium;
     }
 
-    if(thorium > 0.76f){
+    if(thorium > 0.84f){
         ore = Blocks.oreThorium;
     }
           
