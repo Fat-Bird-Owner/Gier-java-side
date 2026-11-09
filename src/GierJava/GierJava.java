@@ -46,6 +46,7 @@ public class GierJava extends Mod{
 
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
+            GierPlanets.gier.generator = new GierPlanetGenerator();
 
             new ArchiveResearchDialog();
             
