@@ -39,7 +39,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     protected void generate(){
 
-      float coreX, coreY;
+      int coreX, coreY;
       float lowest = 1f;
       
       
