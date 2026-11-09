@@ -1,4 +1,4 @@
-package GierJava.maps;
+package GierJava.graphics;
 
 import arc.math.*;
 import arc.util.noise.Simplex;
