@@ -180,7 +180,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     @Override
     public void generate(Tiles tiles, Sector sec, WorldParams params){
-        seed = params.seedOffset + baseSeed;
+        seed = sec.id + params.seedOffset + baseSeed;
         super.generate(tiles, sec, params);
     }
 
