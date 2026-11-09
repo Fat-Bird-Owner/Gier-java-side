@@ -30,6 +30,7 @@ import mindustry.world.meta.*;
 import mindustry.content.*;
 import arc.math.*;
 import arc.struct.*;
+import arc.util.noise.Simplex;
 
 public class GierPlanetGenerator extends BlankPlanetGenerator{
 
@@ -126,7 +127,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         return Seq.with(
             Blocks.oreCopper,
             Blocks.oreLead,
-            Blocks.oreGraphite,
+            Blocks.wallOreGraphite,
             Blocks.oreTitanium,
             Blocks.oreBeryllium,
             Blocks.oreTungsten,
