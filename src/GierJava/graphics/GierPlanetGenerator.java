@@ -194,6 +194,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     protected void generate(){
 
+        lowest = 0f;
+        coreX = width / 2;
+        coreY = height / 2;
+
         createRooms();
         generateAsteroids();
         
@@ -213,6 +217,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             float v_n4 = v_n2 + v_n3;
 
             floor = Blocks.empty;
+
+            if(v_n4 > 0.28f){
+                floor = Blocks.stone;
+            }
 
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
 
@@ -262,9 +270,9 @@ for(int x = 4; x < width - 4; x++){
             bestDistance = distance;
             coreX = x;
             coreY = y;
+                }
+            }
         }
-    }
-}
         
         int margin = 12;
 
