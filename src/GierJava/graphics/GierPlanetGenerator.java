@@ -27,14 +27,15 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     private Room[][] rooms;
 
     private static class Room{
-        int x, y;
-        Block resource;
+    int x, y;
+    Block resource;
+    Seq<Asteroid> asteroids = new Seq<>();
 
-        Room(int x, int y, Block resource){
-            this.x = x;
-            this.y = y;
-            this.resource = resource;
-        }
+    Room(int x, int y, Block resource){
+        this.x = x;
+        this.y = y;
+        this.resource = resource;
+    }
     }
 
     private static class Asteroid{
@@ -49,28 +50,32 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
 
     private void generateAsteroids(){
-    for(Room room : rooms){
-        int count = rand.random(2, 5);
+    for(int rx = 0; rx < rooms.length; rx++){
+        for(int ry = 0; ry < rooms[rx].length; ry++){
+            Room room = rooms[rx][ry];
 
-        for(int i = 0; i < count; i++){
-            float radius = rand.random(1.5f, 3.5f);
+            int count = rand.random(2, 5);
 
-            int x = room.x * roomSize + rand.random(roomSize - 1);
-            int y = room.y * roomSize + rand.random(roomSize - 1);
+            for(int i = 0; i < count; i++){
+                float radius = rand.random(1.5f, 3.5f);
 
-            boolean overlaps = false;
+                int x = room.x * roomSize + rand.random(roomSize - 1);
+                int y = room.y * roomSize + rand.random(roomSize - 1);
 
-            for(Asteroid other : room.asteroids){
-                float minDistance = radius + other.radius + 2f;
+                boolean overlaps = false;
 
-                if(Mathf.dst2(x, y, other.x, other.y) < minDistance * minDistance){
-                    overlaps = true;
-                    break;
+                for(Asteroid other : room.asteroids){
+                    float minDistance = radius + other.radius + 2f;
+
+                    if(Mathf.dst2(x, y, other.x, other.y) < minDistance * minDistance){
+                        overlaps = true;
+                        break;
+                    }
                 }
-            }
 
-            if(!overlaps){
-                room.asteroids.add(new Asteroid(x, y, radius));
+                if(!overlaps){
+                    room.asteroids.add(new Asteroid(x, y, radius));
+                }
             }
         }
     }
@@ -195,12 +200,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
         createRooms();
         generateAsteroids();
-
+        
         pass((x, y) -> {
-            block = Blocks.air;
-
-            generateAsteroidOre(x, y);
             
+            block = Blocks.air;            
             float scale = 1f;
 
             float v_n2 = ((float)Simplex.noise2d(seed + 2, 4, 0.55f, scale / (55f * width / 160f),
@@ -252,24 +255,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
 
+            ore = Blocks.air;
+            generateAsteroidOre(x, y);
+            
             float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
-
-            Room room = getRoom(x, y);
-
-            if(room != null){
-                float vein = Simplex.noise2d(
-                    seed + room.x * 7919 + room.y * 104729,
-                    3,
-                    0.55f,
-                    1f / 7f,
-                    x,
-                    y
-                );
-
-                if(vein > 0.58f){
-                    ore = room.resource;
-                }
-            }
 
             if(sand > 0.65f){
                 floor = Blocks.darksand;
