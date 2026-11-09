@@ -222,9 +222,37 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         Vars.state.rules.waves = true;
         Vars.state.rules.winWave = 20;
 
+Tile enemySpawn = null;
+float farthest = -1f;
 
+for(int x = 20; x < width - 20; x += 4){
+    for(int y = 20; y < height - 20; y += 4){
+        Tile tile = tiles.get(x, y);
+
+        if(tile == null || tile.floor().isLiquid || tile.floor().solid) continue;
+
+        float distance = Mathf.dst2(x, y, coreX, coreY);
+
+        if(distance > farthest){
+            farthest = distance;
+            enemySpawn = tile;
+        }
+    }
+}
       
-        Vars.state.rules.spawns = Seq.with(
+     if(enemySpawn != null){
+    basegen.generate(
+        tiles,
+        Seq.with(enemySpawn),
+        enemySpawn,
+        Team.crux,
+        sector,
+        sector.threat
+    );
+
+     }
+      
+      Vars.state.rules.spawns = Seq.with(
         new SpawnGroup(GierUnitTypes.drive){{
             begin = 1;
             end = 51;
