@@ -29,15 +29,18 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     private Room[][] rooms;
 
     private static class Room{
+    private static class Room{
     int x, y;
     Block resource;
+    Floor floor;
     Seq<Asteroid> asteroids = new Seq<>();
 
-    Room(int x, int y, Block resource){
-        this.x = x;
-        this.y = y;
-        this.resource = resource;
-    }
+        Room(int x, int y, Block resource, Floor floor){
+            this.x = x;
+            this.y = y;
+            this.resource = resource;
+            this.floor = floor;
+        }
     }
 
     private static class Asteroid{
@@ -100,6 +103,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
         float distance = Mathf.dst(x, y, asteroid.x, asteroid.y);
 
+        if(distance < asteroid.radius + 3f){
+            floor = room.floor;
+        }
+
         if(distance < asteroid.radius * 0.75f + noise * 0.8f){
             ore = room.resource;
             return;
@@ -108,27 +115,42 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
     
     private void createRooms(){
-        int columns = (width + roomSize - 1) / roomSize;
-        int rows = (height + roomSize - 1) / roomSize;
+    int columns = (width + roomSize - 1) / roomSize;
+    int rows = (height + roomSize - 1) / roomSize;
 
-        rooms = new Room[columns][rows];
+    rooms = new Room[columns][rows];
 
-        Seq<Block> resources = Seq.with(
-            Blocks.oreCopper,
-            Blocks.oreLead,
-            Blocks.wallOreGraphite,
-            Blocks.oreTitanium,
-            Blocks.oreBeryllium,
-            Blocks.oreTungsten,
-            Blocks.oreCrystalThorium
-        );
+    Seq<Block> resources = Seq.with(
+        Blocks.oreCopper,
+        Blocks.oreLead,
+        Blocks.wallOreGraphite,
+        Blocks.oreTitanium,
+        Blocks.oreBeryllium,
+        Blocks.oreTungsten,
+        Blocks.oreCrystalThorium,
+        Blocks.oreScrap
+    );
 
-        for(int x = 0; x < columns; x++){
-            for(int y = 0; y < rows; y++){
+    Seq<Floor> floors = Seq.with(
+        Blocks.ferricStone,
+        Blocks.basalt,
+        Blocks.carbonStone,
+        Blocks.shale,
+        Blocks.beryllicStone,
+        Blocks.carbonStone,
+        Blocks.crystallineStone,
+        Blocks.metalFloorDamaged
+    );
+
+    for(int x = 0; x < columns; x++){
+        for(int y = 0; y < rows; y++){
+            int index = rand.random(resources.size - 1);
+
                 rooms[x][y] = new Room(
                     x,
                     y,
-                    resources.get(rand.random(resources.size - 1))
+                    resources.get(index),
+                    floors.get(index)
                 );
             }
         }
@@ -242,13 +264,13 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
 
             ore = Blocks.air;
-            generateAsteroidOre(x, y);
-            
             float sand = Simplex.noise2d(seed + 30, 3, 0.55f, 1f / 30f, x, y);
 
             if(sand > 0.65f){
                 floor = Blocks.darksand;
             }
+
+            generateAsteroidOre(x, y);
 
         });
 
