@@ -194,7 +194,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     protected void generate(){
 
-        lowest = Float.POSITIVE_INFINITY;
+        lowest = 0f;
         coreX = width / 2;
         coreY = height / 2;
 
@@ -221,7 +221,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             if(v_n4 > 0.28f){
                 floor = Blocks.stone;
 
-                if(v_n4 > 0.28f && v_n4 < lowest){
+                if(v_n4 > 0.28f && v_n4 > lowest){
                     boolean valid = true;
 
                     for(int rx = -4; rx <= 4; rx++){
