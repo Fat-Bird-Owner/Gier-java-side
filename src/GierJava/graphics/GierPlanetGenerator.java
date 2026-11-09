@@ -15,6 +15,9 @@ import GierJava.content.*;
 
 public class GierPlanetGenerator extends BlankPlanetGenerator{
 
+  private int coreX, coreY;
+  private float lowest = 1f;
+  
   @Override
   public boolean allowLanding(Sector sector){
       return true;
@@ -37,11 +40,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
 
     @Override
-    protected void generate(){
+    protected void generate(){      
 
-      int coreX, coreY;
-      float lowest = 1f;
-      
+        lowest = 1f;
       
         pass((x, y) -> {
             block = Blocks.air;
