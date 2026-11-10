@@ -91,6 +91,8 @@ public class GierBlocks {
     
     // Production
     hydroDrill,
+    tonCrusher,
+    precipiceGrinder,
     
     // Crafting
     sunderFurnace,
@@ -636,6 +638,40 @@ public class GierBlocks {
             tier = 2;
         }};
 
+        tonCrusher = new Drill("hydro-drill"){{
+            requirements(Category.production, with(Items.lead, 250, Items.copper, 250, Items.silicon, 200, Items.metaglass, 100));
+            consumePower(2f);
+            consumeLiquid(Liquids.water, 10f / 60f).boost();
+            researchCostMultiplier = 0.15f;
+
+            envEnabled = -1;
+            databaseTag = "gier";
+            squareSprite = false;
+
+            liquidBoostIntensity = 2f;
+            conductivePower = true;
+            outputsPower = true;
+
+            size = 3;
+            customShadow = true;
+            baseExplosiveness = 85f;
+            drillTime = 120f;
+            tier = 3;
+        }};
+        
+        precipiceGrinder = new WallCrafter("precipice-grinder"){{
+            requirements(Category.production, with(Items.lead, 100, Items.copper, 100, Items.silicon, 50, Items.titanium, 50));
+            consumePower(2f);
+            researchCostMultiplier = 0.15f;
+
+            consumeLiquid(Liquids.water, 0.08334f).boost();
+            size = 2;
+
+            baseExplosiveness = 50f;
+            hasLiquidBooster = true;
+            rotateSpeed = 5f;
+        }};
+        
         // Crafting
 
         sunderFurnace = new GenericCrafter("sunder-furnace"){{
