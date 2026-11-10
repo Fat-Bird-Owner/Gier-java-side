@@ -47,6 +47,8 @@ public class GierTechTree {
             });
 
             node(hydroDrill, () -> {
+                node(precipiceGrinder, () -> {});
+                node(tonCrusher, () -> {});
                 node(dihydrogenShaft, () -> {
                     node(fluidSilo, () -> {
                         node(fluidTank, () -> {});
