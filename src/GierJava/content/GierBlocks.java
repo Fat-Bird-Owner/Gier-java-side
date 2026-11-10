@@ -638,7 +638,7 @@ public class GierBlocks {
             tier = 2;
         }};
 
-        tonCrusher = new Drill("hydro-drill"){{
+        tonCrusher = new Drill("ton-crusher"){{
             requirements(Category.production, with(Items.lead, 250, Items.copper, 250, Items.silicon, 200, Items.metaglass, 100));
             consumePower(2f);
             consumeLiquid(Liquids.water, 10f / 60f).boost();
