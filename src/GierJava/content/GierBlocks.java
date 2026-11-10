@@ -631,7 +631,7 @@ public class GierBlocks {
             size = 2;
             customShadow = true;
             baseExplosiveness = 3f;
-            drillTime = 200f;
+            drillTime = 180f;
             tier = 2;
         }};
 
@@ -913,7 +913,7 @@ public class GierBlocks {
         // Power
 
         transitNode = new TransitNode("transit-node"){{
-            requirements(Category.power, with(Items.copper, 20));
+            requirements(Category.power, with(Items.copper, 10));
             range = 6;
             baseColor = Pal.accent;
 
@@ -936,7 +936,7 @@ public class GierBlocks {
         }};
         
         photonPanel = new SolarGenerator("photon-panel"){{
-            requirements(Category.power, with(Items.lead, 50, Items.copper, 100));
+            requirements(Category.power, with(Items.lead, 25, Items.copper, 50));
             customShadow = true;
             size = 2;
 
