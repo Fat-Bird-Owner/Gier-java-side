@@ -15,6 +15,7 @@ import mindustry.world.*;
 
 import arc.func.Cons;
 import arc.Events;
+import arc.Core;
 
 import static mindustry.Vars.*;
 
@@ -67,7 +68,8 @@ public class GierJava extends Mod{
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
                 if (n.content instanceof Block){
-                    n.content.envEnabled = -1;
+                    Block block = n.content;
+                    block.envEnabled = -1;
                 }
             });
 
