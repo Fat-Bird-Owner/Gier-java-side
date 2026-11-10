@@ -12,6 +12,8 @@ import mindustry.gen.Icon;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.ui.Styles;
+import mindustry.ui.dialogs.PlanetDialog;
+
 import mindustry.world.blocks.campaign.LaunchPad;
 
 public class GierLaunchPad extends LaunchPad{
@@ -56,27 +58,32 @@ public class GierLaunchPad extends LaunchPad{
         }
 
         @Override
-        public void buildConfiguration(Table table){
-            table.button(Icon.upOpen, Styles.cleari, () -> {
-                if(!Vars.state.isCampaign() || Vars.net.client()) return;
+public void buildConfiguration(Table table){
+    if(!Vars.state.isCampaign() || Vars.net.client()){
+        deselect();
+        return;
+    }
 
-                var candidates = Vars.content.planets().select(p ->
-                    !p.removed && p.generator != null
-                );
+    table.button(Icon.upOpen, Styles.cleari, () -> {
+        PlanetDialog.debugSelect = true;
 
-                Vars.ui.planet.showPlanetLaunch(
-                    Vars.state.rules.sector,
-                    candidates,
-                    other -> {
-                        if(other != null){
-                            destination = other;
-                        }
-                    }
-                );
+        Vars.ui.planet.hidden(() -> PlanetDialog.debugSelect = false);
 
-                deselect();
-            }).size(40f);
-        }
+        Vars.ui.planet.showPlanetLaunch(
+            Vars.state.rules.sector,
+            Vars.state.rules.sector.planet.launchCandidates,
+            other -> {
+                PlanetDialog.debugSelect = false;
+
+                if(other != null && other.hasBase()){
+                    destination = other;
+                }
+            }
+        );
+
+        deselect();
+    }).size(40f);
+}
 
         @Override
         public void display(Table table){
