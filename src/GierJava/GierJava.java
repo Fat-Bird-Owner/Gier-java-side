@@ -59,6 +59,11 @@ public class GierJava extends Mod{
             */
             GierPlanets.kela.reloadMeshAsync();
             GierPlanets.kela.techTree = GierPlanets.gier.techTree;
+
+            GierPlanets.gier.sectors.each(s -> {
+                s.setName(Core.bundle.get("gier.sectors-" + s.id + ".name"));
+            });
+            
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
                 if (n.content instanceof Block){
