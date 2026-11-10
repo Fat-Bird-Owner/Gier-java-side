@@ -11,6 +11,7 @@ import mindustry.mod.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.*;
+import mindustry.world.*;
 
 import arc.func.Cons;
 import arc.Events;
@@ -60,6 +61,9 @@ public class GierJava extends Mod{
             GierPlanets.kela.techTree = GierPlanets.gier.techTree;
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
+                if (n.content instanceof Block){
+                    n.content.envEnabled = -1;
+                }
             });
 
         });
