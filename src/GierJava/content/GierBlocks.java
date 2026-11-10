@@ -121,7 +121,8 @@ public class GierBlocks {
     coreFacility,
     crate,
     restorator,
-    mendPylon;
+    mendPylon,
+    exportPlatform;
 
     public static void load(){
 
@@ -1134,6 +1135,17 @@ public class GierBlocks {
             phaseRangeBoost = 80f;
         }};
 
+        exportPlatform = new GierLaunchPad("gier-launch-pad"){{
+            requirements(Category.distribution, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100);
+            size = 3;
+
+            launchTime = 30f * 60f;
+            itemCapacity = 20;
+
+            consumePower(2f);
+        
+        }};
+        
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
             requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
