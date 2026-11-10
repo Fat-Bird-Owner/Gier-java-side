@@ -72,6 +72,8 @@ public class GierTechTree {
             node(assemblyBay, () -> {
                 node(assemblyReconstructor, () -> {});
             });
+
+            node(exportPlatform, () -> {});
             
             node(transitNode, () -> {
                 node(powerGrid, () -> {});
