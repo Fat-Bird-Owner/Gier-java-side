@@ -68,7 +68,7 @@ public class GierJava extends Mod{
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
                 if (n.content instanceof Block){
-                    Block block = n.content;
+                    Block block = (Block)n.content;
                     block.envEnabled = -1;
                 }
             });
