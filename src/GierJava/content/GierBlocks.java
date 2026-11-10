@@ -1136,14 +1136,13 @@ public class GierBlocks {
         }};
 
         exportPlatform = new GierLaunchPad("gier-launch-pad"){{
-            requirements(Category.distribution, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100);
+            requirements(Category.distribution, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100));
             size = 3;
 
             launchTime = 30f * 60f;
             itemCapacity = 20;
 
-            consumePower(2f);
-        
+            consumePower(2f);     
         }};
         
         // Payload turrets
