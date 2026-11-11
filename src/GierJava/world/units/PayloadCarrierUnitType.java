@@ -54,6 +54,12 @@ private void updateHeldPayloads(Unit unit){
             unitPayload.unit.update();
         }else if(payload instanceof BuildPayload buildPayload){
             buildPayload.build.update();
+          
+          if (unit.stack.item != null && buildPayload.build.acceptItem(buildPayload.build, unit.stack.item){
+            buildPayload.build.handleItem(buildPayload.build, unit.stack.item);
+            unit.stack.amount -= 1;
+          }
+            
         }
     }
 }
@@ -69,15 +75,18 @@ public void updatePayload(Unit unit, @Nullable Unit unitHolder, @Nullable Buildi
 }
   
   @Override
-  public <T extends Unit & Payloadc> void drawPayload(T unit){
-        if(unit.hasPayload()){
-            float prev = Draw.z();
-            Draw.z(prev + 1f);
-            Payload pay = unit.payloads().first();
-            pay.set(unit.x, unit.y, unit.rotation);
-            pay.draw();
-            Draw.z(prev);
-        }
-  }
+public <T extends Unit & Payloadc> void drawPayload(T unit){
+    if(!unit.hasPayload()) return;
+
+    float prev = Draw.z();
+    Draw.z(Layer.flyingUnit + 1f);
+
+    for(Payload payload : unit.payloads()){
+        payload.set(unit.x, unit.y, unit.rotation);
+        payload.draw();
+    }
+
+    Draw.z(prev);
+}
   
 }
