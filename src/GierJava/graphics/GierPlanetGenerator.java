@@ -16,6 +16,8 @@ import mindustry.graphics.g3d.*;
 import arc.math.geom.*;
 import mindustry.world.blocks.environment.Floor;
 import GierJava.content.*;
+import arc.func.*;
+import arc.util.*;
 
 import static GierJava.content.GierUnitTypes.*;
 import static mindustry.content.UnitTypes.*;
@@ -368,7 +370,7 @@ for(int x = 4; x < width - 4; x++){
 
         Vars.state.rules.waveTeam = Team.get(5);
         Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
-        Vars.state.rules.spawns = generateWave(sector.difficulty, sector.id);
+        Vars.state.rules.spawns = generateWave(sector.threat, sector.id);
 
         Schematics.placeLoadout(
             Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
