@@ -653,7 +653,6 @@ public class GierBlocks {
             outputsPower = true;
 
             size = 3;
-            customShadow = true;
             baseExplosiveness = 85f;
             drillTime = 120f;
             tier = 3;
@@ -666,7 +665,8 @@ public class GierBlocks {
 
             consumeLiquid(Liquids.water, 0.08334f).boost();
             size = 2;
-
+            drillTime = 120f;
+            
             baseExplosiveness = 50f;
             hasLiquidBooster = true;
             rotateSpeed = 5f;
