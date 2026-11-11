@@ -1193,7 +1193,7 @@ public class GierBlocks {
 
             size = 5;
             launchBlock = coreSatellite;
-            powerBufferRequirement = 5000f:
+            powerBufferRequirement = 5000f;
 
             //Animation
                 chargeRings = 5;
