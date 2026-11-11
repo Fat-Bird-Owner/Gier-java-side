@@ -50,6 +50,9 @@ public class GierJava extends Mod{
             GierPlanets.gier.radius = 0.5f;
             GierPlanets.gier.generator = new GierPlanetGenerator();
 
+            GierPlanets.notva.radius = 0.5f;
+            GierPlanets.notva.generator = new NotvaPlanetGenerator();
+            
             new ArchiveResearchDialog();
             
             /*
