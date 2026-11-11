@@ -1203,7 +1203,7 @@ public class GierBlocks {
                 buildDuration = 10f * 60f;
                 chargeDuration = 5f * 60f;
                 lightningLaunchChance = 0;
-        }}
+        }};
         
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
