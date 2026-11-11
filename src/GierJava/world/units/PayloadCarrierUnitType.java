@@ -32,11 +32,11 @@ import mindustry.logic.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.payloads.*;
-import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
-
+import mindustry.world.blocks.*;
+import mindustry.world.blocks.liquid.*;
+import mindustry.world.blocks.payloads.*;
 import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 
@@ -59,7 +59,42 @@ private void updateHeldPayloads(Unit unit){
             buildPayload.build.handleItem(buildPayload.build, unit.stack.item);
             unit.stack.amount -= 1;
           }
-            
+
+          if(buildPayload instanceof LiquidRouter.LiquidRouterBuild liqBuild){
+    for(Payload payloadIn : payloadc.payloads()){
+        if(payloadIn instanceof BuildPayload otherPayload){
+            Building other = otherPayload.build;
+
+            if(other == liqBuild || other.liquids == null) continue;
+
+            Liquid liquid = liqBuild.liquids.current();
+
+            if(liquid != null && liqBuild.liquids.get(liquid) > 0f && other.acceptLiquid(liqBuild, liquid)){
+                liqBuild.transferLiquid(other, 2f, liquid);
+            }
+        }
+    }
+}
+
+if(buildPayload instanceof StorageBlock.StorageBuild storBuild){
+    for(Payload payloadIn : payloadc.payloads()){
+        if(payloadIn instanceof BuildPayload otherPayload){
+            Building other = otherPayload.build;
+
+            if(other == storBuild || other.items == null) continue;
+
+            for(Item item : content.items()){
+                if(storBuild.items.get(item) <= 0) continue;
+
+                if(other.acceptItem(storBuild, item)){
+                    other.handleItem(storBuild, item);
+                    storBuild.items.remove(item, 1);
+                }
+            }
+        }
+    }
+}
+          
         }
     }
 }
