@@ -124,7 +124,8 @@ public class GierBlocks {
     crate,
     restorator,
     mendPylon,
-    exportPlatform;
+    exportPlatform,
+    launchPlatform;
 
     public static void load(){
 
@@ -1180,6 +1181,29 @@ public class GierBlocks {
 
             consumePower(2f);     
         }};
+
+        launchPlatform = new Accelerator("launch-platform"){{
+            requirements(Category.distribution, ItemStack.with(
+                         Items.copper, 2000, 
+                         Items.lead, 2000, 
+                         Items.silicon, 1500, 
+                         Items.tungsten, 500,
+                         Items.thorium, 250
+                         ));
+
+            size = 5;
+            launchBlock = coreSatellite;
+            powerBufferRequirement = 5000f:
+
+            //Animation
+                chargeRings = 5;
+                ringRadBase = 40f;
+                ringSpeedup = 0.4f;
+
+                buildDuration = 10f * 60f;
+                chargeDuration = 5f * 60f;
+                lightningLaunchChance = 0;
+        }}
         
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
