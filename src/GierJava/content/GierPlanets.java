@@ -128,14 +128,19 @@ public class GierPlanets {
             gen.iceChance = 0f;
             gen.carbonChance = 0.01f;
             gen.max += 2;
-        });
+        }, 1);
 
+        notva.accessible = true;
+        
         verilus = makeAsteroid("verilus", sun, Blocks.stoneWall, Blocks.iceWall, -1, 0.5f, 24, 2f, gen -> {
             gen.berylChance = 0f;
             gen.iceChance = 0.6f;
             gen.carbonChance = 0.1f;
             gen.ferricChance = 0f;
-        });
+        }, 1);
+
+        verilus.accessible = true;
+        
     }
     
     private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen, int sectorSize){
