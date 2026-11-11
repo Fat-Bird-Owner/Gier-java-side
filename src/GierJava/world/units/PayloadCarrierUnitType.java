@@ -115,12 +115,35 @@ public <T extends Unit & Payloadc> void drawPayload(T unit){
     if(!unit.hasPayload()) return;
 
     float layer = flying ? flyingLayer : groundLayer;
-    
     float prev = Draw.z();
+
     Draw.z(layer + 0.02f);
 
-    for(Payload payload : unit.payloads()){
-        payload.set(unit.x, unit.y, unit.rotation);
+    Seq<Payload> payloads = unit.payloads();
+
+    int count = payloads.size;
+    int columns = Mathf.ceil((float)Mathf.sqrt(count));
+    int rows = Mathf.ceil((float)count / columns);
+
+    float spacing = 0f;
+
+    for(Payload payload : payloads){
+        spacing = Math.max(spacing, payload.size() + 2f);
+    }
+
+    for(int i = 0; i < count; i++){
+        Payload payload = payloads.get(i);
+
+        int col = i % columns;
+        int row = i / columns;
+
+        float offsetX = (col - (columns - 1) / 2f) * spacing;
+        float offsetY = ((rows - 1) / 2f - row) * spacing;
+
+        float x = unit.x + Angles.trnsx(unit.rotation - 90f, offsetX, offsetY);
+        float y = unit.y + Angles.trnsy(unit.rotation - 90f, offsetX, offsetY);
+
+        payload.set(x, y, unit.rotation);
         payload.draw();
     }
 
