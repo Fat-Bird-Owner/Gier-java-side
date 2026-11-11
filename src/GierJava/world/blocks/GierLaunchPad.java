@@ -75,7 +75,7 @@ public void buildConfiguration(Table table){
             other -> {
                 PlanetDialog.debugSelect = false;
 
-                if(other != null && other.hasBase()){
+                if(other != null && other.hasBase() && other.isFrozen() == false){
                     destination = other;
                 }
             }
