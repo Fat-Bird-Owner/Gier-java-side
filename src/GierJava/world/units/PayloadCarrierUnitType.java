@@ -56,9 +56,9 @@ private void updateHeldPayloads(Unit unit){
         }else if(payload instanceof BuildPayload buildPayload){
             buildPayload.build.update();
           
-          if (unit.stack.item != null && buildPayload.build.acceptItem(buildPayload.build, unit.stack.item)){
+          if (unit.stack.item != null && unit.stack.amount <= 0 && buildPayload.build.acceptItem(buildPayload.build, unit.stack.item)){
             buildPayload.build.handleItem(buildPayload.build, unit.stack.item);
-            unit.stack.amount -= 1;
+            unit.stack.amount--;
           }
 
           if(buildPayload.build instanceof LiquidRouter.LiquidRouterBuild liqBuild){
@@ -89,7 +89,7 @@ if(buildPayload.build instanceof StorageBlock.StorageBuild storBuild){
 
                 if(other.acceptItem(storBuild, item)){
                     other.handleItem(storBuild, item);
-                    storBuild.items.remove(item, 1);
+                    storBuild.items.remove(item, 1);                  
                 }
             }
         }
