@@ -5,6 +5,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import GierJava.gen.*;
 import GierJava.world.abilities.*;
+import GierJava.world.units.*;
 import arc.*;
 import arc.audio.*;
 import arc.graphics.*;
@@ -30,18 +31,23 @@ import mindustry.entities.abilities.*;
 import mindustry.entities.pattern.*;
 import mindustry.type.unit.*;
 
+import static mindustry.Vars.*;
+
 public class GierUnitTypes {
     // `genIO` is only used here to avoid creating a `revision` directory, which is used to track IO.
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType
     
-    // Core units
-    restoration,
     singularity,
     
     // Exogen units
     spark,
     drive;
 
+    public static @EntityDef(value = {MDTXFixUnitc.class, Payloadc.class}) PayloadCarrierUnitType
+    
+    // Core units
+    restoration;
+    
     // Player produced units
     public static @EntityDef(value = {MDTXFixUnitc.class, Mechc.class}) UnitType occupy;
 
@@ -79,6 +85,8 @@ public class GierUnitTypes {
             hitSize = 14f;
             envEnabled = -1;
 
+            payloadCapacity = tilesize * tilesize;
+                
             engines.addAll(Seq.with(
             new UnitEngine(-4f, 0f, 2f, 0f),
             new UnitEngine(4f, 0f, 2f, 180f),
