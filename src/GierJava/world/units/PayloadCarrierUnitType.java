@@ -61,7 +61,7 @@ private void updateHeldPayloads(Unit unit){
             unit.stack.amount -= 1;
           }
 
-          if(buildPayload instanceof LiquidRouter.LiquidRouterBuild liqBuild){
+          if(buildPayload.build instanceof LiquidRouter.LiquidRouterBuild liqBuild){
     for(Payload payloadIn : payloadc.payloads()){
         if(payloadIn instanceof BuildPayload otherPayload){
             Building other = otherPayload.build;
@@ -77,7 +77,7 @@ private void updateHeldPayloads(Unit unit){
     }
 }
 
-if(buildPayload instanceof StorageBlock.StorageBuild storBuild){
+if(buildPayload.build instanceof StorageBlock.StorageBuild storBuild){
     for(Payload payloadIn : payloadc.payloads()){
         if(payloadIn instanceof BuildPayload otherPayload){
             Building other = otherPayload.build;
