@@ -52,7 +52,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.crystallineStone.asFloor(),
-        Blocks.crystallineStone.asFloor(),
+        Blocks.crystallineStone.asFloor()
     );
 
     for(int x = 0; x < columns; x++){
