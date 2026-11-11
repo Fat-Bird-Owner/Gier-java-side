@@ -65,14 +65,17 @@ public class GierJava extends Mod{
             });
             */
             GierPlanets.kela.reloadMeshAsync();
-            GierPlanets.kela.techTree = GierPlanets.gier.techTree;
-
+            GierPlanets.kela.techTree = GierPlanets.verilus.techTree = GierPlanets.notva.techTree =  GierPlanets.gier.techTree;
+            
             GierPlanets.gier.sectors.each(s -> {
                 s.setName(Core.bundle.get("gier.sectors-" + s.id + ".name"));
+                GierPlanets.gier.generator.generateSector(s);
             });
             
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
+                n.content.shownPlanets.add(GierPlanets.notva);
+                n.content.shownPlanets.add(GierPlanets.verilus);
                 if (n.content instanceof Block){
                     Block block = (Block)n.content;
                     block.envEnabled = -1;
