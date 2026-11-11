@@ -141,7 +141,7 @@ public class GierPlanets {
 
         verilus.accessible = true;
 
-        gier.launchCandidates = notva.launchCandidates = verilus.launchCandidates = Seq().with(
+        gier.launchCandidates = notva.launchCandidates = verilus.launchCandidates = Seq.with(
             gier,
             notva,
             verilus                                                                                     
