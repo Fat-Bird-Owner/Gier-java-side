@@ -21,7 +21,11 @@ import GierJava.content.*;
 
 public class NotvaPlanetGenerator extends GierPlanetGenerator{
 
-    private static final int roomSize = 40;
+    private static final int roomSize = 20;
+
+    {
+        baseSeed = 121;
+    }
     
     @Override
     public void createRooms(){
@@ -42,14 +46,13 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
     );
 
     Seq<Floor> floors = Seq.with(
-        Blocks.ferricStone.asFloor(),
-        Blocks.basalt.asFloor(),
         Blocks.beryllicStone.asFloor(),
+        Blocks.beryllicStone.asFloor(),
+        Blocks.charr.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.crystallineStone.asFloor(),
-        Blocks.craters.asFloor(),
-        Blocks.metalFloorDamaged.asFloor()
+        Blocks.crystallineStone.asFloor(),
     );
 
     for(int x = 0; x < columns; x++){
