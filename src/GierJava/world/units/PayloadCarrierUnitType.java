@@ -78,8 +78,10 @@ public void updatePayload(Unit unit, @Nullable Unit unitHolder, @Nullable Buildi
 public <T extends Unit & Payloadc> void drawPayload(T unit){
     if(!unit.hasPayload()) return;
 
+    float layer = flying ? flyingLayer : groundLayer;
+    
     float prev = Draw.z();
-    Draw.z(Layer.flyingUnit + 1f);
+    Draw.z(layer + 0.02f);
 
     for(Payload payload : unit.payloads()){
         payload.set(unit.x, unit.y, unit.rotation);
