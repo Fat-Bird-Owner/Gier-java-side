@@ -37,6 +37,7 @@ import mindustry.world.meta.*;
 import mindustry.world.blocks.*;
 import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.payloads.*;
+import mindustry.world.blocks.storage.*;
 import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 
@@ -60,7 +61,7 @@ private void updateHeldPayloads(Unit unit){
             unit.stack.amount -= 1;
           }
 
-          if(buildPayload instanceof LiquidRouter.LiquidRouterBuild liqBuild){
+          if(buildPayload instanceof LiquidRouterBuild liqBuild){
     for(Payload payloadIn : payloadc.payloads()){
         if(payloadIn instanceof BuildPayload otherPayload){
             Building other = otherPayload.build;
@@ -76,7 +77,7 @@ private void updateHeldPayloads(Unit unit){
     }
 }
 
-if(buildPayload instanceof StorageBlock.StorageBuild storBuild){
+if(buildPayload instanceof StorageBuild storBuild){
     for(Payload payloadIn : payloadc.payloads()){
         if(payloadIn instanceof BuildPayload otherPayload){
             Building other = otherPayload.build;
