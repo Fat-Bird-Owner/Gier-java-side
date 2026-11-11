@@ -24,7 +24,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
     private static final int roomSize = 40;
     
     @Override
-    private void createRooms(){
+    public void createRooms(){
     int columns = (width + roomSize - 1) / roomSize;
     int rows = (height + roomSize - 1) / roomSize;
 
