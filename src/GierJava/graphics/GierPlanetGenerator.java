@@ -26,9 +26,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     private static final int roomSize = 20;
 
-    private Room[][] rooms;
+    public Room[][] rooms;
 
-    private static class Room{
+    public static class Room{
     int x, y;
     Block resource;
     Floor floor;
@@ -42,7 +42,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         }
     }
 
-    private static class Asteroid{
+    public static class Asteroid{
     int x, y;
     float radius;
 
@@ -113,7 +113,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
     }
     
-    private void createRooms(){
+    public void createRooms(){
     int columns = (width + roomSize - 1) / roomSize;
     int rows = (height + roomSize - 1) / roomSize;
 
