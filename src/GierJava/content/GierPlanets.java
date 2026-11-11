@@ -122,7 +122,7 @@ public class GierPlanets {
         gier.alwaysUnlocked = true;
         gier.accessible = true;
         gier.orbitSpacing = 0.1f;
-
+        
         notva = makeAsteroid("notva", sun, Blocks.ferricStoneWall, Blocks.beryllicStoneWall, -4, 0.55f, 33, 4f, gen -> {
             gen.berylChance = 0.8f;
             gen.iceChance = 0f;
@@ -140,6 +140,12 @@ public class GierPlanets {
         }, 1);
 
         verilus.accessible = true;
+
+        gier.launchCandidates = notva.launchCandidates = verilus.launchCandidates = Seq().with(
+            gier,
+            notva,
+            verilus                                                                                     
+        );
         
     }
     
