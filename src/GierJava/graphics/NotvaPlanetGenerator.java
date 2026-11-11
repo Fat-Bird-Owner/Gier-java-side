@@ -21,6 +21,8 @@ import GierJava.content.*;
 
 public class NotvaPlanetGenerator extends GierPlanetGenerator{
 
+    private static final int roomSize = 40;
+    
     @Override
     private void createRooms(){
     int columns = (width + roomSize - 1) / roomSize;
@@ -46,7 +48,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.crystallineStone.asFloor(),
-        Block.craters.asFloor(),
+        Blocks.craters.asFloor(),
         Blocks.metalFloorDamaged.asFloor()
     );
 
