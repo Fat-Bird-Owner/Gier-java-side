@@ -52,7 +52,10 @@ public class GierJava extends Mod{
 
             GierPlanets.notva.radius = 0.5f;
             GierPlanets.notva.generator = new NotvaPlanetGenerator();
-            
+
+            GierPlanets.verilus.radius = 0.5f;
+            GierPlanets.verilus.generator = new VerilusPlanetGenerator();
+    
             new ArchiveResearchDialog();
             
             /*
