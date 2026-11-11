@@ -53,7 +53,7 @@ private void updateHeldPayloads(Unit unit){
         if(payload instanceof UnitPayload unitPayload){
             unitPayload.unit.update();
         }else if(payload instanceof BuildPayload buildPayload){
-            buildPayload.build.updateTile();
+            buildPayload.build.update();
         }
     }
 }
@@ -72,7 +72,7 @@ public void updatePayload(Unit unit, @Nullable Unit unitHolder, @Nullable Buildi
   public <T extends Unit & Payloadc> void drawPayload(T unit){
         if(unit.hasPayload()){
             float prev = Draw.z();
-            Draw.z(prev + 0.02f);
+            Draw.z(prev + 1f);
             Payload pay = unit.payloads().first();
             pay.set(unit.x, unit.y, unit.rotation);
             pay.draw();
