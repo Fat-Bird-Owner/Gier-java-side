@@ -51,6 +51,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.charr.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
+        Blocks.beryllicStone.asFloor(),
         Blocks.crystallineStone.asFloor(),
         Blocks.crystallineStone.asFloor()
     );
@@ -69,4 +70,13 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         }
     }
 
+    // Launch via accelerator instead
+    public boolean allowLanding(Sector sector){
+        return false;
+    }
+    
+    public void getLockedText(Sector hovered, StringBuilder out){
+        out.append("[gray]").append(" ").append(Core.bundle.get("gier-java.asteroidLock"));
+    }
+    
 }
