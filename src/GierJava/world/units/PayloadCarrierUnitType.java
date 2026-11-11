@@ -56,7 +56,7 @@ private void updateHeldPayloads(Unit unit){
         }else if(payload instanceof BuildPayload buildPayload){
             buildPayload.build.update();
           
-          if (unit.stack.item != null && unit.stack.amount <= 0 && buildPayload.build.acceptItem(buildPayload.build, unit.stack.item)){
+          if (unit.stack.item != null && unit.stack.amount > 0 && buildPayload.build.acceptItem(buildPayload.build, unit.stack.item)){
             buildPayload.build.handleItem(buildPayload.build, unit.stack.item);
             unit.stack.amount--;
           }
