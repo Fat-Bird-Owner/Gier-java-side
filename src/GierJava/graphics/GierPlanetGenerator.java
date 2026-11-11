@@ -384,7 +384,7 @@ for(int x = 4; x < width - 4; x++){
         
     }
 
-    public static void generateWave(float difficulty, int id){
+    public static Seq<SpawnGroup> generateWave(float difficulty, int id){
         return generate(difficulty, new Rand(id), false, true);
     }
     
