@@ -62,7 +62,7 @@ public class GierUnitTypes {
     
     public static void load(){
         
-        restoration = new UnitType("restoration"){{
+        restoration = new PayloadCarrierUnitType("restoration"){{
             speed = 3.5f;
             flying = true;
             outlineColor = Color.valueOf("2f2f3f");
