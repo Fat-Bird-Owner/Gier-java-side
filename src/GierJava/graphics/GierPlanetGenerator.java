@@ -17,6 +17,9 @@ import arc.math.geom.*;
 import mindustry.world.blocks.environment.Floor;
 import GierJava.content.*;
 
+import static GierJava.content.GierUnitTypes.*
+import static mindustry.content.UnitTypes.*;
+
 public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     private int coreX, coreY;
@@ -365,43 +368,7 @@ for(int x = 4; x < width - 4; x++){
 
         Vars.state.rules.waveTeam = Team.get(5);
         Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
-        Vars.state.rules.spawns = Seq.with(
-            new SpawnGroup(GierUnitTypes.drive){{
-                begin = 1;
-                end = 51;
-                spacing = 1;
-                unitAmount = 2;
-                unitScaling = 0.6f;
-                max = 3;
-            }},
-
-            new SpawnGroup(GierUnitTypes.drive){{
-                begin = 5;
-                end = 51;
-                spacing = 2;
-                unitAmount = 2;
-                unitScaling = 0.4f;
-                shields = 40f;
-                shieldScaling = 5f;
-                max = 5;
-            }},
-
-            new SpawnGroup(GierUnitTypes.spark){{
-                begin = 12;
-                spacing = 1;
-                unitAmount = 2;
-                unitScaling = 0.2f;
-                max = 4;
-            }},
-
-            new SpawnGroup(GierUnitTypes.ash){{
-                begin = 20;
-                spacing = 1;
-                unitAmount = 1;
-                max = 2;
-                unitScaling = 0.1f;
-            }}
-        );
+        Vars.state.rules.spawns = generateWave(sector.difficulty, sector.id);
 
         Schematics.placeLoadout(
             Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
@@ -414,4 +381,145 @@ for(int x = 4; x < width - 4; x++){
         }};
         
     }
+
+    public static void generateWave(float difficulty, int id){
+        return generate(difficulty, new Rand(id), false, true);
+    }
+    
+    public static Seq<SpawnGroup> generate(float difficulty, Rand rand, boolean attack, boolean airOnly){
+        UnitType[][] species = {
+        {occupy, overboard, staticu, scepter, reign},
+        {drive, spark, ash, zenith, antumbra}
+        };
+
+        if(airOnly){
+            species = Structs.filter(UnitType[].class, species, v -> v[0].flying);
+        }
+
+        UnitType[][] fspec = species;
+        Seq<SpawnGroup> out = new Seq<>();
+
+        //max reasonable wave, after which everything gets boring
+        int cap = 30;
+
+        float shieldStart = 30, shieldsPerWave = 20 + difficulty * 30f;
+        float[] scaling = {1, 2f, 3f, 4f, 5f};
+
+        Intc createProgression = start -> {
+            UnitType[] curSpecies = Structs.random(rand, fspec);
+            int curTier = 0;
+
+            for(int i = start; i < cap;){
+                int f = i;
+                int next = rand.random(8, 16) + (int)Mathf.lerp(5f, 0f, difficulty) + curTier * 4;
+
+                float shieldAmount = Math.max((i - shieldStart) * shieldsPerWave, 0);
+                int space = start == 0 ? 1 : rand.random(1, 2);
+                int ctier = curTier;
+
+                out.add(new SpawnGroup(curSpecies[Math.min(curTier, curSpecies.length - 1)]){{
+                    unitAmount = f == start ? 1 : 6 / (int)scaling[ctier];
+                    begin = f;
+                    end = f + next >= cap ? never : f + next;
+                    max = 13;
+                    unitScaling = (difficulty < 0.4f ? rand.random(2.5f, 5f) : rand.random(1f, 4f)) * scaling[ctier];
+                    shields = shieldAmount;
+                    shieldScaling = shieldsPerWave;
+                    spacing = space;
+                }});
+
+                out.add(new SpawnGroup(curSpecies[Math.min(curTier, curSpecies.length - 1)]){{
+                    unitAmount = 3 / (int)scaling[ctier];
+                    begin = f + next - 1;
+                    end = f + next + rand.random(6, 10);
+                    max = 6;
+                    unitScaling = rand.random(2f, 4f);
+                    spacing = rand.random(2, 4);
+                    shields = shieldAmount/2f;
+                    shieldScaling = shieldsPerWave;
+                }});
+
+                i += next + 1;
+                if(curTier < 3 || (rand.chance(0.05) && difficulty > 0.8)){
+                    curTier ++;
+                }
+
+                curTier = Math.min(curTier, 3);
+
+                if(rand.chance(0.3)){
+                    curSpecies = Structs.random(rand, fspec);
+                }
+            }
+        };
+
+        createProgression.get(0);
+
+        int step = 5 + rand.random(5);
+
+        while(step <= cap){
+            createProgression.get(step);
+            step += (int)(rand.random(15, 30) * Mathf.lerp(1f, 0.5f, difficulty));
+        }
+
+        int bossWave = (int)(rand.random(50, 70) * Mathf.lerp(1f, 0.5f, difficulty));
+        int bossSpacing = (int)(rand.random(25, 40) * Mathf.lerp(1f, 0.5f, difficulty));
+
+        int bossTier = difficulty < 0.6 ? 3 : 4;
+
+        out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+            unitAmount = 1;
+            begin = bossWave;
+            spacing = bossSpacing;
+            end = never;
+            max = 16;
+            unitScaling = bossSpacing;
+            shieldScaling = shieldsPerWave;
+            effect = StatusEffects.boss;
+        }});
+
+        out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+            unitAmount = 1;
+            begin = bossWave + rand.random(3, 5) * bossSpacing;
+            spacing = bossSpacing;
+            end = never;
+            max = 16;
+            unitScaling = bossSpacing;
+            shieldScaling = shieldsPerWave;
+            effect = StatusEffects.boss;
+        }});
+
+        int finalBossStart = 120 + rand.random(30);
+
+        out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+            unitAmount = 1;
+            begin = finalBossStart;
+            spacing = bossSpacing/2;
+            end = never;
+            unitScaling = bossSpacing;
+            shields = 500;
+            shieldScaling = shieldsPerWave * 4;
+            effect = StatusEffects.boss;
+        }});
+
+        out.add(new SpawnGroup(Structs.random(rand, species)[bossTier]){{
+            unitAmount = 1;
+            begin = finalBossStart + 15;
+            spacing = bossSpacing/2;
+            end = never;
+            unitScaling = bossSpacing;
+            shields = 500;
+            shieldScaling = shieldsPerWave * 4;
+            effect = StatusEffects.boss;
+        }});
+
+        int shift = Math.max((int)(difficulty * 14 - 5), 0);
+
+        for(SpawnGroup group : out){
+            group.begin -= shift;
+            group.end -= shift;
+        }
+
+        return out;
+    }
+    
 }
