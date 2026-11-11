@@ -182,7 +182,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         }else if(id < 60){
             sector.threat = 0.7f;
         }else{
-            sector.threat = 0.9f;
+            sector.threat = 1f;
         }
     }
     
