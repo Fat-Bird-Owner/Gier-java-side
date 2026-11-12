@@ -53,7 +53,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.oreTitanium,
         Blocks.oreBeryllium,
         Blocks.oreTungsten,
-        Blocks.oreCrystalThorium,
+        Blocks.oreCrystalThorium
     );
 
     Seq<Floor> floors = Seq.with(
@@ -63,7 +63,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.ferricStone.asFloor(),
-        Blocks.crystallineStone.asFloor(),
+        Blocks.crystallineStone.asFloor()
     );
 
     for(int x = 0; x < columns; x++){
