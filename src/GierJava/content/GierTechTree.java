@@ -15,7 +15,7 @@ public class GierTechTree {
 
     public static void load(){
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
-
+            
             node(lead, () -> {
                 node(copper, () -> {
                     node(beryllium, () -> {
@@ -75,7 +75,9 @@ public class GierTechTree {
                 node(assemblyReconstructor, () -> {});
             });
 
-            node(exportPlatform, () -> {});
+            node(exportPlatform, () -> {
+                node(launchPlatform, () -> {});
+            });
             
             node(transitNode, () -> {
                 node(powerGrid, () -> {});
