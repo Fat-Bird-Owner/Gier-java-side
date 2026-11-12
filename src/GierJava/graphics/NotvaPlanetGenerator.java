@@ -37,11 +37,13 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         sector.threat = (1f / sector.id) * 2f;
     }
 
+    /*
     @Override
     public void addWeather(Sector sector, Rules rules){
         super.addWeather(sector, rules);
         rules.weather.add(new Weather.WeatherEntry(GierWeather.fragStorm));
     }
+    */
     
     @Override
     public void createRooms(){
