@@ -29,6 +29,7 @@ import arc.*;
 
 import mindustry.world.blocks.campaign.LaunchPad;
 import static mindustry.Vars.*;
+import static mindustry.game.EventType.*;
 
 public class GierLaunchPad extends LaunchPad{
 
@@ -114,9 +115,9 @@ public void buildConfiguration(Table table){
             super.display(table);
 
             table.row();
-            table.add(destination == null
+            table.add(destination() == null
                 ? "No destination selected"
-                : "Destination: " + destination().planet.localizedName + " / " + destination.name()
+                : "Destination: " + destination().planet.localizedName + " / " + destination().name()
             ).wrap().width(200f).left();
         }
 
