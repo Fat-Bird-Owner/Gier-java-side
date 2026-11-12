@@ -29,14 +29,14 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
 
     @Override
     public void generateSector(Sector sector){
-        sector.setName(Core.bundle.get("notva.sectors-" + s.id + ".name"));
+        sector.setName(Core.bundle.get("notva.sectors-" + sector.id + ".name"));
         sector.threat = (1f / sector.id) * 2f;
     }
 
     @Override
     public void addWeather(Sector sector, Rules rules){
         super.addWeather(sector, rules);
-        rules.weather.add(new WeatherEntry(Weathers.fog));
+        rules.weather.add(new Weather.WeatherEntry(Weathers.fog));
     }
     
     @Override
