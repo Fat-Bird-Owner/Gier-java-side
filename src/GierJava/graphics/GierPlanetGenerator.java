@@ -29,6 +29,10 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 
     private final BaseGenerator basegen = new BaseGenerator();
 
+    public Block baseBlock = Blocks.stone;
+    public boolean setStarterResource = true, replaceLoadout = true;
+    public int completeWave = 20;
+    
     private static final int roomSize = 20;
 
     public Room[][] rooms;
@@ -262,7 +266,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
             floor = Blocks.space;
 
             if(v_n4 > 0.28f){
-                floor = Blocks.stone;
+                floor = baseBlock;
             }
 
             if(floor.asFloor().isLiquid || floor.asFloor().solid) return;
@@ -287,7 +291,7 @@ for(int x = 4; x < width - 4; x++){
     for(int y = 4; y < height - 4; y++){
         Tile tile = tiles.get(x, y);
 
-        if(tile == null || tile.floor() != Blocks.stone) continue;
+        if(tile == null || tile.floor() != baseBlock) continue;
 
         boolean valid = true;
 
@@ -295,7 +299,7 @@ for(int x = 4; x < width - 4; x++){
             for(int ry = -4; ry <= 4; ry++){
                 Tile nearby = tiles.get(x + rx, y + ry);
 
-                if(nearby == null || nearby.floor() != Blocks.stone){
+                if(nearby == null || nearby.floor() != baseBlock){
                     valid = false;
                     break;
                 }
@@ -335,7 +339,7 @@ for(int x = 4; x < width - 4; x++){
         }
 
         Vars.state.rules.waves = true;
-        Vars.state.rules.winWave = 20;
+        Vars.state.rules.winWave = completeWave;
 
         Tile enemySpawn = null;
         float farthest = -1f;
@@ -369,12 +373,21 @@ for(int x = 4; x < width - 4; x++){
         */
 
         Vars.state.rules.waveTeam = Team.get(5);
-        Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
+        if (setStarterResource == true){
+            Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
+        }
+        
         Vars.state.rules.spawns = generateWave(sector.threat, sector.id);
 
+        if (replaceLoadout == true){
+            
         Schematics.placeLoadout(
             Schematics.readBase64("bXNjaAF4nD2KsQ5AMBRFLxUDidlP9CvMJqMYnnqRSrXSvljEv2ORnJzlHCioApUJXthLTwfy60bpaGaXkI8TCk87o+lCZD2QsHNWGPXCyUR7iA0eyNCulqPe6CRtvjP951dfXj1crR12")
             ,coreX, coreY);
+            
+        } else {
+            Schematics.placeLaunchLoadout(coreX, coreY);
+        }
 
         Vars.state.rules.planetBackground = new PlanetParams(){{
             planet = sector.planet;
