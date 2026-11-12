@@ -10,6 +10,7 @@ import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.ctype.ContentType;
 import mindustry.gen.Building;
+import mindustyr.game;
 import mindustry.gen.Icon;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
@@ -21,7 +22,9 @@ import mindustry.type.*;
 import mindustry.entities.comp.*;
 import mindustry.world.blocks.campaign.LaunchPad;
 import arc.math.*;
+import arc.graphics.g2d.*;
 import mindustry.world.*;
+import mindustry.graphics.*;
 import arc.*;
 
 import mindustry.world.blocks.campaign.LaunchPad;
