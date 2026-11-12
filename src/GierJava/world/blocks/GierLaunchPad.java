@@ -41,7 +41,6 @@ public class GierLaunchPad extends LaunchPad{
     }
 
     public class GierLaunchPadBuild extends LaunchPadBuild{
-        public float launchCounter;
 
         @Override
         public boolean shouldConsume(){
@@ -131,7 +130,6 @@ public void buildConfiguration(Table table){
             super.write(write);
 
             write.f(launchCounter);
-            write.str(destination() == null ? "" : destination().planet.name);
         }
 
         @Override
