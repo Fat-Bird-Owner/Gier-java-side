@@ -4,6 +4,8 @@ import arc.Core;
 import arc.scene.ui.layout.Table;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import arc.struct.*;
+import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.ctype.ContentType;
@@ -13,6 +15,9 @@ import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.PlanetDialog;
+import ent.anno.Annotations.*;
+import mindustry.gen.*;
+import mindustry.entities.comp.*;
 
 import mindustry.world.blocks.campaign.LaunchPad;
 import static mindustry.Vars.*;
