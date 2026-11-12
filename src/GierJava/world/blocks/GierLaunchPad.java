@@ -17,6 +17,7 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.PlanetDialog;
 import ent.anno.Annotations.*;
 import mindustry.gen.*;
+import mindustry.type.*;
 import mindustry.entities.comp.*;
 
 import mindustry.world.blocks.campaign.LaunchPad;
@@ -137,7 +138,6 @@ public void buildConfiguration(Table table){
 
 
     @EntityDef(LaunchPayloadc.class)
-    @Component(base = true)
     static abstract class LaunchPayloadComp implements Drawc, Timedc, Teamc{
         @Import float x,y;
 
