@@ -19,6 +19,10 @@ import ent.anno.Annotations.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.entities.comp.*;
+import mindustry.world.blocks.campaign.LaunchPad;
+import arc.math.*;
+import mindustry.world.*;
+import arc.*;
 
 import mindustry.world.blocks.campaign.LaunchPad;
 import static mindustry.Vars.*;
@@ -168,7 +172,7 @@ public void buildConfiguration(Table table){
 
             Draw.z(Layer.weather - 1);
 
-            TextureRegion region = blockOn() instanceof mindustry.world.blocks.campaign.LaunchPad p ? p.podRegion : Core.atlas.find("launchpod");
+            TextureRegion region = blockOn() instanceof LaunchPad p ? p.podRegion : Core.atlas.find("launchpod");
             scale *= region.scl();
             float rw = region.width * scale, rh = region.height * scale;
 
