@@ -26,6 +26,18 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
     {
         baseSeed = 121;
     }
+
+    @Override
+    public void generateSector(Sector sector){
+        sector.setName(Core.bundle.get("notva.sectors-" + s.id + ".name"));
+        sector.threat = (1f / sector.id) * 2f;
+    }
+
+    @Override
+    public void addWeather(Sector sector, Rules rules){
+        super.addWeather(sector, rules);
+        rules.weather.add(new WeatherEntry(Weathers.fog));
+    }
     
     @Override
     public void createRooms(){
@@ -42,18 +54,16 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
         Blocks.oreBeryllium,
         Blocks.oreTungsten,
         Blocks.oreCrystalThorium,
-        Blocks.oreScrap
     );
 
     Seq<Floor> floors = Seq.with(
+        Blocks.ferricStone.asFloor(),
+        Blocks.beryllicStone.asFloor(),
+        Blocks.ferricStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.beryllicStone.asFloor(),
-        Blocks.charr.asFloor(),
-        Blocks.beryllicStone.asFloor(),
-        Blocks.beryllicStone.asFloor(),
-        Blocks.beryllicStone.asFloor(),
+        Blocks.ferricStone.asFloor(),
         Blocks.crystallineStone.asFloor(),
-        Blocks.crystallineStone.asFloor()
     );
 
     for(int x = 0; x < columns; x++){
