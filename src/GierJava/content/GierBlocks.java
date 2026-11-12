@@ -1196,9 +1196,9 @@ public class GierBlocks {
             powerBufferRequirement = 5000f;
 
             //Animation
-                chargeRings = 5;
+                chargeRings = 1;
                 ringRadBase = 40f;
-                ringSpeedup = 0.4f;
+                ringSpeedup = 0.8f;
 
                 buildDuration = 10f * 60f;
                 chargeDuration = 5f * 60f;
