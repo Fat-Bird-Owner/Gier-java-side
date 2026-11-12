@@ -25,6 +25,10 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
 
     {
         baseSeed = 121;
+        baseBlock = Blocks.beryllicStone;
+        setStarterResource = false;
+        replaceLoadout = false;
+        completeWave = 30;
     }
 
     @Override
