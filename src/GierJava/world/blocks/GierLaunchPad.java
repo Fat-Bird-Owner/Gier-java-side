@@ -49,7 +49,7 @@ public class GierLaunchPad extends LaunchPad{
         }
 
         public Sector destination(){
-            return state.rules.sector.info.destination;
+            return state.rules.sector != null ? state.rules.sector.info.destination : null;
         }
         
         @Override
