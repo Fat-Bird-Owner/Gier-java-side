@@ -40,9 +40,7 @@ public class NotvaPlanetGenerator extends GierPlanetGenerator{
     @Override
     public void addWeather(Sector sector, Rules rules){
         super.addWeather(sector, rules);
-        rules.weather.add(new Weather.WeatherEntry(GierWeather.fragStorm){{
-            always = true;
-        }});
+        rules.weather.add(new Weather.WeatherEntry(GierWeather.fragStorm));
     }
     
     @Override
