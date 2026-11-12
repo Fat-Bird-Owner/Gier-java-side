@@ -31,7 +31,7 @@ public class GierLaunchPad extends LaunchPad{
 
         @Override
         public boolean shouldConsume(){
-            return destination != null && launchCounter < launchTime;
+            return destination() != null && launchCounter < launchTime;
         }
 
         public Sector destination(){
@@ -40,7 +40,7 @@ public class GierLaunchPad extends LaunchPad{
         
         @Override
         public void updateTile(){
-            if(destination == null) return;
+            if(destination() == null) return;
 
             launchCounter += edelta();
 
@@ -50,8 +50,8 @@ public class GierLaunchPad extends LaunchPad{
                     destination().info.items.add(item, Math.min(space, amount));
                 });
 
-                destination.info.items.checkNegative();
-                destination.saveInfo();
+                destination().info.items.checkNegative();
+                destination().saveInfo();
 
                 launchSound.at(x, y, 1f);
                 Fx.launchPod.at(this);
@@ -117,7 +117,7 @@ public void buildConfiguration(Table table){
             super.write(write);
 
             write.f(launchCounter);
-            write.str(destination == null ? "" : destination.planet.name);
+            write.str(destination() == null ? "" : destination().planet.name);
         }
 
         @Override
@@ -129,6 +129,93 @@ public void buildConfiguration(Table table){
             }
             
             }
+
+
+    @EntityDef(LaunchPayloadc.class)
+    @Component(base = true)
+    static abstract class LaunchPayloadComp implements Drawc, Timedc, Teamc{
+        @Import float x,y;
+
+        Seq<ItemStack> stacks = new Seq<>();
+        transient Interval in = new Interval();
+
+        @Override
+        public void draw(){
+            float alpha = fout(Interp.pow5Out);
+            float scale = (1f - alpha) * 1.3f + 1f;
+            float cx = cx(), cy = cy();
+            float rotation = fin() * (130f + Mathf.randomSeedRange(id(), 50f));
+
+            Draw.z(Layer.effect + 0.001f);
+
+            Draw.color(Pal.engine);
+
+            float rad = 0.2f + fslope();
+
+            Fill.light(cx, cy, 10, 25f * (rad + scale-1f), Tmp.c2.set(Pal.engine).a(alpha), Tmp.c1.set(Pal.engine).a(0f));
+
+            Draw.alpha(alpha);
+            for(int i = 0; i < 4; i++){
+                Drawf.tri(cx, cy, 6f, 40f * (rad + scale-1f), i * 90f + rotation);
+            }
+
+            Draw.color();
+
+            Draw.z(Layer.weather - 1);
+
+            TextureRegion region = blockOn() instanceof mindustry.world.blocks.campaign.LaunchPad p ? p.podRegion : Core.atlas.find("launchpod");
+            scale *= region.scl();
+            float rw = region.width * scale, rh = region.height * scale;
+
+            Draw.alpha(alpha);
+            Draw.rect(region, cx, cy, rw, rh, rotation);
+
+            Tmp.v1.trns(225f, fin(Interp.pow3In) * 250f);
+
+            Draw.z(Layer.flyingUnit + 1);
+            Draw.color(0, 0, 0, 0.22f * alpha);
+            Draw.rect(region, cx + Tmp.v1.x, cy + Tmp.v1.y, rw, rh, rotation);
+
+            Draw.reset();
+        }
+
+        float cx(){
+            return x + fin(Interp.pow2In) * (12f + Mathf.randomSeedRange(id() + 3, 4f));
+        }
+
+        float cy(){
+            return y + fin(Interp.pow5In) * (100f + Mathf.randomSeedRange(id() + 2, 30f));
+        }
+
+        @Override
+        public void update(){
+            float r = 3f;
+            if(in.get(4f - fin()*2f)){
+                Fx.rocketSmoke.at(cx() + Mathf.range(r), cy() + Mathf.range(r), fin());
+            }
+        }
+
+        @Override
+        public void remove(){
+            if(!state.isCampaign() || net.client()) return;
+
+            Sector destsec = state.rules.sector.info.destination;
+
+            //actually launch the items upon removal
+            if(team() == state.rules.defaultTeam && destsec != null && destsec != state.rules.sector){
+                ItemSeq dest = new ItemSeq();
+
+                for(ItemStack stack : stacks){
+                    dest.add(stack);
+                    state.rules.sector.info.handleItemExport(stack);
+                    Events.fire(new LaunchItemEvent(stack));
+                }
+
+                if(state.getPlanet().campaignRules.legacyLaunchPads){
+                    destsec.addItems(dest);
+                }
+            }
+        }
 
         
         }
