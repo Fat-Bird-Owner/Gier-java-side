@@ -15,7 +15,7 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.PlanetDialog;
 
 import mindustry.world.blocks.campaign.LaunchPad;
-import static mindustry.Vars;
+import static mindustry.Vars.*;
 
 public class GierLaunchPad extends LaunchPad{
 
