@@ -10,7 +10,7 @@ import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.ctype.ContentType;
 import mindustry.gen.Building;
-import mindustyr.game;
+import mindustry.game;
 import mindustry.gen.Icon;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
