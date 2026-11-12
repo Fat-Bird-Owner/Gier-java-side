@@ -15,6 +15,7 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.PlanetDialog;
 
 import mindustry.world.blocks.campaign.LaunchPad;
+import static mindustry.Vars;
 
 public class GierLaunchPad extends LaunchPad{
 
@@ -27,13 +28,16 @@ public class GierLaunchPad extends LaunchPad{
 
     public class GierLaunchPadBuild extends LaunchPadBuild{
         public float launchCounter;
-        public Sector destination;
 
         @Override
         public boolean shouldConsume(){
             return destination != null && launchCounter < launchTime;
         }
 
+        public Sector destination(){
+            return state.rules.sector.info.destination;
+        }
+        
         @Override
         public void updateTile(){
             if(destination == null) return;
@@ -42,8 +46,8 @@ public class GierLaunchPad extends LaunchPad{
 
             if(launchCounter >= launchTime && items.total() >= itemCapacity){
                 items.each((item, amount) -> {
-                    int space = Math.max(0, destination.info.storageCapacity - destination.info.items.get(item));
-                    destination.info.items.add(item, Math.min(space, amount));
+                    int space = Math.max(0, destination().info.storageCapacity - destination().info.items.get(item));
+                    destination().info.items.add(item, Math.min(space, amount));
                 });
 
                 destination.info.items.checkNegative();
@@ -51,6 +55,13 @@ public class GierLaunchPad extends LaunchPad{
 
                 launchSound.at(x, y, 1f);
                 Fx.launchPod.at(this);
+
+                LaunchPayload entity = LaunchPayload.create();
+                items.each((item, amount) -> entity.stacks.add(new ItemStack(item, amount)));
+                entity.set(this);
+                entity.lifetime(120f);
+                entity.team(team);
+                entity.add();
 
                 items.clear();
                 launchCounter = 0f;
@@ -76,7 +87,7 @@ public void buildConfiguration(Table table){
                 PlanetDialog.debugSelect = false;
 
                 if(other != null && other.hasBase() && other.isFrozen() == false){
-                    destination = other;
+                    state.rules.sector.info.destination = other;
                 }
             }
         );
@@ -92,7 +103,7 @@ public void buildConfiguration(Table table){
             table.row();
             table.add(destination == null
                 ? "No destination selected"
-                : "Destination: " + destination.planet.localizedName + " / " + destination.name()
+                : "Destination: " + destination().planet.localizedName + " / " + destination.name()
             ).wrap().width(200f).left();
         }
 
@@ -107,7 +118,6 @@ public void buildConfiguration(Table table){
 
             write.f(launchCounter);
             write.str(destination == null ? "" : destination.planet.name);
-            write.i(destination == null ? -1 : destination.id);
         }
 
         @Override
@@ -117,19 +127,10 @@ public void buildConfiguration(Table table){
             if(revision >= 1){
                 launchCounter = read.f();
             }
-
-            if(revision >= 2){
-                String planetName = read.str();
-                int sectorId = read.i();
-
-                if(planetName != null && !planetName.isEmpty() && sectorId >= 0){
-                    Planet planet = (Planet)Vars.content.getByName(ContentType.planet, planetName);
-
-                    if(planet != null && sectorId < planet.sectors.size){
-                        destination = planet.sectors.get(sectorId);
-                    }
-                }
+            
             }
+
+        
         }
     }
 }
