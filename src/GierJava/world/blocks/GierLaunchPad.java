@@ -179,7 +179,7 @@ public void buildConfiguration(Table table){
             float rw = region.width * scale, rh = region.height * scale;
 
             Draw.alpha(alpha);
-            Draw.rect(region, cx, cy, rw, rh, rotation);
+            Drawf.spinSprite(region, cx, cy, rotation);
 
             Tmp.v1.trns(225f, fin(Interp.pow3In) * 250f);
 
