@@ -71,6 +71,10 @@ public class GierJava extends Mod{
                 s.setName(Core.bundle.get("gier.sectors-" + s.id + ".name"));
                 GierPlanets.gier.generator.generateSector(s);
             });
+
+            GierPlanets.notva.sectors.each(s -> {
+                GierPlanets.notva.generator.generateSector(s);
+            });
             
             GierPlanets.gier.techTree.each(n -> {
                 n.content.shownPlanets.add(GierPlanets.kela);
