@@ -10,11 +10,21 @@ import static GierJava.content.GierItems.*;
 import static GierJava.content.GierPlanets.*;
 import static GierJava.content.GierSectorPreset.*;
 import static mindustry.content.TechTree.*;
+import static GierJava.content.GierPlanets;
 
 public class GierTechTree {
 
     public static void load(){
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
+
+            node(sun, () -> {
+                node(gier, () -> {});
+                node(notva, () -> {});
+                node(verilus, () -> {});
+                node(serpulo, () -> {
+                    node(erekir, () -> {});
+                });
+            });
             
             node(lead, () -> {
                 node(copper, () -> {
