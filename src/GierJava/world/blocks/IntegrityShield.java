@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 // Placeholder class for custom gimmicks
 public class IntegrityShield extends ForceProjector  {
 
-    public float height = 8f, mult = 0.4f;
+    public float height = 8f, mult = 0.4f; // Placeholder vars
     
     public IntegrityShield(String name){
         super(name);
@@ -47,7 +47,7 @@ public class IntegrityShield extends ForceProjector  {
             super.updateTile();
             warmup = 1f;
         }
-*/
+
 
         public float getxOffset(){
             return Mathf.clamp((x - Core.camera.position.x)*mult, -height, height);
@@ -76,6 +76,11 @@ public class IntegrityShield extends ForceProjector  {
 
             Draw.reset();
         }
-            
+          */
+
+        public float realRadius(){
+            return realRadius * (buildup / (shieldHealth + phaseShieldBoost * phaseHeat));
+        }
+        
     }
 }
