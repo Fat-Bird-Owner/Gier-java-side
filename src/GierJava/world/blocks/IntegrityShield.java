@@ -79,7 +79,7 @@ public class IntegrityShield extends ForceProjector  {
           */
 
         public float realRadius(){
-            return realRadius * (buildup / (shieldHealth + phaseShieldBoost * phaseHeat));
+            return super.realRadius() * (buildup / (shieldHealth + phaseShieldBoost * phaseHeat));
         }
         
     }
