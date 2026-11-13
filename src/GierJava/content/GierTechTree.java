@@ -9,8 +9,8 @@ import static GierJava.content.GierBlocks.*;
 import static GierJava.content.GierItems.*;
 import static GierJava.content.GierPlanets.*;
 import static GierJava.content.GierSectorPreset.*;
+import static GierJava.content.GierPlanets.*;
 import static mindustry.content.TechTree.*;
-import static GierJava.content.GierPlanets;
 
 public class GierTechTree {
 
