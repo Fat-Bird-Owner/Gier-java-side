@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 // Placeholder class for custom gimmicks
 public class IntegrityShield extends ForceProjector  {
 
-    public float height = 8f;
+    public float height = 8f, mult = 0.4f;
     
     public IntegrityShield(String name){
         super(name);
@@ -50,11 +50,11 @@ public class IntegrityShield extends ForceProjector  {
 */
 
         public float getxOffset(){
-            return Mathf.clamp(x - Core.camera.position.x, -height, height);
+            return Mathf.clamp((x - Core.camera.position.x)*mult, -height, height);
         }
 
         public float getyOffset(){
-            return Mathf.clamp(y - Core.camera.position.y, -height, height);
+            return Mathf.clamp((y - Core.camera.position.y)*mult, -height, height);
         }
         
         public void drawShield(){
