@@ -7,7 +7,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -25,7 +24,7 @@ import static mindustry.Vars.*;
 // Stackconveyor that can accept items even if its not the start
 public class OpenStackConveyor extends StackConveyor {
 
-  public OpenStackConveyor(string name){
+  public OpenStackConveyor(String name){
     super(name);
   }
   
