@@ -59,9 +59,12 @@ public class GierTechTree {
             node(hydroDrill, () -> {
                 node(precipiceGrinder, () -> {});
                 node(tonCrusher, () -> {});
+                node(heavyExcavator, () -> {});
                 node(dihydrogenShaft, () -> {
+                    node(industrialBorehole, () -> {});
                     node(fluidSilo, () -> {
                         node(fluidTank, () -> {});
+                        node(fluidJunction, () -> {});
                     });
                 });
                 node(rail, () -> {
@@ -91,7 +94,8 @@ public class GierTechTree {
             
             node(transitNode, () -> {
                 node(powerGrid, () -> {});
-
+                node(outpost, () -> {});
+                
                 node(photonPanel, () -> {
                     node(electricCapacitor, () -> {});
                     node(ignitionGenerator, () -> {});
