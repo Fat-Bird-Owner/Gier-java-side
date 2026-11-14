@@ -24,13 +24,18 @@ import static mindustry.Vars.*;
 
 // Stackconveyor that can accept items even if its not the start
 public class OpenStackConveyor extends StackConveyor {
+
+  public OpenStackConveyor(string name){
+    super(name);
+  }
+  
   public class OpenStackConveyorBuild extends StackConveyorBuild{
     
         @Override
         public boolean acceptItem(Building source, Item item){
             if(this == source) return items.total() < itemCapacity && (!items.any() || items.has(item)); //player threw items
             if(cooldown > recharge - 1f) return false; //still cooling down
-            return !((state != stateLoad) //not a loading dock
+            return !(state != stateLoad) //not a loading dock
             ||  (items.any() && !items.has(item)) //incompatible items
             ||  (items.total() >= getMaximumAccepted(item)); //filled to capacity
         }
