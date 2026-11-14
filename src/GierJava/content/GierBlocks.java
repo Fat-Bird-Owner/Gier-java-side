@@ -958,7 +958,7 @@ public class GierBlocks {
         drawer = new DrawMulti(
         new DrawRegion("-bottom"),
         new DrawLiquidTile(Liquids.water, 2f),
-        new DrawDefault
+        new DrawDefault()
         );
 
             envEnabled = -1;
