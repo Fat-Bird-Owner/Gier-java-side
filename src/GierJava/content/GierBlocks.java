@@ -80,6 +80,7 @@ public class GierBlocks {
 
     // Distribution
     rail,
+    tungstenRail,
     overheadBelt,
     railOverflow,
     droneFacility,
@@ -536,6 +537,15 @@ public class GierBlocks {
             databaseTag = "gier";
             alwaysUnlocked = true;
 
+        }};
+
+        tungstenRail = new OpenStackConveyor("tungsten-rail"){{
+            requirements(Category.distribution, with(Items.copper, 3, Items.tungsten, 1));
+            researchCostMultiplier = 0.5f;
+
+            envEnabled = -1;
+            speed = 0.01667f;
+            baseEfficiency = 1f;
         }};
         
         railOverflow = new ConfigGate("rail-overflow"){{
