@@ -34,8 +34,9 @@ public class OpenStackConveyor extends StackConveyor {
         public boolean acceptItem(Building source, Item item){
             if(this == source) return items.total() < itemCapacity && (!items.any() || items.has(item)); //player threw items
             if(cooldown > recharge - 1f) return false; //still cooling down
-            return  (items.any() && !items.has(item)) //incompatible items
-                    ||  (items.total() >= getMaximumAccepted(item)); //filled to capacity
+            return (items.any() && !items.has(item)) //incompatible items
+                    ||  (items.total() >= getMaximumAccepted(item)) //filled to capacity
+                    ||  (front()  == source));
         }
 
   }
