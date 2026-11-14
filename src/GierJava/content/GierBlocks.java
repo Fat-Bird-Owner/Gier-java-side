@@ -88,15 +88,18 @@ public class GierBlocks {
     // Liquids
     fluidSilo,
     fluidTank,
+    fluidJunction,
     
     // Production
     hydroDrill,
     tonCrusher,
+    heavyExcavator,
     precipiceGrinder,
     
     // Crafting
     sunderFurnace,
     dihydrogenShaft,
+    industrialBorehole,
     industrialTrimmer,
     plastaniumCrusher,
     multiCraft,
@@ -112,6 +115,7 @@ public class GierBlocks {
     photonPanel,
     ignitionGenerator,
     electricCapacitor,
+    outpost,
 
     // Units
     assemblyBay,
@@ -615,7 +619,12 @@ public class GierBlocks {
             researchCostMultiplier = 0.25f;
             databaseTag = "gier";
         }};
-        
+
+        fluidJunction = new Junction("fluid-junction"){{
+            requirements(Category.liquid, with(Items.lead, 15, Items.plastanium, 5));
+            databaseTag = "adv-plastanium";
+        }};
+            
         // Production
 
         hydroDrill = new Drill("hydro-drill"){{
@@ -657,6 +666,27 @@ public class GierBlocks {
             baseExplosiveness = 85f;
             drillTime = 120f;
             tier = 3;
+        }};
+
+        heavyExcavator = new Drill("heavy-excavator"){{
+            requirements(Category.production, with(Items.lead, 500, Items.silicon, 300, Items.thorium, 150));
+            consumePower(3f);
+            consumeLiquid(Liquids.water, 10f / 60f);
+            consumeLiquid(Liquids.cryofluid, 5f / 60f).boost();
+            researchCostMultiplier = 0.25f;
+
+            envEnabled = -1;
+            databaseTag = "gier";
+            squareSprite = false;
+
+            liquidBoostIntensity = 2f;
+            conductivePower = true;
+            outputsPower = true;
+
+            size = 4;
+            baseExplosiveness = 85f;
+            drillTime = 60f;
+            tier = 4;
         }};
         
         precipiceGrinder = new WallCrafter("precipice-grinder"){{
@@ -947,6 +977,55 @@ public class GierBlocks {
             envEnabled = -1;
             researchCostMultiplier = 0.34f;
         }};
+
+        requirements(Category.production, with(
+        Items.lead, 2000,
+        Items.metaglass, 2000,
+        Items.tungsten, 750,
+        Items.thorium, 250
+        ));
+
+        size = 3;
+        squareSprite = false;
+
+        attribute = Attribute.add("carbon");
+        priority = 5f;
+
+        outputLiquid = new LiquidStack(Liquids.water, 2.5f);
+        liquidCapacity = 2000f;
+
+        craftTime = 45f;
+        baseEfficiency = 0f;
+        minEfficiency = 0.25f;
+
+        consumePower(2.5f);
+        ambientSoundVolume = 0.2f;
+
+        updateEffectChance = 1f;
+        updateEffectSpread = 1f;
+        updateEffect = new ParticleEffect(){{
+        sizeFrom = 3f;
+        particles = 1;
+        baseLength = 10f;
+        sizeTo = 5f;
+        length = 14.5f;
+        layer = 61f;
+        lifetime = 40f;
+        colorFrom = Color.valueOf("596ab866");
+        colorTo = Color.valueOf("ffffff00");
+        interp = Interp.sineOut;
+        }};
+
+        drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(Liquids.water, 2f),
+        new DrawBlurSpin("-rotator", 5f),
+        new DrawDefault()
+        );
+
+            envEnabled = -1;
+            researchCostMultiplier = 0.5f;
+        }};
         
         // Power
 
@@ -1023,6 +1102,15 @@ public class GierBlocks {
             consumePowerBuffered(500f);
             envEnabled = -1;
             baseExplosiveness = 25f;
+        }};
+
+        outpost = new PowerNode("outpost"){{
+            requirements(Category.power, with(Items.lead, 200, Items.copper, 175, Items.silicon, 50));
+            maxNodes = 2;
+            configurable = false;
+            laserRange = 60f;
+            baseExplosiveness = 30;
+            size = 2;
         }};
 
         // Units
