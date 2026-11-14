@@ -1113,6 +1113,8 @@ public class GierBlocks {
             laserRange = 60f;
             baseExplosiveness = 30;
             size = 2;
+            laserColor2 = Color.valueOf("9f7f7f");
+            laserScale = 0.65f;
         }};
 
         // Units
