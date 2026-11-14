@@ -864,6 +864,108 @@ public class GierBlocks {
         }}
             );
         }};
+
+
+        dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
+        requirements(Category.production, with(
+        Items.lead, 450,
+        Items.metaglass, 200,
+        Items.silicon, 100
+        ));
+
+        size = 3;
+        squareSprite = false;
+
+        attribute = Attribute.add("carbon");
+        priority = 1.5f;
+
+        outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
+        liquidCapacity = 200f;
+
+        craftTime = 45f;
+        baseEfficiency = 0f;
+        minEfficiency = 0.25f;
+
+        consumeItem(Items.graphite, 1);
+        consumePower(0.65f);
+        ambientSoundVolume = 0.2f;
+
+        updateEffectChance = 1f;
+        updateEffectSpread = 1f;
+        updateEffect = new ParticleEffect(){{
+        sizeFrom = 3f;
+        particles = 1;
+        baseLength = 10f;
+        sizeTo = 5f;
+        length = 14.5f;
+        layer = 61f;
+        lifetime = 40f;
+        colorFrom = Color.valueOf("596ab866");
+        colorTo = Color.valueOf("ffffff00");
+        interp = Interp.sineOut;
+        }};
+
+        drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(Liquids.water, 2f),
+        new DrawBlurSpin("-rotator", 5f),
+        new DrawDefault()
+        );
+
+            envEnabled = -1;
+            researchCostMultiplier = 0.34f;
+        }};
+     
+        industrialBorehole = new AttributeCrafter("industrial-borehole"){{
+        requirements(Category.production, with(
+        Items.lead, 2000,
+        Items.metaglass, 2000,
+        Items.tungsten, 750,
+        Items.thorium, 250
+        ));
+
+        size = 3;
+        squareSprite = false;
+
+        attribute = Attribute.add("carbon");
+        priority = 5f;
+
+        outputLiquid = new LiquidStack(Liquids.water, 2.5f);
+        liquidCapacity = 2000f;
+
+        craftTime = 45f;
+        baseEfficiency = 0f;
+        minEfficiency = 0.25f;
+
+        consumePower(2.5f);
+        ambientSoundVolume = 0.2f;
+
+        updateEffectChance = 1f;
+        updateEffectSpread = 1f;
+        updateEffect = new ParticleEffect(){{
+        sizeFrom = 3f;
+        particles = 1;
+        baseLength = 10f;
+        sizeTo = 5f;
+        length = 14.5f;
+        layer = 61f;
+        lifetime = 40f;
+        colorFrom = Color.valueOf("596ab866");
+        colorTo = Color.valueOf("ffffff00");
+        interp = Interp.sineOut;
+        }};
+
+        drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(Liquids.water, 2f),
+        new DrawBlurSpin("-rotator", 5f),
+        new DrawDefault()
+        );
+
+            envEnabled = -1;
+            researchCostMultiplier = 0.5f;
+        }};
+
         
         // Defense
 
@@ -926,105 +1028,6 @@ public class GierBlocks {
 
             researchCostMultiplier = 0.35f;
             databaseTag = "gier";
-        }};
-        
-        dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
-        requirements(Category.production, with(
-        Items.lead, 450,
-        Items.metaglass, 200,
-        Items.silicon, 100
-        ));
-
-        size = 3;
-        squareSprite = false;
-
-        attribute = Attribute.add("carbon");
-        priority = 1.5f;
-
-        outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
-        liquidCapacity = 200f;
-
-        craftTime = 45f;
-        baseEfficiency = 0f;
-        minEfficiency = 0.25f;
-
-        consumeItem(Items.graphite, 1);
-        consumePower(0.65f);
-        ambientSoundVolume = 0.2f;
-
-        updateEffectChance = 1f;
-        updateEffectSpread = 1f;
-        updateEffect = new ParticleEffect(){{
-        sizeFrom = 3f;
-        particles = 1;
-        baseLength = 10f;
-        sizeTo = 5f;
-        length = 14.5f;
-        layer = 61f;
-        lifetime = 40f;
-        colorFrom = Color.valueOf("596ab866");
-        colorTo = Color.valueOf("ffffff00");
-        interp = Interp.sineOut;
-        }};
-
-        drawer = new DrawMulti(
-        new DrawRegion("-bottom"),
-        new DrawLiquidTile(Liquids.water, 2f),
-        new DrawBlurSpin("-rotator", 5f),
-        new DrawDefault()
-        );
-
-            envEnabled = -1;
-            researchCostMultiplier = 0.34f;
-        }};
-
-        requirements(Category.production, with(
-        Items.lead, 2000,
-        Items.metaglass, 2000,
-        Items.tungsten, 750,
-        Items.thorium, 250
-        ));
-
-        size = 3;
-        squareSprite = false;
-
-        attribute = Attribute.add("carbon");
-        priority = 5f;
-
-        outputLiquid = new LiquidStack(Liquids.water, 2.5f);
-        liquidCapacity = 2000f;
-
-        craftTime = 45f;
-        baseEfficiency = 0f;
-        minEfficiency = 0.25f;
-
-        consumePower(2.5f);
-        ambientSoundVolume = 0.2f;
-
-        updateEffectChance = 1f;
-        updateEffectSpread = 1f;
-        updateEffect = new ParticleEffect(){{
-        sizeFrom = 3f;
-        particles = 1;
-        baseLength = 10f;
-        sizeTo = 5f;
-        length = 14.5f;
-        layer = 61f;
-        lifetime = 40f;
-        colorFrom = Color.valueOf("596ab866");
-        colorTo = Color.valueOf("ffffff00");
-        interp = Interp.sineOut;
-        }};
-
-        drawer = new DrawMulti(
-        new DrawRegion("-bottom"),
-        new DrawLiquidTile(Liquids.water, 2f),
-        new DrawBlurSpin("-rotator", 5f),
-        new DrawDefault()
-        );
-
-            envEnabled = -1;
-            researchCostMultiplier = 0.5f;
         }};
         
         // Power
@@ -1261,7 +1264,7 @@ public class GierBlocks {
         }};
 
         exportPlatform = new GierLaunchPad("gier-launch-pad"){{
-            requirements(Category.distribution, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100));
+            requirements(Category.effect, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100));
             size = 3;
 
             launchTime = 30f * 60f;
@@ -1271,7 +1274,7 @@ public class GierBlocks {
         }};
 
         launchPlatform = new Accelerator("launch-platform"){{
-            requirements(Category.distribution, ItemStack.with(
+            requirements(Category.effect, ItemStack.with(
                          Items.copper, 2000, 
                          Items.lead, 2000, 
                          Items.silicon, 1500, 
