@@ -924,7 +924,7 @@ public class GierBlocks {
         Items.thorium, 250
         ));
 
-        size = 3;
+        size = 4;
         squareSprite = false;
 
         attribute = Attribute.add("carbon");
@@ -958,8 +958,7 @@ public class GierBlocks {
         drawer = new DrawMulti(
         new DrawRegion("-bottom"),
         new DrawLiquidTile(Liquids.water, 2f),
-        new DrawBlurSpin("-rotator", 5f),
-        new DrawDefault()
+        new DrawDefault
         );
 
             envEnabled = -1;
