@@ -36,7 +36,7 @@ public class OpenStackConveyor extends StackConveyor {
             if(cooldown > recharge - 1f) return false; //still cooling down
             return (items.any() && !items.has(item)) //incompatible items
                     ||  (items.total() >= getMaximumAccepted(item)) //filled to capacity
-                    ||  (front()  == source));
+                    ||  (front()  == source);
         }
 
   }
