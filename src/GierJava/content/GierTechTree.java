@@ -75,6 +75,7 @@ public class GierTechTree {
                 });
                 
                 node(rail, () -> {
+                    node(tungstenRail, () -> {});
                     node(overheadBelt, () -> {});
                     node(railOverflow, () -> {});
                     node(droneFacility, () -> {
