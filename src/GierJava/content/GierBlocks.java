@@ -117,6 +117,7 @@ public class GierBlocks {
     ignitionGenerator,
     electricCapacitor,
     outpost,
+    wattReactor,
 
     // Units
     assemblyBay,
@@ -634,7 +635,28 @@ public class GierBlocks {
             requirements(Category.liquid, with(Items.lead, 15, Items.plastanium, 5));
             databaseTag = "adv-plastanium";
         }};
-            
+
+           electricSiphion = new Pump("electric-siphon"){{
+            size = 2;
+            customShadow = true;
+            explosivenessScale = 5f;
+
+            requirements(Category.liquid,
+                ItemStack.with(
+                    Items.titanium, 50,
+                    Items.beryllium, 50,
+                    Items.metaglass, 150,
+                    Items.thorium, 50
+                )
+            );
+
+            databaseTag = "adv-thorium";
+            priority = 1.5f;
+            pumpAmount = 0.0625f;
+
+            consumes.power(0.33334f);
+        }};
+        
         // Production
 
         hydroDrill = new Drill("hydro-drill"){{
@@ -1127,6 +1149,55 @@ public class GierBlocks {
             laserScale = 0.65f;
         }};
 
+        wattReactor = new NuclearReactor("watt-reactor"){{
+        
+        fuelItem = Items.graphite;
+        heating = 0.065f;
+
+        size = 4;
+        health = 3500;
+        itemCapacity = 100;
+        armor = 5f;
+            
+        baseExplosiveness = 15f;
+        priority = 35f;
+        itemDuration = 180f;
+
+        powerProduction = 16.66667f;
+        explosionRadius = 13.125f;
+        explosionDamage = 4750f;
+        envEnabled = -1;
+
+        researchCostMultiplier = 0.25f;
+        explodeEffect = Fx.reactorExplosion;
+        explodeSound = Sounds.explosionCore;
+
+        requirements(Category.power,
+            ItemStack.with(
+                Items.lead, 500,
+                Items.copper, 500,
+                Items.silicon, 250,
+                Items.metaglass, 200,
+                Items.beryllium, 100,
+            )
+        );
+
+        consumes.items(ItemStack.with(Items.graphite, 10));
+        consumes.coolant(0.166667f, 0.75f, 0.2f, false);
+
+        drawer = new DrawMulti(
+            new DrawRegion("-bottom"),
+            new DrawArcSmelt(){{
+                drawCenter = false;
+            }},
+            new DrawCrucibleFlame(){{
+                particleInterp = Interp.sineOut;
+            }},
+            new DrawRegion("-internals"),
+            new DrawDefault()
+            );
+        }};
+        
         // Units
 
         assemblyBay = new AnimatedUnitFactory("assembly-bay", GierUnitTypes.occupy){{
