@@ -12,6 +12,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.world.*;
 import mindustry.entities.comp.*;
+import mindustry.gen.Building;
 
 public class RadiationBlock extends Block {
 
