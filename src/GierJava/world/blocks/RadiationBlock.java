@@ -35,7 +35,7 @@ public class RadiationBlock extends Block {
 
     public void updateTile(){
       if (front() != null && moveForward == true && canMove(front(), inputSpeed)){
-          moveRadiation(front(), inputSpeed);
+          moveRadiation(front());
       }
     }
     
