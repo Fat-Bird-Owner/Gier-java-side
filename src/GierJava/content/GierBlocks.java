@@ -90,7 +90,7 @@ public class GierBlocks {
     fluidSilo,
     fluidTank,
     fluidJunction,
-    electricSiphion,
+    electricSiphon,
     mechanicalSiphon,
     
     // Production
@@ -640,13 +640,13 @@ public class GierBlocks {
 
             mechanicalSiphon = new Pump("mechanical-siphon"){{
                 requirements(Category.liquid,
-                ItemStack.with(
+                with(
                     Items.lead, 150,
                     Items.metaglass, 50
                 ));
 
                 explosivenessScale = 5f;
-                databaseTag = "adv-thorium";
+                databaseTag = "gier";
                 priority = 1.5f;
                 pumpAmount = 0.02084f;
             }};
@@ -656,7 +656,7 @@ public class GierBlocks {
             explosivenessScale = 5f;
 
             requirements(Category.liquid,
-                ItemStack.with(
+                with(
                     Items.titanium, 50,
                     Items.beryllium, 50,
                     Items.metaglass, 150,
@@ -668,7 +668,7 @@ public class GierBlocks {
             priority = 1.5f;
             pumpAmount = 0.0625f;
 
-            consumes.power(0.33334f);
+            consumePower(0.33334f);
         }};
         
         // Production
@@ -1179,8 +1179,8 @@ public class GierBlocks {
         itemDuration = 180f;
 
         powerProduction = 16.66667f;
-        explosionRadius = 13.125f;
-        explosionDamage = 4750f;
+        explosionRadius = 13;
+        explosionDamage = 4750;
         envEnabled = -1;
 
         researchCostMultiplier = 0.25f;
@@ -1197,8 +1197,8 @@ public class GierBlocks {
             )
         );
 
-        consumes.items(ItemStack.with(Items.graphite, 10));
-        consumes.coolant(0.166667f, 0.75f, 0.2f, false);
+        consumeItems(ItemStack.with(Items.graphite, 10));
+        consumeCoolant(0.166667f, 0.75f, 0.2f, false);
 
         drawer = new DrawMulti(
             new DrawRegion("-bottom"),
