@@ -90,6 +90,7 @@ public class GierBlocks {
     fluidSilo,
     fluidTank,
     fluidJunction,
+    electricSiphion,
     
     // Production
     hydroDrill,
@@ -1173,12 +1174,12 @@ public class GierBlocks {
         explodeSound = Sounds.explosionCore;
 
         requirements(Category.power,
-            ItemStack.with(
+            with(
                 Items.lead, 500,
                 Items.copper, 500,
                 Items.silicon, 250,
                 Items.metaglass, 200,
-                Items.beryllium, 100,
+                Items.beryllium, 100
             )
         );
 
