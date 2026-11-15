@@ -64,6 +64,11 @@ public class RadiationBlock extends Block {
       }
     }
     
+        @Override
+        public void draw(){
+            drawer.draw(this);
+        }
+    
     public void disperseRadiation(){
     radiation = Math.max(0f, radiation - disperseSpeed * delta());
     }
