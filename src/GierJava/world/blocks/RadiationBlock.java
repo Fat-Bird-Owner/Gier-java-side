@@ -72,7 +72,10 @@ public class RadiationBlock extends Block {
 
     public void moveRadiation(Building build){
         if (!(build instanceof RadiationBuild radiationBuild)) return;
-        if (canMove(radiationBuild, inputSpeed) && radiation > 0f && radiationBuild.radiation < radiationBuild.block.maxRadiation) {
+
+        RadiationBlock rbuild = (RadiationBlock)radiationBuild.block;
+      
+        if (canMove(radiationBuild, inputSpeed) && radiation > 0f && radiationBuild.radiation < rbuild.maxRadiation) {
             radiationBuild.radiation += inputSpeed * delta();
             radiation -= inputSpeed * delta();
         }
