@@ -91,6 +91,7 @@ public class GierBlocks {
     fluidTank,
     fluidJunction,
     electricSiphion,
+    mechanicalSiphon,
     
     // Production
     hydroDrill,
@@ -637,9 +638,21 @@ public class GierBlocks {
             databaseTag = "adv-plastanium";
         }};
 
+            mechanicalSiphon = new Pump("mechanical-siphon"){{
+                requirements(Category.liquid,
+                ItemStack.with(
+                    Items.lead, 150,
+                    Items.metaglass, 50
+                ));
+
+                explosivenessScale = 5f;
+                databaseTag = "adv-thorium";
+                priority = 1.5f;
+                pumpAmount = 0.02084f;
+            }};
+        
            electricSiphion = new Pump("electric-siphon"){{
             size = 2;
-            customShadow = true;
             explosivenessScale = 5f;
 
             requirements(Category.liquid,
@@ -1148,6 +1161,7 @@ public class GierBlocks {
             size = 2;
             laserColor2 = Color.valueOf("9f7f7f");
             laserScale = 0.65f;
+            sameBlockConnection = true;
         }};
 
         wattReactor = new NuclearReactor("watt-reactor"){{
