@@ -60,13 +60,20 @@ public class GierTechTree {
                 node(precipiceGrinder, () -> {});
                 node(tonCrusher, () -> {});
                 node(heavyExcavator, () -> {});
+
+                node(mechanicalSiphon, () -> {
+                    node(electricSiphon, () -> {});
+                });
+                
                 node(dihydrogenShaft, () -> {
                     node(industrialBorehole, () -> {});
                     node(fluidSilo, () -> {
                         node(fluidTank, () -> {});
                         node(fluidJunction, () -> {});
                     });
+                    
                 });
+                
                 node(rail, () -> {
                     node(overheadBelt, () -> {});
                     node(railOverflow, () -> {});
@@ -98,7 +105,9 @@ public class GierTechTree {
                 
                 node(photonPanel, () -> {
                     node(electricCapacitor, () -> {});
-                    node(ignitionGenerator, () -> {});
+                    node(ignitionGenerator, () -> {
+                        node(wattReactor, () -> {});
+                    });
                 });
                 node(tension, () -> {
                     node(momentum, () -> {});
