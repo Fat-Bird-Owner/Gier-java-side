@@ -133,8 +133,11 @@ public class GierBlocks {
     restorator,
     mendPylon,
     exportPlatform,
-    launchPlatform;
+    launchPlatform,
 
+    // Radiation
+    radialConduit;
+    
     public static void load(){
 
         // Environment
@@ -1391,6 +1394,17 @@ public class GierBlocks {
                 buildDuration = 10f * 60f;
                 chargeDuration = 5f * 60f;
                 lightningLaunchChance = 0;
+        }};
+
+        // Radiation
+        
+        radialConduit = new RadiationBlock("radial-conduit"){{
+            requirements(Category.logic, with(
+                Items.copper, 15,
+                Items.tungsten, 5
+            ));
+
+            consumeItem(Items.thorium);
         }};
         
         // Payload turrets
