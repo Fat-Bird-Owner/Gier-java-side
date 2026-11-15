@@ -21,7 +21,7 @@ public class RadiationBlock extends Block {
   public float inputSpeed = 0.1f, maxRadiation = 10f, disperseSpeed = 1f / 60f, productionSpeed = 0.5f, consumeTime = 180f;
   public boolean moveForward = true, canProduce = true, canDisperse = true, ignoreBlock = false;
 
-  public DrawBlock drawer;
+  public DrawBlock drawer = new DrawDefault();
 
     @Override
     public void load(){
