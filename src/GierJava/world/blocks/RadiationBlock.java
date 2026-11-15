@@ -4,6 +4,7 @@ import arc.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.io.*;
+import arc.util.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.ui.*;
@@ -16,8 +17,8 @@ import mindustry.gen.Building;
 
 public class RadiationBlock extends Block {
 
-  public float inputSpeed = 0.1f, maxRadiation = 10f, disperseSpeed = 1f / 60f;
-  public boolean moveForward = true;
+  public float inputSpeed = 0.1f, maxRadiation = 10f, disperseSpeed = 1f / 60f, productionSpeed = 0.5f, consumeTime = 180f;
+  public boolean moveForward = true, canProduce = true, canDisperse = true;
   
   public RadiationBlock(String name){
     super(name);
@@ -32,10 +33,23 @@ public class RadiationBlock extends Block {
   
   public class RadiationBuild extends Building {
     public float radiation;
+    public float useTime;
 
     public void updateTile(){
-      if (front() != null && moveForward == true && canMove(front(), inputSpeed)){
+      if (front() != null && moveForward == true && canMove(front(), inputSpeed * delta())){
           moveRadiation(front());
+      }
+
+      if (canDisperse){
+        disperseRadiation();
+      }
+      
+      if (canProduce == true && canConsume() && radiation < maxRadiation){
+        useTime += delta();
+        radiation += productionSpeed * delta();
+        if (useTime >= consumeTime){
+          consume();
+        }
       }
     }
     
@@ -58,11 +72,27 @@ public class RadiationBlock extends Block {
 
     public void moveRadiation(Building build){
         if (!(build instanceof RadiationBuild radiationBuild)) return;
-        if (canMove(radiationBuild, inputSpeed) && radiation > 0f) {
-            radiationBuild.radiation += inputSpeed;
-            radiation -= inputSpeed;
+        if (canMove(radiationBuild, inputSpeed) && radiation > 0f && radiationBuild.radiation < radiationBuild.block.maxRadiation) {
+            radiationBuild.radiation += inputSpeed * delta();
+            radiation -= inputSpeed * delta();
         }
     }
-    
+
+
+       @Override
+        public void write(Writes write){
+            super.write(write);
+
+            write.f(radiation);
+            write.f(useTime);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+
+            radiation = read.f();
+            useTime = read.f();
+        }
   }  
 }
