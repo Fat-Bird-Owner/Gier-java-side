@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.io.*;
 import arc.util.*;
+import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.ui.*;
@@ -18,11 +19,20 @@ import mindustry.gen.Building;
 public class RadiationBlock extends Block {
 
   public float inputSpeed = 0.1f, maxRadiation = 10f, disperseSpeed = 1f / 60f, productionSpeed = 0.5f, consumeTime = 180f;
-  public boolean moveForward = true, canProduce = true, canDisperse = true;
+  public boolean moveForward = true, canProduce = true, canDisperse = true, ignoreBlock = false;
+
+  public DrawBlock drawer;
+
+    @Override
+    public void load(){
+        super.load();
+        drawer.load(this);
+    }
   
   public RadiationBlock(String name){
     super(name);
     update = true;
+    rotate = true;
   }
 
     @Override
@@ -39,10 +49,6 @@ public class RadiationBlock extends Block {
       if (front() != null && moveForward == true && canMove(front(), inputSpeed * delta())){
           moveRadiation(front());
       }
-
-      if (canDisperse){
-        disperseRadiation();
-      }
       
       if (canProduce == true && canConsume() && radiation < maxRadiation){
         useTime += delta();
@@ -51,12 +57,22 @@ public class RadiationBlock extends Block {
           consume();
         }
       }
+
+      if (canDisperse){
+        if (!ignoreBlock && front() == null) return;
+        disperseRadiation();
+      }
     }
     
     public void disperseRadiation(){
     radiation = Math.max(0f, radiation - disperseSpeed * delta());
     }
 
+    @Override
+    public float warmup(){
+        return radiationFraction();
+    }
+    
     public float radiationFraction(){
       return radiation / maxRadiation;
     }
