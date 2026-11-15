@@ -651,7 +651,7 @@ public class GierBlocks {
                 pumpAmount = 0.02084f;
             }};
         
-           electricSiphion = new Pump("electric-siphon"){{
+           electricSiphon = new Pump("electric-siphon"){{
             size = 2;
             explosivenessScale = 5f;
 
@@ -1198,7 +1198,7 @@ public class GierBlocks {
         );
 
         consumeItems(ItemStack.with(Items.graphite, 10));
-        consumeCoolant(0.166667f, 0.75f, 0.2f, false);
+        consumeCoolant(0.166667f, true, false);
 
         drawer = new DrawMulti(
             new DrawRegion("-bottom"),
