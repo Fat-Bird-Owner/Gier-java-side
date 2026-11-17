@@ -86,6 +86,10 @@ public class GierTechTree {
                 node(sunderFurnace, () -> {
                     node(industrialTrimmer, () -> {});
                     node(plastaniumCrusher, () -> {});
+                    node(surgeFurnace, () -> {});
+                    node(oxidizationReactor, () -> {});
+                    node(thermalForge, () -> {});
+                    node(fabricatorMill, () -> {});
                 });
 
                 node(crate, () -> {});
