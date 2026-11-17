@@ -1069,7 +1069,7 @@ public class GierBlocks {
     );
 }};
 
-    surgeFurnace = new GenericCrafter("surge-furnace"){{
+    surgeFurnace = new MultiCrafter("surge-furnace"){{
 
     size = 4;
     customShadow = true;
