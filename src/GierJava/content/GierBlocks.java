@@ -105,7 +105,10 @@ public class GierBlocks {
     industrialBorehole,
     industrialTrimmer,
     plastaniumCrusher,
-    multiCraft,
+    surgeFurnace,
+    oxidizationReactor,
+    thermalForge,
+    fabricatorMill,
 
     // Defense
     copperFort,
@@ -1014,6 +1017,195 @@ public class GierBlocks {
             researchCostMultiplier = 0.5f;
         }};
 
+        oxidizationReactor = new GenericCrafter("oxidization-reactor"){{
+            
+    size = 4;
+    squareSprite = false;
+    customShadow = true;
+
+    health = 1250;
+    armor = 5f;
+    baseExplosiveness = 105f;
+
+    itemCapacity = 70;
+    liquidCapacity = 10f;
+    ignoreLiquidFullness = true;
+
+    outputItem = new ItemStack(Items.oxide, 15);
+    outputLiquid = new LiquidStack(Liquids.hydrogen, 0.08334f);
+    outputsLiquid = true;
+
+    craftTime = 300f;
+
+    requirements(Category.crafting,
+        with(
+            Items.lead, 400,
+            Items.copper, 400,
+            Items.graphite, 150,
+            Items.silicon, 250,
+            Items.metaglass, 100,
+            Items.beryllium, 100
+        )
+    );
+
+    envEnabled = -1;
+    consumePower(4.5f);
+    consumeItem(Items.beryllium, 35);
+    consumeLiquid(Liquids.water, 0.16667f);
+
+    drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawLiquidTile(Liquids.water, 5f),
+        new DrawBubbles(Color.valueOf("596ab8ff")),
+        new DrawCrucibleFlame(),
+        new DrawLiquidTile(Liquids.hydrogen, 5f){{
+            alpha = 0.5f;
+        }},
+        new DrawDefault(),
+        new DrawGlowRegion("-heat"){{
+            color = Color.valueOf("ff795e");
+            glowScale = 12.5f;
+        }}
+    );
+}};
+
+    surgeFurnace = new GenericCrafter("surge-furnace"){{
+
+    size = 4;
+    customShadow = true;
+
+    baseExplosiveness = 75f;
+    itemCapacity = 30;
+    recipes = new MultiCrafter.Recipe[]{
+            new MultiCrafter.Recipe(with(Items.copper, 30, Items.lead, 40, Items.titanium, 20), with(Items.surgeAlloy, 10), 600f, "item-surge-alloy")
+        };
+        
+    requirements(Category.crafting,
+        ItemStack.with(
+            Items.lead, 400,
+            Items.copper, 400,
+            Items.titanium, 250,
+            Items.silicon, 250,
+            Items.metaglass, 200
+        )
+    );
+
+    consumePower(5f);
+    envEnabled = -1;
+
+    drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawCrucibleFlame(),
+        new DrawDefault(),
+        new DrawGlowRegion(){{
+            color = Color.valueOf("f3e979");
+            alpha = 0.6f;
+        }}
+    );
+}};
+        
+    thermalForge = new AttributeCrafter("thermal-forge"){{
+
+    size = 5;
+    squareSprite = false;
+    customShadow = true;
+
+    health = 2500;
+    itemCapacity = 80;
+    craftTime = 600f;
+
+    attribute = Attribute.heat;
+    maxBoost = 1.5f;
+    boostScale = 0.04f;
+
+    outputItem = new ItemStack(Items.surgeAlloy, 20); //Placeholder item
+
+    requirements(Category.crafting,
+        ItemStack.with(
+            Items.lead, 500,
+            Items.copper, 500,
+            Items.silicon, 250,
+            Items.titanium, 250,
+            Items.metaglass, 100,
+            Items.plastanium, 100
+        )
+    );
+
+    consumeItems(
+        ItemStack.with(
+            Items.plastanium, 20,
+            Items.copper, 40,
+            Items.beryllium, 20,
+            Items.thorium, 20
+        )
+    );
+
+    envEnabled = -1;
+    researchCostMultiplier = 0.5f;
+
+    drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawCrucibleFlame(){{
+            flameColor = Color.valueOf("ff795e");
+            midColor = Color.valueOf("ffaa5f");
+        }},
+        new DrawDefault(),
+        new DrawGlowRegion("-glow"){{
+            alpha = 0.5f;
+            color = Color.valueOf("ff795e");
+        }}
+    );
+}};
+
+        fabricatorMill = new GenericCrafter("fabricator-mill"){{
+
+    size = 4;
+    customShadow = true;
+
+    itemCapacity = 120;
+    liquidCapacity = 100f;
+    craftTime = 300f;
+
+    baseExplosiveness = 60f;
+    explosivenessScale = 70f;
+
+    outputItem = new ItemStack(Items.phaseFabric, 30);
+
+    requirements(Category.crafting,
+        ItemStack.with(
+            Items.silicon, 250,
+            Items.beryllium, 250,
+            Items.metaglass, 200,
+            Items.thorium, 150
+        )
+    );
+
+    consumePower(10f);
+    consumeItems(
+        ItemStack.with(
+            Items.thorium, 30,
+            Items.sand, 60
+        )
+    );
+    consumeLiquid(Liquids.ozone, 0.16667f);
+
+    envEnabled = -1;
+    drawer = new DrawMulti(
+        new DrawRegion("-bottom"),
+        new DrawMultiWeave(){{
+            rotateSpeed = 1.5f;
+            rotateSpeed2 = -1.5f;
+        }},
+        new DrawLiquidTile(Liquids.ozone, 8f){{
+            alpha = 0.5f;
+        }},
+        new DrawDefault(),
+        new DrawGlowRegion("-glow"){{
+            color = Color.valueOf("FFD37F");
+            alpha = 0.65f;
+        }}
+    );
+}};
         
         // Defense
 
