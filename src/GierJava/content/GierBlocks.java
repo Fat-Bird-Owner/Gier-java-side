@@ -548,12 +548,11 @@ public class GierBlocks {
 
             envEnabled = -1;
             researchCostMultiplier = 0.5f;
-            consumePower(3f);
+            consumePower(5f);
 
             range = 200f;
             damage = 40f;
             reload = 60f;
-            rotationSpeed = 0f;
             lightningColor = Color.valueOf("ffaa5f");
         }};
         
