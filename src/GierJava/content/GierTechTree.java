@@ -84,12 +84,13 @@ public class GierTechTree {
                 });
 
                 node(sunderFurnace, () -> {
-                    node(industrialTrimmer, () -> {});
+                    node(industrialTrimmer, () -> {
+                        node(thermalForge, () -> {});
+                        node(fabricatorMill, () -> {});
+                    });
                     node(plastaniumCrusher, () -> {});
                     node(surgeFurnace, () -> {});
                     node(oxidizationReactor, () -> {});
-                    node(thermalForge, () -> {});
-                    node(fabricatorMill, () -> {});
                 });
 
                 node(crate, () -> {});
@@ -109,6 +110,7 @@ public class GierTechTree {
                 node(outpost, () -> {});
                 
                 node(photonPanel, () -> {
+                    node(photonCell, () -> {});
                     node(electricCapacitor, () -> {});
                     node(ignitionGenerator, () -> {
                         node(wattReactor, () -> {});
