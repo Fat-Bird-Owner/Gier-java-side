@@ -29,9 +29,9 @@ public class GierItems{
         
         cualbult = new Item("cualbult", Color.valueOf("8A73C6")){{
             
-            flammability = 0f
-            explosiveness = 0.8f
-            charge = 0.25f
+            flammability = 0f;
+            explosiveness = 0.8f;
+            charge = 0.25f;
 
             hardness = 4;
             cost = 3f;
