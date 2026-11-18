@@ -119,6 +119,7 @@ public class GierBlocks {
     transitNode,
     powerGrid,
     photonPanel,
+    photonCell,
     ignitionGenerator,
     electricCapacitor,
     outpost,
@@ -1315,6 +1316,47 @@ public class GierBlocks {
             }});
         }};
 
+        photonCell = new SolarGenerator("photon-cell"){{
+
+    size = 4;
+    hasShadow = false;
+
+    health = 2000;
+    baseExplosiveness = 150f;
+    powerProduction = 7.5f;
+
+    requirements(Category.power,
+        ItemStack.with(
+            Items.lead, 250,
+            Items.silicon, 200,
+            Items.thorium, 150,
+            Items.surgeAlloy, 100
+        )
+    );
+
+    researchCostMultiplier = 0.75f;
+    envEnabled = -1;
+    alwaysUnlocked = false;
+
+    drawer = new DrawMulti(
+        new DrawRegion(){{
+            x = -3.75f;
+            y = -3.75f;
+            color = Color.valueOf("00000044");
+            layer = 23f;
+            drawPlan = false;
+        }},
+        new DrawDefault(),
+        new DrawGlowRegion("-glow"){{
+            color = Color.white;
+            alpha = 0.45f;
+        }},
+        new DrawRegion("-glint"){{
+            drawPlan = false;
+        }}
+    );
+}};
+        
         ignitionGenerator = new ConsumeGenerator("ignition-generator"){{
             requirements(Category.power, with(Items.lead, 250, Items.copper, 200));
             size = 2;
