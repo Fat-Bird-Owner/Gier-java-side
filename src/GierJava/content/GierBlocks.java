@@ -1076,7 +1076,7 @@ public class GierBlocks {
     customShadow = true;
 
     baseExplosiveness = 75f;
-    itemCapacity = 30;
+    itemCapacity = 80;
     recipes = new MultiCrafter.Recipe[]{
             new MultiCrafter.Recipe(with(Items.copper, 30, Items.lead, 40, Items.titanium, 20), with(Items.surgeAlloy, 10), 600f, "item-surge-alloy")
         };
@@ -1119,7 +1119,7 @@ public class GierBlocks {
     maxBoost = 1.5f;
     boostScale = 0.04f;
 
-    outputItem = new ItemStack(Items.surgeAlloy, 20); //Placeholder item
+    outputItem = new ItemStack(GierItems.denseAlloy, 20); //Placeholder item
 
     requirements(Category.crafting,
         ItemStack.with(
@@ -1330,7 +1330,7 @@ public class GierBlocks {
             Items.lead, 250,
             Items.silicon, 200,
             Items.thorium, 150,
-            Items.surgeAlloy, 100
+            GierItems.cualbult, 100
         )
     );
 
