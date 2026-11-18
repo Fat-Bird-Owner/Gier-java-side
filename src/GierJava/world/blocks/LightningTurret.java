@@ -7,8 +7,9 @@ import arc.struct.Seq;
 import mindustry.content.Fx;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
-import mindustry.world.Block;
-
+import mindustry.world.*;
+import mindustry.entities.*;
+import mindustry.content.*;
 public class LightningTurret extends Block{
 
     public float range = 120f;
