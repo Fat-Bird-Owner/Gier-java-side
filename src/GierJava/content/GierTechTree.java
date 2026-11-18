@@ -4,7 +4,6 @@ import arc.struct.*;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
-import static mindustry.content.Items.*;
 import static GierJava.content.GierBlocks.*;
 import static GierJava.content.GierItems.*;
 import static GierJava.content.GierPlanets.*;
