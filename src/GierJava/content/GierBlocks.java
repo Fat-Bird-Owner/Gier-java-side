@@ -77,6 +77,7 @@ public class GierBlocks {
     tension,
     momentum,
     kilton,
+    pressure,
 
     // Distribution
     rail,
@@ -534,6 +535,28 @@ public class GierBlocks {
             }};
         }};
 
+        pressure = new LightningTurret("pressure"){{
+            size = 4;
+            baseExplosiveness = 75f;
+
+            requirements(Category.turret, ItemStack.with(
+                Items.lead, 400,
+                Items.copper, 250,
+                Items.beryllium, 150,
+                Items.plastanium, 100
+            ));
+
+            envEnabled = -1;
+            researchCostMultiplier = 0.5f;
+            consumePower(3f);
+
+            range = 200f;
+            damage = 40f;
+            reload = 60f;
+            rotationSpeed = 0f;
+            lightningColor = Color.valueOf("ffaa5f");
+        }};
+        
         // Distribution
 
         rail = new StackConveyor("rail"){{
