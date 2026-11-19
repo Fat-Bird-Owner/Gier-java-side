@@ -43,7 +43,7 @@ public class IntegrityShield extends ForceProjector  {
             paramBlock.absorbEffect.at(bullet);
             paramBlock.absorbEffect.at(paramEntity);
             paramEntity.hit = 1f;
-            paramEntity.damage(bullet.type.shieldDamage(bullet) * paramBlock.damageMultiplier);
+            paramEntity.damage(bullet.type.shieldDamage(bullet) * ((IntegrityShield)paramBlock).damageMultiplier);
             paramEntity.buildup += bullet.type.shieldDamage(bullet);
         }
     };
