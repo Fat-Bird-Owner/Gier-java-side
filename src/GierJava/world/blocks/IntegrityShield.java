@@ -35,18 +35,24 @@ public class IntegrityShield extends ForceProjector  {
     public Color damagedColor = Pal.remove;
     
     protected static final Cons<Bullet> shieldConsumer = bullet -> {
-        if(bullet.team != paramEntity.team && bullet.type.absorbable && !bullet.absorbed &&
-            Intersector.isInRegularPolygon(paramBlock.sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), paramBlock.shieldRotation, bullet.x, bullet.y)){
+    protected final Cons<Bullet> shieldConsumer = bullet -> {
+    if(bullet.team != team && bullet.type.absorbable && !bullet.absorbed &&
+        Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, bullet.x, bullet.y)){
 
-            bullet.absorb();
-            paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);
-            paramBlock.absorbEffect.at(bullet);
-            paramBlock.absorbEffect.at(paramEntity);
-            paramEntity.hit = 1f;
-            paramEntity.damage(bullet.type.shieldDamage(bullet) * ((IntegrityShield)paramBlock).damageMultiplier);
-            paramEntity.buildup += bullet.type.shieldDamage(bullet);
-        }
-    };
+        bullet.absorb();
+
+        hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), hitSoundVolume);
+        absorbEffect.at(bullet);
+        absorbEffect.at(this);
+
+        hit = 1f;
+
+        float shieldDamage = bullet.type.shieldDamage(bullet);
+
+        damage(shieldDamage * damageMultiplier);
+        buildup += shieldDamage;
+    }
+};
     
     public IntegrityShield(String name){
         super(name);
@@ -109,9 +115,6 @@ public class IntegrityShield extends ForceProjector  {
             float radius = realRadius();
 
             if(radius > 0 && !broken){
-                paramBlock = IntegrityShield.this;
-                paramEntity = this;
-
                 Groups.bullet.intersect( x - radius, y - radius, radius * 2f, radius * 2f, shieldConsumer);
             }
         }
