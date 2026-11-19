@@ -34,7 +34,6 @@ public class IntegrityShield extends ForceProjector  {
     public float damageMultiplier = 0.25f; // Placeholder vars
     public Color damagedColor = Pal.remove;
     
-    protected static final Cons<Bullet> shieldConsumer = bullet -> {
     protected final Cons<Bullet> shieldConsumer = bullet -> {
     if(bullet.team != team && bullet.type.absorbable && !bullet.absorbed &&
         Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, bullet.x, bullet.y)){
