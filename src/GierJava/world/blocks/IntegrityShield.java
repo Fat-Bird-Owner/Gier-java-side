@@ -34,25 +34,6 @@ public class IntegrityShield extends ForceProjector  {
     public float damageMultiplier = 0.25f; // Placeholder vars
     public Color damagedColor = Pal.remove;
     
-    protected final Cons<Bullet> shieldConsumer = bullet -> {
-    if(bullet.team != team && bullet.type.absorbable && !bullet.absorbed &&
-        Intersector.isInRegularPolygon(sides, x, y, realRadius(), shieldRotation, bullet.x, bullet.y)){
-
-        bullet.absorb();
-
-        hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), hitSoundVolume);
-        absorbEffect.at(bullet);
-        absorbEffect.at(this);
-
-        hit = 1f;
-
-        float shieldDamage = bullet.type.shieldDamage(bullet);
-
-        damage(shieldDamage * damageMultiplier);
-        buildup += shieldDamage;
-    }
-};
-    
     public IntegrityShield(String name){
         super(name);
         targetable = false;
@@ -61,6 +42,34 @@ public class IntegrityShield extends ForceProjector  {
 
     public class IntegrityShieldBuild extends ForceBuild {
 
+        private final Cons<Bullet> shieldConsumer = bullet -> {
+    if(bullet.team != team && bullet.type.absorbable && !bullet.absorbed &&
+        Intersector.isInRegularPolygon(
+            IntegrityShield.this.sides,
+            x, y, realRadius(),
+            IntegrityShield.this.shieldRotation,
+            bullet.x, bullet.y
+        )){
+
+        bullet.absorb();
+
+        IntegrityShield.this.hitSound.at(
+            bullet.x, bullet.y,
+            1f + Mathf.range(0.1f),
+            IntegrityShield.this.hitSoundVolume
+        );
+
+        IntegrityShield.this.absorbEffect.at(bullet);
+        IntegrityShield.this.absorbEffect.at(this);
+
+        hit = 1f;
+
+        float shieldDamage = bullet.type.shieldDamage(bullet);
+        damage(shieldDamage * IntegrityShield.this.damageMultiplier);
+        buildup += shieldDamage;
+    }
+};
+        
         /*
         @Override 
         public void updateTile(){
