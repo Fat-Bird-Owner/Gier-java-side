@@ -32,6 +32,19 @@ import static mindustry.Vars.*;
 public class IntegrityShield extends ForceProjector  {
 
     public float height = 8f, mult = 0.4f; // Placeholder vars
+    protected static final Cons<Bullet> shieldConsumer = bullet -> {
+        if(bullet.team != paramEntity.team && bullet.type.absorbable && !bullet.absorbed &&
+            Intersector.isInRegularPolygon(paramBlock.sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), paramBlock.shieldRotation, bullet.x, bullet.y)){
+
+            bullet.absorb();
+            paramBlock.hitSound.at(bullet.x, bullet.y, 1f + Mathf.range(0.1f), paramBlock.hitSoundVolume);
+            paramBlock.absorbEffect.at(bullet);
+            paramBlock.absorbEffect.at(paramEntity);
+            paramEntity.hit = 1f;
+            paramEntity.damage(bullet.type.shieldDamage(bullet));
+            paramEntity.buildup += bullet.type.shieldDamage(bullet);
+        }
+    };
     
     public IntegrityShield(String name){
         super(name);
@@ -79,7 +92,7 @@ public class IntegrityShield extends ForceProjector  {
           */
 
         public float realRadius(){
-            return super.realRadius() * (buildup / (shieldHealth + phaseShieldBoost * phaseHeat));
+            return super.realRadius() * (health / (maxHealth + phaseShieldBoost * phaseHeat));
         }
         
     }
