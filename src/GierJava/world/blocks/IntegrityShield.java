@@ -31,7 +31,7 @@ import static mindustry.Vars.*;
 // Placeholder class for custom gimmicks
 public class IntegrityShield extends ForceProjector  {
 
-    public float damageMultipler = 0.25f; // Placeholder vars
+    public float damageMultiplier = 0.25f; // Placeholder vars
     public Color damagedColor = Pal.remove;
     
     protected static final Cons<Bullet> shieldConsumer = bullet -> {
@@ -43,7 +43,7 @@ public class IntegrityShield extends ForceProjector  {
             paramBlock.absorbEffect.at(bullet);
             paramBlock.absorbEffect.at(paramEntity);
             paramEntity.hit = 1f;
-            paramEntity.damage(bullet.type.shieldDamage(bullet) * paramBlock.damageMultipler);
+            paramEntity.damage(bullet.type.shieldDamage(bullet) * paramBlock.damageMultiplier);
             paramEntity.buildup += bullet.type.shieldDamage(bullet);
         }
     };
