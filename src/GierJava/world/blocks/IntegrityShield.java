@@ -32,6 +32,8 @@ import static mindustry.Vars.*;
 public class IntegrityShield extends ForceProjector  {
 
     public float height = 8f, mult = 0.4f; // Placeholder vars
+    public Color damagedColor = Pal.remove;
+    
     protected static final Cons<Bullet> shieldConsumer = bullet -> {
         if(bullet.team != paramEntity.team && bullet.type.absorbable && !bullet.absorbed &&
             Intersector.isInRegularPolygon(paramBlock.sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), paramBlock.shieldRotation, bullet.x, bullet.y)){
@@ -70,27 +72,49 @@ public class IntegrityShield extends ForceProjector  {
             return Mathf.clamp((y - Core.camera.position.y)*mult, -height, height);
         }
         
+          */
+
+        public static Color getColor(){
+            return damagedColor.cpy().lerp(team.color, Mathf.clamp(health / maxHealth));
+        }
+        
+        @Override
         public void drawShield(){
-            super.drawShield();
             if(!broken){
                 float radius = realRadius();
 
                 if(radius > 0.001f){
-                        Draw.color(team.color, Color.white, Mathf.clamp(hit));
-                        Draw.z(Layer.shields + 1f * hit);
+                    Draw.color(getColor(), Color.white, Mathf.clamp(hit));
+
+                    if(renderer.animateShields){
+                        Draw.z(Layer.shields + 0.001f * hit);
+                        Fill.poly(x, y, sides, radius, shieldRotation);
+                    }else{
+                        Draw.z(Layer.shields);
                         Lines.stroke(1.5f);
                         Draw.alpha(0.09f + Mathf.clamp(0.08f * hit));
-                        Fill.poly(x + getxOffset(), y + getyOffset(), sides, radius, shieldRotation);
+                        Fill.poly(x, y, sides, radius, shieldRotation);
                         Draw.alpha(1f);
-                        Lines.poly(x + getxOffset(), y + getyOffset(), sides, radius, shieldRotation);
-                        Draw.reset();                
+                        Lines.poly(x, y, sides, radius, shieldRotation);
+                        Draw.reset();
+                    }
                 }
             }
 
             Draw.reset();
         }
-          */
+        
+        @Override
+        public void deflectBullets(){
+            float realRadius = realRadius();
 
+            if(realRadius > 0 && !broken){
+                paramBlock = IntegrityShieldBuild.this;
+                paramEntity = this;
+                Groups.bullet.intersect(x - realRadius, y - realRadius, realRadius * 2f, realRadius * 2f, shieldConsumer);
+            }
+        }
+        
         public float realRadius(){
             return super.realRadius() * (health / (maxHealth + phaseShieldBoost * phaseHeat));
         }
