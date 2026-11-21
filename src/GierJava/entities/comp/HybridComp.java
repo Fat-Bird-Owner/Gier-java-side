@@ -12,7 +12,7 @@ import mindustry.gen.Unitc;
 @EntityComponent
 abstract class HybridComp implements Unitc {
 
-  @Import UnitType type 
+  @Import UnitType type;
   
   public void movePref(Vec2 movement){
     if(type.omniMovement || (!isFlying() && floorOn().isLiquid)){
