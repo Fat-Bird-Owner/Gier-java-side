@@ -33,6 +33,7 @@ public class GierTechTree {
                     node(titanium, () -> {
                         node(surgeAlloy, () -> {});
                         node(plastanium, () -> {});
+                        node(thorium, () -> {});
                         
                         node(tungsten, () -> {
                             node(carbide, () -> {});
