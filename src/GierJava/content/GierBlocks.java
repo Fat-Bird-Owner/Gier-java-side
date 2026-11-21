@@ -1520,7 +1520,7 @@ public class GierBlocks {
         // Effect
 
         coreSatellite = new PowerCore("core-satellite"){{
-            requirements(Category.effect, with(GierItems.lead, 1000, Items.copper, 500));
+            requirements(Category.effect, with(GierItems.lead, 1000, GierItems.copper, 500));
 
             databaseTag = "gier";
             squareSprite = false;
