@@ -244,7 +244,7 @@ public class GierBlocks {
             shake = 0.65f;
             shootEffect = Fx.none;
 
-            boostItem = Items.graphite;
+            boostItem = GierItems.graphite;
 
             requirements(Category.turret, with(
                 GierItems.lead, 250,
@@ -944,9 +944,9 @@ public class GierBlocks {
 
         dihydrogenShaft = new AttributeCrafter("dihydrogen-shaft"){{
         requirements(Category.production, with(
-        Items.lead, 450,
-        Items.metaglass, 200,
-        Items.silicon, 100
+        GierItems.lead, 450,
+        GierItems.metaglass, 200,
+        GierItems.silicon, 100
         ));
 
         size = 3;
@@ -962,7 +962,7 @@ public class GierBlocks {
         baseEfficiency = 0f;
         minEfficiency = 0.25f;
 
-        consumeItem(Items.graphite, 1);
+        consumeItem(GierItems.graphite, 1);
         consumePower(0.65f);
         ambientSoundVolume = 0.2f;
 
