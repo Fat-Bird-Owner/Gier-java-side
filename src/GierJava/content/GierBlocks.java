@@ -4,6 +4,7 @@ import GierJava.world.blocks.*;
 import GierJava.content.GierItems;
 import GierJava.content.GierUnitTypes;
 import GierJava.content.DerelictBlocks;
+import GierJava.content.GierItems;
 
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
@@ -47,7 +48,6 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import mindustry.content.Items;
 import mindustry.content.Liquids;
 
 import static mindustry.type.ItemStack.with;
@@ -149,12 +149,12 @@ public class GierBlocks {
 
         gierCopperOre = new OreBlock("gier-copper-ore"){{
             variants = 4;
-            itemDrop = Items.copper;
+            itemDrop = GierItems.copper;
         }};
 
         gierGraphiteOre = new OreBlock("gier-graphite-ore"){{
             variants = 3;
-            itemDrop = Items.graphite;
+            itemDrop = GierItems.graphite;
         }};
 
         denseStone = new Floor("dense-stone"){{
@@ -180,7 +180,7 @@ public class GierBlocks {
         ferricPillar = new Wall("ferric-pillar"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             health = 1000; 
-            requirements(Category.defense, with(Items.sand, 200, Items.graphite,50));
+            requirements(Category.defense, with(GierItems.sand, 200, GierItems.graphite,50));
         }};
 
         balloonTree = new TallBlock("balloon-tree");
@@ -247,8 +247,8 @@ public class GierBlocks {
             boostItem = Items.graphite;
 
             requirements(Category.turret, with(
-                Items.lead, 250,
-                Items.copper, 250
+                GierItems.lead, 250,
+                GierItems.copper, 250
             ));
 
             buildTime = 300f;
@@ -390,7 +390,7 @@ public class GierBlocks {
             }};
 
         momentum = new MinigunTurret("momentum"){{
-            requirements(Category.turret, with(Items.copper, 200, Items.lead, 200, Items.silicon,150));
+            requirements(Category.turret, with(GierItems.copper, 200, GierItems.lead, 200, GierItems.silicon,150));
             researchCostMultiplier = 0.2f;
             size = 4;
 
@@ -408,7 +408,7 @@ public class GierBlocks {
             coolant = consumeCoolant(0.5f);
             
             ammo(
-                Items.copper, new FlakBulletType(8f, 6){{
+                GierItems.copper, new FlakBulletType(8f, 6){{
                     ammoMultiplier = 2f;
                     shootEffect = Fx.shootSmall;
                     reloadMultiplier = 0.8f;
@@ -435,7 +435,7 @@ public class GierBlocks {
                     despawnEffect = Fx.hitBulletColor;
                 }},
 
-                Items.metaglass, new FlakBulletType(8f, 6){{
+                GierItems.metaglass, new FlakBulletType(8f, 6){{
                     ammoMultiplier = 2f;
                     shootEffect = Fx.shootSmall;
                     reloadMultiplier = 0.8f;
@@ -463,7 +463,7 @@ public class GierBlocks {
                     despawnEffect = Fx.hitBulletColor;
                 }},
 
-                Items.surgeAlloy, new BasicBulletType(8f, 70){{
+                GierItems.surgeAlloy, new BasicBulletType(8f, 140){{
                     width = 11f;
                     height = 20f;
                     lifetime = 27f;
@@ -540,10 +540,10 @@ public class GierBlocks {
             baseExplosiveness = 75f;
 
             requirements(Category.turret, ItemStack.with(
-                Items.lead, 400,
-                Items.copper, 250,
-                Items.beryllium, 150,
-                Items.plastanium, 100
+                GierItems.lead, 400,
+                GierItems.copper, 250,
+                GierItems.beryllium, 150,
+                GierItems.plastanium, 100
             ));
 
             envEnabled = -1;
@@ -559,7 +559,7 @@ public class GierBlocks {
         // Distribution
 
         rail = new StackConveyor("rail"){{
-            requirements(Category.distribution, with(Items.copper, 1));
+            requirements(Category.distribution, with(GierItems.copper, 1));
             researchCostMultiplier = 0.05f;
 
             envEnabled = -1;
@@ -572,7 +572,7 @@ public class GierBlocks {
         }};
 
         tungstenRail = new OpenStackConveyor("tungsten-rail"){{
-            requirements(Category.distribution, with(Items.copper, 3, Items.tungsten, 1));
+            requirements(Category.distribution, with(GierItems.copper, 3, GierItems.tungsten, 1));
             researchCostMultiplier = 0.5f;
 
             envEnabled = -1;
@@ -581,14 +581,14 @@ public class GierBlocks {
         }};
         
         railOverflow = new ConfigGate("rail-overflow"){{
-            requirements(Category.distribution, with(Items.lead, 20, Items.copper, 10));
+            requirements(Category.distribution, with(GierItems.lead, 20, GierItems.copper, 10));
             databaseTag = "gier";
             researchCostMultiplier = 0.15f;
             baseExplosiveness = 10f;
         }};
 
         overheadBelt = new OmniDirectionalBridge("overhead-belt"){{
-            requirements(Category.distribution, with(Items.lead, 20, Items.silicon, 20));
+            requirements(Category.distribution, with(GierItems.lead, 20, GierItems.silicon, 20));
             researchCostMultiplier = 0.15f;
             range = 5;
 
@@ -602,7 +602,7 @@ public class GierBlocks {
         }};
 
         droneFacility = new UnitCargoLoader("drone-facility"){{
-            requirements(Category.distribution, with(Items.lead, 150, Items.copper, 100));
+            requirements(Category.distribution, with(GierItems.lead, 150, GierItems.copper, 100));
             size = 2;
             baseExplosiveness = 20f;
 
@@ -618,7 +618,7 @@ public class GierBlocks {
         }};
 
         facilityDropzone = new UnitCargoUnloadPoint("facility-dropzone"){{
-            requirements(Category.distribution, with(Items.lead, 200, Items.copper, 150));
+            requirements(Category.distribution, with(GierItems.lead, 200, GierItems.copper, 150));
             size = 2;
             baseExplosiveness = 15f;
 
@@ -634,8 +634,8 @@ public class GierBlocks {
 
         fluidSilo = new LiquidRouter("fluid-silo"){{
             requirements(Category.liquid, with(
-                Items.titanium, 50,
-                Items.metaglass, 150
+                GierItems.titanium, 50,
+                GierItems.metaglass, 150
             ));
 
             size = 2;
@@ -649,8 +649,8 @@ public class GierBlocks {
 
         fluidTank = new LiquidRouter("fluid-tank"){{
             requirements(Category.liquid, with(
-                Items.tungsten, 100,
-                Items.metaglass, 300
+                GierItems.tungsten, 100,
+                GierItems.metaglass, 300
             ));
 
             size = 3;
@@ -663,15 +663,15 @@ public class GierBlocks {
         }};
 
         fluidJunction = new Junction("fluid-junction"){{
-            requirements(Category.liquid, with(Items.lead, 15, Items.plastanium, 5));
+            requirements(Category.liquid, with(GierItems.lead, 15, GierItems.plastanium, 5));
             databaseTag = "adv-plastanium";
         }};
 
             mechanicalSiphon = new Pump("mechanical-siphon"){{
                 requirements(Category.liquid,
                 with(
-                    Items.lead, 150,
-                    Items.metaglass, 50
+                    GierItems.lead, 150,
+                    GierItems.metaglass, 50
                 ));
 
                 explosivenessScale = 5f;
@@ -686,10 +686,10 @@ public class GierBlocks {
 
             requirements(Category.liquid,
                 with(
-                    Items.titanium, 50,
-                    Items.beryllium, 50,
-                    Items.metaglass, 150,
-                    Items.thorium, 50
+                    GierItems.titanium, 50,
+                    GierItems.beryllium, 50,
+                    GierItems.metaglass, 150,
+                    GierItems.thorium, 50
                 )
             );
 
@@ -703,7 +703,7 @@ public class GierBlocks {
         // Production
 
         hydroDrill = new Drill("hydro-drill"){{
-            requirements(Category.production, with(Items.lead, 25, Items.copper, 25));
+            requirements(Category.production, with(GierItems.lead, 25, GierItems.copper, 25));
             consumePower(0.08334f);
             consumeLiquid(Liquids.water, 0.08334f).boost();
             researchCostMultiplier = 0.05f;
@@ -724,7 +724,7 @@ public class GierBlocks {
         }};
 
         tonCrusher = new Drill("ton-crusher"){{
-            requirements(Category.production, with(Items.lead, 250, Items.copper, 250, Items.silicon, 200, Items.metaglass, 100));
+            requirements(Category.production, with(GierItems.lead, 250, GierItems.copper, 250, GierItems.silicon, 200, GierItems.metaglass, 100));
             consumePower(2f);
             consumeLiquid(Liquids.water, 10f / 60f).boost();
             researchCostMultiplier = 0.15f;
@@ -744,7 +744,7 @@ public class GierBlocks {
         }};
 
         heavyExcavator = new Drill("heavy-excavator"){{
-            requirements(Category.production, with(Items.lead, 500, Items.silicon, 300, Items.thorium, 150));
+            requirements(Category.production, with(GierItems.lead, 500, GierItems.silicon, 300, GierItems.thorium, 150));
             consumePower(3f);
             consumeLiquid(Liquids.water, 10f / 60f);
             consumeLiquid(Liquids.cryofluid, 5f / 60f).boost();
@@ -757,7 +757,8 @@ public class GierBlocks {
             liquidBoostIntensity = 2f;
             conductivePower = true;
             outputsPower = true;
-
+            rotateSpeed = 8f;
+            
             size = 4;
             baseExplosiveness = 85f;
             drillTime = 60f;
@@ -765,7 +766,7 @@ public class GierBlocks {
         }};
         
         precipiceGrinder = new WallCrafter("precipice-grinder"){{
-            requirements(Category.production, with(Items.lead, 100, Items.copper, 100, Items.silicon, 50, Items.titanium, 50));
+            requirements(Category.production, with(GierItems.lead, 100, GierItems.copper, 100, GierItems.silicon, 50, GierItems.titanium, 50));
             consumePower(2f);
             researchCostMultiplier = 0.15f;
 
@@ -781,7 +782,7 @@ public class GierBlocks {
         // Crafting
 
         sunderFurnace = new GenericCrafter("sunder-furnace"){{
-            requirements(Category.crafting, with(Items.lead, 1000, Items.copper, 1000));
+            requirements(Category.crafting, with(GierItems.lead, 1000, GierItems.copper, 1000));
             size = 4;
             researchCostMultiplier = 0.1f;
 
@@ -790,8 +791,8 @@ public class GierBlocks {
             craftTime = 5f * 60f;
 
             itemCapacity = 100;
-            consumeItems(with(Items.lead, 25, Items.graphite, 25, Items.sand, 50));
-            outputItems = with(Items.silicon, 25, GierItems.metaglassChunk, 25);
+            consumeItems(with(GierItems.lead, 25, GierItems.graphite, 25, GierItems.sand, 50));
+            outputItems = with(GierItems.silicon, 25, GierItems.metaglassChunk, 25);
 
             baseExplosiveness = 250f;
             
@@ -806,7 +807,7 @@ public class GierBlocks {
         }};
         
         industrialTrimmer = new MultiCrafter("industrial-trimmer"){{
-            requirements(Category.crafting, with(Items.lead, 250, Items.copper, 250));
+            requirements(Category.crafting, with(GierItems.lead, 250, GierItems.copper, 250));
             size = 3;
             researchCostMultiplier = 0.1f;
 
@@ -815,8 +816,8 @@ public class GierBlocks {
             itemCapacity = 40;
 
             recipes = new MultiCrafter.Recipe[]{
-                new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(Items.metaglass, 20), 100f, "item-metaglass"),
-                new MultiCrafter.Recipe(with(Items.scrap, 20), with(Items.lead, 10, Items.copper, 10, Items.graphite, 5), 100f, "item-scrap")
+                new MultiCrafter.Recipe(with(GierItems.metaglassChunk, 20), with(GierItems.metaglass, 20), 100f, "gier-java-metaglass"),
+                new MultiCrafter.Recipe(with(GierItems.scrap, 20), with(GierItems.lead, 10, GierItems.copper, 10, GierItems.graphite, 5), 100f, "item-scrap")
             };
 
             envEnabled = -1;
@@ -847,11 +848,11 @@ public class GierBlocks {
         size = 3;
         requirements(Category.crafting,
             ItemStack.with(
-                Items.lead, 400,
-                Items.copper, 250,
-                Items.silicon, 150,
-                Items.metaglass, 100,
-                Items.titanium, 50
+                GierItems.lead, 400,
+                GierItems.copper, 250,
+                GierItems.silicon, 150,
+                GierItems.metaglass, 100,
+                GierItems.titanium, 50
             )
         );
 
@@ -863,10 +864,10 @@ public class GierBlocks {
     liquidCapacity = 80;
 
     consumePower(3.66667f);
-    consumeItems(with(Items.titanium, 40));
+    consumeItems(with(GierItems.titanium, 40));
     consumeLiquid(Liquids.oil, 15f / 60f);
             
-    outputItem = new ItemStack(Items.plastanium, 20);
+    outputItem = new ItemStack(GierItems.plastanium, 20);
     craftTime = 1500f;
 
     researchCostMultiplier = 0.5f;
@@ -993,10 +994,10 @@ public class GierBlocks {
      
         industrialBorehole = new AttributeCrafter("industrial-borehole"){{
         requirements(Category.production, with(
-        Items.lead, 2000,
-        Items.metaglass, 2000,
-        Items.tungsten, 750,
-        Items.thorium, 250
+        GierItems.lead, 2000,
+        GierItems.metaglass, 2000,
+        GierItems.tungsten, 750,
+        GierItems.thorium, 250
         ));
 
         size = 4;
@@ -1054,7 +1055,7 @@ public class GierBlocks {
     liquidCapacity = 10f;
     ignoreLiquidFullness = true;
 
-    outputItem = new ItemStack(Items.oxide, 15);
+    outputItem = new ItemStack(GierItems.oxide, 15);
     outputLiquid = new LiquidStack(Liquids.hydrogen, 0.08334f);
     outputsLiquid = true;
 
@@ -1100,16 +1101,16 @@ public class GierBlocks {
     baseExplosiveness = 75f;
     itemCapacity = 80;
     recipes = new MultiCrafter.Recipe[]{
-            new MultiCrafter.Recipe(with(Items.copper, 30, Items.lead, 40, Items.titanium, 20), with(Items.surgeAlloy, 10), 600f, "item-surge-alloy")
+            new MultiCrafter.Recipe(with(GierItems.copper, 30, GierItems.lead, 40, GierItems.titanium, 20), with(GierItems.surgeAlloy, 10), 600f, "item-surge-alloy")
         };
         
     requirements(Category.crafting,
         ItemStack.with(
-            Items.lead, 400,
-            Items.copper, 400,
-            Items.titanium, 250,
-            Items.silicon, 250,
-            Items.metaglass, 200
+            GierItems.lead, 400,
+            GierItems.copper, 400,
+            GierItems.titanium, 250,
+            GierItems.silicon, 250,
+            GierItems.metaglass, 200
         )
     );
 
@@ -1145,21 +1146,21 @@ public class GierBlocks {
 
     requirements(Category.crafting,
         ItemStack.with(
-            Items.lead, 500,
-            Items.copper, 500,
-            Items.silicon, 250,
-            Items.titanium, 250,
-            Items.metaglass, 100,
-            Items.plastanium, 100
+            GierItems.lead, 500,
+            GierItems.copper, 500,
+            GierItems.silicon, 250,
+            GierItems.titanium, 250,
+            GierItems.metaglass, 100,
+            GierItems.plastanium, 100
         )
     );
 
     consumeItems(
         ItemStack.with(
-            Items.plastanium, 20,
-            Items.copper, 40,
-            Items.beryllium, 20,
-            Items.thorium, 20
+            GierItems.plastanium, 20,
+            GierItems.copper, 40,
+            GierItems.beryllium, 20,
+            GierItems.thorium, 20
         )
     );
 
@@ -1192,7 +1193,7 @@ public class GierBlocks {
     baseExplosiveness = 60f;
     explosivenessScale = 70f;
 
-    outputItem = new ItemStack(Items.phaseFabric, 30);
+    outputItem = new ItemStack(GierItems.phaseFabric, 30);
 
     requirements(Category.crafting,
         ItemStack.with(
@@ -1206,8 +1207,8 @@ public class GierBlocks {
     consumePower(10f);
     consumeItems(
         ItemStack.with(
-            Items.thorium, 30,
-            Items.sand, 60
+            GierItems.thorium, 30,
+            GierItems.sand, 60
         )
     );
     consumeLiquid(Liquids.ozone, 0.16667f);
@@ -1233,12 +1234,11 @@ public class GierBlocks {
         // Defense
 
         copperFort = new IntegrityShield("copper-fort"){{
-            requirements(Category.defense, with(Items.copper, 50, Items.lead, 25));
+            requirements(Category.defense, with(GierItems.copper, 50, GierItems.lead, 25));
             health = 500;
             sides = 4;
             researchCostMultiplier = 0.05f;
 
-            consumePower(0.05f);
             databaseTag = "gier";
             customShadow = true;
             radius = 56f;
@@ -1250,17 +1250,17 @@ public class GierBlocks {
         }};
 
         scrapMound = new Wall("scrap-mound"){{
-            requirements(Category.defense, with(Items.scrap, 48));
+            requirements(Category.defense, with(GierItems.scrap, 48));
             size = 2;
             health = 400;
         }};
 
         fusionDome = new IntegrityShield("fusion-dome"){{
            requirements(Category.defense, with(
-                Items.lead, 750,
-                Items.copper, 500,
-                Items.metaglass, 250,
-                Items.silicon, 250
+                GierItems.lead, 750,
+                GierItems.copper, 500,
+                GierItems.metaglass, 250,
+                GierItems.silicon, 250
             ));
 
             size = 3;
@@ -1296,7 +1296,7 @@ public class GierBlocks {
         // Power
 
         transitNode = new TransitNode("transit-node"){{
-            requirements(Category.power, with(Items.copper, 10));
+            requirements(Category.power, with(GierItems.copper, 10));
             range = 6;
             baseColor = Pal.accent;
 
@@ -1306,7 +1306,7 @@ public class GierBlocks {
         }};
 
         powerGrid = new TransitNode("power-grid"){{
-            requirements(Category.power, with(Items.silicon, 10, Items.surgeAlloy, 5));
+            requirements(Category.power, with(GierItems.silicon, 10, GierItems.surgeAlloy, 5));
             range = 11;
             baseColor = Pal.accent;
 
@@ -1319,7 +1319,7 @@ public class GierBlocks {
         }};
         
         photonPanel = new SolarGenerator("photon-panel"){{
-            requirements(Category.power, with(Items.lead, 25, Items.copper, 50));
+            requirements(Category.power, with(GierItems.lead, 25, GierItems.copper, 50));
             customShadow = true;
             size = 2;
 
@@ -1349,9 +1349,9 @@ public class GierBlocks {
 
     requirements(Category.power,
         ItemStack.with(
-            Items.lead, 250,
-            Items.silicon, 200,
-            Items.thorium, 150,
+            GierItems.lead, 250,
+            GierItems.silicon, 200,
+            GierItems.thorium, 150,
             GierItems.cualbult, 100
         )
     );
@@ -1380,7 +1380,7 @@ public class GierBlocks {
 }};
         
         ignitionGenerator = new ConsumeGenerator("ignition-generator"){{
-            requirements(Category.power, with(Items.lead, 250, Items.copper, 200));
+            requirements(Category.power, with(GierItems.lead, 250, GierItems.copper, 200));
             size = 2;
 
             envEnabled = -1;
@@ -1388,7 +1388,7 @@ public class GierBlocks {
             researchCostMultiplier = 0.05f;
 
             baseExplosiveness = 20f;
-            consumeItem(Items.graphite);
+            consumeItem(GierItems.graphite);
             powerProduction = 1.5f;
 
             drawer = new DrawMulti(
@@ -1400,7 +1400,7 @@ public class GierBlocks {
         }};
 
         electricCapacitor = new Battery("electric-capacitor"){{
-            requirements(Category.power, with(Items.lead, 50, Items.copper, 75));
+            requirements(Category.power, with(GierItems.lead, 50, GierItems.copper, 75));
             drawer = new DrawMulti(
                 new DrawDefault(),
                 new DrawPower("-power")
@@ -1409,10 +1409,12 @@ public class GierBlocks {
             consumePowerBuffered(500f);
             envEnabled = -1;
             baseExplosiveness = 25f;
+
+            health = 500;
         }};
 
         outpost = new PowerNode("outpost"){{
-            requirements(Category.power, with(Items.lead, 200, Items.copper, 175, Items.silicon, 50));
+            requirements(Category.power, with(GierItems.lead, 200, GierItems.copper, 175, GierItems.silicon, 50));
             maxNodes = 2;
             configurable = false;
             laserRange = 60f;
@@ -1425,7 +1427,7 @@ public class GierBlocks {
 
         wattReactor = new NuclearReactor("watt-reactor"){{
         
-        fuelItem = Items.graphite;
+        fuelItem = GierItems.graphite;
         heating = 0.065f;
 
         size = 4;
@@ -1448,15 +1450,15 @@ public class GierBlocks {
 
         requirements(Category.power,
             with(
-                Items.lead, 500,
-                Items.copper, 500,
-                Items.silicon, 250,
-                Items.metaglass, 200,
-                Items.beryllium, 100
+                GierItems.lead, 500,
+                GierItems.copper, 500,
+                GierItems.silicon, 250,
+                GierItems.metaglass, 200,
+                GierItems.beryllium, 100
             )
         );
 
-        consumeItems(ItemStack.with(Items.graphite, 10));
+        consumeItems(ItemStack.with(GierItems.graphite, 10));
         consumeCoolant(0.166667f, true, false);
 
         drawer = new DrawMulti(
@@ -1475,12 +1477,12 @@ public class GierBlocks {
         // Units
 
         assemblyBay = new AnimatedUnitFactory("assembly-bay", GierUnitTypes.occupy){{
-            requirements(Category.units, with(Items.lead, 200, Items.copper, 150));
+            requirements(Category.units, with(GierItems.lead, 200, GierItems.copper, 150));
             size = 3;
             buildTime = 900f;
 
             itemCapacity = 100;
-            consumeItems(with(Items.scrap, 50, Items.lead, 25));
+            consumeItems(with(GierItems.scrap, 50, GierItems.lead, 25));
             consumeLiquid(Liquids.oil, 1f / 60f);
             
             animations(
@@ -1491,9 +1493,9 @@ public class GierBlocks {
 
         assemblyReconstructor = new ConfigurableReconstructor("assembly-reconstructor"){{
             requirements(Category.units, with(
-                Items.copper, 300,
-                Items.lead, 200,
-                Items.silicon, 150
+                GierItems.copper, 300,
+                GierItems.lead, 200,
+                GierItems.silicon, 150
             ));
 
             size = 3;
@@ -1501,8 +1503,8 @@ public class GierBlocks {
             consumePower(1f);
             
             constructTime = 60f * 20f;
-            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(Items.lead, 40, Items.scrap, 40));
-            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.staticu, with(Items.copper, 20, Items.scrap, 60));
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.overboard, with(GierItems.lead, 40, GierItems.scrap, 40));
+            addUpgrade(GierUnitTypes.occupy, GierUnitTypes.staticu, with(GierItems.copper, 20, GierItems.scrap, 60));
         }};
 
         crane = new ClawBlock("crane"){{
@@ -1518,7 +1520,7 @@ public class GierBlocks {
         // Effect
 
         coreSatellite = new PowerCore("core-satellite"){{
-            requirements(Category.effect, with(Items.lead, 1000, Items.copper, 500));
+            requirements(Category.effect, with(GierItems.lead, 1000, Items.copper, 500));
 
             databaseTag = "gier";
             squareSprite = false;
@@ -1536,7 +1538,7 @@ public class GierBlocks {
         }};
 
         coreFacility = new PowerCore("core-facility"){{
-            requirements(Category.effect, with(Items.lead, 1500, Items.copper, 1250, Items.graphite, 500));
+            requirements(Category.effect, with(GierItems.lead, 1500, GierItems.copper, 1250, GierItems.graphite, 500));
 
             databaseTag = "gier";
             squareSprite = false;
@@ -1552,7 +1554,7 @@ public class GierBlocks {
         }};
 
         crate = new StorageBlock("crate"){{
-            requirements(Category.effect, with(Items.lead, 200, Items.graphite, 50));
+            requirements(Category.effect, with(GierItems.lead, 200, GierItems.graphite, 50));
             size = 2;
 
             databaseTag = "gier";
@@ -1565,7 +1567,7 @@ public class GierBlocks {
         }};
 
         restorator = new SquareMendProjector("restorator"){{
-            requirements(Category.effect, with(Items.lead, 200, Items.copper, 100));
+            requirements(Category.effect, with(GierItems.lead, 200, GierItems.copper, 100));
             customShadow = true;
             baseExplosiveness = 25f;
             researchCostMultiplier = 0.05f;
@@ -1574,7 +1576,7 @@ public class GierBlocks {
             range = 84f;
             reload = 60f;
 
-            consumeItem(Items.graphite).boost();
+            consumeItem(GierItems.graphite).boost();
             consumePower(0.5f);
             drawer = new DrawMulti(
             new DrawDefault(),
@@ -1590,7 +1592,7 @@ public class GierBlocks {
         }};
 
         mendPylon = new SquareMendProjector("mend-pylon"){{
-            requirements(Category.effect, with(Items.lead, 200, Items.copper, 200, Items.silicon, 100));
+            requirements(Category.effect, with(GierItems.lead, 200, GierItems.copper, 200, GierItems.silicon, 100));
             size = 2;
 
             customShadow = true;
@@ -1601,7 +1603,7 @@ public class GierBlocks {
             range = 128f;
             reload = 60f;
 
-            consumeItem(Items.silicon).boost();
+            consumeItem(GierItems.silicon).boost();
             consumePower(1.5f);
             drawer = new DrawMulti(
             new DrawDefault(),
@@ -1620,7 +1622,7 @@ public class GierBlocks {
         }};
 
         exportPlatform = new GierLaunchPad("gier-launch-pad"){{
-            requirements(Category.effect, ItemStack.with(Items.copper, 200, Items.lead, 150, Items.silicon, 100));
+            requirements(Category.effect, ItemStack.with(GierItems.copper, 200, GierItems.lead, 150, GierItems.silicon, 100));
             size = 3;
 
             launchTime = 30f * 60f;
@@ -1631,11 +1633,11 @@ public class GierBlocks {
 
         launchPlatform = new Accelerator("launch-platform"){{
             requirements(Category.effect, ItemStack.with(
-                         Items.copper, 2000, 
-                         Items.lead, 2000, 
-                         Items.silicon, 1500, 
-                         Items.tungsten, 500,
-                         Items.thorium, 250
+                         GierItems.copper, 2000, 
+                         GierItems.lead, 2000, 
+                         GierItems.silicon, 1500, 
+                         GierItems.tungsten, 500,
+                         GierItems.thorium, 250
                          ));
 
             size = 5;
@@ -1656,8 +1658,8 @@ public class GierBlocks {
         
         radialConduit = new RadiationBlock("radial-conduit"){{
             requirements(Category.logic, with(
-                Items.copper, 15,
-                Items.tungsten, 5
+                GierItems.copper, 15,
+                GierItems.tungsten, 5
             ));
 
             consumeItem(Items.thorium);
@@ -1665,7 +1667,7 @@ public class GierBlocks {
         
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
-            requirements(Category.turret, with(Items.copper, 400, Items.lead, 200, Items.silicon, 100, Items.metaglass, 100));
+            requirements(Category.turret, with(GierItems.copper, 400, GierItems.lead, 200, GierItems.silicon, 100, GierItems.metaglass, 100));
             researchCostMultiplier = 0.25f;
             size = 4;
 
