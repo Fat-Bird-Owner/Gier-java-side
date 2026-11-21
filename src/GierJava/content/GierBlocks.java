@@ -1063,18 +1063,18 @@ public class GierBlocks {
 
     requirements(Category.crafting,
         with(
-            Items.lead, 400,
-            Items.copper, 400,
-            Items.graphite, 150,
-            Items.silicon, 250,
-            Items.metaglass, 100,
-            Items.beryllium, 100
+            GierItems.lead, 400,
+            GierItems.copper, 400,
+            GierItems.graphite, 150,
+            GierItems.silicon, 250,
+            GierItems.metaglass, 100,
+            GierItems.beryllium, 100
         )
     );
 
     envEnabled = -1;
     consumePower(4.5f);
-    consumeItem(Items.beryllium, 35);
+    consumeItem(GierItems.beryllium, 35);
     consumeLiquid(Liquids.water, 0.16667f);
 
     drawer = new DrawMulti(
@@ -1197,10 +1197,10 @@ public class GierBlocks {
 
     requirements(Category.crafting,
         ItemStack.with(
-            Items.silicon, 250,
-            Items.beryllium, 250,
-            Items.metaglass, 200,
-            Items.thorium, 150
+            GierItems.silicon, 250,
+            GierItems.beryllium, 250,
+            GierItems.metaglass, 200,
+            GierItems.thorium, 150
         )
     );
 
@@ -1508,7 +1508,7 @@ public class GierBlocks {
         }};
 
         crane = new ClawBlock("crane"){{
-            requirements(Category.units, with(Items.silicon, 50, Items.lead, 175));
+            requirements(Category.units, with(GierItems.silicon, 50, GierItems.lead, 175));
             range = 2;
 
             upperArmLength = forearmLength = 12f;
@@ -1662,7 +1662,7 @@ public class GierBlocks {
                 GierItems.tungsten, 5
             ));
 
-            consumeItem(Items.thorium);
+            consumeItem(GierItems.thorium);
         }};
         
         // Payload turrets
@@ -1713,7 +1713,7 @@ public class GierBlocks {
                   lifetime = 50f;
                   armorMultiplier = -5f;
                   layer = 52f;
-                  backColor = trailColor = hitColor = Items.surgeAlloy.color;
+                  backColor = trailColor = hitColor = GierItems.surgeAlloy.color;
                     frontColor = Color.white;
                     status = StatusEffects.shocked;
                     ammoMultiplier = 1f;
