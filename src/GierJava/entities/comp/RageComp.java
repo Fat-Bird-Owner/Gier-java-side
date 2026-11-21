@@ -4,9 +4,19 @@ import ent.anno.Annotations.*;
 import mindustry.gen.*;
 import mindustry.entities.comp.*;
 
+import mindustry.ai.Pathfinder;
+import arc.math.geom.Vec2;
 import static arc.Core.*;
 
 @EntityComponent
-abstract class RageComp implements Healthc{
-
+abstract class HybridComp implements UnitComp{
+  
+  public void movePref(Vec2 movement){
+    if(type.omniMovement || (!isFlying() && floorOn().isLiquid)){
+        moveAt(movement);
+    }else{
+        rotateMove(movement);
+    }
+  }
+  
 }
