@@ -53,7 +53,7 @@ public class GierUnitTypes {
 
     public static @EntityDef(value = {MDTXFixUnitc.class, ElevationMovec.class}) UnitType overboard;
 
-    public static @EntityDef(value = {MDTXFixUnitc.class, Tankc.class}) UnitType staticu;
+    public static @EntityDef(value = {MDTXFixUnitc.class, Tankc.class, Hybridc.class}) UnitType staticu;
     
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType ash;
     
