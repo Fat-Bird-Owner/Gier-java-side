@@ -463,10 +463,10 @@ public class GierBlocks {
                     despawnEffect = Fx.hitBulletColor;
                 }},
 
-                GierItems.surgeAlloy, new BasicBulletType(8f, 140){{
+                GierItems.surgeAlloy, new BasicBulletType(8f, 28){{
                     width = 11f;
                     height = 20f;
-                    lifetime = 27f;
+                    lifetime = 54f;
                     shrinkX = 0.4f;
                     shrinkY = 0f;
                     shootEffect = Fx.shootBig;
