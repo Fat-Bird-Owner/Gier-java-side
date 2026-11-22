@@ -5,7 +5,7 @@ import arc.struct.*;
 import mindustry.type.*;
 
 public class GierItems{
-    public static Item metaglassChunk,
+    public static Item metaglassChunk, depletedThorium,
 
     // Vanilla items 
     scrap, copper, lead, graphite, titanium, thorium, silicon, plastanium,
@@ -18,42 +18,21 @@ public class GierItems{
 
     public static void load(){
 
-        metaglassChunk = new Item("metaglass-chunk", Color.valueOf("ebeff5")){{
-            cost = 1.5f;
-        }};
-
-        denseAlloy = new Item("dense-alloy", Color.valueOf("BB966B")){{
-            flammability = 0.5f;
-            explosiveness = 0.2f;
-            radioactivity = 0.1f;
-            charge = 0.25f;
-
-            hardness = 5;
-            cost = 2f;
+        lead = new Item("lead", Color.valueOf("8c7fa9")){{
+            hardness = 1;
+            cost = 0.7f;
         }};
         
-        cualbult = new Item("cualbult", Color.valueOf("8A73C6")){{
-            
-            flammability = 0f;
-            explosiveness = 0.8f;
-            charge = 0.25f;
-
-            hardness = 4;
-            cost = 3f;
-            
-        }};
-
         copper = new Item("copper", Color.valueOf("d99d73")){{
             hardness = 1;
             cost = 0.5f;
             alwaysUnlocked = true;
         }};
-
-        lead = new Item("lead", Color.valueOf("8c7fa9")){{
-            hardness = 1;
-            cost = 0.7f;
+    
+        metaglassChunk = new Item("metaglass-chunk", Color.valueOf("ebeff5")){{
+            cost = 1.5f;
         }};
-
+   
         metaglass = new Item("metaglass", Color.valueOf("ebeef5")){{
             cost = 1.5f;
         }};
@@ -73,6 +52,12 @@ public class GierItems{
             cost = 1f;
         }};
 
+        depletedThorium = new Item("depleted-thorium", Color.valueOf("B58DA5FF")){{         
+            hardness = 3;
+            radioactivity = 0.15f;
+            cost = 1.2f;
+        }};
+        
         thorium = new Item("thorium", Color.valueOf("f9a3c7")){{
             explosiveness = 0.2f;
             hardness = 4;
@@ -133,6 +118,27 @@ public class GierItems{
 
         fissileMatter = new Item("fissile-matter", Color.valueOf("5e988d")){{
             radioactivity = 1.5f;
+        }};
+
+        denseAlloy = new Item("dense-alloy", Color.valueOf("BB966B")){{
+            flammability = 0.5f;
+            explosiveness = 0.2f;
+            radioactivity = 0.1f;
+            charge = 0.25f;
+
+            hardness = 5;
+            cost = 2f;
+        }};
+        
+        cualbult = new Item("cualbult", Color.valueOf("8A73C6")){{
+            
+            flammability = 0f;
+            explosiveness = 0.8f;
+            charge = 0.25f;
+
+            hardness = 4;
+            cost = 3f;
+            
         }};
         
     }
