@@ -241,8 +241,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         String patchText = """
         name: Item Override
 
-            block.sand.itemDrop: gier-java-sand
-
+            block.sand-floor.itemDrop: gier-java-sand
+            block.darksand.itemDrop: gier-java-sand
+            
             block.ore-copper.itemDrop: gier-java-copper
             block.ore-lead.itemDrop: gier-java-lead
             block.ore-scrap.itemDrop: gier-java-scrap
