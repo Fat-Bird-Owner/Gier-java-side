@@ -1,5 +1,6 @@
 package GierJava.graphics;
 
+import mindustry.mod.data.PatchAsset;
 import arc.math.*;
 import arc.util.noise.Simplex;
 import mindustry.content.*;
@@ -233,6 +234,31 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     @Override
     public void generate(Tiles tiles, Sector sec, WorldParams params){
         seed = sec.id + params.seedOffset + baseSeed;
+
+
+        String patchText = """
+        name: [Automatic Override]
+
+            floor.sand.itemDrop: gier-java-sand
+
+            block.ore-copper.itemDrop: gier-java-copper
+            block.ore-lead.itemDrop: gier-java-lead
+            block.ore-scrap.itemDrop: gier-java-scrap
+            
+            block.ore-titanium.itemDrop: gier-java-titanium
+            block.ore-thorium.itemDrop: gier-java-thorium
+            block.ore-beryllium.itemDrop: gier-java-beryllium
+            block.ore-tungsten.itemDrop: gier-java-tungsten
+            block.ore-crystal-thorium.itemDrop: gier-java-thorium
+            
+        """;
+
+    var patches = Vars.state.data.getPatches();
+    if(!patches.contains(p -> p.patch.equals(patchText))){
+        patches.add(new PatchAsset(patchText));
+        Vars.state.data.reloadPatches(patches);
+    }
+        
         super.generate(tiles, sec, params);
     }
 
@@ -242,7 +268,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         basegen.postGenerate();
     }
     */
-
+    
     @Override
     protected void generate(){
 
