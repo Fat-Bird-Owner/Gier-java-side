@@ -95,29 +95,34 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     }
     
     private void generateAsteroidOre(int x, int y){
-    Room room = getRoom(x, y);
+    int roomX = x / roomSize;
+    int roomY = y / roomSize;
 
-    if(room == null) return;
+    for(int rx = Math.max(0, roomX - 1); rx <= Math.min(rooms.length - 1, roomX + 1); rx++){
+        for(int ry = Math.max(0, roomY - 1); ry <= Math.min(rooms[0].length - 1, roomY + 1); ry++){
+            Room room = rooms[rx][ry];
 
-    for(Asteroid asteroid : room.asteroids){
-        float noise = Simplex.noise2d(
-            seed + asteroid.x * 31 + asteroid.y * 17,
-            2,
-            0.6f,
-            1f / 2f,
-            x,
-            y
-        );
+            for(Asteroid asteroid : room.asteroids){
+                float noise = Simplex.noise2d(
+                    seed + asteroid.x * 31 + asteroid.y * 17,
+                    2,
+                    0.6f,
+                    1f / 2f,
+                    x,
+                    y
+                );
 
-        float distance = Mathf.dst(x, y, asteroid.x, asteroid.y);
+                float distance = Mathf.dst(x, y, asteroid.x, asteroid.y);
 
-        if(distance < asteroid.radius + 1.8f){
-            floor = room.floor;
-        }
+                if(distance < asteroid.radius + 1.8f){
+                    floor = room.floor;
+                }
 
-        if(distance < asteroid.radius * 0.75f + noise * 0.8f){
-            ore = room.resource;
-            return;
+                if(distance < asteroid.radius * 0.75f + noise * 0.8f){
+                    ore = room.resource;
+                    return;
+                }
+            }
         }
     }
     }
