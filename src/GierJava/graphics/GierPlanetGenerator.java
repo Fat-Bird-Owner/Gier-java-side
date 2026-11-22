@@ -561,10 +561,13 @@ for(int x = 6; x < width - 6; x++){
         }});
 
         int shift = Math.max((int)(difficulty * 14 - 5), 0);
-
+    
         for(SpawnGroup group : out){
             group.begin -= shift;
-            group.end -= shift;
+
+            if(group.end != SpawnGroup.never){
+                group.end -= shift;
+            }
         }
 
         return out;
