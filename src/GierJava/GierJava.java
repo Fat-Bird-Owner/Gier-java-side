@@ -60,7 +60,7 @@ public class GierJava extends Mod{
             replace(Blocks.oreThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
             replace(Blocks.oreBeryllium, (OreBlock s) -> s.itemDrop = GierItems.beryllium);
             replace(Blocks.oreTungsten, (OreBlock s) -> s.itemDrop = GierItems.tungsten);
-            replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.crystalThorium);
+            replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
  
             
             GierMenuRenderer.install();
