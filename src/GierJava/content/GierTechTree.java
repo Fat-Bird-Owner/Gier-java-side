@@ -25,39 +25,39 @@ public class GierTechTree {
                 });
             });
  */           
-            node(lead, () -> {
+            nodeProduce(lead, () -> {
                 
-                node(scrap, () -> {});
+                nodeProduce(scrap, () -> {});
                 
-                node(copper, () -> {
-                    node(beryllium, () -> {
-                        node(oxide, () -> {});
+                nodeProduce(copper, () -> {
+                    nodeProduce(beryllium, () -> {
+                        nodeProduce(oxide, () -> {});
                     });
                     
-                    node(titanium, () -> {
-                        node(surgeAlloy, () -> {});
-                        node(plastanium, () -> {});
-                        node(depletedThorium, () -> {
-                            node(thorium, () -> {
-                                node(phaseFabric, () -> {});
+                    nodeProduce(titanium, () -> {
+                        nodeProduce(surgeAlloy, () -> {});
+                        nodeProduce(plastanium, () -> {});
+                        nodeProduce(depletedThorium, () -> {
+                            nodeProduce(thorium, () -> {
+                                nodeProduce(phaseFabric, () -> {});
                             });
                         });
                         
-                        node(tungsten, () -> {
-                            node(carbide, () -> {});
+                        nodeProduce(tungsten, () -> {
+                            nodeProduce(carbide, () -> {});
                         });
                         
                     });
                     
                 });
-                node(graphite, () -> {
+                nodeProduce(graphite, () -> {
                     
-                    node(sand, () -> {
+                    nodeProduce(sand, () -> {
 
-                       node(blastCompound, () -> {});
-                       node(silicon, () -> {});
-                       node(metaglassChunk, () -> {
-                        node(metaglass, () -> {});
+                       nodeProduce(blastCompound, () -> {});
+                       nodeProduce(silicon, () -> {});
+                       nodeProduce(metaglassChunk, () -> {
+                        nodeProduce(metaglass, () -> {});
                        }); 
                         
                     });
