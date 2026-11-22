@@ -52,6 +52,7 @@ public class GierJava extends Mod{
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
 
+        /*
             replace(Blocks.sand, (Floor s) -> s.itemDrop = GierItems.sand);
             replace(Blocks.oreCopper, (OreBlock s) -> s.itemDrop = GierItems.copper);
             replace(Blocks.oreLead, (OreBlock s) -> s.itemDrop = GierItems.lead);
@@ -61,7 +62,7 @@ public class GierJava extends Mod{
             replace(Blocks.oreBeryllium, (OreBlock s) -> s.itemDrop = GierItems.beryllium);
             replace(Blocks.oreTungsten, (OreBlock s) -> s.itemDrop = GierItems.tungsten);
             replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
- 
+         */
             
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
