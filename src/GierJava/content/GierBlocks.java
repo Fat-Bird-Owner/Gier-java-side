@@ -6,6 +6,9 @@ import GierJava.content.GierUnitTypes;
 import GierJava.content.DerelictBlocks;
 import GierJava.content.GierItems;
 
+import GierJava.world.consumers.*;    
+import GierJava.graphics.GierPal;
+
 import mindustry.content.Fx;
 import mindustry.gen.Sounds;
 import arc.graphics.*;
@@ -14,7 +17,6 @@ import arc.struct.*;
 import arc.Core;
 import mindustry.*;
 import mindustry.entities.*;
-import GierJava.graphics.GierPal;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -1287,7 +1289,7 @@ public class GierBlocks {
 
             envEnabled = -1;
             squareSprite = false;
-            consumePower(10f);
+            consume(new MinPowerConsumption(10f, 0.0f, 0.75f, false));
 
             researchCostMultiplier = 0.35f;
             databaseTag = "gier";
