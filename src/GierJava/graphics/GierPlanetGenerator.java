@@ -20,6 +20,8 @@ import GierJava.content.*;
 import arc.func.*;
 import arc.util.*;
 
+
+import static GierJava.content.GierItems.*;
 import static GierJava.content.GierUnitTypes.*;
 import static mindustry.content.UnitTypes.*;
 
@@ -405,7 +407,7 @@ for(int x = 6; x < width - 6; x++){
 
         Vars.state.rules.waveTeam = Team.get(5);
         if (setStarterResource == true){
-            Vars.state.rules.loadout = ItemStack.list(Items.copper, 750, Items.lead, 750, Items.graphite, 500);    
+            Vars.state.rules.loadout = ItemStack.list(copper, 750, lead, 750, graphite, 500);    
         }
         
         Vars.state.rules.spawns = generateWave(sector.threat, sector.id);
