@@ -318,16 +318,16 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
 coreX = width / 2;
 coreY = height / 2;
 
-for(int x = 5; x < width - 5; x++){
-    for(int y = 5; y < height - 5; y++){
+for(int x = 6; x < width - 6; x++){
+    for(int y = 6; y < height - 6; y++){
         Tile tile = tiles.get(x, y);
 
         if(tile == null || tile.floor() != baseBlock) continue;
 
         boolean valid = true;
 
-        for(int rx = -5; rx <= 5 && valid; rx++){
-            for(int ry = -5; ry <= 5; ry++){
+        for(int rx = -6; rx <= 6 && valid; rx++){
+            for(int ry = -6; ry <= 6; ry++){
                 Tile nearby = tiles.get(x + rx, y + ry);
 
                 if(nearby == null || nearby.floor() != baseBlock){
