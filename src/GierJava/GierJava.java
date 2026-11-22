@@ -12,6 +12,7 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.*;
+import mindustry.type.*;
 
 import arc.func.Cons;
 import arc.Events;
@@ -83,6 +84,8 @@ public class GierJava extends Mod{
                 if (n.content instanceof Block){
                     Block block = (Block)n.content;
                     block.envEnabled = -1;
+                } else if (n.content instanceof Item item){
+                    item.localizedName = "[#" + item.color.toString() + "]" + item.localizedName + "[]";
                 }
             });
 
