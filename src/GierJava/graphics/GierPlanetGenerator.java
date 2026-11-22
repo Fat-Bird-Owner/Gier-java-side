@@ -20,7 +20,6 @@ import GierJava.content.*;
 import arc.func.*;
 import arc.util.*;
 
-
 import static GierJava.content.GierItems.*;
 import static GierJava.content.GierUnitTypes.*;
 import static mindustry.content.UnitTypes.*;
@@ -137,9 +136,9 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
     rooms = new Room[columns][rows];
 
     Seq<Block> resources = Seq.with(
-        Blocks.oreCopper,
+        GierBlocks.gierCopperOre,
         Blocks.oreLead,
-        Blocks.wallOreGraphite,
+        GierBlocks.gierGraphiteOre,
         Blocks.oreTitanium,
         Blocks.oreBeryllium,
         Blocks.oreTungsten,
