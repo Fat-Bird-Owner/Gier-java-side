@@ -15,7 +15,7 @@ public class GierTechTree {
 
     public static void load(){
         GierPlanets.gier.techTree = nodeRoot("Gier", coreSatellite, () -> {
-
+/*
             node(sun, () -> {
                 node(gier, () -> {});
                 node(notva, () -> {});
@@ -24,22 +24,31 @@ public class GierTechTree {
                     node(erekir, () -> {});
                 });
             });
-            
+ */           
             node(lead, () -> {
+                
+                node(scrap, () -> {});
+                
                 node(copper, () -> {
                     node(beryllium, () -> {
                         node(oxide, () -> {});
                     });
+                    
                     node(titanium, () -> {
                         node(surgeAlloy, () -> {});
                         node(plastanium, () -> {});
-                        node(thorium, () -> {});
+                        node(depletedThorium, () -> {
+                            node(thorium, () -> {
+                                node(phaseFabric, () -> {});
+                            });
+                        });
                         
                         node(tungsten, () -> {
                             node(carbide, () -> {});
                         });
                         
                     });
+                    
                 });
                 node(graphite, () -> {
                     
