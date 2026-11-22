@@ -11,6 +11,7 @@ import mindustry.mod.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.*;
+import mindustry.content.*;
 import mindustry.world.*;
 import mindustry.type.*;
 
@@ -18,6 +19,7 @@ import arc.func.Cons;
 import arc.Events;
 import arc.Core;
 
+import static GierJava.content.GierItems.*;
 import static mindustry.Vars.*;
 
 public class GierJava extends Mod{
@@ -44,9 +46,23 @@ public class GierJava extends Mod{
     @Override 
     public void init(){
         Events.on(EventType.ClientLoadEvent.class, e -> {
+
+            Planets.serpulo.accessible = Planets.erekir.accessible = false;
+            
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
 
+            replace(Blocks.sand, (Floor s) -> s.itemDrop = GierItems.sand);
+            replace(Blocks.oreCopper, (OreBlock s) -> s.itemDrop = GierItems.copper);
+            replace(Blocks.oreLead, (OreBlock s) -> s.itemDrop = GierItems.lead);
+            replace(Blocks.oreScrap, (OreBlock s) -> s.itemDrop = GierItems.scrap);
+            replace(Blocks.oreTitanium, (OreBlock s) -> s.itemDrop = GierItems.titanium);
+            replace(Blocks.oreThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
+            replace(Blocks.oreBeryllium, (OreBlock s) -> s.itemDrop = GierItems.beryllium);
+            replace(Blocks.oreTungsten, (OreBlock s) -> s.itemDrop = GierItems.tungsten);
+            replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.crystalThorium);
+ 
+            
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
             GierPlanets.gier.generator = new GierPlanetGenerator();
