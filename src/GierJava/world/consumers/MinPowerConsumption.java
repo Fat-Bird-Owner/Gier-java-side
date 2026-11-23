@@ -5,6 +5,8 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 import mindustry.world.consumers.*;
 
+import GierJava.world.meta.*;
+
 public class MinPowerConsumption extends ConsumePower {
 
     public float minFraction;
@@ -31,7 +33,7 @@ public class MinPowerConsumption extends ConsumePower {
             stats.add(Stat.powerCapacity, capacity, StatUnit.none);
         }else if(usage > 0f){
             stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);
-            stats.add(Stat.powerUse, minFraction * 100f , StatUnit.percent);
+            stats.add(GierStat.minPowerConsuption, minFraction * 100f , StatUnit.percent);
         }
     }
 
