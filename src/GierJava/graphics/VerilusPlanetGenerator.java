@@ -27,7 +27,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
     public void addWeather(Sector sector, Rules rules){
         super.addWeather(sector, rules);
         
-        rules.weather.add(new WeatherEntry(GierWeather.debrisShower){{
+        rules.weather.add(new Weather.WeatherEntry(GierWeather.debrisShower){{
             always = true;
         }});
         
