@@ -23,6 +23,14 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
 
     private static final int roomSize = 20;
 
+    {
+        baseSeed = 121;
+        baseBlock = Blocks.dacite;
+        setStarterResource = false;
+        replaceLoadout = false;
+        completeWave = 25;
+    }
+    
     @Override
     public void addWeather(Sector sector, Rules rules){
         super.addWeather(sector, rules);
@@ -47,17 +55,15 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         Blocks.oreTitanium,
         Blocks.oreTungsten,
         Blocks.oreCrystalThorium,
-        Blocks.oreScrap
     );
 
     Seq<Floor> floors = Seq.with(
         Blocks.stone.asFloor(),
         Blocks.ice.asFloor(),
-        Blocks.shale.asFloor(),
+        Blocks.ice.asFloor(),
         Blocks.beryllicStone.asFloor(),
-        Blocks.crystallineStone.asFloor(),
-        Blocks.craters.asFloor(),
-        Blocks.metalFloorDamaged.asFloor()
+        Blocks.carbonStone.asFloor(),
+        Blocks.dacite.asFloor(),
     );
 
     for(int x = 0; x < columns; x++){
