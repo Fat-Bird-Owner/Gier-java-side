@@ -1464,7 +1464,7 @@ public class GierBlocks {
         );
 
         consumeItems(ItemStack.with(GierItems.graphite, 10));
-        consumeCoolant(0.166667f, true, false);
+        consumeLiquid(Liquids.water, 10f/60f);
 
         drawer = new DrawMulti(
             new DrawRegion("-bottom"),
