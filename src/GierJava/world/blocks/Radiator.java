@@ -1,4 +1,4 @@
-package GierJava.world.block;
+package GierJava.world.blocks;
 
 import arc.math.*;
 import arc.struct.*;
