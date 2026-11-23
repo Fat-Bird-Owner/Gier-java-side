@@ -12,8 +12,8 @@ import static mindustry.Vars.*;
 
 public class Radiator extends Block{
 
-    public float heatOutput = 10f;
-    public int radius = 5;
+    public float heatOutput = 10f, warmupRate = 1f/60f;
+    public int radius = 30;
   
     public Radiator(String name){
         super(name);
@@ -23,7 +23,7 @@ public class Radiator extends Block{
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);       
-        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);      
+        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, radius, Pal.placing);      
     }
   
     public class RadiatorBuild extends Building implements HeatBlock{
