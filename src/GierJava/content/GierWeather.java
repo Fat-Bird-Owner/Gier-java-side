@@ -7,6 +7,10 @@ import mindustry.type.Weather;
 import GierJava.world.weather.*;
 import arc.graphics.*;
 
+import mindustry.entities.part.*;
+import mindustry.entities.bullet.*;
+import mindustry.content.Fx;
+
 public class GierWeather {
     public static Weather 
     fragStorm,
