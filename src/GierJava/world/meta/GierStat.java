@@ -6,7 +6,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
-public class GierStat implements Comparable<Stat>{
+public class GierStat {
     public static final Seq<Stat> all = new Seq<>();
 
     public static final GierStat
