@@ -21,7 +21,17 @@ import GierJava.content.*;
 
 public class VerilusPlanetGenerator extends GierPlanetGenerator{
 
-    private static final int roomSize = 45;
+    private static final int roomSize = 20;
+
+    @Override
+    public void addWeather(Sector sector, Rules rules){
+        super.addWeather(sector, rules);
+        
+        rules.weather.add(new WeatherEntry(GierWeather.debrisShower){{
+            always = true;
+        }});
+        
+    }
     
     @Override
     public void createRooms(){
