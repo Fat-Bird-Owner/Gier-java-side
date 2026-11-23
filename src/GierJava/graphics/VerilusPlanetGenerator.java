@@ -24,7 +24,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
     private static final int roomSize = 20;
 
     {
-        baseSeed = 121;
+        baseSeed = 128;
         baseBlock = Blocks.dacite;
         setStarterResource = false;
         replaceLoadout = false;
@@ -38,7 +38,19 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         rules.weather.add(new Weather.WeatherEntry(GierWeather.debrisShower){{
             always = true;
         }});
+
+        rules.weather.add(new Weather.WeatherEntry(Weathers.snowing){{
+            always = true;
+        }});
         
+    }
+
+    @Override
+    public void generate(){
+        super.generate();
+
+        Vars.state.rules.lighting = true;
+        Vars.state.rules.ambientLight = Color.valueOf("1f1f2f");
     }
     
     @Override
@@ -51,7 +63,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
     Seq<Block> resources = Seq.with(
         Blocks.oreCopper,
         Blocks.oreLead,
-        Blocks.wallOreGraphite,
+        GierBlocks.gierGraphiteOre,
         Blocks.oreTitanium,
         Blocks.oreTungsten,
         Blocks.oreCrystalThorium
