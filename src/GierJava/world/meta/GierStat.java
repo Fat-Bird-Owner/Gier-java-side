@@ -9,7 +9,7 @@ import java.util.*;
 public class GierStat {
     public static final Seq<Stat> all = new Seq<>();
 
-    public static final GierStat
+    public static final Stat
 
     minPowerConsuption = new Stat("minPowerConsuption");
 
