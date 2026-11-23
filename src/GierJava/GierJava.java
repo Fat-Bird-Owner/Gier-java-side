@@ -63,7 +63,7 @@ public class GierJava extends Mod{
             replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
          */
 
-            replace(Blocks.carbonStone, (Floor s) -> s.attributes.add(Attribute.get("carbon"), 1f)); 
+            replace(Blocks.carbonStone, (Floor s) -> s.attributes.set(Attribute.get("carbon"), 1f)); 
             
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
