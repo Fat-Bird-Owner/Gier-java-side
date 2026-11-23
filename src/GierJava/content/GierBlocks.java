@@ -1679,7 +1679,7 @@ public class GierBlocks {
             ));
 
             consumePower(0.5f);
-        }}:
+        }};
         
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
