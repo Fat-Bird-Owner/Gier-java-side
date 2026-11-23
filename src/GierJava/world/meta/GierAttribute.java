@@ -10,6 +10,6 @@ public class GierAttribute{
     public static ObjectMap<String, Attribute> map = new ObjectMap<>();
 
     public static final Attribute
-    carbon = add("carbon");
+    carbon = Attribute.add("carbon");
 
 }
