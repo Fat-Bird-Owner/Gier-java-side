@@ -5,7 +5,7 @@ import arc.util.*;
 import mindustry.*;
 import mindustry.world.meta.*;
 
-public class Attribute{
+public class GierAttribute{
     public static Attribute[] all = {};
     public static ObjectMap<String, Attribute> map = new ObjectMap<>();
 
