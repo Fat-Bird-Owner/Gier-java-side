@@ -49,6 +49,9 @@ public class GierWeather {
                     layer = 130f;
                     }});
 
+                width = 0f;
+                height = 0f;
+                    
                 ignoreSpawnAngle = true;
                 keepVelocity = false;
                 speed = 0f;
@@ -56,8 +59,10 @@ public class GierWeather {
                 absorbable = false;
                 collides = false;
 
-                    fragBullet = new BasicBulletType(0f, 25f){{
+                    fragBullet = new BombBulletType(0f, 0f){{
                         lifetime = 4f;
+                        splashDamage = 25f;
+                        splashDamageRadius = 20f;
                         hitEffect = Fx.absorb;
                         despawnEffect = Fx.none;
                     }};
