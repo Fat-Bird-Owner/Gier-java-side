@@ -54,7 +54,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         Blocks.wallOreGraphite,
         Blocks.oreTitanium,
         Blocks.oreTungsten,
-        Blocks.oreCrystalThorium,
+        Blocks.oreCrystalThorium
     );
 
     Seq<Floor> floors = Seq.with(
@@ -63,7 +63,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         Blocks.ice.asFloor(),
         Blocks.beryllicStone.asFloor(),
         Blocks.carbonStone.asFloor(),
-        Blocks.dacite.asFloor(),
+        Blocks.dacite.asFloor()
     );
 
     for(int x = 0; x < columns; x++){
