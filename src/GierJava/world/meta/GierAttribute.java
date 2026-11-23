@@ -12,5 +12,4 @@ public class GierAttribute{
     public static final Attribute
     carbon = add("carbon");
 
-  }
 }
