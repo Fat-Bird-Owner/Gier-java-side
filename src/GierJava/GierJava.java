@@ -13,6 +13,7 @@ import mindustry.content.Blocks;
 import mindustry.world.blocks.environment.*;
 import mindustry.content.*;
 import mindustry.world.*;
+import mindustry.world.meta.*;
 import mindustry.type.*;
 
 import arc.func.Cons;
@@ -46,8 +47,6 @@ public class GierJava extends Mod{
     @Override 
     public void init(){
         Events.on(EventType.ClientLoadEvent.class, e -> {
-
-            Planets.serpulo.accessible = Planets.erekir.accessible = false;
             
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
@@ -63,6 +62,8 @@ public class GierJava extends Mod{
             replace(Blocks.oreTungsten, (OreBlock s) -> s.itemDrop = GierItems.tungsten);
             replace(Blocks.oreCrystalThorium, (OreBlock s) -> s.itemDrop = GierItems.thorium);
          */
+
+            replace(Blocks.carbonStone, (Floor s) -> s.attributes.add(Attribute.get("carbon", 1f)); 
             
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
@@ -74,7 +75,7 @@ public class GierJava extends Mod{
             GierPlanets.verilus.radius = 0.5f;
             GierPlanets.verilus.generator = new VerilusPlanetGenerator();
     
-            new ArchiveResearchDialog();
+            //new ArchiveResearchDialog();
             
             /*
             GierPlanets.kela.sectors.each(s -> {
