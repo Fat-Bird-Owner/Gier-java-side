@@ -45,9 +45,10 @@ public class GierWeather {
                   parts.add(new ShapePart(){{
                         moveX = -400f;
                         moveY = -400f;
-                      progress = PartProgress.life.inv();
-                    layer = 130f;
-                    }});
+                        progress = PartProgress.life.inv();
+                        layer = 130f;
+                        color = Color.valueOf("3c3837");
+                 }});
 
                 width = 0f;
                 height = 0f;
@@ -60,9 +61,10 @@ public class GierWeather {
                 collides = false;
 
                     fragBullet = new BombBulletType(0f, 0f){{
-                        lifetime = 4f;
+                        lifetime = 6f;
                         splashDamage = 25f;
                         splashDamageRadius = 20f;
+                        despawnHit = false;
                         hitEffect = Fx.absorb;
                         despawnEffect = Fx.none;
                     }};
