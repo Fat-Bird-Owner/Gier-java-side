@@ -1,4 +1,4 @@
-package mindustry.world.meta;
+package GierJava.world.meta;
 
 import arc.*;
 import arc.struct.*;
