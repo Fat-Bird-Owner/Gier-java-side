@@ -6,7 +6,8 @@ import GierJava.content.GierUnitTypes;
 import GierJava.content.DerelictBlocks;
 import GierJava.content.GierItems;
 
-import GierJava.world.consumers.*;    
+import GierJava.world.consumers.*;
+import GierJava.world.meta.*;
 import GierJava.graphics.GierPal;
 
 import mindustry.content.Fx;
@@ -954,7 +955,7 @@ public class GierBlocks {
         size = 3;
         squareSprite = false;
 
-        attribute = Attribute.add("carbon");
+        attribute = GierAttribute.carbon;
         priority = 1.5f;
 
         outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
@@ -1005,7 +1006,7 @@ public class GierBlocks {
         size = 4;
         squareSprite = false;
 
-        attribute = Attribute.add("carbon");
+        attribute = GierAttribute.carbon;
         priority = 5f;
 
         outputLiquid = new LiquidStack(Liquids.water, 2.5f);
