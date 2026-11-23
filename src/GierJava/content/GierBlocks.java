@@ -961,14 +961,13 @@ public class GierBlocks {
         boostScale = 1f / 9f;
             
         outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
-        liquidCapacity = 200f;
+        liquidCapacity = 10f;
 
         craftTime = 45f;
         baseEfficiency = 0f;
         minEfficiency = 0.25f;
 
         consumeItem(GierItems.graphite, 1);
-        consumePower(0.65f);
         ambientSoundVolume = 0.2f;
 
         updateEffectChance = 1f;
@@ -989,7 +988,9 @@ public class GierBlocks {
         drawer = new DrawMulti(
         new DrawRegion("-bottom"),
         new DrawLiquidTile(Liquids.water, 2f),
-        new DrawBlurSpin("-rotator", 5f),
+        new DrawBlurSpin("-rotator", 5f){{
+          blurThresh = 1f;  
+        }},
         new DrawDefault()
         );
 
@@ -1669,16 +1670,6 @@ public class GierBlocks {
             ));
 
             consumeItem(GierItems.thorium);
-        }};
-
-        electricRadiator = new Radiator("electric-radiator"){{
-            requirements(Category.logic, with(
-                GierItems.copper, 50,
-                GierItems.surgeAlloy, 25,
-                GierItems.tungsten, 25
-            ));
-
-            consumePower(0.5f);
         }};
         
         // Payload turrets
