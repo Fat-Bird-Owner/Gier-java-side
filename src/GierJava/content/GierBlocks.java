@@ -957,7 +957,8 @@ public class GierBlocks {
 
         attribute = GierAttribute.carbon;
         priority = 1.5f;
-
+        boostScale = 1f / 9f;
+            
         outputLiquid = new LiquidStack(Liquids.water, 0.16667f);
         liquidCapacity = 200f;
 
@@ -1008,7 +1009,8 @@ public class GierBlocks {
 
         attribute = GierAttribute.carbon;
         priority = 5f;
-
+        boostScale = 1f / 16f;
+            
         outputLiquid = new LiquidStack(Liquids.water, 2.5f);
         liquidCapacity = 2000f;
 
