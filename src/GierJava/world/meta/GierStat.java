@@ -9,7 +9,7 @@ import java.util.*;
 public class GierStat implements Comparable<Stat>{
     public static final Seq<Stat> all = new Seq<>();
 
-    public static final Stat
+    public static final GierStat
 
     minPowerConsuption = new Stat("minPowerConsuption");
 
