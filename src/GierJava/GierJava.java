@@ -5,6 +5,7 @@ import GierJava.graphics.GierEffects;
 import GierJava.content.*;
 import GierJava.gen.*;
 import GierJava.graphics.*;
+import GierJava.world.meta.*;
 
 import mindustry.game.EventType;
 import mindustry.mod.*;
