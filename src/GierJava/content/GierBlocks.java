@@ -143,8 +143,9 @@ public class GierBlocks {
     exportPlatform,
     launchPlatform,
 
-    // Radiation
-    radialConduit;
+    // heat
+    radialConduit,
+    electricRadiator;
     
     public static void load(){
 
@@ -1669,6 +1670,16 @@ public class GierBlocks {
 
             consumeItem(GierItems.thorium);
         }};
+
+        electricRadiator = new Radiator("electric-radiator"){{
+            requirements(Category.logic, with(
+                GierItems.copper, 50,
+                GierItems.surgeAlloy, 25,
+                GierItems.tungsten, 25
+            ));
+
+            consumePower(0.5f);
+        }}:
         
         // Payload turrets
         kilton = new PayloadTurret("kilton"){{
