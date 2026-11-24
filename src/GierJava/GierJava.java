@@ -51,6 +51,10 @@ public class GierJava extends Mod{
         Events.on(EventType.ClientLoadEvent.class, e -> {
 
             new AsteroidSectorDialog();
+            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.gier);
+            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.notva);
+            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.verilus);
+
             
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
