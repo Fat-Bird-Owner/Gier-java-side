@@ -35,7 +35,11 @@ public class GierTechTree {
                     });
                     
                     nodeProduce(titanium, () -> {
-                        nodeProduce(surgeAlloy, () -> {});
+                        nodeProduce(surgeAlloy, () -> {
+                            nodeProduce(denseAlloy, () -> {});
+                            nodeProduce(cualbult, () -> {});
+                        });
+                        
                         nodeProduce(plastanium, () -> {});
                         nodeProduce(depletedThorium, () -> {
                             nodeProduce(thorium, () -> {
