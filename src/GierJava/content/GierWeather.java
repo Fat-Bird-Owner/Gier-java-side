@@ -37,17 +37,18 @@ public class GierWeather {
         }};
 
         debrisShower = new RockWeather("debris-shower"){{
-            spawnChance = 0.05f;
+            spawnChance = 0.4f;
 
             addBullets(
-                new BasicBulletType(0f, 0f){{
+                new BasicBulletType(0f, 8f){{
                     
                   parts.add(new ShapePart(){{
                         moveX = -400f;
                         moveY = -400f;
                         progress = PartProgress.life.inv();
                         layer = 130f;
-                        color = Color.valueOf("3c3837");
+                        color = Color.valueOf("8f8f9f");
+                        sides = 9;
                  }});
 
                 width = 0f;
@@ -65,7 +66,6 @@ public class GierWeather {
                         splashDamage = 25f;
                         splashDamageRadius = 20f;
                         despawnHit = false;
-                        hitEffect = Fx.absorb;
                         despawnEffect = Fx.none;
                     }};
 
