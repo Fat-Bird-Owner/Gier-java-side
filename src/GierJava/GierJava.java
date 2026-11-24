@@ -67,7 +67,7 @@ public class GierJava extends Mod{
          */
 
             replace(Blocks.carbonStone, (Floor s) -> s.attributes.set(GierAttribute.carbon, 1f)); 
-            replace(Blocks.beryllic, (Floor s) -> s.attributes.set(GierAttribute.carbon, 0.8f)); 
+            replace(Blocks.beryllicStone, (Floor s) -> s.attributes.set(GierAttribute.carbon, 0.8f)); 
             replace(Blocks.ice, (Floor s) -> s.attributes.set(GierAttribute.carbon, 1.5f)); 
             
             GierMenuRenderer.install();
