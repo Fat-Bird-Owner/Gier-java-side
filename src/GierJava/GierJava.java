@@ -50,11 +50,6 @@ public class GierJava extends Mod{
     
         Events.on(EventType.ClientLoadEvent.class, e -> {
 
-            new AsteroidSectorDialog();
-            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.gier);
-            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.notva);
-            AsteroidSectorDialog.squareMapPlanets.add(GierPlanets.verilus);
-
             
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
@@ -72,6 +67,8 @@ public class GierJava extends Mod{
          */
 
             replace(Blocks.carbonStone, (Floor s) -> s.attributes.set(GierAttribute.carbon, 1f)); 
+            replace(Blocks.beryllic, (Floor s) -> s.attributes.set(GierAttribute.carbon, 0.8f)); 
+            replace(Blocks.ice, (Floor s) -> s.attributes.set(GierAttribute.carbon, 1.5f)); 
             
             GierMenuRenderer.install();
             GierPlanets.gier.radius = 0.5f;
