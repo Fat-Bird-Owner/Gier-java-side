@@ -15,6 +15,8 @@ import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import arc.math.*;
 
+import GierJava.content.*;
+
 public class AsteroidSectorDialog{
 
     public static Seq<Planet> squareMapPlanets = new Seq<>();
@@ -27,6 +29,11 @@ public class AsteroidSectorDialog{
     private boolean opening;
 
     public AsteroidSectorDialog(){
+
+        squareMapPlanets.add(GierPlanets.notva);
+        squareMapPlanets.add(GierPlanets.verilus);
+        squareMapPlanets.add(GierPlanets.gier);
+        
         dialog.addCloseButton();
         Events.run(Trigger.update, this::update);
     }
