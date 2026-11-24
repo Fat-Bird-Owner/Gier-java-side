@@ -47,11 +47,16 @@ public class GierJava extends Mod{
 
     @Override 
     public void init(){
+
+        Events.run(Trigger.update, AsteroidSectorDialog::update);
+        
         Events.on(EventType.ClientLoadEvent.class, e -> {
+
+            new AsteroidSectorDialog();
             
             replace(Blocks.basaltVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
             replace(Blocks.stoneVent, (SteamVent s) -> s.effect = GierEffects.ventSmoke);
-
+            
         /*
             replace(Blocks.sand, (Floor s) -> s.itemDrop = GierItems.sand);
             replace(Blocks.oreCopper, (OreBlock s) -> s.itemDrop = GierItems.copper);
