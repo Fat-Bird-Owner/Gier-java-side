@@ -39,6 +39,8 @@ public class GierJava extends Mod{
         GierSectorPreset.load();
         GierTechTree.load();
         
+        GierLoadouts.load();
+        
     }
 
     public static <T extends UnlockableContent> void replace(UnlockableContent cont, Cons<T> replacer){
@@ -79,7 +81,9 @@ public class GierJava extends Mod{
 
             GierPlanets.verilus.radius = 0.5f;
             GierPlanets.verilus.generator = new VerilusPlanetGenerator();
-    
+
+            GierPlanets.gier.defaultCore = GierPlanets.verilus.defaultCore = GierPlanets.notva.defaultCore = GierBlocks.coreSatellite;
+            
             //new ArchiveResearchDialog();
             
             /*
