@@ -1,171 +1,207 @@
 package GierJava.ui.dialogs;
 
-import arc.math.*;
+import arc.*;
+import arc.graphics.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import arc.util.*;
 import mindustry.*;
+import mindustry.game.EventType.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 
-import GierJava.content.*;
-
-public class AsteroidSectorDialog extends BaseDialog{
+public class AsteroidSectorDialog{
 
     public static Seq<Planet> squareMapPlanets = new Seq<>();
 
+    private final BaseDialog dialog = new BaseDialog("Sector Map");
+
+    private Planet previous;
     private Planet planet;
     private Sector selected;
-    private Table grid;
-    private Table info;
+    private boolean opening;
 
     public AsteroidSectorDialog(){
-        super("@sectors");
-
-        squareMapPlanets.add(GierPlanets.notva);
-        squareMapPlanets.add(GierPlanets.verilus);
-        squareMapPlanets.add(GierPlanets.gier);
-      
-        addCloseButton();
-
-        cont.pane(t -> {
-            t.defaults().pad(4f);
-
-            grid = new Table();
-            t.add(grid).grow().row();
-
-            info = new Table();
-            t.add(info).growX().padTop(10f);
-        }).grow();
-
-        buttons.button("@back", Icon.left, this::hide).size(180f, 54f);
+        dialog.addCloseButton();
+        Events.run(Trigger.update, this::update);
     }
 
-    public static boolean usesSquareMap(Planet planet){
-        return squareMapPlanets.contains(planet, true);
-    }
-
-    public void show(Planet planet){
-        this.planet = planet;
-        selected = null;
-
-        rebuildGrid();
-        rebuildInfo();
-
-        show();
-    }
-
-    private void rebuildGrid(){
-        grid.clear();
-
-        int count = planet.sectors.size;
-        int columns = Mathf.ceil(Mathf.sqrt(count));
-
-        for(int i = 0; i < count; i++){
-            Sector sector = planet.sectors.get(i);
-
-            grid.button(t -> {
-                t.center();
-                t.add("[accent]" + sector.id).row();
-
-                if(sector.hasBase()){
-                    t.add("[green]Captured");
-                }else if(isLocked(sector)){
-                    t.add("[lightgrey]Locked");
-                }else if(sector.hasEnemyBase()){
-                    t.add("[red]Enemy");
-                }else{
-                    t.add("[lightgray]Unclaimed");
-                }
-            }, Styles.squareTogglet, () -> {
-                selected = sector;
-                rebuildInfo();
-                updateSelection();
-            }).size(90f).checked(b -> selected == sector);
-
-            if((i + 1) % columns == 0){
-                grid.row();
-            }
+    private Planet getPlanet(){
+        if(Vars.ui.planet.isShown()){
+            return Vars.ui.planet.state.planet;
         }
+
+        return null;
     }
 
-    private void updateSelection(){
-        grid.getChildren().each(element -> {
-            if(element instanceof Button button){
-                button.invalidate();
-            }
+    private boolean supported(Planet planet){
+        return planet != null && squareMapPlanets.contains(planet, true);
+    }
+
+    private void update(){
+        if(opening) return;
+        if(!Vars.ui.planet.isShown()) return;
+
+        Planet current = getPlanet();
+
+        if(!supported(current)) return;
+
+        if(current == previous && dialog.isShown()) return;
+
+        previous = current;
+        opening = true;
+
+        rebuild();
+        dialog.show();
+
+        Time.runTask(1f, () -> {
+            Vars.ui.planet.hide();
+            opening = false;
         });
     }
 
-    private boolean isLocked(Sector sector){
-        return sector.preset != null &&
-            sector.preset.requireUnlock &&
-            sector.preset.locked() &&
-            !sector.hasBase();
-    }
+    private void rebuild(){
+        dialog.cont.clear();
+        planet = getPlanet();
 
-    private boolean canLand(Sector sector){
-        if(sector.isBeingPlayed() || sector.hasBase()) return true;
-        if(isLocked(sector)) return false;
-        if(sector.isShielded()) return false;
-        if(sector.planet.generator == null) return false;
+        if(planet == null) planet = previous;
 
-        if(sector.id == sector.planet.startSector) return true;
+        if(planet == null) return;
 
-        return sector.planet.generator.allowLanding(sector);
+        int count = planet.sectors.size;
+        int columns = Math.max(1, Mathf.ceil((float)Mathf.sqrt(count)));
+
+        dialog.cont.pane(p -> {
+            p.defaults().pad(3f);
+
+            Table grid = new Table();
+            grid.defaults().size(100f).pad(3f);
+
+            for(int i = 0; i < count; i++){
+                Sector sector = planet.sectors.get(i);
+
+                Button cell = new Button(Styles.squareTogglet);
+                cell.clicked(() -> {
+                    selected = sector;
+                    rebuildInfo();
+                });
+
+                cell.add("[accent]" + sector.id).row();
+
+                if(sector.hasBase()){
+                    cell.add("[accent]Captured");
+                }else if(sector.hasEnemyBase()){
+                    cell.add("[salmon]Enemy");
+                }else{
+                    cell.add("[lightgray]Locked");
+                }
+
+                cell.setChecked(selected == sector);
+
+                grid.add(cell);
+
+                if((i + 1) % columns == 0){
+                    grid.row();
+                }
+            }
+
+            p.add(grid).grow().row();
+        }).grow();
+
+        dialog.cont.row();
+
+        rebuildInfo();
+
+        dialog.buttons.clear();
+
+        dialog.buttons.button("@back", Icon.left, () -> {
+            dialog.hide();
+
+            Vars.ui.planet.show();
+            Vars.ui.planet.viewPlanet(planet, false);
+        }).size(180f, 54f);
     }
 
     private void rebuildInfo(){
-        info.clear();
 
-        if(selected == null){
-            info.add("[lightgray]Select a sector").row();
-            return;
-        }
+        dialog.cont.clearChildren();
 
-        Sector sector = selected;
+        dialog.cont.pane(p -> {
+            int count = planet.sectors.size;
+            int columns = Math.max(1, Mathf.ceil((float)Mathf.sqrt(count)));
 
-        info.add("[accent]" + sector.name()).row();
-        info.add("Sector ID: " + sector.id).row();
-        info.add("Threat: " + sector.displayThreat()).row();
+            Table grid = new Table();
+            grid.defaults().size(100f).pad(3f);
 
-        if(sector.hasBase()){
-            info.add("[green]Has a friendly base").row();
-        }else if(sector.hasEnemyBase()){
-            info.add("[scarlet]Enemy base detected").row();
-        }
+            for(int i = 0; i < count; i++){
+                Sector sector = planet.sectors.get(i);
 
-        info.button(
-            sector.isBeingPlayed() ? "Resume" :
-            sector.hasBase() ? "Enter sector" :
-            "Land",
-            Icon.play,
-            () -> land(sector)
-        ).width(220f).height(50f)
-        .disabled(!canLand(sector));
+                Button cell = new Button(Styles.squareTogglet);
+                cell.clicked(() -> {
+                    selected = sector;
+                    rebuildInfo();
+                });
+
+                cell.add("[accent]" + sector.id).row();
+
+                cell.add(
+                    sector.hasBase() ? "[green]Owned" :
+                    sector.hasEnemyBase() ? "[scarlet]Enemy" :
+                    "[lightgray]Unclaimed"
+                );
+
+                cell.setChecked(selected == sector);
+                grid.add(cell);
+
+                if((i + 1) % columns == 0) grid.row();
+            }
+
+            p.add(grid).growX().row();
+            p.add().height(10f).row();
+
+            if(selected == null){
+                p.add("[lightgray]Select a sector").row();
+                return;
+            }
+
+            p.add("[accent]" + selected.name()).row();
+            p.add("Sector ID: " + selected.id).row();
+            p.add("Threat: " + selected.displayThreat()).row();
+
+            p.button(
+                selected.isBeingPlayed() ? "Resume" :
+                selected.hasBase() ? "Enter sector" :
+                "Land",
+                Icon.play,
+                () -> land(selected)
+            ).width(220f).height(50f)
+            .disabled(!canLand(selected));
+        }).grow();
+    }
+
+    private boolean canLand(Sector sector){
+        if(sector == null) return false;
+        if(sector.isBeingPlayed() || sector.hasBase()) return true;
+        if(sector.isLocked() || sector.isCaptured()) return false;
+        if(sector.planet.generator == null) return false;
+
+        return sector.planet.generator.allowLanding(sector);
     }
 
     private void land(Sector sector){
         if(!canLand(sector)) return;
 
-        hide();
+        Planet target = planet;
 
-        PlanetDialog dialog = Vars.ui.planet;
+        dialog.hide();
 
-        dialog.show();
-        dialog.viewPlanet(planet, false);
-        dialog.selectSector(sector);
+        Vars.ui.planet.show();
+        Vars.ui.planet.viewPlanet(target, false);
+        Vars.ui.planet.selectSector(sector);
 
-        try{
-            java.lang.reflect.Method method =
-                PlanetDialog.class.getDeclaredMethod("playSelected");
-
-            method.setAccessible(true);
-            method.invoke(dialog);
-        }catch(Exception e){
-            Vars.ui.showException(e);
-        }
     }
 }
