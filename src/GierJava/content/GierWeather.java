@@ -37,10 +37,10 @@ public class GierWeather {
         }};
 
         debrisShower = new RockWeather("debris-shower"){{
-            spawnChance = 0.4f;
+            spawnChance = 0.6f;
 
             addBullets(
-                new BasicBulletType(0f, 8f){{
+                new BasicBulletType(0f, 0f){{
                     
                   parts.add(new ShapePart(){{
                         moveX = -400f;
@@ -61,9 +61,43 @@ public class GierWeather {
                 absorbable = false;
                 collides = false;
 
-                    fragBullet = new BombBulletType(0f, 0f){{
+                    fragBullet = new BombBulletType(0f, 12f){{
                         lifetime = 6f;
                         splashDamage = 25f;
+                        splashDamageRadius = 20f;
+                        despawnHit = false;
+                        despawnEffect = Fx.none;
+                    }};
+
+                    fragBullets = 1;
+                    despawnEffect = Fx.none;                  
+                }}, 0.2f,
+
+                new BasicBulletType(0f, 0f){{
+                    
+                  parts.add(new ShapePart(){{
+                        moveX = -400f;
+                        moveY = -400f;
+                        progress = PartProgress.life.inv();
+                        layer = 130f;
+                        color = Color.valueOf("eef1f1a1");
+                        sides = 9;
+                        radius *= 2.2f;
+                 }});
+
+                width = 0f;
+                height = 0f;
+                    
+                ignoreSpawnAngle = true;
+                keepVelocity = false;
+                speed = 0f;
+                reflectable = false;
+                absorbable = false;
+                collides = false;
+
+                    fragBullet = new BombBulletType(0f, 32f){{
+                        lifetime = 6f;
+                        splashDamage = 42f;
                         splashDamageRadius = 20f;
                         despawnHit = false;
                         despawnEffect = Fx.none;
