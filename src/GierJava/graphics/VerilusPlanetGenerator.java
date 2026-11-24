@@ -15,6 +15,7 @@ import mindustry.maps.generators.BaseGenerator;
 import mindustry.graphics.g3d.*;
 import arc.math.geom.*;
 import mindustry.world.blocks.environment.Floor;
+import arc.graphics.*;
 import GierJava.graphics.*;
 
 import GierJava.content.*;
@@ -39,7 +40,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
             always = true;
         }});
 
-        rules.weather.add(new Weather.WeatherEntry(Weathers.snowing){{
+        rules.weather.add(new Weather.WeatherEntry(Weathers.snow){{
             always = true;
         }});
         
