@@ -47,9 +47,7 @@ public class GierJava extends Mod{
 
     @Override 
     public void init(){
-
-        Events.run(EventType.Trigger.update, () -> AsteroidSectorDialog.update());
-        
+    
         Events.on(EventType.ClientLoadEvent.class, e -> {
 
             new AsteroidSectorDialog();
