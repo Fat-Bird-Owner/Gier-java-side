@@ -142,7 +142,7 @@ public class GierPlanetGenerator extends BlankPlanetGenerator{
         Blocks.oreTitanium,
         Blocks.oreBeryllium,
         Blocks.oreTungsten,
-        Blocks.oreCrystalThorium,
+        GierBlocks.gierDepletedThoriumOre,
         Blocks.oreScrap
     );
 
