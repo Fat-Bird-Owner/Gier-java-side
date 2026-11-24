@@ -13,6 +13,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
+import arc.math.*;
 
 public class AsteroidSectorDialog{
 
@@ -186,7 +187,7 @@ public class AsteroidSectorDialog{
     private boolean canLand(Sector sector){
         if(sector == null) return false;
         if(sector.isBeingPlayed() || sector.hasBase()) return true;
-        if(sector.isLocked() || sector.isCaptured()) return false;
+        if(sector.locked() || sector.isCaptured()) return false;
         if(sector.planet.generator == null) return false;
 
         return sector.planet.generator.allowLanding(sector);
