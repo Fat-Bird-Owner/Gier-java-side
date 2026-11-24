@@ -47,7 +47,7 @@ public class GierWeather {
                         moveY = -400f;
                         progress = PartProgress.life.inv();
                         layer = 130f;
-                        color = Color.valueOf("8f8f9f");
+                        color = Color.valueOf("eef1f1a1");
                         sides = 9;
                  }});
 
@@ -75,7 +75,17 @@ public class GierWeather {
             );
 
             drawParticles = true;
-            useWindVector = true;
+            useWindVector = false;
+            xspeed = 2.4f;
+            yspeed = -4f;
+            color = Color.valueOf("eef1f1a1");
+            sinMagMin = 4f;
+            drawNoise = true;
+            opacityMultiplier = 0.6f;
+            baseSpeed = 1.525f;
+            sizeMax = 12f;
+            sizeMin = 1f;
+            
         }};
     }
 
