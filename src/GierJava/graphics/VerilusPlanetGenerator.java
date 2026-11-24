@@ -47,7 +47,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         super.generate();
 
         Vars.state.rules.lighting = true;
-        Vars.state.rules.ambientLight = Color.valueOf("1f1f2f");
+        Vars.state.rules.ambientLight = Color.valueOf("1f1f2fa3");
     }
     
     @Override
