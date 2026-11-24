@@ -27,8 +27,8 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
     {
         baseSeed = 128;
         baseBlock = Blocks.dacite;
-        setStarterResource = false;
-        replaceLoadout = false;
+        setStarterResource = true;
+        replaceLoadout = true;
         completeWave = 25;
     }
     
@@ -40,10 +40,6 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
             always = true;
         }});
 
-        rules.weather.add(new Weather.WeatherEntry(Weathers.snow){{
-            always = true;
-        }});
-        
     }
 
     @Override
@@ -74,7 +70,7 @@ public class VerilusPlanetGenerator extends GierPlanetGenerator{
         Blocks.stone.asFloor(),
         Blocks.ice.asFloor(),
         Blocks.ice.asFloor(),
-        Blocks.beryllicStone.asFloor(),
+        Blocks.carbonStone.asFloor(),
         Blocks.carbonStone.asFloor(),
         Blocks.dacite.asFloor()
     );
