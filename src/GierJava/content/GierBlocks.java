@@ -61,6 +61,7 @@ public class GierBlocks {
     // Environement
     gierCopperOre,
     gierGraphiteOre,
+    gierDepletedThoriumOre,
     denseStone,
     erodedStone,
     denseErodedStone,
@@ -156,6 +157,11 @@ public class GierBlocks {
             itemDrop = GierItems.copper;
         }};
 
+        gierDepletedThoriumOre = new OreBlock("depleted-thorium-ore"){{
+            variants = 3;
+            itemDrop = GierItems.depletedThorium;
+        }};
+        
         gierGraphiteOre = new OreBlock("gier-graphite-ore"){{
             variants = 3;
             itemDrop = GierItems.graphite;
