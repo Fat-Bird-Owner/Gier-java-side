@@ -30,6 +30,7 @@ public class GierJava extends Mod{
         // Call this before loading any content!
         EntityRegistry.register();
 
+        GierStatusEffects.load();
         GierPlanets.load();
         GierItems.load();
         GierUnitTypes.load();
@@ -38,7 +39,6 @@ public class GierJava extends Mod{
         GierWeather.load();
         GierSectorPreset.load();
         GierTechTree.load();
-        
         GierLoadouts.load();
         
     }
