@@ -75,16 +75,16 @@ public class StatusProjector extends Block{
             Groups.unit.intersect(
                 x - (range * tilesize),
                 y - (range * tilesize),
-                range * 2f,
-                range * 2f,
+                (range * tilesize) * 2f,
+                (range * tilesize) * 2f,
                 unit -> {
                   unit.apply(status, statusDuration);
                   found = true;
                 }
             );
 
+            warmup = Mathf.approachDelta(warmup, found ? 1f : 0f, 1f / 70f);
             if (found){
-              warmup = Mathf.approachDelta(warmup, found ? 1f : 0f, 1f / 70f);
               totalTime += warmup * Time.delta;
             }
           
