@@ -94,6 +94,8 @@ public class GierJava extends Mod{
             */
             GierPlanets.kela.reloadMeshAsync();
             GierPlanets.kela.techTree = GierPlanets.verilus.techTree = GierPlanets.notva.techTree =  GierPlanets.gier.techTree;
+
+            BlackHoleMesh.install(GierPlanets.erekir); // placehold
             
             GierPlanets.gier.sectors.each(s -> {
                 s.setName(Core.bundle.get("gier.sectors-" + s.id + ".name"));
