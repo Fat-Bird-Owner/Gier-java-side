@@ -24,6 +24,7 @@ public class StatusProjector extends Block{
     public StatusProjector(String name){
         super(name);
         update = true;
+        solid = true;
     }
 
     @Override
@@ -68,6 +69,8 @@ public class StatusProjector extends Block{
       
         @Override
         public void updateTile(){
+
+            found = false;
             
             Groups.unit.intersect(
                 x - (range * tilesize),
