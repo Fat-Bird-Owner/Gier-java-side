@@ -75,8 +75,8 @@ public class StatusProjector extends Block{
             Groups.unit.intersect(
                 x - (range * tilesize),
                 y - (range * tilesize),
-                (range * tilesize) * 2f,
-                (range * tilesize) * 2f,
+                range * tilesize,
+                range * tilesize,
                 unit -> {
                   unit.apply(status, statusDuration);
                   found = true;
