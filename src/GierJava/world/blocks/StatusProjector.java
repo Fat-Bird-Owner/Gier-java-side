@@ -18,7 +18,7 @@ public class StatusProjector extends Block{
     public int range = 10;
     public float statusDuration = 15f;
     public StatusEffect status = StatusEffects.overclock;
-
+    
     public DrawBlock drawer = new DrawDefault();
   
     public StatusProjector(String name){
@@ -48,6 +48,8 @@ public class StatusProjector extends Block{
     public class StatusProjectorBuild extends Building{
 
         public float warmup, totalTime;
+        public boolean found = false;
+        
         
         @Override
         public float warmup(){
@@ -66,9 +68,7 @@ public class StatusProjector extends Block{
       
         @Override
         public void updateTile(){
-
-            boolean found = false;
-          
+            
             Groups.unit.intersect(
                 x - (range * tilesize),
                 y - (range * tilesize),
