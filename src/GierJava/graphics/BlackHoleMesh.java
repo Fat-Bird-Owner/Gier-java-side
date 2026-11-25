@@ -161,6 +161,7 @@ public class BlackHoleMesh extends PlanetMesh{
 
                 vec3 pos = u_camera - u_center;
                 vec3 dir = normalize(v_worldPos - u_camera);
+                vec3 originalDir = dir;
 
                 vec3 color = vec3(0.0);
 
@@ -253,12 +254,14 @@ public class BlackHoleMesh extends PlanetMesh{
                     pos += dir * ds;
                 }
 
-                if(!absorbed && !diskHit){
-                    color = starfield(dir);
-                }
-
                 if(absorbed){
                     color = vec3(0.0);
+                }else if(diskHit){
+                    color = color;
+                }else if(escaped && dot(dir, originalDir) < 0.9995){
+                    color = starfield(dir);
+                }else{
+                    discard;
                 }
 
                 gl_FragColor = vec4(color, 1.0);
