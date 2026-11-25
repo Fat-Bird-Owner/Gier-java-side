@@ -1671,9 +1671,12 @@ public class GierBlocks {
         constructionProjector = new StatusProjector("construction-projector"){{
 
             requirements(Category.effect, ItemStack.with(GierItems.copper, 250, GierItems.surgeAlloy, 100, GierItems.silicon, 150));
+
+            size = 2;
             range = 15;
             status = GierStatusEffects.constructionOverdrive;
-            
+
+            consumePower(1f);
             customShadow = true;
             drawer = new DrawMulti(
                 new DrawRegion(),
