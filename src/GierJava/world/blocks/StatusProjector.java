@@ -75,7 +75,7 @@ public class StatusProjector extends Block{
                 range * 2f,
                 range * 2f,
                 unit -> {
-                  unit.applyStatus(status, statusDuration);
+                  unit.apply(status, statusDuration);
                   found = true;
                 }
             );
