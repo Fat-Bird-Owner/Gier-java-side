@@ -168,7 +168,7 @@ public class BlackHoleMesh extends PlanetMesh{
                 bool absorbed = false;
                 bool diskHit = false;
 
-                for(int i = 0; i < 192; i++){
+                for(int i = 0; i < 128; i++){
 
                     float rOld = length(pos);
 
@@ -191,11 +191,11 @@ public class BlackHoleMesh extends PlanetMesh{
                         u_rs * 0.02
                     );
 
-                    float ds = min(
-                        u_step,
-                        max(u_rs * 0.025, rOld * 0.035)
+                    float ds = max(
+                        u_rs * 0.025,
+                        rOld * 0.06
                     );
-
+        
                     vec3 futurePos = pos + dir * ds;
 
                     float r = length(futurePos);
@@ -253,7 +253,7 @@ public class BlackHoleMesh extends PlanetMesh{
                     pos += dir * ds;
                 }
 
-                if(escaped){
+                if(!absorbed && !diskHit){
                     color = starfield(dir);
                 }
 
