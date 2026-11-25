@@ -11,9 +11,11 @@ import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.world.draw.*;
 
+import static mindustry.Vars.*;
+
 public class StatusProjector extends Block{
 
-    public int radius = 10;
+    public int range = 10;
     public float statusDuration = 15f;
     public StatusEffect status = StatusEffects.overclock;
 
@@ -45,6 +47,8 @@ public class StatusProjector extends Block{
   
     public class StatusProjectorBuild extends Building{
 
+        public float warmup, totalTime;
+        
         @Override
         public float warmup(){
             return warmup;
@@ -63,12 +67,11 @@ public class StatusProjector extends Block{
         @Override
         public void updateTile(){
 
-            float range = radius * Vars.tilesize;
             boolean found = false;
           
             Groups.unit.intersect(
-                x - range,
-                y - range,
+                x - (range * tilesize),
+                y - (range * tilesize),
                 range * 2f,
                 range * 2f,
                 unit -> {
