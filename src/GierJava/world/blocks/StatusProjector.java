@@ -2,7 +2,7 @@ package GierJava.world.blocks;
 
 import arc.math.*;
 import arc.struct.*;
-import arc.util;
+import arc.util.*;
 
 import mindustry.gen.*;
 import mindustry.world.*;
