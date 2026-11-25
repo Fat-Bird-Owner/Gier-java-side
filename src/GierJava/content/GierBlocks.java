@@ -143,6 +143,7 @@ public class GierBlocks {
     mendPylon,
     exportPlatform,
     launchPlatform,
+    constructionProjector,
 
     // heat
     radialConduit,
@@ -1667,6 +1668,25 @@ public class GierBlocks {
                 lightningLaunchChance = 0;
         }};
 
+        constructionProjector = new StatusProjector("construction-projector"){{
+
+            requirements(Category.effect, ItemStack.with(GierItems.copper, 250, GierItems.surgeAlloy, 100, GierItems.silicon, 150));
+            range = 15;
+            status = GierStatusEffects.constructionOverdrive;
+            
+            customShadow = true;
+            drawer = new DrawMulti(
+                new DrawRegion(),
+                new DrawPulseShape(){{
+                    color = Color.valueOf("FFD37F");
+                    minStroke = 0f;
+                    square = false;
+                }}
+            );
+
+            
+        }};
+            
         // Radiation
         
         radialConduit = new RadiationBlock("radial-conduit"){{
