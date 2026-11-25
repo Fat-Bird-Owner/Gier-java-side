@@ -8,6 +8,7 @@ import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.content.*;
+import mindustry.entities.effect.*;
 
 import static mindustry.Vars.*;
 
