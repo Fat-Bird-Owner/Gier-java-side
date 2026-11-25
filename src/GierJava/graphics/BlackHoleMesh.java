@@ -69,7 +69,6 @@ public class BlackHoleMesh extends PlanetMesh{
 
             uniform float u_time;
             uniform float u_rs;
-            uniform float u_step;
             uniform float u_escape;
             uniform float u_diskInner;
             uniform float u_diskOuter;
@@ -290,12 +289,6 @@ public class BlackHoleMesh extends PlanetMesh{
             setUniformf("u_time", Time.time / 60f);
 
             setUniformf("u_rs", rs);
-
-            setUniformf(
-                "u_step",
-                planet.radius * 0.1f
-            );
-
             setUniformf(
                 "u_escape",
                 rs * 12f
