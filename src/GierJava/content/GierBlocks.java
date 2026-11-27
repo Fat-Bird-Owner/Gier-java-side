@@ -81,6 +81,7 @@ public class GierBlocks {
     tension,
     momentum,
     kilton,
+    siphon,
     pressure,
 
     // Distribution
@@ -709,6 +710,28 @@ public class GierBlocks {
             pumpAmount = 0.0625f;
 
             consumePower(0.33334f);
+        }};
+
+        siphon = new BoostPowerTurret("siphon"){{
+            requirements(Category.turret, with(GierItems.lead, 2500, GierItems.copper, 2373725));
+            size = 4;
+
+            reload = 120f;
+            boostItem = GierItems.thorium;
+            
+            range = 8f * 60f * tilesize;
+            consumePower(5f);
+            shootType = new BasicBulletType(8f, 140f){{
+                lifetime = 60f;
+                armorMultiplier = -25f;
+                
+                width *= 1.5f;
+                height *= 1.5f;
+
+                splashDamage = 25f;
+                splashDamageRadius = tilesize * 5f;
+            }};
+                
         }};
         
         // Production
