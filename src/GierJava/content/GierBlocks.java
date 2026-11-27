@@ -54,6 +54,7 @@ import mindustry.world.meta.*;
 import mindustry.content.Liquids;
 
 import static mindustry.type.ItemStack.with;
+import static mindustry.Vars.*;
 
 public class GierBlocks {
     public static Block 
