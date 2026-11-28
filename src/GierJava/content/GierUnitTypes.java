@@ -133,7 +133,7 @@ public class GierUnitTypes {
                 new StatusFieldAbility(StatusEffects.fast, 10f, 5f, 120f){{
                     activeEffect = Fx.none;
                 }},
-                new EnergyFieldAbility(10f, 120f, 15f){{
+                new EnergyFieldAbility(10f, 15f, 120f){{
                     status = StatusEffects.none;
                     statusDuration = 60f;
                     maxTargets = 3;
@@ -586,13 +586,13 @@ public class GierUnitTypes {
 
             immunities = ObjectSet.with(StatusEffects.overclock);
             abilities.add(
-                new StatusFieldAbility(StatusEffects.overclock, 10f, 5f, 200f){{
+                new StatusFieldAbility(StatusEffects.overclock, 10f, 10f, 200f){{
                     activeEffect = Fx.none;
                 }},
                  new MoveEffectAbility(){{
                         color = Color.valueOf("bccae0ff");
                  }},
-                    new EnergyFieldAbility(10f, 200f, 30f){{
+                    new EnergyFieldAbility(10f, 30f, 200f){{
                         status = StatusEffects.none;
                         statusDuration = 60f;
                         maxTargets = 6;
