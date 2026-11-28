@@ -22,6 +22,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 import arc.struct.Seq;
+import mindustry.ai.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
@@ -38,10 +39,13 @@ public class GierUnitTypes {
     public static @EntityDef(value = {MDTXFixUnitc.class}) UnitType
     
     singularity,
+    electrode,
     
     // Exogen units
     spark,
-    drive;
+    drive,
+    strafe,
+    electron;
 
     public static @EntityDef(value = {MDTXFixUnitc.class, Payloadc.class}) PayloadCarrierUnitType
     
@@ -95,6 +99,54 @@ public class GierUnitTypes {
             ));
         }};
 
+        electrode = new UnitType("electrode"){{
+            flying = true;
+            speed = 2.5f;
+            range = 120f;
+            accel = 0.1f;
+            drag = 0.05f;
+            engineSize = 0f;
+            hitSize = 15f;
+            rotateSpeed = 1.5f;
+
+            commands = Seq.with(
+                UnitCommand.moveCommand,
+                UnitCommand.repairCommand,
+                UnitCommand.assistCommand,
+                UnitCommand.enterPayloadCommand
+            );
+
+            weapons.add(new Weapon(){{
+                noAttack = true;
+                display = false;
+                shootCone = 0f;
+                controllable = false;
+                aiControllable = false;
+            }});
+
+            outlineRadius = 0;
+            drawSoftShadow = false;
+            health = 500f;
+
+        immunities = ObjectSet.with(StatusEffects.fast);
+            abilities.add(
+                new StatusFieldAbility(StatusEffects.fast, 10f, 5f, 120f){{
+                    activeEffect = Fx.none;
+                }},
+                new EnergyFieldAbility(10f, 120f, 15f){{
+                    status = StatusEffects.none;
+                    statusDuration = 60f;
+                    maxTargets = 3;
+                    sameTypeHealMult = 0.5f;
+
+                    sectors = 25;
+                    effectRadius = 0f;
+                    color = Color.valueOf("bccae0ff");
+                    sectorRad = 0.0225f;
+                }}
+            );
+        }};
+        
         occupy = new UnitType("occupy"){{
 
         outlineColor = Color.valueOf("2f2f3fff");
@@ -423,6 +475,136 @@ public class GierUnitTypes {
                 }});
             }};
 
+            strafe = new UnitType("strafe"){{
+                
+            flying = true;
+            circleTarget = true;
+            speed = 2f;
+            drag = 0.05f;
+            faceTarget = false;
+            accel = 0.075f;
+
+             armor = 5f;
+            health = 1500f;
+            outlineRadius = 0;
+
+            engineOffset = 14f;
+            hitSize = 28f;
+            range = 120f;
+
+            weapons.add(new Weapon(){{
+                reload = 120f;
+                mirror = false;
+                x = 0f;
+                y = 0f;
+
+                rotate = false;
+                rotateSpeed = 4f;
+                shootCone = 180f;
+
+                shoot = new ShootSpread(){{
+                    spread = 45f;
+                    shotDelay = 10f;
+                    shots = 3;
+                }};
+
+                shootSound = Sounds.shootLancer;
+                minShootVelocity = 1f;
+
+                  bullet = new BasicBulletType(4.5f, 25f){{
+                        width = 10f;
+                        height = 14f;
+                        drag = 0.045f;
+
+                        frontColor = Color.valueOf("FFD37F");
+                        backColor = Color.valueOf("FFD37F");
+
+                        lightning = 7;
+                        lightningLength = 5;
+                        lightningDamage = 15f;
+                        lightningColor = Color.valueOf("FFD37F");
+
+                        splashDamage = 45f;
+                        splashDamageRadius = 30f;
+                        scaledSplashDamage = true;
+
+                        pierce = true;
+
+                        lifetime = 100f;
+                        homingPower = 0.075f;
+
+                        hitShake = 6.5f;
+                        despawnHit = true;
+                        despawnEffect = Fx.none;
+                       hitSound = Sounds.shootRipple;
+
+                    hitEffect = new MultiEffect(
+                            Fx.unitDrop,
+                            Fx.instBomb,
+                            Fx.shieldWave
+                    );
+
+                        parts.add(new FlarePart(){{
+                            progress = PartProgress.life;
+                            spinSpeed = 6.5f;
+
+                            radius = 24f;
+                            radiusTo = 0f;
+
+                            color1 = Color.valueOf("FFD37F");
+                        }});
+                    }};
+                }});
+            }};
+
+
+            electron = new UnitType("electron"){{
+                
+            flying = true;
+
+            speed = 3.5f;
+            range = 200f;
+            accel = 0.035f;
+            drag = 0.015f;
+            engineSize = 0f;
+            hitSize = 20.25f;
+            rotateSpeed = 1.5f;
+
+            weapons.add(new Weapon(){{
+                noAttack = true;
+                display = false;
+                shootCone = 0f;
+                controllable = false;
+                aiControllable = false;
+            }});
+
+            outlineColor = Color.valueOf("2f2f3f");
+            drawSoftShadow = false;
+
+            health = 1250f;
+            armor = -2.5f;
+
+            immunities = ObjectSet.with(StatusEffects.overclock);
+            abilities.add(
+                new StatusFieldAbility(StatusEffects.overclock, 10f, 5f, 200f){{
+                    activeEffect = Fx.none;
+                }},
+                 new MoveEffectAbility(){{
+                        color = Color.valueOf("bccae0ff");
+                 }},
+                    new EnergyFieldAbility(10f, 200f, 30f){{
+                        status = StatusEffects.none;
+                        statusDuration = 60f;
+                        maxTargets = 6;
+
+                        sectors = 25;
+                        effectRadius = 2.5f;
+                        color = Color.valueOf("bccae0ff");
+                        sectorRad = 0.0225f;
+                    }}
+                );
+            }};
+        
             ash = new UnitType("ash"){{
             flying = true;
             flowfieldPathType = 3;
