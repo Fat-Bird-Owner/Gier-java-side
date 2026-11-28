@@ -49,7 +49,7 @@ public class LightningTurret extends Block{
 
                 float angle = Angles.angle(x, y, target.x, target.y);
 
-                Fx.pointBeam.at(x, y, 0f, lightningColor, target);
+                Fx.chainLightning.at(x, y, 0f, lightningColor, target);
                 Fx.hitLancer.at(target.x, target.y, lightningColor);
 
                 Sounds.shootArc.at(x, y, Mathf.random(0.9f, 1.1f));
